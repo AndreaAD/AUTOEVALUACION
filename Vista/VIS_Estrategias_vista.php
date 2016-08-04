@@ -1,0 +1,8 @@
+<div style="margin-top: 50px; margin-left: 50px; padding-right:60px; margin-bottom: 100px;"> 
+			<h1 style="font-size:20px; color:#005425; text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;">ESTRATEGIAS</h1>
+			<p align="justify">Asegurar la calidad, consolidando los procesos y procedimientos institucionales para garantizar el mejoramiento continuo y la excelencia en la oferta académica de la Universidad de Cundinamarca; acorde con la función social que le es propia y en consecuencia rendir cuentas a la sociedad.</p>
+
+			<p align="justify"> Propiciar la participación amplia y permanente de la comunidad académica y otros grupos de interés, en el procedimiento de autoevaluación de programas académicos como expresión del mejoramiento y aseguramiento de la calidad que permite a la institución y a los programas conocer sistemáticamente los aciertos y desviaciones de su proyecto académico. </p>
+			<p align="justify"> Trabajar por una cultura de autoevaluación, autorregulación y autocontrol a partir de la sensibilización, motivación y actualización permanentes, en la perspectiva de construir colectivamente las condiciones de calidad pertinentes al quehacer institucional respecto de las demandas sociales, en la búsqueda de la acreditación tanto de los programas académicos como institucional.</p>
+			<p align="justify">Realizar acciones permanentes de evaluación que permitan no solo examinar los productos y los resultados, sino los procesos y los procedimientos, para apreciar el funcionamiento de la institución como un sistema y determinar planes de aseguramiento de la calidad y mejoramiento continuo.</p>
+		</div> 

@@ -1,0 +1,44 @@
+<!-- FRAGMENTOS DE CODIGO COMENTADOS DESCOMENTAR PARA PODER VER EL FORMULARIO
+CON LOS CSS ADECUADOS FUERA DE LA PAGINA BASE -->
+<!--<!DOCTYPE html>
+<html>
+  <head>
+    <title>Autoevaluacion - Udec</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link href="../css/iconos-style.css" rel="stylesheet" type="text/css"> 
+    <link href="../css/estilo-base.css" rel="stylesheet" type="text/css"> 
+    <script src="../js/jquery.min.2.1.1.js" type="text/javascript"></script>
+    <script src="../js/backgroundControl.js" type="text/javascript"></script> 
+  </head> 
+  <body>-->
+<?php
+require_once("../Vista/VIS_bloquesPrincipales_vista.php");
+require_once("../Vista/VIS_elementos_vista.php");
+require_once("../Vista/funciones_objetos_vista.php");
+
+$objBloques=new Bloques();
+$objElementos=new Elementos();
+$objComponentes=new Componentes();
+
+$objBloques->bloque_centro_incio("Formulario de prueba 1");
+$objElementos->formulario_inicio("form1");
+$objElementos->p("Este es un formulario de prueba para probar el sistema de insercion de codigo por funciones.");
+$objElementos->liena_separador();
+$objElementos->input_text("nombre","Nombre","","Escriba su nombre");
+$objElementos->input_text("apellido","Apellido","","Escriba su apellido");
+$objElementos->input_text("telefono","Telefono","Recuerde que es un telefono fijo porfavor.","Escriba su telefono");
+
+$datos=array("id"=>"codigo",
+            "placeholder"=>"id de la persona",
+            "maxlength"=>"10",
+            "required"=>"on",
+            "label"=>"",
+            "value"=>"1585217859110");
+            
+$objComponentes->input_text($datos);
+
+$objElementos->formulario_fin();
+$objBloques->bloque_fin();
+?>
+ <!--</a> </body>
+</html>-->

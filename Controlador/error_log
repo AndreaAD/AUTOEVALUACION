@@ -1,0 +1,18 @@
+[26-Nov-2014 17:57:01 America/Bogota] PHP Notice:  Trying to get property of non-object in /home/omzsiste/public_html/sia/Modelo/PLM_Plan_Modelo.php on line 179
+[26-Nov-2014 17:57:01 America/Bogota] PHP Notice:  Trying to get property of non-object in /home/omzsiste/public_html/sia/Modelo/PLM_Plan_Modelo.php on line 180
+[26-Nov-2014 17:57:01 America/Bogota] PHP Notice:  Trying to get property of non-object in /home/omzsiste/public_html/sia/Modelo/PLM_Plan_Modelo.php on line 181
+[26-Nov-2014 17:57:01 America/Bogota] PHP Notice:  Trying to get property of non-object in /home/omzsiste/public_html/sia/Modelo/PLM_Plan_Modelo.php on line 182
+[26-Nov-2014 17:57:01 America/Bogota] PHP Notice:  Trying to get property of non-object in /home/omzsiste/public_html/sia/Modelo/PLM_Plan_Modelo.php on line 183
+[26-Nov-2014 17:57:01 America/Bogota] PHP Fatal error:  Call to a member function MoveNext() on a non-object in /home/omzsiste/public_html/sia/Modelo/PLM_Plan_Modelo.php on line 184
+[26-Nov-2014 22:53:23 America/Bogota] PHP Fatal error:  Call to a member function conectarAdo() on a non-object in /home/omzsiste/public_html/sia/Modelo/PLM_Plan_Modelo.php on line 390
+[27-Nov-2014 10:43:08 America/Bogota] PHP Notice:  Trying to get property of non-object in /home/omzsiste/public_html/sia/Modelo/PLM_Rubro_Modelo.php on line 72
+[27-Nov-2014 10:43:08 America/Bogota] PHP Notice:  Trying to get property of non-object in /home/omzsiste/public_html/sia/Modelo/PLM_Rubro_Modelo.php on line 74
+[27-Nov-2014 10:43:08 America/Bogota] PHP Notice:  Trying to get property of non-object in /home/omzsiste/public_html/sia/Modelo/PLM_Rubro_Modelo.php on line 75
+[27-Nov-2014 10:43:08 America/Bogota] PHP Notice:  Trying to get property of non-object in /home/omzsiste/public_html/sia/Modelo/PLM_Rubro_Modelo.php on line 76
+[27-Nov-2014 10:43:08 America/Bogota] PHP Fatal error:  Call to a member function MoveNext() on a non-object in /home/omzsiste/public_html/sia/Modelo/PLM_Rubro_Modelo.php on line 77
+[27-Nov-2014 10:43:29 America/Bogota] PHP Notice:  Trying to get property of non-object in /home/omzsiste/public_html/sia/Modelo/PLM_Rubro_Modelo.php on line 72
+[27-Nov-2014 10:43:29 America/Bogota] PHP Notice:  Trying to get property of non-object in /home/omzsiste/public_html/sia/Modelo/PLM_Rubro_Modelo.php on line 74
+[27-Nov-2014 10:43:29 America/Bogota] PHP Notice:  Trying to get property of non-object in /home/omzsiste/public_html/sia/Modelo/PLM_Rubro_Modelo.php on line 75
+[27-Nov-2014 10:43:29 America/Bogota] PHP Notice:  Trying to get property of non-object in /home/omzsiste/public_html/sia/Modelo/PLM_Rubro_Modelo.php on line 76
+[27-Nov-2014 10:43:29 America/Bogota] PHP Fatal error:  Call to a member function MoveNext() on a non-object in /home/omzsiste/public_html/sia/Modelo/PLM_Rubro_Modelo.php on line 77
+[27-Nov-2014 15:50:12 America/Bogota] PHP Warning:  mysql_connect(): Access denied for user 'omzsiste_siauser'@'baruc.colombiahosting.com.co' (using password: YES) in /home/omzsiste/public_html/sia/BaseDatos/adodb5/drivers/adodb-mysql.inc.php on line 458
