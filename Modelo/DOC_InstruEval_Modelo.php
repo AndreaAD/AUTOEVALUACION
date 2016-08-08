@@ -116,8 +116,9 @@ class InstruEval_Modelo {
 	 * @return [int] retorna los resultados
 	 */
 	public function verificarfase($usuario){
-		//$sql = 'SELECT cp.`fk_fase` FROM sad_proceso_usuario  su, cna_proceso  cp WHERE su.fk_usuario = "'.$usuario.'" AND su.`fk_proceso` = cp.`pk_proceso` '; 
-		//$resul = $this->runSQL($sql);
+		$sql = 'SELECT cp.`fk_fase` FROM sad_proceso_usuario  su, cna_proceso  cp WHERE su.fk_usuario = "'.$usuario.'" AND su.`fk_proceso` = cp.`pk_proceso` '; 
+
+		$resul = $this->runSQL($sql);
 		return $resul;
 	}
 
