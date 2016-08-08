@@ -1,4 +1,5 @@
 <?php
+
 //inicialmente hacemos esta comparación para 
 //asi entrar al switch y hacer la opción deseada
 if(isset($_REQUEST['H_opcion']))
@@ -13,13 +14,13 @@ if(isset($_REQUEST['H_opcion']))
             $arrArea = $objAddArea->buscarAreaNombre($_POST["T_nombre"]);
             if($arrArea[0][0])
             {
-                $glo_objViewAddArea->mensaje("El área ya Existe!");
+                $glo_objViewAddArea->mensaje(utf8_encode("El Área ya Existe!"));
             }
             else
             { 
                 //si el area no existe, se puede guardar
                 $objAddArea->crearArea($_POST);
-                $glo_objViewAddArea->mensaje("El área ha sido agregada!");
+                $glo_objViewAddArea->mensaje(utf8_encode("El Área ha sido agregada!"));
             }
         }break;
         default:{
@@ -58,7 +59,7 @@ function mainGeneral(){
 // los botones 
 function jsGeneral(){
     ?>
-    <script src="../Js/PLM_Area.js" type="text/javascript"></script>  
+    <script src="../Js/PLM_Area.js" type="text/javascript" charset="UTF-8"></script>  
     <link rel="stylesheet" href="../Css/PLM_Estilos.css"/>
     <?php
 }
