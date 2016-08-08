@@ -5,17 +5,18 @@
 	//require_once("../Vista/DOC_InstruEvalAgregar_Vista.php");
 	error_reporting(0);
 	session_start();
-	include '../Modelo/DOC_InstruEval_Modelo.php';
-	$instrumento = new InstruEval_Modelo;
-	$dato = ($instrumento->verificarfase($_SESSION['pk_usuario'])->GetRows());
+	//include '../Modelo/DOC_InstruEval_Modelo.php';
+	require_once("../Vista/DOC_InstruEvalAgregar_Vista.php");
+	//$instrumento = new InstruEval_Modelo;
+	//$dato = ($instrumento->verificarfase($_SESSION['pk_usuario'], )->GetRows());
 
-	if ($dato[0]['fk_fase'] == '3'){
-		require_once("../Vista/DOC_InstruEvalAgregar_Vista.php");
-	}else{
-		echo "
-		<div class='aletra-fase'>
-	    	<p>Este proceso se encuentra fuera de la fase de 'captura de datos', no podra crear instrumentos de evaluacion.</p>
-	    </div>";
-	}
+	// if ($_SESSION['pk_fase'] == '3'){
+	// 	require_once("../Vista/DOC_InstruEvalAgregar_Vista.php");
+	// }else{
+	// 	echo "
+	// 	<div class='aletra-fase'>
+	//     	<p>Este proceso se encuentra fuera de la fase de 'Construcción', no podra crear instrumentos de evaluacion.</p>
+	//     </div>";
+	// }
 
 ?>
