@@ -24,7 +24,7 @@ if(isset($_REQUEST['T_Estado'])){
             $modelo = new Actividad();
             
             $resSqlActividades = $modelo->Ver_X_Usuario($_POST);            
-                        
+           // print_r($resSqlActividades);die();
             filtrar();            
                  
         }break;
@@ -201,7 +201,7 @@ function filtrar(){
     
     $strTipoColumna = "una-columna";
     
-    require_once('../Vista/SAD_Buscador_Vista.php');
+    require_once('../Vista/SAD/SAD_Buscador_Vista.php');
     
 }
 
