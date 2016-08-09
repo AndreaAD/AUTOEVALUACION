@@ -278,7 +278,7 @@ $(function (e){
 	        async: false,
 	        dataType:'json',
 	        data:{
-	        	operacion: "checkprogramas"
+	        	operacion: "checkprogramasConstruccion"
 			},
 	        success:  function (data) {
 	           if(data == 0){
@@ -287,10 +287,15 @@ $(function (e){
                     $('#B_modificarInstru').css('display','none');
                     $('#tabla_agregar').css('display','none');
 	           }else{
-	               $('#checkbox').html('');
-    	        	$('#checkbox').append('<input type="checkbox" name="todo" value="">todos<br>');
+	               $('#checkbox_programas').html('');
+    	        	$('#checkbox_programas').append('<input type="checkbox" name="todo" value="">todos<br>');
     	        	for(var i=0; i<data.length; i++){
-    	        		$('#checkbox').append('<input type="checkbox" name="procesos[]" value="'+data[i].pk_proceso+'">'+data[i].nombre+'(   Fase :'+data[i].fk_fase+')<br>');
+    	        		if(data[i].fk_fase != 3){
+    	        			$('#checkbox_programas').append('<p style="color:#d85b00">'+data[i].nombre+'(Fase : '+data[i].nombre_fase+')</p><br>&nbsp;&nbsp;');
+    	        			//$('#checkbox_programas').append('<input type="checkbox" disabled readonly name="procesos[]" value="'+data[i].pk_proceso+'">'+data[i].nombre+'(   Fase :'+data[i].nombre_fase+')<br>');
+    	        		}else{
+    	        			$('#checkbox_programas').append('<input type="checkbox" name="procesos[]" value="'+data[i].pk_proceso+'">'+data[i].nombre+'(   Fase :'+data[i].nombre_fase+')<br>');
+    	        		}
     	        	}
 	           }
 	        	

@@ -255,24 +255,24 @@ class AnalisisFactor
                 echo "<td>";
 				if($titulo=="Factor")
 				{
-					echo  utf8_encode($arrArreglo[$i][5]);
+					echo  $arrArreglo[$i][5];
 				}
 				else if($titulo=="Característica")
 				{
-					echo  utf8_encode($arrArreglo[$i][5]);
+					echo  $arrArreglo[$i][5];
 				}
 				else if($titulo=="Aspecto")
 				{
-					echo  utf8_encode($arrArreglo[$i][5]);
+					echo  $arrArreglo[$i][5];
 				}
 				else if($titulo=="Evidencia")
 				{
-					echo  utf8_encode($arrArreglo[$i][5]);
+					echo  $arrArreglo[$i][5];
 				}
 				
                 echo "</td>";
                 echo "<td>";
-                echo  utf8_encode($arrArreglo[$i][1]);
+                echo  $arrArreglo[$i][1];
                 echo "</td>";
                 echo "<td>";
                 echo  sprintf('%.2f', $cal);
@@ -309,10 +309,10 @@ class AnalisisFactor
         {
             echo "<tr>";
                 echo "<td>";
-                echo  utf8_encode($arrFactores[$i][0]);
+                echo  $arrFactores[$i][0];
                 echo "</td>";
                 echo "<td>";
-                echo  utf8_encode($arrFactores[$i][1]);
+                echo  $arrFactores[$i][1];
                 echo "</td>";
                 echo "<td>";
 				if($arrFactores[$i][2]<0)
@@ -567,8 +567,8 @@ class AnalisisFactor
         $_SESSION["plm_titulo"]="".utf8_encode($titulo);
         
         ?>
-            <a class="boton-normal boton-grande" target="_blank" href="../Vista/PLM_ReporteEscalaPdf_Vista.php"><i class=""></i><span class="texto-boton">Reporte Pdf</span></a>
-            <a class="boton-normal boton-grande" target="_blank" href="../Vista/PLM_ReporteEscalaExcel_Vista.php"><i class=""></i><span class="texto-boton">Reporte Excel</span></a>
+            <a class="boton-normal boton-grande" target="_blank" style=" width: 90px;height: 30px;" href="../Vista/PLM_ReporteEscalaPdf_Vista.php"><i class=""></i><span class="texto-boton">Reporte Pdf</span></a>
+            <a class="boton-normal boton-grande" target="_blank" style=" width: 90px;height: 30px;" href="../Vista/PLM_ReporteEscalaExcel_Vista.php"><i class=""></i><span class="texto-boton">Reporte Excel</span></a>
         <?php
         
         $objComponentes->cerrar_form();
@@ -716,16 +716,16 @@ class AnalisisFactor
         ?>
         
         <table >
-        <th style="width: 30%;"><?php echo utf8_encode("Facultad"); ?></th>
-        <th style="width: 50%;"><?php echo utf8_encode("Programa Académico"); ?></th>
-        <th style="width: 50%;">Sede/ Seccional</th>
-        <th style="width: 50%;">Nombre del Director/ <?php echo utf8_encode("coordinador académico"); ?></th>
-        <th style="width: 60%;"><?php echo utf8_encode("Año"); ?></th>
+        <th style="width: 20%;"><?php echo utf8_encode("Facultad"); ?></th>
+        <th style="width: 20%;"><?php echo utf8_encode("Programa Académico"); ?></th>
+        <th style="width: 20%;">Sede/ Seccional</th>
+        <th style="width: 20%;">Nombre del Director/ <?php echo utf8_encode("coordinador académico"); ?></th>
+        <th style="width: 20%;"><?php echo utf8_encode("Año"); ?></th>
         <tr>
-            <td><?php echo utf8_encode($strFacultad);?></td>
-            <td><?php echo utf8_encode($strPrograma);?></td>
-            <td><?php echo utf8_encode($strSede);?></td>
-            <td><?php echo utf8_encode($strDirector);?></td>
+            <td><?php echo $strFacultad;?></td>
+            <td><?php echo $strPrograma;?></td>
+            <td><?php echo $strSede;?></td>
+            <td><?php echo $strDirector;?></td>
             <td><?php echo $strAnio;?></td>
         </tr>
         </table>
@@ -843,7 +843,7 @@ class AnalisisFactor
                     {
                     ?>
                         <td> 
-                            <?php echo utf8_encode($arrFactor[$i][$j]);
+                            <?php echo $arrFactor[$i][$j];
                             
                             if($j==4)
                             {
@@ -857,7 +857,7 @@ class AnalisisFactor
                     {
                     ?>
                         <td> 
-                            <?php echo utf8_encode($arrFactor[$i][5]);?>
+                            <?php echo $arrFactor[$i][5];?>
                             
                         </td>
                     <?php
@@ -1041,11 +1041,11 @@ class AnalisisFactor
                 if($aux<$aux2)
                 {
                     ?>
-                    <a class="boton-normal boton-grande" target="_blank" href="../Vista/PLM_ReportePdf_Vista.php"><i class=""></i><span class="texto-boton">Reporte Pdf</span></a>
+                    <a class="boton-normal boton-grande" style=" width: 90px;height: 30px;" target="_blank" href="../Vista/PLM_ReportePdf_Vista.php"><span class="texto-boton">Reporte Pdf</span></a>
                     <?php
                 }
 				?>
-				<a class="boton-normal boton-grande" target="_blank" href="../Vista/PLM_ReporteExcel_Vista.php"><i class=""></i><span class="texto-boton">Reporte Excel</span></a>
+				<a class="boton-normal boton-grande" style="width: 90px; height: 30px;" target="_blank" href="../Vista/PLM_ReporteExcel_Vista.php"><span class="texto-boton">Reporte Excel</span></a>
 				<?php               
                 
                  $datos = array(
@@ -1149,10 +1149,10 @@ class AnalisisFactor
                     <?php echo utf8_encode("Código"); ?>  
                     
                 </th>
-                <th style="width: 200%;">
+                <th >
                     Nombre
                 </th>
-                <th style="width: 300%;">
+                <th >
                     
                     <?php echo utf8_encode("Descripción"); ?>  
                 </th>
@@ -1188,7 +1188,7 @@ class AnalisisFactor
                         {
                             ?>
                                 <td>
-                                    <?php echo utf8_encode($arrCaract[$i][$j]);?>
+                                    <?php echo $arrCaract[$i][$j];?>
                                 </td>
                             <?php
                         }
@@ -1196,7 +1196,7 @@ class AnalisisFactor
 						{
 							?>
 							<td>
-								<?php echo utf8_encode($arrCaract[$i][5]);?>
+								<?php echo $arrCaract[$i][5];?>
 							</td>
 							<?php
 						}
@@ -1405,13 +1405,13 @@ class AnalisisFactor
                 if($aux<$aux2)
                 {
                     ?>
-                    <a class="boton-normal boton-grande" target="_blank" href="../Vista/PLM_ReportePdf_Vista.php"><i class=""></i><span class="texto-boton">Reporte Pdf</span></a>
+                    <a class="boton-normal boton-grande" target="_blank"  style=" width: 90px;height: 30px;" href="../Vista/PLM_ReportePdf_Vista.php"><i class=""></i><span class="texto-boton">Reporte Pdf</span></a>
                     
                     <?php
                 }
                 
                  ?>
-                    <a class="boton-normal boton-grande" target="_blank" href="../Vista/PLM_ReporteExcel_Vista.php"><i class=""></i><span class="texto-boton">Reporte Excel</span></a>
+                    <a class="boton-normal boton-grande" target="_blank" style=" width: 90px;height: 30px;"  href="../Vista/PLM_ReporteExcel_Vista.php"><i class=""></i><span class="texto-boton">Reporte Excel</span></a>
                     
                     <?php
                 
@@ -1563,7 +1563,7 @@ class AnalisisFactor
 						{
 							?>
 								<td>
-									<?php echo utf8_encode($arrAspec[$i][$j]);?>
+									<?php echo $arrAspec[$i][$j];?>
 								</td>
 							<?php
 						}
@@ -1571,7 +1571,7 @@ class AnalisisFactor
 						{
 							?>
 								<td>
-									<?php echo utf8_encode($arrAspec[$i][5]);?>
+									<?php echo $arrAspec[$i][5];?>
 								</td>
 							<?php
 						}
@@ -1746,12 +1746,12 @@ class AnalisisFactor
             if($aux<$aux2)
             {
                 ?>
-                <a class="boton-normal boton-grande" target="_blank" href="../Vista/PLM_ReportePdf_Vista.php"><i class=""></i><span class="texto-boton">Reporte Pdf</span></a>
+                <a class="boton-normal boton-grande" target="_blank"  style=" width: 90px;height: 30px;" href="../Vista/PLM_ReportePdf_Vista.php"><i class=""></i><span class="texto-boton">Reporte Pdf</span></a>
                
                     
                 <?php
             } ?>
-                <a class="boton-normal boton-grande" target="_blank" href="../Vista/PLM_ReporteExcel_Vista.php"><i class=""></i><span class="texto-boton">Reporte Excel</span></a>
+                <a class="boton-normal boton-grande" target="_blank"  style=" width: 90px;height: 30px;" href="../Vista/PLM_ReporteExcel_Vista.php"><i class=""></i><span class="texto-boton">Reporte Excel</span></a>
                     
                 <?php
 		
@@ -1895,7 +1895,7 @@ class AnalisisFactor
 						{
 							?>
 								<td>
-									<?php echo utf8_encode($arrEvi[$i][$j]);?>
+									<?php echo $arrEvi[$i][$j];?>
 								</td>
 							<?php
 						}
@@ -1903,7 +1903,7 @@ class AnalisisFactor
 						{
 							?>
 								<td>
-									<?php echo utf8_encode($arrEvi[$i][5]);?>
+									<?php echo $arrEvi[$i][5];?>
 								</td>
 							<?php
 						}
@@ -2206,7 +2206,7 @@ class AnalisisFactor
                 <script>
                 
                         var barChartData = {
-                            labels: [<?php echo utf8_encode($strCaract);?>],
+                            labels: [<?php echo $strCaract;?>],
                             
                             datasets: [
                 				{

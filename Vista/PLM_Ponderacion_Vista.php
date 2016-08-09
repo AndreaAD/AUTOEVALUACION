@@ -29,13 +29,13 @@ class PonderacionVista
                 echo "<td>";
 				if($titulo=="Factor")
 				{
-					echo  utf8_encode($arrArreglo[$i][5]);
+					echo  $arrArreglo[$i][5];
 				}
 				
 				
                 echo "</td>";
                 echo "<td>";
-                echo  utf8_encode($arrArreglo[$i][1]);
+                echo  $arrArreglo[$i][1];
                 echo "</td>";
             echo "</tr>";
         }
@@ -231,16 +231,16 @@ class PonderacionVista
         
         ?>
         <table>
-        <th style="width: 50%;"><?php echo utf8_encode("Facultad"); ?></th>
-        <th style="width: 50%;"><?php echo utf8_encode("Programa Académico"); ?></th>
-        <th style="width: 50%;">Sede/ Seccional</th>
-        <th style="width: 50%;">Nombre del Director/ coordinador <?php echo utf8_encode("académico"); ?></th>
-        <th style="width: 50%;"><?php echo utf8_encode("Año"); ?></th>
+        <th style="width: 20%;"><?php echo utf8_encode("Facultad"); ?></th>
+        <th style="width: 20%;"><?php echo utf8_encode("Programa Académico"); ?></th>
+        <th style="width: 20%;">Sede/ Seccional</th>
+        <th style="width: 20%;">Nombre del Director/ coordinador <?php echo utf8_encode("académico"); ?></th>
+        <th style="width: 20%;"><?php echo utf8_encode("Año"); ?></th>
         <tr>
-            <td><?php echo utf8_encode($srtFacultad);?></td>
-            <td><?php echo utf8_encode($strPrograma);?></td>
-            <td><?php echo utf8_encode($strSede);?></td>
-            <td><?php echo utf8_encode($strDirector);?></td>
+            <td><?php echo $srtFacultad;?></td>
+            <td><?php echo $strPrograma;?></td>
+            <td><?php echo $strSede;?></td>
+            <td><?php echo $strDirector;?></td>
             <td><?php echo $strAnio;?></td>
         </tr>
         </table>
@@ -291,24 +291,24 @@ class PonderacionVista
         {
         ?>
         <div class="contenedor-tabla80">
-            <table>
+            <table style="width: 100%;">
                 <th style="width: 10%;">
                     <?php echo utf8_encode("Código")?>
                 </th>
-                <th style="width: 100%;">
+                <th style="width: 40%;">
                     Nombre
                 </th>
-                <th style="width: 200%;">
+                <th style="width: 45%;">
                     <?php echo utf8_encode("Descripción")?>
                     
                 </th>
-                <th style="width: 50%;">
+                <th style="width: 45%;">
                     <?php echo utf8_encode("Ponderación")?>
                      
                     porcentual 
                     del factor
                 </th>
-                <th style="width: 50%;">
+                <th style="width: 10%;">
                     Seleccionar
                 </th>
             <?php
@@ -324,7 +324,7 @@ class PonderacionVista
                     {
                     ?>
                         <td> 
-                            <?php echo utf8_encode($arrFactor[$i][$j]);
+                            <?php echo $arrFactor[$i][$j];
                             if($j==4)
                             {
                                 echo "%";
@@ -338,7 +338,7 @@ class PonderacionVista
                     {
                     ?>
                         <td> 
-                            <?php echo utf8_encode($arrFactor[$i][5]);?>
+                            <?php echo $arrFactor[$i][5];?>
                             
                         </td>
                     <?php
@@ -478,14 +478,14 @@ class PonderacionVista
                 <th style="width: 10%;">
                     <?php echo utf8_encode("Código")?>
                 </th>
-                <th style="width: 50%;">
+                <th>
                     Nombre
                 </th>
-                <th style="width: 200%;">
+                <th>
                     <?php echo utf8_encode("Descripción")?>
                     
                 </th>
-                <th style="width: 50%;">
+                <th>
                     <?php echo utf8_encode("Ponderación porcentual de Característica")?>
                     
                 </th>
@@ -501,7 +501,7 @@ class PonderacionVista
 						{
                         ?>
                             <td>
-                                <?php echo utf8_encode($arrCaract[$i][$j]);
+                                <?php echo $arrCaract[$i][$j];
                                 
                                 ?>
                             </td>
@@ -511,7 +511,7 @@ class PonderacionVista
 						{
 						?>
                             <td>
-                                <?php echo utf8_encode($arrCaract[$i][3]);
+                                <?php echo $arrCaract[$i][3];
                                 
                                 ?>
                             </td>

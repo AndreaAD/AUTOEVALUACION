@@ -60,17 +60,19 @@ class informacionAdicional_Controlador{
                             }
                         }     
 
-                        move_uploaded_file($temporal, $ruta.$nombre); //Movemos el archivo temporal a la ruta especificada
-                        
-                        // enviamos las variables al modelo para guardar la informacion en la base de datos
-                        $this->infoAdic = new InfoAdicional_Modelo;
-                        $this->infoAdic->nombre = $nombre;
-                        $this->infoAdic->url = $url;
-                        $this->infoAdic->extension = $extension;
-                        $this->infoAdic->fk_instrueval = $_POST['pregunta'];
-                        $this->infoAdic->estado = 1;
-                        $this->infoAdic->fk_usuario = $_SESSION['pk_usuario'];
-                        echo  $this->infoAdic->guardar();
+                       if(move_uploaded_file($temporal, $ruta.$nombre))
+                        {
+                            $this->infoAdic = new InfoAdicional_Modelo;
+                            $this->infoAdic->nombre = $nombre;
+                            $this->infoAdic->url = $url;
+                            $this->infoAdic->extension = $extension;
+                            $this->infoAdic->fk_instrueval = $_POST['pregunta'];
+                            $this->infoAdic->estado = 1;
+                            $this->infoAdic->fk_usuario = $_SESSION['pk_usuario'];
+                            echo  $this->infoAdic->guardar();
+                        }else{
+                            
+                        }
                     }else{
 
                         echo 2; // la extension no sirve
@@ -126,25 +128,29 @@ class informacionAdicional_Controlador{
                                 }
                             }     
 
-                            move_uploaded_file($temporal, $ruta.$nombre); //Movemos el archivo temporal a la ruta especificada
-                            
-                            // enviamos las variables al modelo para guardar la informacion en la base de datos
-                            $this->infoAdic = new InfoAdicional_Modelo;
-                            $this->infoAdic->nombre = $nombre;
-                            $this->infoAdic->url = $url;
-                            $this->infoAdic->extension = $extension;
-                            $this->infoAdic->fk_instrueval = $_POST['pk_instru_evaluacion'];
-                            $this->infoAdic->estado = 1;
-                            $this->infoAdic->fk_usuario = $_SESSION['pk_usuario'];
-                            $this->infoAdic->tipo = 2;
-                            $proceso = $_POST['seccion'] ==  $_SESSION['grupos_documental']['grupoP'] ? $_SESSION['pk_proceso'] : 0;
-                            if ($this->infoAdic->guardarDocumento($proceso) == 1){
-                                $resul = $this->infoAdic->obtenerIdDocumento($nombre)->GetRows();
-                                echo json_encode(array('estado' => 1,'nombre' => $nombre, 'url' => $url , 'id' => $resul[0]['pk_documento']));
-                            }else{
-                                echo json_encode(array('estado' => 0));
-                            }
+                            //move_uploaded_file($temporal, $ruta.$nombre); //Movemos el archivo temporal a la ruta especificada
 
+                            if(move_uploaded_file($temporal, $ruta.$nombre))
+                            {
+                                // enviamos las variables al modelo para guardar la informacion en la base de datos
+                                $this->infoAdic = new InfoAdicional_Modelo;
+                                $this->infoAdic->nombre = $nombre;
+                                $this->infoAdic->url = $url;
+                                $this->infoAdic->extension = $extension;
+                                $this->infoAdic->fk_instrueval = $_POST['pk_instru_evaluacion'];
+                                $this->infoAdic->estado = 1;
+                                $this->infoAdic->fk_usuario = $_SESSION['pk_usuario'];
+                                $this->infoAdic->tipo = 2;
+                                $proceso = $_POST['seccion'] ==  $_SESSION['grupos_documental']['grupoP'] ? $_SESSION['pk_proceso'] : 0;
+                                if ($this->infoAdic->guardarDocumento($proceso) == 1){
+                                    $resul = $this->infoAdic->obtenerIdDocumento($nombre)->GetRows();
+                                    echo json_encode(array('estado' => 1,'nombre' => $nombre, 'url' => $url , 'id' => $resul[0]['pk_documento']));
+                                }else{
+                                    echo json_encode(array('estado' => 0));
+                                }
+                            }else{
+                                echo 'no movio';
+                            } 
                         }else{
                             echo 2; // la extension no sirve
                         }
@@ -196,7 +202,14 @@ class informacionAdicional_Controlador{
                                 }
                             }     
 
-                            move_uploaded_file($temporal, $ruta.$nombre); //Movemos el archivo temporal a la ruta especificada
+                            if(move_uploaded_file($temporal, $ruta.$nombre))
+                            {
+                                echo 'movio';
+                            }else{
+                                echo 'no movio';
+                            } 
+
+                            //Movemos el archivo temporal a la ruta especificada
                             
                             // enviamos las variables al modelo para guardar la informacion en la base de datos
                             $this->infoAdic = new InfoAdicional_Modelo;

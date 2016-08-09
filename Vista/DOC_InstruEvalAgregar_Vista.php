@@ -74,9 +74,9 @@
             </div>
             <div class="row">
                 <div id="selec_programa" class="col">
-                    <label id="lab_pro" class="label_caja">Seleccione el programa  </label>
+                    <label id="lab_pro" class="label_caja">Seleccione el proceso  </label>
                 </div>
-                <div id="checkbox" class="col_2">
+                <div id="checkbox_programas" class="col_2">
                 </div>
             </div>
             <div class="row">
