@@ -733,7 +733,7 @@ class Plan {
                           H.fk_tipo_usuario = I.pk_tipo_usuario AND
                           I.pk_tipo_usuario = 4  ;";
 					  
-
+        
         $recordSet = $conexion->Ejecutar($cadena);
         
         $conexion->Close();

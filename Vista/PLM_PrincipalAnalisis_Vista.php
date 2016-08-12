@@ -829,7 +829,6 @@ class AnalisisFactor
                     Seleccionar
                 </th>
             <?php
-            
             for($i=0; $i<count($arrFactor); $i++ )
             {
                 if(isset($arrFactor[$i][0]))
