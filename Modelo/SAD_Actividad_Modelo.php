@@ -195,7 +195,7 @@ class Actividad{
                             act.fk_grupos_actividades = gru_act.pk_grupos_actividades
             			AND 
                             gru_act.fk_modulo = modu.pk_modulo"; 
-        
+//
         $recordSet = $conexion->conectarAdo($cadena);
         
         return $recordSet;

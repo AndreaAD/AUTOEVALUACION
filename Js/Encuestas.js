@@ -290,6 +290,7 @@ function enc_guardarPregunta(opcion,institucional){
        });
     }
 }
+
 function enc_actualizarGuardarPregutna(){
     var factor=$("#texto-factor").text();
     var caracteristica=$("#texto-caracteristica").text();
