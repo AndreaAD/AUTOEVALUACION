@@ -990,9 +990,20 @@ class Elementos{
             <br />
         </div>
         
-         <link rel="stylesheet" type="text/css" href="../Complementos/DataTables-1.10.12/media/css/jquery.dataTables.css">
-<script type="text/javascript" language="javascript" src="../Complementos/DataTables-1.10.12/media/js/jquery.dataTables.js"></script>
-<table id="lista" class="display" cellspacing="0" width="100%">
+        <link rel="stylesheet" type="text/css" href="../Complementos/DataTables-1.10.12/media/css/jquery.dataTables.css">
+        <script type="text/javascript" language="javascript" src="../Complementos/DataTables-1.10.12/media/js/jquery.dataTables.js"></script>
+        <table id="lista" class="display" cellspacing="0" width="100%">
+        <?php 
+                    
+        if (array_key_exists('check',$eleConteTabla)) {
+            echo '<a href="javascript:seleccionar_todo()">Marcar todos</a> |
+            <a href="javascript:deseleccionar_todo()">Marcar ninguno</a>
+            <br>';
+        
+            
+        }
+        ?>
+            
     <thead>        
         <tr>
             <?php
@@ -1015,7 +1026,7 @@ class Elementos{
                     echo '</td>&nbsp;&nbsp;';
                 } else if ($elemento == "check") {
                     echo '<td>&nbsp;&nbsp;';
-                    echo '<input type="checkbox" name="check[]" id="check[]" value="' . $resSql->fields[$valor] . '"';
+                    echo '<input type="checkbox" onclick="validar_check(' . $resSql->fields[$valor] . ')" name="check[]" id="check[]" value="' . $resSql->fields[$valor] . '"';
 
                     if (isset($_Datos['filtro_check'])) {
                         foreach ($_Datos['filtro_check'] as $filtro) {
@@ -1131,9 +1142,49 @@ class Elementos{
         ?>      
     </tbody>
 </table>
+        <input name="vista_check" type="hidden" readonly="" id="vista_check">
+       
 <script>
-    $(document).ready(function () {
-        $(document).ready(function () {
+        function seleccionar_todo(){
+            for (i=0;i<document.formulario.elements.length;i++)
+               if(document.formulario.elements[i].type == "checkbox")
+                  document.formulario.elements[i].checked=1
+          crear_array_check();
+         } 
+         function deseleccionar_todo(){
+               for (i=0;i<document.formulario.elements.length;i++)
+                  if(document.formulario.elements[i].type == "checkbox")
+                     document.formulario.elements[i].checked=0
+             crear_array_check();
+        } 
+        function validar_check(valor){
+            var num = valor.toString();
+                if($("#vista_check").val()==''){
+                     checkboxValues= num+',';     
+                }else{
+                     checkboxValues= $("#vista_check").val()+','+num+',';     
+                }                 
+
+            //eliminamos la última coma.
+            checkboxValues = checkboxValues.substring(0, checkboxValues.length-1);
+
+            $("#vista_check").val(checkboxValues);
+        }
+        function crear_array_check(){
+            var checkboxValues= $("#vista_check").val();
+            $('input[name="check[]"]:checked').each(function() {
+        
+            checkboxValues += $(this).val() + ",";
+        
+        
+            });
+            //eliminamos la última coma.
+   
+            $("#vista_check").val(checkboxValues);
+        }
+        $(document).ready(function () {          
+            
+            crear_array_check();
             $('#lista').DataTable({
                 "language": {
                     "sProcessing": "Procesando...",
@@ -1161,7 +1212,7 @@ class Elementos{
                 }
             });
         });
-    });
+
 </script>
   
         <div>
@@ -1179,8 +1230,7 @@ class Elementos{
             <br />
         </div>
         
-        <div id="num_pag">        
-        </div>
+        
         
         <div>
             <br />

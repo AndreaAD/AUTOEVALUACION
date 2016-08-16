@@ -36,7 +36,7 @@ class ProcesamientoTemporal {
                     $sql = "INSERT INTO enc_encuesta(`fk_grupo_interes`,`fk_proceso`,`institucional`,`publicada`,`fecha_publicacion`,`id_aleatorio`)";
                     $sql.=" VALUES (" . $_idGrupo . "," . $_idProceso . ",0,1,'" . $fecha . "','" . $_idUnico . "')";
                     $res = $conDB->conectarAdo($sql);
-                    echo 'encuesta=' . $sql . ' \n';
+                    //echo 'encuesta=' . $sql . ' \n';
                     if ($res === false) {
                         return -1;
                     } else {
@@ -45,9 +45,7 @@ class ProcesamientoTemporal {
                         $pkEncuesta = $res[0]['pk_encuesta'];
                     }
                 } else {
-                    $pkEncuesta = $res[0]['pk_encuesta'];
-                    $sql = "UPDATE enc_encuesta SET fecha_publicacion='" . $fecha . "' WHERE pk_encuesta=" . $pkEncuesta;
-                    $conDB->conectarAdo($sql);
+                    return false;
                 }
                 break;
             case 3: case 5: case 6:
@@ -61,9 +59,9 @@ class ProcesamientoTemporal {
                     $sql = "INSERT INTO enc_encuesta(`fk_grupo_interes`,`fk_proceso_institucional`,`institucional`,`publicada`,`fecha_publicacion`,`id_aleatorio`)";
                     $sql.=" VALUES (" . $_idGrupo . "," . $pkProcesoInstitucional . ",1,1,'" . $fecha . "','" . $_idUnico . "')";
                     $res = $conDB->conectarAdo($sql);
-                    echo 'encuesta=' . $sql . ' \n';
-                    echo 'resultado=';
-                    print_r($res);
+                    // echo 'encuesta=' . $sql . ' \n';
+                    // echo 'resultado=';
+                    //print_r($res);
                     if ($res === false) {
                         return -1;
                     } else {
@@ -92,25 +90,25 @@ class ProcesamientoTemporal {
     public function copiarDatosEncuesta($_pregunta, $_respuestas, $_pkEvidencia, $_pkEncuesta) {
         $conDB = new Ado();
         //$idAleatorio=Util::getCodigoAleatorio();
-        $sql = "SELECT pk_pregunta FROM enc_pregunta_solucion_encuesta WHERE pk_banco_pregunta=" . $_pregunta['pk_pregunta'] . " AND id_aleatorio='" . $_pregunta['id_aleatorio'] . "' AND fk_encuesta=" . $_pkEncuesta . " AND fk_evidencia=" . $_pkEvidencia;
-        $res = $conDB->conectarAdo($sql);
-        if (count($res) != 0) {
-            $pkPregunta = $res[0]['pk_pregunta'];
-            $sql = "DELETE FROM enc_respuesta_pregunta_solucion_encuesta WHERE fk_pregunta_solucion=" . $pkPregunta;
-            $res = $conDB->conectarAdo($sql);
-            $sql = "DELETE FROM enc_pregunta_solucion_encuesta WHERE id_aleatorio='" . $_pregunta['id_aleatorio'] . "' AND pk_banco_pregunta=" . $_pregunta['pk_pregunta'] . " AND pk_pregunta=" . $pkPregunta;
-            $res = $conDB->conectarAdo($sql);
-        }
+//        $sql = "SELECT pk_pregunta FROM enc_pregunta_solucion_encuesta WHERE pk_banco_pregunta=" . $_pregunta['pk_pregunta'] . " AND id_aleatorio='" . $_pregunta['id_aleatorio'] . "' AND fk_encuesta=" . $_pkEncuesta . " AND fk_evidencia=" . $_pkEvidencia;
+//        $res = $conDB->conectarAdo($sql);
+//        if (count($res) != 0) {
+//            $pkPregunta = $res[0]['pk_pregunta'];
+//            $sql = "DELETE FROM enc_respuesta_pregunta_solucion_encuesta WHERE fk_pregunta_solucion=" . $pkPregunta;
+//            $res = $conDB->conectarAdo($sql);
+//            $sql = "DELETE FROM enc_pregunta_solucion_encuesta WHERE id_aleatorio='" . $_pregunta['id_aleatorio'] . "' AND pk_banco_pregunta=" . $_pregunta['pk_pregunta'] . " AND pk_pregunta=" . $pkPregunta;
+//            $res = $conDB->conectarAdo($sql);
+//        }
         $ideal = 'Null';
         if ($_pregunta['ideal'] == '' || $_pregunta['ideal'] == null) {
             $ideal = 'Null';
         } else {
             $ideal = $_pregunta['ideal'];
         }
-        $sql = "INSERT INTO enc_pregunta_solucion_encuesta (pk_banco_pregunta,texto,fk_encuesta,fk_evidencia,ideal,id_aleatorio,institucional) ";
-        $sql.="VALUES (" . $_pregunta['pk_pregunta'] . ",'" . $_pregunta['texto'] . "'," . $_pkEncuesta . "," . $_pkEvidencia . "," . $ideal . ",'" . $_pregunta['id_aleatorio'] . "'," . $_pregunta['institucional'] . ");";
+        $sql = "INSERT INTO enc_pregunta_solucion_encuesta (pk_banco_pregunta,texto,fk_encuesta,ideal,id_aleatorio,institucional) ";
+        $sql.="VALUES (" . $_pregunta['pk_pregunta'] . ",'" . $_pregunta['texto'] . "'," . $_pkEncuesta . "," . $ideal . ",'" . $_pregunta['id_aleatorio'] . "'," . $_pregunta['institucional'] . ");";
         $res = $conDB->conectarAdo($sql);
-        $sql = "SELECT pk_pregunta FROM enc_pregunta_solucion_encuesta WHERE pk_banco_pregunta=" . $_pregunta['pk_pregunta'] . " AND id_aleatorio='" . $_pregunta['id_aleatorio'] . "' AND fk_encuesta=" . $_pkEncuesta . " AND fk_evidencia=" . $_pkEvidencia;
+        $sql = "SELECT pk_pregunta FROM enc_pregunta_solucion_encuesta WHERE pk_banco_pregunta=" . $_pregunta['pk_pregunta'] . " AND id_aleatorio='" . $_pregunta['id_aleatorio'] . "' AND fk_encuesta=" . $_pkEncuesta;
         $res = $conDB->conectarAdo($sql);
         $pkPregunta = $res[0]['pk_pregunta'];
         foreach ($_respuestas as $respuesta) {
@@ -129,6 +127,7 @@ class Preguntas {
             $conDB = new Ado();
             if ($_idGrupo == 1 || $_idGrupo == 2 || $_idGrupo == 4) {
                 $sql = "SELECT pre.* FROM enc_pregunta_cna_proceso as prepro, enc_pregunta as pre WHERE prepro.fk_proceso=" . $_idProceso . " AND prepro.fk_grupo_interes=" . $_idGrupo . " AND pre.pk_pregunta=prepro.fk_pregunta AND pre.estado=1";
+                //echo $sql;die();
             } else if ($_idGrupo == 3 || $_idGrupo == 5 || $_idGrupo == 6) {
                 $sql = "SELECT fk_proceso_institucional FROM cna_proceso WHERE pk_proceso=" . $_idProceso;
                 $res = $conDB->conectarAdo($sql);
@@ -161,6 +160,8 @@ class Respuestas {
         if ($_idPregunta != -1) {
             $conDB = new Ado();
             $sql = "SELECT rp.pk_respuesta_pregunta,rp.texto,po.pk_respuesta_ponderacion,po.ponderacion FROM enc_respuesta_pregunta as rp, respuesta_ponderacion as po WHERE fk_pregunta=" . $_idPregunta . " AND po.pk_respuesta_ponderacion=rp.fk_respuesta_ponderacion";
+
+            // echo $sql;die();
             $rsDatos = $conDB->conectarAdo($sql);
             return $rsDatos;
         } else {
@@ -174,9 +175,9 @@ class Evidencias {
 
     public function getEvidenciaUnaPregunta($_idPregunta) {
         $conDB = new Ado();
-        $sql = "SELECT fk_evidencia FROM enc_pregunta_cna_evidencia where fk_pregunta=" . $_idPregunta;
+        $sql = "SELECT fk_evidencia,fk_caracteristica FROM enc_pregunta_cna_evidencia where fk_pregunta=" . $_idPregunta;
         $res = $conDB->conectarAdo($sql);
-        return $res[0]['fk_evidencia'];
+        return $res;
     }
 
 }
@@ -200,7 +201,9 @@ class Util {
 
 }
 
-$idProceso = 15;
+session_start();
+$faseProceso = $_SESSION['pk_fase'];
+$idProceso = $_POST['id_proceso'];
 $objTemporal = new ProcesamientoTemporal();
 $objPreguntas = new Preguntas();
 $objGrupos = new GruposInteres();
@@ -209,19 +212,21 @@ $objEvidencias = new Evidencias();
 $rsGrupos = $objGrupos->getAllGrupos();
 $i = 0;
 foreach ($rsGrupos as $grupo) {
-    echo $grupo['nombre'] . '-';
     $idUnico = Util::getCodigoAleatorio();
     $pkEncuesta = $objTemporal->publicarEncuesta($idProceso, $grupo['pk_grupo_interes'], $idUnico);
-    $j = 0;
-    $rsDatosPreguntas = $objPreguntas->getPreguntasGrupoInteres($idProceso, $grupo['pk_grupo_interes']);
-    foreach ($rsDatosPreguntas as $pregunta) {
-        $pkEvidencia = $objEvidencias->getEvidenciaUnaPregunta($pregunta['pk_pregunta']);
-        $j++;
-        $rsDatosRespuestas = $objRespuestas->getDatosRespuestas($pregunta['pk_pregunta']);
-        $res = $objTemporal->copiarDatosEncuesta($pregunta, $rsDatosRespuestas, $pkEvidencia, $pkEncuesta);
+    if ($pkEncuesta == false) {
+        echo '<b>Encuesta ya realizada</b>';
+    } else {
+        $j = 0;
+        $rsDatosPreguntas = $objPreguntas->getPreguntasGrupoInteres($idProceso, $grupo['pk_grupo_interes']);
+        foreach ($rsDatosPreguntas as $pregunta) {
+            $pkEvidencia = $objEvidencias->getEvidenciaUnaPregunta($pregunta['pk_pregunta']);
+
+            $j++;
+            $rsDatosRespuestas = $objRespuestas->getDatosRespuestas($pregunta['pk_pregunta']);
+            $res = $objTemporal->copiarDatosEncuesta($pregunta, $rsDatosRespuestas, $pkEvidencia, $pkEncuesta);
+        }
+        $i+=$j;
     }
-    echo $j . '-';
-    $i+=$j;
 }
-echo 'fin = ' . $i;
 ?>
