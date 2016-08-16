@@ -452,6 +452,7 @@ class Usuario{
             $Clave = $this->GenerarClave();
 
             echo $Clave;
+            //exit();
 
             $pass = crypt($Clave, '$1$rasmusle$');
             
@@ -483,7 +484,9 @@ class Usuario{
             
         }
         
-      // echo '<SCRIPT LANGUAGE="javascript">location.href = "../Controlador/VIS_Cerrar_Session_Controlador.php";</SCRIPT>';
+
+       //echo '<SCRIPT LANGUAGE="javascript">location.href = "../Controlador/VIS_Cerrar_Session_Controlador.php";</SCRIPT>';
+
           
     }
     

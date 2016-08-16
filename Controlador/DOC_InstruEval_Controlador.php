@@ -111,6 +111,10 @@ class InstruEval_Controlador {
         echo json_encode($this->instrumento->checkprogramas()->GetRows());
     }
 
+    public function checkprogramasConstruccion(){
+        echo json_encode($this->instrumento->checkprogramasConstruccion()->GetRows());
+    }
+
 }
 
 $controlador = new InstruEval_Controlador;
@@ -146,6 +150,9 @@ switch ($_operacion) {
     break;
     case 'checkprogramas':
         $controlador->checkprogramas();
+    break;
+    case 'checkprogramasConstruccion':
+        $controlador->checkprogramasConstruccion();
     break;
     default:
 

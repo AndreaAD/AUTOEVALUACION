@@ -389,11 +389,11 @@ class HistoricosFactorVista
         <div class="contenedor-tabla80">
        
         <table> 
-        <th style="width: 50%;"><?php echo utf8_encode("Código");?> </th>
+        <th style="width: 20%;"><?php echo utf8_encode("Código");?> </th>
         <th style="width: 80%;">Nombre      </th>
-        <th style="width: 50%;">Fecha Inicio</th>
-        <th style="width: 50%;">Fecha Fin   </th>
-        <th style="width: 100%;"><?php echo utf8_encode("Descripción");?> </th>
+        <th style="width: 30%;">Fecha Inicio</th>
+        <th style="width: 30%;">Fecha Fin   </th>
+        <th style="width: 50%;"><?php echo utf8_encode("Descripción");?> </th>
         <th style="width: 50%;"><?php echo utf8_encode("Observación");?> </th>       
         <th style="width: 50%;">Seleccionar </th>        
         

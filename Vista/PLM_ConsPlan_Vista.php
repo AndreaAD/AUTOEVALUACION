@@ -139,11 +139,11 @@ class ConsPlanView
         ?>
         
         <table >
-        <th style="width: 50%;"><?php echo utf8_encode("Facultad"); ?></th>
-        <th style="width: 50%;"><?php echo utf8_encode("Programa Académico"); ?></th>
-        <th style="width: 50%;">Sede/ Seccional</th>
-        <th style="width: 50%;">Nombre del Director/ <?php echo utf8_encode("coordinador académico"); ?></th>
-        <th style="width: 50%;"><?php echo utf8_encode("Año"); ?></th>
+        <th style="width: 20%;"><?php echo utf8_encode("Facultad"); ?></th>
+        <th style="width: 20%;"><?php echo utf8_encode("Programa Académico"); ?></th>
+        <th style="width: 20%;">Sede/ Seccional</th>
+        <th style="width: 20%;">Nombre del Director/ <?php echo utf8_encode("coordinador académico"); ?></th>
+        <th style="width: 20%;"><?php echo utf8_encode("Año"); ?></th>
         <tr>
             <td><?php echo ($strFacultad);?></td>
             <td><?php echo ($strPrograma);?></td>

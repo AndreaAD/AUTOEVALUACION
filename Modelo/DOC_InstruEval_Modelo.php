@@ -1,4 +1,5 @@
 <?php
+session_start();
 error_reporting(0);
 include_once 'SAD_Seguridad_Modelo.php';
 include '../BaseDatos/AdoDB.php';
@@ -116,8 +117,9 @@ class InstruEval_Modelo {
 	 * @return [int] retorna los resultados
 	 */
 	public function verificarfase($usuario){
-		//$sql = 'SELECT cp.`fk_fase` FROM sad_proceso_usuario  su, cna_proceso  cp WHERE su.fk_usuario = "'.$usuario.'" AND su.`fk_proceso` = cp.`pk_proceso` '; 
-		//$resul = $this->runSQL($sql);
+		$sql = 'SELECT cp.`fk_fase` FROM sad_proceso_usuario  su, cna_proceso  cp WHERE su.fk_usuario = "'.$usuario.'" AND su.`fk_proceso` = cp.`pk_proceso` '; 
+
+		$resul = $this->runSQL($sql);
 		return $resul;
 	}
 
@@ -127,6 +129,12 @@ class InstruEval_Modelo {
 	 */
 	public function checkprogramas(){
 		$sql = 'SELECT pk_proceso , nombre , fk_fase FROM cna_proceso where fk_fase = 3'; 
+		$resul = $this->runSQL($sql);
+		return $resul;
+	}
+
+	public function checkprogramasConstruccion(){
+		$sql = 'SELECT cp.`nombre`, cp.`fk_fase`, cp.`pk_proceso`, cf.nombre as nombre_fase FROM sad_proceso_usuario spu, cna_proceso cp, cna_fase cf WHERE spu.`fk_usuario` = '.$_SESSION["pk_usuario"].' AND spu.`fk_proceso` = cp.`pk_proceso` AND cp.fk_fase = cf.pk_fase order by cp.fk_fase'; 
 		$resul = $this->runSQL($sql);
 		return $resul;
 	}	

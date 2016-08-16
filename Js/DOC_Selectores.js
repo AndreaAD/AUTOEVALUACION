@@ -200,7 +200,6 @@ $(function(e){
                         grupoInteres : $('input[name="grupoInteres[]"]').serializeArray()
                     },
                     success:  function (data) { 
-                        console.log(data, data.length);
                         var lista = '<div class="row"><ul class="selector" data-rel="factor">';
                         for(var i = 0; i < data.length; i++){
                             lista += '<li><a href="#" data-id="'+data[i].pk_factor+'">'+data[i].codigo+'. '+data[i].nombre+'</a></li>';
@@ -1496,10 +1495,10 @@ $(function(e){
                     $('#B_modificarInstru').css('display','none');
                     $('#tabla_agregar').css('display','none');
 	           }else{
-	               $('#checkbox').html('');
-    	        	$('#checkbox').append('<input type="checkbox" name="todo" value="">todos<br>');
+	               $('#checkbox_programas').html('');
+    	        	$('#checkbox_programas').append('<input type="checkbox" name="todo" value="">todos<br>');
     	        	for(var i=0; i<data.length; i++){
-    	        		$('#checkbox').append('<input type="checkbox" name="procesos[]" value="'+data[i].pk_proceso+'">'+data[i].nombre+'(   Fase :'+data[i].fk_fase+')<br>');
+    	        		$('#checkbox_programas').append('<input type="checkbox" name="procesos[]" value="'+data[i].pk_proceso+'">'+data[i].nombre+'(   Fase :'+data[i].fk_fase+')<br>');
     	        	}
 	           }
 	        return data;	

@@ -717,11 +717,10 @@ class Plan {
         $conexion->conectarAdo();
 
 		 
-        $cadena = "                          
-                    SELECT G.nombre, C.nombre, B.nombre, A.fecha_inicio, CONCAT( E.nombre,' ', E.apellido) AS nombre
+        $cadena = " SELECT G.nombre, C.nombre, B.nombre, A.fecha_inicio, CONCAT( E.nombre,' ', E.apellido) AS nombre
                     FROM cna_proceso A, sad_sede B, sad_programa C, cna_fase D,
                          sad_usuario E, sad_proceso_usuario F, sad_facultad G, sad_usuario_tipo_usuario H, sad_tipo_usuario I
-                    WHERE A.pk_proceso = $intIdProceso AND
+                    WHERE A.pk_proceso = ".$intIdProceso." AND
                           A.fk_programa = C.pk_programa  AND
                           A.fk_sede = B.pk_sede AND
                           D.pk_fase = A.fk_fase AND 
@@ -733,7 +732,8 @@ class Plan {
                           E.pk_usuario = H.fk_usuario AND
                           H.fk_tipo_usuario = I.pk_tipo_usuario AND
                           I.pk_tipo_usuario = 4  ;";
-						  
+					  
+
         $recordSet = $conexion->Ejecutar($cadena);
         
         $conexion->Close();
