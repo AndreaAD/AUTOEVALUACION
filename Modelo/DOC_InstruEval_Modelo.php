@@ -15,6 +15,12 @@ class InstruEval_Modelo {
 	public $grupo;
 	public $adoDB;
 	public $seg;
+	public $factor;
+	public $porcentaje;
+	public $caracteristicas;
+	public $aspectos;
+	public $evidencias;
+	public $proceso;
 
 	/**
 	 * [__construct description]
@@ -26,7 +32,7 @@ class InstruEval_Modelo {
 	 * @param string  $nuevaPregunta
 	 * @param string  $grupo
 	 */
-	public function __construct($id = 0 , $pregunta = '', $evidencia = 0, $tipoRespuesta = 0 , $opcionRespuesta = 0 ,$nuevaPregunta = '' , $grupo = ''){
+	public function __construct($id = 0 , $pregunta = '', $evidencia = 0, $tipoRespuesta = 0 , $opcionRespuesta = 0 ,$nuevaPregunta = '' , $grupo = '', $porcentaje = 0, $factor = 0, $caracteristicas = 0, $aspectos = 0, $evidencias = 0 ){
 		$this->id = 0;
 		$this->pregunta = $pregunta;
 		$this->evidencia = $evidencia;
@@ -34,6 +40,14 @@ class InstruEval_Modelo {
 		$this->opcionRespuesta= $opcionRespuesta;
 		$this->nuevaPregunta= $nuevaPregunta;
 		$this->grupo= $grupo;
+		$this->porcentaje = $porcentaje;
+		$this->factor = $factor;
+		$this->caracteristicas = $caracteristicas;
+		$this->aspectos = $aspectos;
+		$this->evidencias = $evidencias;
+		$this->proceso = $proceso;
+
+
 
 		$this->adoDB = new Ado(); 
 		$this->seg = new Seguridad();
@@ -53,12 +67,27 @@ class InstruEval_Modelo {
 		$fk = $fk_grupo_interes_eidencia[0]['pk_evidencia_grupo_interes'];
 		$sqlinsert = "";
 		if($suboperacion == "guardar_con_texto"){
-			$sqlinsert = 'INSERT INTO doc_instru_evaluacion (descripcion, fk_evidencia, fk_grupo_respuesta , fk_grupo_interes  , fk_tipo_respuesta , fk_evidencia_grupo_interes, porcentaje ,proceso ,estado) VALUES ("'.$this->pregunta.'" , "'.$this->evidencia.'", " ", "'.$this->grupo.'" , "'.$this->tipoRespuesta.'" , "'.$fk.'", "'.$this->opcionRespuesta.'", "'.$proceso.'" ,1)';
+			$sqlinsert = 'INSERT INTO doc_instru_evaluacion (descripcion, fk_evidencia, fk_grupo_respuesta , fk_grupo_interes  , fk_tipo_respuesta , fk_evidencia_grupo_interes, porcentaje ,proceso ,estado, fk_factor, fk_caracteristicas, fk_aspectos, fk_evidencias) VALUES ("'.$this->pregunta.'" , "'.$this->evidencia.'", " ", "'.$this->grupo.'" , "'.$this->tipoRespuesta.'" , "'.$fk.'", "'.$this->opcionRespuesta.'", "'.$proceso.'" ,1, "'.$this->factor.'","'.$this->caracteristicas.'","'.$this->aspectos.'","'.$this->evidencia.'"  )';
 		}else{
-			$sqlinsert = 'INSERT INTO doc_instru_evaluacion (descripcion, fk_evidencia, fk_grupo_respuesta , fk_grupo_interes  , fk_tipo_respuesta , fk_evidencia_grupo_interes, porcentaje ,proceso, estado) VALUES ("'.$this->pregunta.'" , "'.$this->evidencia.'", "'.$this->opcionRespuesta.'", "'.$this->grupo.'" , "'.$this->tipoRespuesta.'" , "'.$fk.'", 0 , "'.$proceso.'" ,1)';
+			$sqlinsert = 'INSERT INTO doc_instru_evaluacion (descripcion, fk_evidencia, fk_grupo_respuesta , fk_grupo_interes  , fk_tipo_respuesta , fk_evidencia_grupo_interes, porcentaje ,proceso, estado, fk_factor, fk_caracteristicas, fk_aspectos, fk_evidencias) VALUES ("'.$this->pregunta.'" , "'.$this->evidencia.'", "'.$this->opcionRespuesta.'", "'.$this->grupo.'" , "'.$this->tipoRespuesta.'" , "'.$fk.'", 0 , "'.$proceso.'" ,1, "'.$this->factor.'","'.$this->caracteristicas.'","'.$this->aspectos.'","'.$this->evidencia.'" )';
 		}
 
+
 		$observacion =  'Se creo un instrumento de evaluacion para la evidencia numero : "'.$this->evidencia.'" '; 
+        $transaccion = "Crear Instrumentos";
+        $this->seg->Seguridad_Enviar($observacion, $transaccion);
+		if($this->runSQL($sqlinsert)){
+			return 1;
+		}else{
+			return 0;
+		}
+	}
+
+	public function guardarInstruCarac()
+	{
+		$sqlinsert = 'INSERT INTO doc_instru_evaluacion (descripcion, fk_grupo_respuesta , fk_grupo_interes  , fk_tipo_respuesta , fk_evidencia_grupo_interes, porcentaje ,proceso, estado, fk_factor, fk_caracteristicas, fk_aspectos, fk_evidencia) VALUES ("'.$this->pregunta.'" , "'.$this->opcionRespuesta.'", "'.$this->grupo.'" , "'.$this->tipoRespuesta.'" ,0, "'.$this->porcentaje.'", "'.$this->proceso.'" ,1, "'.$this->factor.'","'.$this->caracteristicas.'","'.$this->aspectos.'","'.$this->evidencias.'" )';
+
+		$observacion =  'Se creo un instrumento de evaluacion '; 
         $transaccion = "Crear Instrumentos";
         $this->seg->Seguridad_Enviar($observacion, $transaccion);
 		if($this->runSQL($sqlinsert)){
@@ -134,7 +163,33 @@ class InstruEval_Modelo {
 	}
 
 	public function checkprogramasConstruccion(){
-		$sql = 'SELECT cp.`nombre`, cp.`fk_fase`, cp.`pk_proceso`, cf.nombre as nombre_fase FROM sad_proceso_usuario spu, cna_proceso cp, cna_fase cf WHERE spu.`fk_usuario` = '.$_SESSION["pk_usuario"].' AND spu.`fk_proceso` = cp.`pk_proceso` AND cp.fk_fase = cf.pk_fase order by cp.fk_fase'; 
+		$sql = 'SELECT cp.`nombre`, cp.`fk_fase`, cp.`pk_proceso`, cf.nombre as nombre_fase FROM sad_proceso_usuario spu, cna_proceso cp, cna_fase cf WHERE spu.`fk_usuario` = '.$_SESSION["pk_usuario"].' AND spu.`fk_proceso` = cp.`pk_proceso` AND cp.fk_fase = cf.pk_fase AND cp.`fk_fase` = 3 order by cp.fk_fase'; 
+		$resul = $this->runSQL($sql);
+		return $resul;
+	}
+
+	public function buscarFactores(){
+		$sql = 'select * from cna_factor';
+		$resul = $this->runSQL($sql);
+		return $resul;
+	}	
+
+	public function buscarCaract($pk_factor){
+		$sql = 'select * from cna_caracteristica where fk_factor = '.$pk_factor;
+		$resul = $this->runSQL($sql);
+		return $resul;
+	}
+
+	public function buscarAspecto($pk_caracteristica)
+	{
+		$sql = 'select * from cna_aspecto where fk_caracteristica = '.$pk_caracteristica;
+		$resul = $this->runSQL($sql);
+		return $resul;
+	}	
+
+	public function buscarEVidencia($pk_aspecto)
+	{
+		$sql = 'select * from cna_evidencia where fk_aspecto = '.$pk_aspecto;
 		$resul = $this->runSQL($sql);
 		return $resul;
 	}	

@@ -52,6 +52,7 @@ class Autoevaluacion_Controlador {
         for($i=0; $i<count($arreglo); $i++){
             $arreglo[$i]['instrumentos'] = array();
             $instrumentos = $this->autoevaluacion->cargarInformacionPreguntas($arreglo[$i]['pk_caracteristica'] , $grupo , $fk_proceso)->GetRows();
+            //var_dump($instrumentos);
             for($j=0; $j<count($instrumentos); $j++){
                 $instrumentos[$j]['respuestas'] = array();
                 $instrumentos[$j]['informacion'] = array();

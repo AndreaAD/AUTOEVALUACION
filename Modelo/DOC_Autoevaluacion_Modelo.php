@@ -64,6 +64,7 @@ class Autoevaluacion_Modelo {
 		}else{
 			$sql = 'SELECT DISTINCT ca.`nombre` AS aspecto_nombre, ce.`codigo` AS codigo , tp.`pk_tipo_respuesta` AS tipo_respuesta, di.`pk_instru_evaluacion` AS pk_instru_evaluacion , di.`descripcion` AS pregunta , di.`porcentaje` AS porcentaje FROM cna_aspecto ca , doc_instru_evaluacion di, tipo_respuesta tp, cna_evidencia ce, cna_caracteristica cc WHERE di.`fk_evidencia` = ce.`pk_evidencia` AND di.`fk_tipo_respuesta` = tp.`pk_tipo_respuesta` AND ce.`fk_aspecto` = ca.`pk_aspecto` AND ca.`fk_caracteristica` = "'.$id.'" AND (di.`fk_grupo_interes` ="'.$s.'" OR di.`fk_grupo_interes` = 3) and  di.`fk_evidencia` = ce.`pk_evidencia` AND di.`proceso` = "'.$proceso.'"';
 		}	
+		//return $sql;
 		return $this->runSQL($sql);
 	}
 

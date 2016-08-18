@@ -28,6 +28,9 @@ class InstruEval_Controlador {
 
             $this->instrumento->grupo =  $grupoInteres;
             $this->instrumento->pregunta = $_POST['pregunta'];
+            $this->instrumento->factor = $_POST['factor'];
+            $this->instrumento->caracteristicas = $_POST['caracteristicas'];
+            $this->instrumento->aspectos = $_POST['aspectos'];
             $this->instrumento->evidencia = $_POST['evidencia'];
             $this->instrumento->tipoRespuesta = $_POST['tipoRespuesta'];
             $this->instrumento->opcionRespuesta = $_POST['opcionesRespuesta'];
@@ -35,8 +38,9 @@ class InstruEval_Controlador {
             $arregloProceso = $_POST['proceso'];
             for($i =0; $i<count($arregloProceso); $i++){
                 $guardo = $this->instrumento->guardar($_POST['suboperacion'] , $arregloProceso[$i]['value'] );
+                //var_dump($guardo);
             }
-            echo $guardo;   
+            echo 1;   
         }else{
             echo 2;
         }  
@@ -115,6 +119,81 @@ class InstruEval_Controlador {
         echo json_encode($this->instrumento->checkprogramasConstruccion()->GetRows());
     }
 
+    public function ListarCna(){
+        $cna = array();
+        $factores = $this->instrumento->buscarFactores()->GetRows();
+        $cna =  $factores;
+        foreach ($cna as &$factor) {
+            $caracteristicas = $this->instrumento->buscarCaract($factor['pk_factor'])->GetRows();
+            $factor['caracteristicas'] = $caracteristicas;
+
+            foreach ($factor['caracteristicas'] as &$caracteristica) 
+            {
+                //$factor['caracteristicas'][] = $caracteristica;
+                $factor['lista_caracteristicas'][] = $caracteristica['pk_caracteristica'];
+                $aspectos = $this->instrumento->buscarAspecto($caracteristica['pk_caracteristica'])->GetRows();
+
+                $caracteristica['aspectos'] = $aspectos;
+                foreach ($caracteristica['aspectos'] as &$aspecto) {
+                    $caracteristica['lista_aspectos'][] = $aspecto['pk_aspecto'];
+                    $evidencias = $this->instrumento->buscarEVidencia($aspecto['pk_aspecto'])->GetRows();
+                    $aspecto['evidencias'] = $evidencias;
+                    foreach ($aspecto['evidencias'] as &$evidencia) {
+                        $aspecto['lista_evidencias'][] = $evidencia['pk_evidencia'];
+                    }
+                }
+            }
+
+        }
+       
+        echo json_encode($cna);
+        //echo json_encode($this->instrumento->ListarCna()->GetRows());
+    }
+
+    public function GuardarInstrumentoCaracteristica(){
+
+        if($_POST['operacion'] != "" && $_POST['grupo_interes'] != "" &&  $_POST['instrumento'] != ""  && $_POST['tipo_respuesta']  != "" && $_POST['opciones_respuesta'] != "" && $_POST['ids'] != "" && $_POST['procesos'] != "" ){
+            
+            
+            $arregloGrupo = $_POST['grupo_interes'];
+            $guardo = 1;
+            $grupo_interes = '';
+            if( count($arregloGrupo) == 1){
+                $grupoInteres = $arregloGrupo;
+            }else{
+                $grupoInteres = 3;
+            }
+
+            $this->instrumento->grupo =  $grupoInteres;
+            $this->instrumento->pregunta = $_POST['instrumento'];
+            $this->instrumento->tipoRespuesta = $_POST['tipo_respuesta'];
+            $this->instrumento->opcionRespuesta = $_POST['opciones_respuesta'];
+            $this->instrumento->porcentaje = $_POST['porcentaje'] ? $_POST['porcentaje'] : 0 ;
+
+
+            $array = json_decode($_POST['ids']);
+            //var_dump($array);
+            $procesos = $_POST['procesos'];
+            foreach ($procesos as &$value) {
+                foreach( $array  as $r){
+                    //var_dump($r->aspectos);
+                    //echo $r->factor;
+                    $this->instrumento->factor =  $r->factor;
+                    $this->instrumento->caracteristicas =  $r->caracteristica;
+                    $this->instrumento->aspectos =  $r->aspectos;
+                    $this->instrumento->proceso =  $value['value'];
+                    $this->instrumento->evidencias =  $r->evidencias;
+                    $this->instrumento->guardarInstruCarac();
+                }
+            }   
+          
+
+            echo 1;
+        }else{
+             echo 2;
+         }
+    }
+
 }
 
 $controlador = new InstruEval_Controlador;
@@ -153,6 +232,12 @@ switch ($_operacion) {
     break;
     case 'checkprogramasConstruccion':
         $controlador->checkprogramasConstruccion();
+    break;
+    case 'ListarCna':
+        $controlador->ListarCna();
+    break;
+    case 'GuardarInstrumentoCaracteristica':
+        $controlador->GuardarInstrumentoCaracteristica();
     break;
     default:
 

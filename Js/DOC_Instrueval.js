@@ -120,6 +120,9 @@ $(function (e){
 	        	operacion: "crearInstrumento",
 	        	suboperacion : sub,
 	        	evidencia:$("input[name='evidencia']").val(),
+	        	factor:$("input[name='factor']").val(),
+	        	caracteristicas:$("input[name='caracteristica']").val(),
+	        	aspectos:$("input[name='aspecto']").val(),
 	        	pregunta: $("#text_pregunta").val(),
 	        	tipoRespuesta: $('select[name="S_tipoRespuesta"]').val(),
 	        	opcionesRespuesta: opcionesRes,
@@ -127,23 +130,19 @@ $(function (e){
 	        	proceso : $('input[name="procesos[]"]').serializeArray()
 			},
 	        success:  function (data) {
-	        	switch(data){
-				    case 0:
-				        $('.errores').html('Error en la consulta');
-				    break;
+	        	$('#mensajes').html("");
+	        		switch(data){
 				    case 1:
 				    	cargartablaInstrumentos2(e);
-				    	div_emergente.find('.emergente > div[data-role="contenido"]').html('<p>El instrumento se guardo satisfactoriamente</p>');
-				        ocultar_emergente();
+				    	$('#mensajes').html("");
+                    	$('#mensajes').html("<h4 style='color:green'>Datos guardados satisfactoriamente.</h4>");
+				    	// div_emergente.find('.emergente > div[data-role="contenido"]').html('<p>El instrumento se guardo satisfactoriamente</p>');
+				     //    ocultar_emergente();
 				    break;
 				    case 2:
-				    	div_emergente.find('.emergente > div[data-role="contenido"]').html('<p>Por favor ingrese todos los campos del formulario</p>');
-				       	div_emergente.css('display','block');
-				       	//$('.errores').html('Por favor ingrese todos los campos del formulario');
-				    break;
-				    case 3:
-				    	div_emergente.find('.emergente > div[data-role="contenido"]').html('<p>Uno de los procesos seleccionados no se encuentra en fase de construccion</p>');
-				       	div_emergente.css('display','block');
+				    	window.scroll(0,0);
+                   		$('#mensajes').html("");
+                    	$('#mensajes').html("<h4 style='color:red'>Por favor ingrese todos los campos del formulario.</h4>");
 				    break;
 				    default:
 				    break;				       
@@ -193,8 +192,6 @@ $(function (e){
 		var desc = $(this).closest('tr').find('td[data-td="descripcion"]').text();
 		var pro = $(this).closest('tr').find('td[data-td="proceso"]').text();
 		var evidencia = $(this).closest('tr').data('evidencia');
-
-		console.log(id,tipo,desc,pro,evidencia);
 
 		$('select[name="S_tipoRespuesta"]').val(tipo).change();
 		//$('select[name="S_tipoRespuesta"]').val(tipo);
@@ -263,7 +260,6 @@ $(function (e){
 	        	operacion: "verificarfase"
 			},
 	        success:  function (data) {
-	      		console.log(data);
 			}
    		});
 	}
@@ -271,7 +267,7 @@ $(function (e){
 	/**
 	 * [checkprogramas Agrega un checkbox con os procesos que hay actuamente]
 	 */
-	var checkprogramas = function(e){
+	var checkprogramasConstruccion = function(e){
 		$.ajax({
 	        url: '../Controlador/DOC_InstruEval_Controlador.php',
 	        type:  'post',
@@ -288,14 +284,15 @@ $(function (e){
                     $('#tabla_agregar').css('display','none');
 	           }else{
 	               $('#checkbox_programas').html('');
-    	        	$('#checkbox_programas').append('<input type="checkbox" name="todo" value="">todos<br>');
+    	        	$('#checkbox_programas').append('<span style="color:green; font-size:10px;">En esta seccion podra visualizar unicamente los procesos en estado de contrucción</span><br /><input type="checkbox" name="todo" value="">&nbsp;&nbsp;&nbsp;Todos<br>');
     	        	for(var i=0; i<data.length; i++){
-    	        		if(data[i].fk_fase != 3){
-    	        			$('#checkbox_programas').append('<p style="color:#d85b00">'+data[i].nombre+'(Fase : '+data[i].nombre_fase+')</p><br>&nbsp;&nbsp;');
-    	        			//$('#checkbox_programas').append('<input type="checkbox" disabled readonly name="procesos[]" value="'+data[i].pk_proceso+'">'+data[i].nombre+'(   Fase :'+data[i].nombre_fase+')<br>');
-    	        		}else{
-    	        			$('#checkbox_programas').append('<input type="checkbox" name="procesos[]" value="'+data[i].pk_proceso+'">'+data[i].nombre+'(   Fase :'+data[i].nombre_fase+')<br>');
-    	        		}
+    	        		$('#checkbox_programas').append('<input type="checkbox" name="procesos[]" value="'+data[i].pk_proceso+'">&nbsp;&nbsp;&nbsp;'+data[i].nombre+'(   Fase :'+data[i].nombre_fase+')<br>');
+    	        	// 	if(data[i].fk_fase != 3){
+    	        	// 		//$('#checkbox_programas').append('<span style="color:#d85b00">'+data[i].nombre+'(Fase : '+data[i].nombre_fase+')</span>&nbsp;&nbsp;&nbsp;&nbsp;');
+    	        	// 		//$('#checkbox_programas').append('<input type="checkbox" disabled readonly name="procesos[]" value="'+data[i].pk_proceso+'">'+data[i].nombre+'(   Fase :'+data[i].nombre_fase+')<br>');
+    	        	// 	}else{
+    	        	// 		$('#checkbox_programas').append('<input type="checkbox" name="procesos[]" value="'+data[i].pk_proceso+'">'+data[i].nombre+'(   Fase :'+data[i].nombre_fase+')');
+    	        	// 	}
     	        	}
 	           }
 	        	
@@ -304,7 +301,7 @@ $(function (e){
 	}
 
 	verificarfase();
-	checkprogramas();
+	checkprogramasConstruccion();
 
 	// cuando de click en el input name="todos" selecciona todos lo checkbox de name procesos[]
 	

@@ -1,3 +1,9 @@
+.row select {
+    height: 30px;
+    max-width: 500px;
+    min-width: 500px;
+}
+
 .hide {
 	display: none;
 }
@@ -69,7 +75,8 @@
 	font-size: 14px;
 	line-height: 20px;
 	border-bottom: 1px solid #ccc;
-	background-color: #f1f1f1;
+	background-color: #d2ead2;
+	padding: 4px;
 }
 .row > div.titulo.alerta h4{
 	background-color: #cc0000;

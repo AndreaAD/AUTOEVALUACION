@@ -15,6 +15,7 @@
         <input type="hidden" name="evidencia" value="">
         <input type="hidden" name="id_pregunta" value="">
         <div id="contenido_instru" class="div_formularios">
+            <div class="row" id="mensajes"></div>
             <?php  require_once("elementos_vista.php");
             $objComp=new Elementos(); ?>
                 <label style="font-weight:bold;font-size:1.3em; display:inline-block; float:left;margin-bottom: 15px;" for="texto-factor" >Grupo interés</label>
@@ -86,10 +87,10 @@
                 <input type="submit" id="B_limpiar" value="Limpiar">
                 <br><br>
             </div>
-            <div class="row">
+            <!--<div class="row">
                 <div id="men_err" class="mensaje_error"></div>
-            </div>
-            <div class="row" style="padding-botton:15px;">
+            </div> -->
+             <div class="row" style="padding-botton:15px;">
               <table class="tabla2"id="tabla_agregar">
               </table>
             </div>

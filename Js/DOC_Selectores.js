@@ -1,5 +1,36 @@
+function updateDataTableSelectAllCtrl(table){
+   var $table             = table.table().node();
+   var $chkbox_all        = $('tbody input[type="checkbox"]', $table);
+   var $chkbox_checked    = $('tbody input[type="checkbox"]:checked', $table);
+   var chkbox_select_all  = $('thead input[name="select_all"]', $table).get(0);
+
+   // If none of the checkboxes are checked
+   if($chkbox_checked.length === 0){
+      chkbox_select_all.checked = false;
+      if('indeterminate' in chkbox_select_all){
+         chkbox_select_all.indeterminate = false;
+      }
+
+   // If all of the checkboxes are checked
+   } else if ($chkbox_checked.length === $chkbox_all.length){
+      chkbox_select_all.checked = true;
+      if('indeterminate' in chkbox_select_all){
+         chkbox_select_all.indeterminate = false;
+      }
+
+   // If some of the checkboxes are checked
+   } else {
+      chkbox_select_all.checked = true;
+      if('indeterminate' in chkbox_select_all){
+         chkbox_select_all.indeterminate = true;
+      }
+   }
+}
+
+
 $(function(e){
 
+    var rows_selected = {};
     var seccion = $('input[name="_section"]').val();
     var cambio_estado = $('input[name="cambio_estado"]').val();
     var link_factor = $('#A_factor');
@@ -170,7 +201,7 @@ $(function(e){
             success:  function (data) {
                 var lista ="";
                 for(var i = 0; i < data.length; i++){
-                    lista += '<input type="checkbox" name="grupoInteres[]" value="'+data[i].pk_grupo_interes+'">'+data[i].nombre+' ';
+                    lista += '<input type="checkbox" class="check" name="grupoInteres[]" value="'+data[i].pk_grupo_interes+'">'+data[i].nombre+' ';
                 }
                 div_checkbox.html(lista);           
             }
@@ -582,12 +613,12 @@ $(function(e){
                 $('#instrumento').text("");
                 tabla_guardar_info.html("");
                 if ( seccion == 'intru_evaluacion'){
-                    checkprogramas();
-                    if($('#lab_pro').text() == 'No hay procesos en fase de contruccion'){
+                    // checkprogramas();
+                    // if($('#lab_pro').text() == 'No hay procesos en fase de contruccion'){
                         
-                    }else{
-                        cargartablaInstrumentos2();
-                    }
+                    // }else{
+                    //     cargartablaInstrumentos2();
+                    // }
                 }
                 
                 if (seccion == 'infoAdicional'){
@@ -746,7 +777,7 @@ $(function(e){
                         for(var j = 0; j<data[i].instrumentos.length; j++){
                             form += '<div class="pregunta" data-rel-pregunta="'+data[i].instrumentos[j].pk_instru_evaluacion+'">';
                                 form += '<div>';
-                                    form += '<p class="titulo_pregunta">'+data[i].instrumentos[j].codigo+'.'+data[i].instrumentos[j].pregunta+'</p>';
+                                    form += '<p class="titulo_pregunta">'+data[i].instrumentos[j].pregunta+'</p>';
                                 form += '</div>';
                                 if(data[i].instrumentos[j].respuestas.length == 1 ){
                                     if (data[i].instrumentos[j].respuestas[0].fk_tipo_respuesta == 6){
@@ -1506,11 +1537,218 @@ $(function(e){
    		});
 	}
 	
-		$('#tipo-respuesta').on('change', function(e){
-			recargartablarespuestas();
-		});
-    
- });
+	$('#tipo-respuesta').on('change', function(e){
+		recargartablarespuestas();
+	});
+
+    var listaCaracteristicas = function(e){
+        $.ajax({
+            url: '../Controlador/DOC_InstruEval_Controlador.php',
+            type:  'post',
+            async: false,
+            dataType:'json',
+            data:{
+                operacion: "ListarCna"
+            },
+            success:  function (data) {
+                var lista = '';
+                var tabla = $('#tabla_caracteristicas tbody');
+                if(data == 0){
+                    tabla.append("");
+                }else{
+                    for(var i = 0; i < data.length; i++){
+                        for (var j = 0; j < data[i]['caracteristicas'].length; j++) {
+                            for (var k = 0; k < data[i]['caracteristicas'][j]['aspectos'].length; k++) {
+                                for (var m = 0; m < data[i]['caracteristicas'][j]['aspectos'][k]['evidencias'].length; m++) {
+                                    data_factor = data[i]['pk_factor'];
+                                    data_caracteristicas = data[i]['caracteristicas'][j]['pk_caracteristica'];
+                                    data_aspectos = data[i]['caracteristicas'][j]['lista_aspectos'];
+                                    data_evidencias = data[i]['caracteristicas'][j]['aspectos'][k]['lista_evidencias'];
+
+                                }
+                            }
+                            lista += '<tr data-factor="'+data_factor+'" data-caracteristica="'+data_caracteristicas+'"  data-aspectos="'+data_aspectos+'"  data-evidencias="'+data_evidencias+'"><td class="select-checkbox"></td><td>'+data[i]['codigo']+'</td><td>'+data[i]['caracteristicas'][j]['codigo']+'</td><td>'+data[i]['caracteristicas'][j]['codigo']+'- '+data[i]['caracteristicas'][j]['nombre']+'</td></tr>';
+                        }
+                    }
+                    tabla.append(lista);
+                    tabla.fadeIn(); 
+                }
+            }
+        });
+    }
 
 
+    $sec = $('#seccion_doc').val();
+
+    if($sec != "")
+    {
+        if($sec == "Crear_instrumento_caracteristica")
+        {
+
+            listaCaracteristicas();
+            var table = $('#tabla_caracteristicas').DataTable({
+                columnDefs: [{
+                    'targets': 0,
+                    'searchable': false,
+                    'orderable': false,
+                    'width': '1%',
+                    'className': 'dt-body-center',
+                    'render': function (data, type, full, meta){
+                         return '<input type="checkbox" class="chk">';
+                     }
+                }],
+                select: {
+                    style:    'os',
+                    selector: 'td:first-child'
+                },
+                order: [[ 1, 'asc' ]],
+                rowCallback: function(row, data, dataIndex){
+                     // Get row ID
+                    var rowId = data[2];
+
+                     // If row ID is in the list of selected row IDs
+                    if($.inArray(rowId, rows_selected) !== -1){
+                        $(row).find('input[type="checkbox"]').prop('checked', true);
+                        $(row).addClass('selected');
+                    }
+                }
+            });
+
+        
+            $('#tabla_caracteristicas').delegate('input[type="checkbox"]','click', function(e){
+
+                  var datos = {};
+                  var $row = $(this).closest('tr');
+                  var factor = $row.data('factor');
+                  var aspecto = $row.data('aspectos');
+                  var caracteristicas = $row.data('caracteristica');
+                  var evidencias = $row.data('evidencias');
+                  datos['factor'] = factor;
+                  datos['caracteristica'] = caracteristicas;
+                  datos['aspectos'] = aspecto;
+                  datos['evidencias'] = evidencias;
+
+                  // Get row data
+                  var data = table.row($row).data();
+                  //console.log(data, data[2]);
+                  // Get row ID
+                  var rowId = data[2];
+
+                  // alert(rowId);
+                  // return false;
+
+
+                  // Determine whether row ID is in the list of selected row IDs 
+                  // var index = $.inArray(rowId, rows_selected);
+                  // // If checkbox is checked and row ID is not in list of selected row IDs
+                if(this.checked && !(rowId in rows_selected))
+                {
+                    rows_selected[rowId] = datos;
+                } else if(!this.checked && (rowId in rows_selected)) {
+                    delete rows_selected[rowId];
+                }
+                  // Otherwise, if checkbox is not checked and row ID is in list of selected row IDs
+                  // } else if (!this.checked && index !== -1){
+                  //    rows_selected.splice(index, 1);
+                  // }
+
+                  $('#id').val(JSON.stringify(rows_selected));
+
+                  if(this.checked){
+                     $row.addClass('selected');
+                  } else {
+                     $row.removeClass('selected');
+                  }
+
+                  // Update state of "Select all" control
+                  updateDataTableSelectAllCtrl(table);
+
+                  // Prevent click event from propagating to parent
+                  e.stopPropagation();
+            });
+
+                        // Handle click on table cells with checkboxes
+            $('#tabla_caracteristicas').on('click', 'tbody td, thead th:first-child', function(e){
+                $(this).parent().find('input[type="checkbox"]').trigger('click');
+            });
+
+           // Handle click on "Select all" control
+            $('thead input[name="select_all"]', table.table().container()).on('click', function(e){
+                if(this.checked){
+                    $('#tabla_caracteristicas tbody input[type="checkbox"]:not(:checked)').trigger('click');
+                } else {
+                    $('#tabla_caracteristicas tbody input[type="checkbox"]:checked').trigger('click');
+                }
+
+                // Prevent click event from propagating to parent
+                e.stopPropagation();
+            });
+
+                // Handle table draw event
+                table.on('draw', function(){
+                // Update state of "Select all" control
+                  updateDataTableSelectAllCtrl(table);
+                });
+
+               // Handle form submission event 
+
+        }
+    }
+
+    $('#B_guardarInstruCaracteristica').on('click', function(e){
+        grupo_interes = $('input[name="grupoInteres[]"]').serializeArray();
+        procesos = $('input[name="procesos[]"]').serializeArray();
+        T_pregunta = $('textarea[name="T_pregunta"]').val();
+        S_tipoRespuesta = $('select[name="S_tipoRespuesta"]').val();
+        nuevo_tipo_respuesta = $('input[name="nuevo_tipo_respuesta"]').val();
+        S_opcionesRespuesta = $('select[name="S_opcionesRespuesta"]').val();
+        id = $('#id').val();
+
+        $.ajax({
+            url: '../Controlador/DOC_InstruEval_Controlador.php',
+            type:  'post',
+            async: false,
+            dataType:'json',
+            data:{
+                operacion: "GuardarInstrumentoCaracteristica",
+                grupo_interes : grupo_interes,
+                instrumento : T_pregunta,
+                tipo_respuesta: S_tipoRespuesta,
+                porcentaje : nuevo_tipo_respuesta,
+                opciones_respuesta: S_opcionesRespuesta,
+                ids: id,
+                procesos : procesos
+            },
+            success:  function (data) {
+                $('#mensajes').html("");
+                if(data == 2)
+                {
+                   window.scroll(0,0);
+                   $('#mensajes').html("");
+                    $('#mensajes').html("<h4 style='color:red'>Por favor ingrese todos los campos del formulario.</h4>");
+                }else if(data == 1){
+                    $('#mensajes').html("");
+                    $('#mensajes').html("<h4 style='color:green'>Datos guardados satisfactoriamente.</h4>");
+                    //div_emergente.find('.emergente > div[data-role="contenido"]').html('<p>El instrumento se guardo satisfactoriamente</p>');
+                    //ocultar_emergente();
+                    $('input[name="grupoInteres[]"]').attr('checked', false);
+                    $('input[name="procesos[]"]').attr('checked', false);
+                    $('textarea[name="T_pregunta"]').val('');
+                    $('select[name="S_tipoRespuesta"]').val('');
+                    $('input[name="nuevo_tipo_respuesta"]').val('');
+                    $('select[name="S_opcionesRespuesta"]').val('');
+                    $('.chk').attr('checked', false);
+                    $('#tabla_caracteristicas tr').removeClass('selected');
+                    
+
+
+                }
+            },
+           
+        });
+        e.preventDefault();       
+    });
+
+
+});
 
