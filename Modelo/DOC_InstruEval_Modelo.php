@@ -87,6 +87,7 @@ class InstruEval_Modelo {
 	{
 		$sqlinsert = 'INSERT INTO doc_instru_evaluacion (descripcion, fk_grupo_respuesta , fk_grupo_interes  , fk_tipo_respuesta , fk_evidencia_grupo_interes, porcentaje ,proceso, estado, fk_factor, fk_caracteristicas, fk_aspectos, fk_evidencia) VALUES ("'.$this->pregunta.'" , "'.$this->opcionRespuesta.'", "'.$this->grupo.'" , "'.$this->tipoRespuesta.'" ,0, "'.$this->porcentaje.'", "'.$this->proceso.'" ,1, "'.$this->factor.'","'.$this->caracteristicas.'","'.$this->aspectos.'","'.$this->evidencias.'" )';
 
+		
 		$observacion =  'Se creo un instrumento de evaluacion '; 
         $transaccion = "Crear Instrumentos";
         $this->seg->Seguridad_Enviar($observacion, $transaccion);
