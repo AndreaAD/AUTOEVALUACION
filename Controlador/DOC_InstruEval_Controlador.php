@@ -35,11 +35,22 @@ class InstruEval_Controlador {
             $this->instrumento->tipoRespuesta = $_POST['tipoRespuesta'];
             $this->instrumento->opcionRespuesta = $_POST['opcionesRespuesta'];
 
-            $arregloProceso = $_POST['proceso'];
-            for($i =0; $i<count($arregloProceso); $i++){
-                $guardo = $this->instrumento->guardar($_POST['suboperacion'] , $arregloProceso[$i]['value'] );
-                //var_dump($guardo);
+            if($grupoInteres == 8)
+            {
+                $guardo = $this->instrumento->guardar($_POST['suboperacion'] , 0 );
+            }else if($grupoInteres == 7){
+                $arregloProceso = $_POST['proceso'];
+                for($i =0; $i<count($arregloProceso); $i++){
+                    $this->instrumento->guardar($_POST['suboperacion'] , $arregloProceso[$i]['value'] );
+                }
+            }else if($grupoInteres == 3){
+                $this->instrumento->guardar($_POST['suboperacion'] , 0 );
+                $arregloProceso = $_POST['proceso'];
+                for($i =0; $i<count($arregloProceso); $i++){
+                    $this->instrumento->guardar($_POST['suboperacion'] , $arregloProceso[$i]['value'] );
+                }
             }
+
             echo 1;   
         }else{
             echo 2;
@@ -84,6 +95,7 @@ class InstruEval_Controlador {
                 $guardo = $this->instrumento->modificar($arregloProceso[$i]['value'] );
 
             }
+
             echo 1;
         }else{
             echo 2; 
@@ -152,6 +164,7 @@ class InstruEval_Controlador {
 
     public function GuardarInstrumentoCaracteristica(){
 
+
         if($_POST['operacion'] != "" && $_POST['grupo_interes'] != "" &&  $_POST['instrumento'] != ""  && $_POST['tipo_respuesta']  != "" && $_POST['opciones_respuesta'] != "" && $_POST['ids'] != "" && $_POST['procesos'] != "" ){
             
             
@@ -159,7 +172,7 @@ class InstruEval_Controlador {
             $guardo = 1;
             $grupo_interes = '';
             if( count($arregloGrupo) == 1){
-                $grupoInteres = $arregloGrupo;
+                $grupoInteres = $arregloGrupo[0]['value'];
             }else{
                 $grupoInteres = 3;
             }
@@ -172,21 +185,49 @@ class InstruEval_Controlador {
 
 
             $array = json_decode($_POST['ids']);
-            //var_dump($array);
-            $procesos = $_POST['procesos'];
-            foreach ($procesos as &$value) {
+
+            if($grupoInteres == 8)
+            {
                 foreach( $array  as $r){
-                    //var_dump($r->aspectos);
-                    //echo $r->factor;
-                    $this->instrumento->factor =  $r->factor;
-                    $this->instrumento->caracteristicas =  $r->caracteristica;
-                    $this->instrumento->aspectos =  $r->aspectos;
-                    $this->instrumento->proceso =  $value['value'];
-                    $this->instrumento->evidencias =  $r->evidencias;
-                    $this->instrumento->guardarInstruCarac();
+                    $this->instrumento->factor .=  $r->factor.'|';
+                    $this->instrumento->caracteristicas .=  $r->caracteristica.'|';
+                    $this->instrumento->aspectos .=  $r->aspectos.'|';
+                    $this->instrumento->evidencias .=  $r->evidencias.'|';
+                    
                 }
-            }   
-          
+                $this->instrumento->proceso =  0;
+                $this->instrumento->guardarInstruCarac();  
+
+            }else if($grupoInteres == 7){
+                $procesos = $_POST['procesos'];
+                foreach ($procesos as &$value) {
+                    foreach( $array  as $r){
+                        $this->instrumento->factor .=  $r->factor.'|';
+                        $this->instrumento->caracteristicas .=  $r->caracteristica.'|';
+                        $this->instrumento->aspectos .=  $r->aspectos.'|';
+                        $this->instrumento->evidencias .=  $r->evidencias.'|';
+                        
+                    }
+                    $this->instrumento->proceso =  $value['value'];
+                    $this->instrumento->guardarInstruCarac();  
+                }
+            }else if($grupoInteres == 3){
+                $procesos = $_POST['procesos'];
+                foreach ($procesos as &$value) {
+                    foreach( $array  as $r){
+                        $this->instrumento->factor .=  $r->factor.'|';
+                        $this->instrumento->caracteristicas .=  $r->caracteristica.'|';
+                        $this->instrumento->aspectos .=  $r->aspectos.'|';
+                        $this->instrumento->evidencias .=  $r->evidencias.'|';
+                        
+                    }
+                    $this->instrumento->proceso =  $value['value'];
+                    $this->instrumento->guardarInstruCarac(); 
+                     $this->instrumento->proceso =  0;
+                    $this->instrumento->guardarInstruCarac();  
+                }
+
+            }        
 
             echo 1;
         }else{

@@ -68,6 +68,24 @@ class Autoevaluacion_Modelo {
 		return $this->runSQL($sql);
 	}
 
+	public function cargarInformacionPreguntas_2( $grupo , $proceso){
+		//echo $grupo;
+		//echo $proceso;
+		 $SQL1 = 'SELECT pk_grupo_interes FROM cna_grupo_interes WHERE nombre = "'.$grupo.'" ';
+		 $resultados = $this->runSQL($SQL1);
+		 $nom = $resultados->GetRows();
+		 $s = $nom[0]['pk_grupo_interes'];
+
+		if($proceso == 0){
+			$sql = 'SELECT DISTINCT  tp.`pk_tipo_respuesta` AS tipo_respuesta, di.`pk_instru_evaluacion` AS pk_instru_evaluacion , di.`descripcion` AS pregunta , di.`porcentaje` AS porcentaje , di.`fk_factor`, di.`fk_caracteristicas`, di.`fk_evidencia`, di.`fk_grupo_interes` FROM cna_aspecto ca , doc_instru_evaluacion di, tipo_respuesta tp, cna_evidencia ce, cna_caracteristica cc WHERE  di.`fk_evidencia` = ce.`pk_evidencia`   AND di.`fk_tipo_respuesta` = tp.`pk_tipo_respuesta`  AND (di.`fk_grupo_interes` ='.$s.' OR di.`fk_grupo_interes` = 3) ';
+		}else{
+			$sql = 'SELECT DISTINCT  tp.`pk_tipo_respuesta` AS tipo_respuesta, di.`pk_instru_evaluacion` AS pk_instru_evaluacion , di.`descripcion` AS pregunta , di.`porcentaje` AS porcentaje , di.`fk_factor`, di.`fk_caracteristicas`, di.`fk_evidencia`, di.`fk_grupo_interes` FROM cna_aspecto ca , doc_instru_evaluacion di, tipo_respuesta tp, cna_evidencia ce, cna_caracteristica cc WHERE  di.`fk_evidencia` = ce.`pk_evidencia`   AND di.`fk_tipo_respuesta` = tp.`pk_tipo_respuesta`  AND (di.`fk_grupo_interes` ='.$s.' OR di.`fk_grupo_interes` = 3)  AND di.`proceso` = '.$proceso.' ';
+		}	
+		
+		//return $sql;
+		return $this->runSQL($sql);
+	}
+
 	/**
 	 * [cargarInformacionRespuestas carga la repuesta para cada instrumento de evaluacion]
 	 * @param  [int] $id
@@ -290,12 +308,12 @@ class Autoevaluacion_Modelo {
 	 * [obtenerTotalInstrumentos obtine el total de instrumentos de evaluacion por proceso]
 	 * @return [int] devuelve el estado de la operacion 1 -0
 	 */	
-	public function obtenerTotalInstrumentos($grupo){
+	public function obtenerTotalInstrumentos($grupo, $proceso){
 		$SQL1 = 'SELECT pk_grupo_interes FROM cna_grupo_interes WHERE nombre = "'.$grupo.'" ';
 		$resultados = $this->runSQL($SQL1);
 		$nom = $resultados->GetRows();
 		$s = $nom[0]['pk_grupo_interes'];
-		$sql = 'SELECT COUNT(*) as total FROM doc_instru_evaluacion  WHERE fk_grupo_interes  = "'.$s.'" OR fk_grupo_interes  = 3';
+		$sql = 'SELECT COUNT(*) as total FROM doc_instru_evaluacion  WHERE fk_grupo_interes  = "'.$s.'" OR fk_grupo_interes  = 3 AND proceso = "'.$proceso.'"';
 		$resultados = $this->runSQL($sql);
 		$res = $resultados->GetRows();
 		return $res[0]['total'];
@@ -310,7 +328,7 @@ class Autoevaluacion_Modelo {
 		$resultados = $this->runSQL($SQL1);
 		$nom = $resultados->GetRows();
 		$s = $nom[0]['pk_grupo_interes'];
-		$sql = 'SELECT COUNT(*) as total FROM doc_instru_evaluacion  WHERE fk_grupo_interes  = "'.$s.'" OR fk_grupo_interes  = 3';
+		$sql = 'SELECT COUNT(*) as total FROM doc_instru_evaluacion  WHERE fk_grupo_interes  = 3 and proceso = 0';
 		$resultados = $this->runSQL($sql);
 		$res = $resultados->GetRows();
 		return $res[0]['total'];
@@ -343,7 +361,7 @@ class Autoevaluacion_Modelo {
 		$sql = 'SELECT pk_proceso , nombre FROM cna_proceso';
         $pregunta = $this->runSQL($sql);
         $res = $pregunta->GetRows(); 
-        $instru_programa = $this->obtenerTotalInstrumentos($_SESSION['grupos_documental']['grupoP']);
+        $instru_programa = $this->obtenerTotalInstrumentos($_SESSION['grupos_documental']['grupoP'], $_SESSION['pk_proceso'] );
         $instru_insti = $this->obtenerTotalInstrumentosInstitucional($_SESSION['grupos_documental']['grupoI']);
         
         $datosprograma = array();
