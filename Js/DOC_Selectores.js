@@ -1767,9 +1767,15 @@ $(function(e){
                 proceso : $('#procesos_resultados').val()
             },
             success:  function (data) {
-                console.log(data);
+                $('#texto_total').html('');
+                $('#texto_porcentaje').html('');
+                if(data){
+                    console.log('44');
+                    $('#texto_total').append('<span>'+data.instrumentos+'</span>');
+                    $('#texto_porcentaje').append('<span>'+data.porcentaje_programa+'%</span>');
 
-            },
+                }
+            }
            
         });
         //e.preventDefault();      

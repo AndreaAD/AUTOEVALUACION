@@ -409,6 +409,14 @@ WHERE (di.`fk_grupo_interes` = '.$s.' OR di.`fk_grupo_interes` = 3 ) AND di.`pro
         return $datosprograma;
     }
 
+    public function ResultadoCompleto($fk_proceso)
+    {
+		$sql = '';
+        $pregunta = $this->runSQL($sql);
+        $res = $pregunta->GetRows(); 
+        return $res:
+    }
+
 	/**
 	 * [consolidacionFinal consolidacion final de repuestas hacia la tabla cna_resultados_evidencia]
 	 * @return [int] devuelve el estado de la operacion 1 -0

@@ -22,5 +22,22 @@
                 </select><br><br><br>
             </div>
         </div>
+        <h4 style="float: left;font-size: 17px;">Resultados</h4>
+        <div class="row">
+            <div class="col">
+                <label class="label_caja">Total instrumentos de evaluación</label>
+            </div>
+            <div class="col_2" id="texto_total">
+                
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <label class="label_caja">Porcentaje de respuesta actual</label>
+            </div>
+            <div class="col_2" id="texto_porcentaje">
+
+            </div>
+        </div>
     </div>
 </div>

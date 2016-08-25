@@ -14,7 +14,7 @@ class Autoevaluacion_Controlador {
     }
 
     public function ResultadosPrograma(){
-
+        //echo $_POST['proceso'];
         $fk_proceso = $_POST['proceso'];
         $institucional = 1;
         $grupo = "Equipo del Programa";
@@ -33,6 +33,9 @@ class Autoevaluacion_Controlador {
             $estado = 0;
         }
 
+
+        $resu = $this->autoevaluacion->ResultadoCompleto($fk_proceso);
+
         $resultados = array(
             'institucional' => $institucional,
             'estado' => $estado,
@@ -41,7 +44,8 @@ class Autoevaluacion_Controlador {
             'porcentaje_programa' => $porcentajePrograma,
             'instrumentos_institucional' => $instrumentos_institucional,
             'totalInstitucional' => $totalInstitucional,
-            'porcentaje_institucional' => $porcentajeInstitucional
+            'porcentaje_institucional' => $porcentajeInstitucional,
+            'resultados' => $resu
         );
         
         echo json_encode($resultados);
@@ -83,7 +87,7 @@ class Autoevaluacion_Controlador {
         $grupo = $_POST['grupo'];
 
         $instrumentos =  $this->autoevaluacion->cargarInformacionPreguntas_2($grupo , $fk_proceso, $pagina, $items)->GetRows();
-        
+
         for($j=0; $j<count($instrumentos); $j++){
             $instrumentos[$j]['respuestas'] = array();
             $instrumentos[$j]['informacion'] = array();
@@ -342,6 +346,9 @@ switch ($_operacion) {
     break;
     case 'obtenerTotalInstrumentos':
         $controlador->obtenerTotalInstrumentos();
+    break;
+    case 'ResultadosPrograma':
+        $controlador->ResultadosPrograma();
     break;
     default:
 
