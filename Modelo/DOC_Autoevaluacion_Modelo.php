@@ -27,6 +27,7 @@ class Autoevaluacion_Modelo {
 		return $factores;
 	}
 
+
 	/**
 	 * [cargarFactores carga los factores]
 	 * @return como resultado nos devuele la lista de los factores
@@ -68,7 +69,7 @@ class Autoevaluacion_Modelo {
 		return $this->runSQL($sql);
 	}
 
-	public function cargarInformacionPreguntas_2( $grupo , $proceso){
+	public function cargarInformacionPreguntas_2( $grupo , $proceso, $pagina, $items){
 		//echo $grupo;
 		//echo $proceso;
 		 $SQL1 = 'SELECT pk_grupo_interes FROM cna_grupo_interes WHERE nombre = "'.$grupo.'" ';
@@ -79,11 +80,11 @@ class Autoevaluacion_Modelo {
 		if($proceso == 0){
 			$sql = 'SELECT di.`fk_tipo_respuesta` AS tipo_respuesta, di.`pk_instru_evaluacion` AS pk_instru_evaluacion , di.`descripcion` AS pregunta , di.`porcentaje` AS porcentaje , di.`fk_factor`, di.`fk_caracteristicas`, di.`fk_evidencia`, di.`fk_grupo_interes` 
 FROM doc_instru_evaluacion di
-WHERE di.`fk_grupo_interes` = 8 OR di.`fk_grupo_interes` = 3 AND di.`proceso` = 0 ';
+WHERE (di.`fk_grupo_interes` = 8 OR di.`fk_grupo_interes` = 3) AND di.`proceso` = 0 LIMIT '.($pagina * $items).', '.$items;
 		}else{
 			$sql = 'SELECT di.`fk_tipo_respuesta` AS tipo_respuesta, di.`pk_instru_evaluacion` AS pk_instru_evaluacion , di.`descripcion` AS pregunta , di.`porcentaje` AS porcentaje , di.`fk_factor`, di.`fk_caracteristicas`, di.`fk_evidencia`, di.`fk_grupo_interes` 
 FROM doc_instru_evaluacion di
-WHERE di.`fk_grupo_interes` = '.$s.' OR di.`fk_grupo_interes` = 3  AND di.`proceso` = '.$proceso.' ';
+WHERE (di.`fk_grupo_interes` = '.$s.' OR di.`fk_grupo_interes` = 3 ) AND di.`proceso` = '.$proceso.' LIMIT '.($pagina * $items).', '.$items;
 		}	
 		
 		//return $sql;
@@ -317,7 +318,7 @@ WHERE di.`fk_grupo_interes` = '.$s.' OR di.`fk_grupo_interes` = 3  AND di.`proce
 		$resultados = $this->runSQL($SQL1);
 		$nom = $resultados->GetRows();
 		$s = $nom[0]['pk_grupo_interes'];
-		$sql = 'SELECT COUNT(*) as total FROM doc_instru_evaluacion  WHERE fk_grupo_interes  = "'.$s.'" OR fk_grupo_interes  = 3 AND proceso = "'.$proceso.'"';
+		$sql = 'SELECT COUNT(*) as total FROM doc_instru_evaluacion  WHERE (fk_grupo_interes  = "'.$s.'" OR fk_grupo_interes  = 3) AND proceso = "'.$proceso.'"';
 		$resultados = $this->runSQL($sql);
 		$res = $resultados->GetRows();
 		return $res[0]['total'];

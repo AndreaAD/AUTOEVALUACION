@@ -82,7 +82,8 @@ class Autoevaluacion_Controlador {
         $items  = $_POST['items'];
         $grupo = $_POST['grupo'];
 
-        $instrumentos =  $this->autoevaluacion->cargarInformacionPreguntas_2($grupo , $fk_proceso)->GetRows();
+        $instrumentos =  $this->autoevaluacion->cargarInformacionPreguntas_2($grupo , $fk_proceso, $pagina, $items)->GetRows();
+        
         for($j=0; $j<count($instrumentos); $j++){
             $instrumentos[$j]['respuestas'] = array();
             $instrumentos[$j]['informacion'] = array();
@@ -156,9 +157,16 @@ class Autoevaluacion_Controlador {
      * [obtenerTotalCaracteristicas Obtiene el total de caracteristicas segun el factor que le enviamos]
      * @return [json] array codificado en json con el total de caracteristicas un int
      */
-    public function obtenerTotalCaracteristicas(){
-        $resultados = $this->autoevaluacion->totalCaracteristicas($_POST['idFactor'])->GetRows();
-        echo json_encode($resultados);
+    public function obtenerTotalInstrumentos(){
+
+        $seccion = $_POST['seccion'];
+        if($seccion == 'autoevaluacion_programa'){
+            $instrumentos = $this->autoevaluacion->obtenerTotalInstrumentos($_SESSION['grupos_documental']['grupoP'],$_SESSION['pk_proceso']);
+        }else{
+            $instrumentos = $this->autoevaluacion->obtenerTotalInstrumentosInstitucional($_SESSION['grupos_documental']['grupoI']);
+        }
+
+        echo json_encode($instrumentos);
     }
 
     /**
@@ -331,6 +339,9 @@ switch ($_operacion) {
     break;
     case 'verificarConsolidacion':
         $controlador->verificarConsolidacion();
+    break;
+    case 'obtenerTotalInstrumentos':
+        $controlador->obtenerTotalInstrumentos();
     break;
     default:
 

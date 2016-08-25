@@ -59,7 +59,7 @@ $(function(e){
     var tabla_tipo_respuestas = $('#tabla_tipo_respuestas');
     var _divOculto = $("#div_contenido_completo");
     var pagina = 1; 
-    var items = 2;
+    var items = 4;
     var num_paginas = 0;
 
     var _B_nuevoproceso = $("#B_nuevoProceso");
@@ -882,11 +882,11 @@ $(function(e){
             dataType:'json',
             async: false,
             data:{
-                operacion: 'obtenerTotalCaracteristicas',
-                idFactor :  $("input[name='factor']").val()
+                operacion: 'obtenerTotalInstrumentos',
+                seccion :  $("input[name='_section']").val()
             },
             success:function (data){
-                num_paginas = data[0].total / items;
+                num_paginas = data / items;
                 $('div[data-role="paginador"]').empty();
                 for (var i = 0; i < num_paginas; i++) {
                     $('div[data-role="paginador"]').append('<a href="#" data-rel="'+i+'" class="'+(i == 0 ? 'active' : '')+'">'+(i+1)+'</a>');
@@ -1781,7 +1781,6 @@ $(function(e){
         }
     });
 
-        console.log(seccion);
 
     if( seccion == 'autoevaluacion_programa' || seccion == 'autoevaluacion_Institucional' ){
         //cargarInformacionFactor();
