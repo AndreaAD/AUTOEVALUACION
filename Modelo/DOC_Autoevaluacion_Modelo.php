@@ -77,9 +77,13 @@ class Autoevaluacion_Modelo {
 		 $s = $nom[0]['pk_grupo_interes'];
 
 		if($proceso == 0){
-			$sql = 'SELECT DISTINCT  tp.`pk_tipo_respuesta` AS tipo_respuesta, di.`pk_instru_evaluacion` AS pk_instru_evaluacion , di.`descripcion` AS pregunta , di.`porcentaje` AS porcentaje , di.`fk_factor`, di.`fk_caracteristicas`, di.`fk_evidencia`, di.`fk_grupo_interes` FROM cna_aspecto ca , doc_instru_evaluacion di, tipo_respuesta tp, cna_evidencia ce, cna_caracteristica cc WHERE  di.`fk_evidencia` = ce.`pk_evidencia`   AND di.`fk_tipo_respuesta` = tp.`pk_tipo_respuesta`  AND (di.`fk_grupo_interes` ='.$s.' OR di.`fk_grupo_interes` = 3) ';
+			$sql = 'SELECT di.`fk_tipo_respuesta` AS tipo_respuesta, di.`pk_instru_evaluacion` AS pk_instru_evaluacion , di.`descripcion` AS pregunta , di.`porcentaje` AS porcentaje , di.`fk_factor`, di.`fk_caracteristicas`, di.`fk_evidencia`, di.`fk_grupo_interes` 
+FROM doc_instru_evaluacion di
+WHERE di.`fk_grupo_interes` = 8 OR di.`fk_grupo_interes` = 3 AND di.`proceso` = 0 ';
 		}else{
-			$sql = 'SELECT DISTINCT  tp.`pk_tipo_respuesta` AS tipo_respuesta, di.`pk_instru_evaluacion` AS pk_instru_evaluacion , di.`descripcion` AS pregunta , di.`porcentaje` AS porcentaje , di.`fk_factor`, di.`fk_caracteristicas`, di.`fk_evidencia`, di.`fk_grupo_interes` FROM cna_aspecto ca , doc_instru_evaluacion di, tipo_respuesta tp, cna_evidencia ce, cna_caracteristica cc WHERE  di.`fk_evidencia` = ce.`pk_evidencia`   AND di.`fk_tipo_respuesta` = tp.`pk_tipo_respuesta`  AND (di.`fk_grupo_interes` ='.$s.' OR di.`fk_grupo_interes` = 3)  AND di.`proceso` = '.$proceso.' ';
+			$sql = 'SELECT di.`fk_tipo_respuesta` AS tipo_respuesta, di.`pk_instru_evaluacion` AS pk_instru_evaluacion , di.`descripcion` AS pregunta , di.`porcentaje` AS porcentaje , di.`fk_factor`, di.`fk_caracteristicas`, di.`fk_evidencia`, di.`fk_grupo_interes` 
+FROM doc_instru_evaluacion di
+WHERE di.`fk_grupo_interes` = '.$s.' OR di.`fk_grupo_interes` = 3  AND di.`proceso` = '.$proceso.' ';
 		}	
 		
 		//return $sql;
@@ -328,7 +332,7 @@ class Autoevaluacion_Modelo {
 		$resultados = $this->runSQL($SQL1);
 		$nom = $resultados->GetRows();
 		$s = $nom[0]['pk_grupo_interes'];
-		$sql = 'SELECT COUNT(*) as total FROM doc_instru_evaluacion  WHERE fk_grupo_interes  = 3 and proceso = 0';
+		$sql = 'SELECT COUNT(*) as total FROM doc_instru_evaluacion  WHERE (fk_grupo_interes  = 3 or fk_grupo_interes  = 8 ) and proceso = 0';
 		$resultados = $this->runSQL($sql);
 		$res = $resultados->GetRows();
 		return $res[0]['total'];

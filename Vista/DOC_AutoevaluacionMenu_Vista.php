@@ -17,16 +17,9 @@ $objComp=new Elementos(); ?>
     </div>
     <div class="bloque una-columna">
         <div class="titulo-bloque texto-izquierda">
-            <h2 class="icon-quill">Factores</h2>
-            <input type="hidden" name="factor" value="">
-            <input type="hidden" name="pregunta" value="">
+            <h2 class="icon-quill">Proceso programa</h2>
             <div class="row">
                 <br><br><span id="nombre_proceso"></span>
-            </div>
-            <div class="row">
-                    <label style="font-weight:bold;font-size:1.3em; padding-right:4em;" for="texto-factor">Factor</label>
-                    <button type="button" id="A_factor" class="boton-solo-icono"><i class="icon-redo2"></i></button>
-                    <textarea id="factor" style="width:90%; height:50px;" placeholder="Seleccione un factor" id="texto-factor" readonly="on"></textarea>
             </div>
         </div>
     </div>

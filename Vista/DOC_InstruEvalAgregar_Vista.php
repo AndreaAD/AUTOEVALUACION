@@ -73,7 +73,7 @@
                     <textarea class="text_pregunta" id="text_pregunta" name="T_pregunta"></textarea>
                 </div>
             </div>
-            <div class="row">
+            <div class="row" id="selec_programa_2">
                 <div id="selec_programa" class="col">
                     <label id="lab_pro" class="label_caja">Seleccione el proceso  </label>
                 </div>

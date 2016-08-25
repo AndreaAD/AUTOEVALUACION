@@ -8,7 +8,7 @@ class Grafica2{
     /**
      * [__construct construnctor de la clase]
      */
-	public function __construct(){
+    public function __construct(){
         $this->autoevaluacion = new Autoevaluacion_Modelo;
     }
     
@@ -40,12 +40,14 @@ for($i=0; $i<count($nombres); $i++)
 {
     if($i==0)
     {
-        $strCaract="\"".$nombres[$i];
+        $nombre = substr($nombres[$i], 0, 30); 
+        $strCaract="\"".$nombre;
         $strCaract2="".$porcentajes[$i];                
     }
     else
     {
-        $strCaract=$strCaract."\",\"".$nombres[$i];
+        $nombre = substr($nombres[$i], 0, 30); 
+        $strCaract=$strCaract."\",\"".$nombre;
         $strCaract2=$strCaract2.",".$porcentajes[$i];
         
     }
@@ -57,27 +59,27 @@ $strCaract2=$strCaract2.",";
 
 <script src="../Js/chart.min.js" type="text/javascript"></script>
 <script src="../Js/Chart.js" type="text/javascript"></script>
-    <div align="center">
-        <canvas id="bar-chart2" class="chart-holder" width="450" height="451" style="float: left; ">
-        </canvas>
-    </div>
+<div align="center">
+    <canvas id="bar-chart2" class="chart-holder" width="450" height="451" style="float: left; ">
+    </canvas>
+</div>
 
-    <script>
-    
-            var barChartData = {
-                labels: [<?php echo utf8_encode($strCaract);?>],
-                
-                datasets: [
-                    {
-                        fillColor: "rgba(150,150,150,0.5)",
-                        strokeColor: "rgba(150,150,150,1)",
-                        data: [<?php echo $strCaract2;?>]
-                    }
-                ]                
-            }
-    
-        var myLine = new Chart(document.getElementById("bar-chart2").getContext("2d")).Bar(barChartData);
+<script>
+
+        var barChartData = {
+            labels: [<?php echo $strCaract;?>],
+            
+            datasets: [
+                {
+                    fillColor: "rgba(150,150,150,0.5)",
+                    strokeColor: "rgba(150,150,150,1)",
+                    data: [<?php echo $strCaract2;?>]
+                }
+            ]                
+        }
+
+    var myLine = new Chart(document.getElementById("bar-chart2").getContext("2d")).Bar(barChartData);
 
 
-    </script>
-    <br><br>
+</script>
+<br><br>

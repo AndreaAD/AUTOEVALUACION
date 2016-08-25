@@ -669,13 +669,9 @@ $(function(e){
             break;
             
         }
-        if( seccion == 'autoevaluacion_programa' || seccion == 'autoevaluacion_Institucional' ){
-            cargarInformacionFactor();
-            cargarControlador(0 , $("input[name='grupoI']").val());
-            cargarPaginador();
-        }
         cerrarEmergente(e);
     });
+
     
     /**
      * [cargarInformacionFactor cargar la descripcion de un factor]
@@ -1694,6 +1690,16 @@ $(function(e){
         }
     }
 
+    // $('input[name="grupoInteres[]"]').change(function(e){
+    //     alert($(this).val());
+    //     if($(this).val() == 8){
+    //         $('#selec_programa_2').css('display', 'none');
+    //     }else{
+    //         $('#selec_programa_2').css('display', 'block');
+    //     }
+    // });
+
+
     $('#B_guardarInstruCaracteristica').on('click', function(e){
         grupo_interes = $('input[name="grupoInteres[]"]').serializeArray();
         procesos = $('input[name="procesos[]"]').serializeArray();
@@ -1749,6 +1755,42 @@ $(function(e){
         });
         e.preventDefault();       
     });
+
+        var cargarResultados = function(e){
+        $.ajax({
+            url: '../Controlador/DOC_Autoevaluacion_Controlador.php',
+            type:  'post',
+            async: false,
+            dataType:'json',
+            data:{
+                operacion: "ResultadosPrograma",
+                proceso : $('#procesos_resultados').val()
+            },
+            success:  function (data) {
+                console.log(data);
+
+            },
+           
+        });
+        //e.preventDefault();      
+    }
+
+    $('#procesos_resultados').on('change', function(e){
+        if($('#procesos_resultados').val != 0 ){
+            cargarResultados();
+        }
+    });
+
+        console.log(seccion);
+
+    if( seccion == 'autoevaluacion_programa' || seccion == 'autoevaluacion_Institucional' ){
+        //cargarInformacionFactor();
+        cargarControlador(0 , $("input[name='grupoI']").val());
+        cargarPaginador();
+    }
+
+
+
 
 
 });

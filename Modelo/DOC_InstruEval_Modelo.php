@@ -153,6 +153,13 @@ class InstruEval_Modelo {
 		return $resul;
 	}
 
+	public function listaProcesos(){
+		$sql = 'SELECT * from cna_proceso where estado = 1'; 
+		$resul = $this->runSQL($sql);
+		return $resul;
+	}
+
+	
 	/**
 	 * [checkprogramas obtiene la lista de procesos que esten en fase 3]
 	 * @return [int] resultados obtenidos

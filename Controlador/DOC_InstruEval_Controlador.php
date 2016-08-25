@@ -165,7 +165,7 @@ class InstruEval_Controlador {
     public function GuardarInstrumentoCaracteristica(){
 
 
-        if($_POST['operacion'] != "" && $_POST['grupo_interes'] != "" &&  $_POST['instrumento'] != ""  && $_POST['tipo_respuesta']  != "" && $_POST['opciones_respuesta'] != "" && $_POST['ids'] != "" && $_POST['procesos'] != "" ){
+        if($_POST['operacion'] != "" && $_POST['grupo_interes'] != "" &&  $_POST['instrumento'] != ""  && $_POST['tipo_respuesta']  != "" && $_POST['opciones_respuesta'] != "" && $_POST['ids'] != "" ){
             
             
             $arregloGrupo = $_POST['grupo_interes'];
@@ -188,11 +188,11 @@ class InstruEval_Controlador {
 
             if($grupoInteres == 8)
             {
+                $this->instrumento->factor =  '';
+                $this->instrumento->caracteristicas = '';
                 foreach( $array  as $r){
                     $this->instrumento->factor .=  $r->factor.'|';
                     $this->instrumento->caracteristicas .=  $r->caracteristica.'|';
-                    $this->instrumento->aspectos .=  $r->aspectos.'|';
-                    $this->instrumento->evidencias .=  $r->evidencias.'|';
                     
                 }
                 $this->instrumento->proceso =  0;
@@ -201,11 +201,11 @@ class InstruEval_Controlador {
             }else if($grupoInteres == 7){
                 $procesos = $_POST['procesos'];
                 foreach ($procesos as &$value) {
+                    $this->instrumento->factor =  '';
+                    $this->instrumento->caracteristicas = '';
                     foreach( $array  as $r){
                         $this->instrumento->factor .=  $r->factor.'|';
                         $this->instrumento->caracteristicas .=  $r->caracteristica.'|';
-                        $this->instrumento->aspectos .=  $r->aspectos.'|';
-                        $this->instrumento->evidencias .=  $r->evidencias.'|';
                         
                     }
                     $this->instrumento->proceso =  $value['value'];
@@ -214,18 +214,18 @@ class InstruEval_Controlador {
             }else if($grupoInteres == 3){
                 $procesos = $_POST['procesos'];
                 foreach ($procesos as &$value) {
+                    $this->instrumento->factor =  '';
+                    $this->instrumento->caracteristicas = '';
                     foreach( $array  as $r){
                         $this->instrumento->factor .=  $r->factor.'|';
                         $this->instrumento->caracteristicas .=  $r->caracteristica.'|';
-                        $this->instrumento->aspectos .=  $r->aspectos.'|';
-                        $this->instrumento->evidencias .=  $r->evidencias.'|';
+                        $this->instrumento->proceso =  $value['value'];
                         
                     }
-                    $this->instrumento->proceso =  $value['value'];
                     $this->instrumento->guardarInstruCarac(); 
-                     $this->instrumento->proceso =  0;
-                    $this->instrumento->guardarInstruCarac();  
                 }
+                $this->instrumento->proceso =  0;
+                $this->instrumento->guardarInstruCarac();  
 
             }        
 
