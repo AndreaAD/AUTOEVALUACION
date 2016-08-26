@@ -17,7 +17,7 @@ $objComp=new Elementos(); ?>
     </div>
     <div class="bloque una-columna">
         <div class="titulo-bloque texto-izquierda">
-            <h2 class="icon-quill">Proceso programa</h2>
+            <h2 class="icon-quill">Proceso</h2>
             <div class="row">
                 <br><br><span id="nombre_proceso"></span>
             </div>

@@ -411,7 +411,7 @@ WHERE (di.`fk_grupo_interes` = '.$s.' OR di.`fk_grupo_interes` = 3 ) AND di.`pro
 
     public function ResultadoCompleto($fk_proceso)
     {
-		$sql = 'SELECT  di.`fk_caracteristicas`, di.`pk_instru_evaluacion`, di.`descripcion`, dr.`ponderacion`, di.`proceso`
+		$sql = 'SELECT di.`fk_caracteristicas`,di.`fk_caracteristicas_codigo`,di.`fk_factor_codigo`, di.`fk_factor`, di.`pk_instru_evaluacion`, di.`descripcion`, dr.`ponderacion`, di.`proceso`
 FROM doc_instru_evaluacion di, doc_respuesta_instrumentos dr
 WHERE dr.`fk_proceso` = '.$fk_proceso.' AND di.`proceso` = dr.`fk_proceso` AND di.`pk_instru_evaluacion` = dr.`fk_instrumento`';
         $pregunta = $this->runSQL($sql);

@@ -1574,7 +1574,7 @@ $(function(e){
         });
     }
 
-    $('#tabla_resultados').DataTable();
+    //$('#tabla_resultados').DataTable();
 
     $sec = $('#seccion_doc').val();
 
@@ -1778,13 +1778,15 @@ $(function(e){
                 $('#texto_total').html('');
                 $('#texto_porcentaje').html('');
                 var tabla_r = $('#tabla_resultados tbody');
-
-                if(data){
-                    $('#texto_total').append('<span>'+data.instrumentos+'</span>');
-                    $('#texto_porcentaje').append('<span>'+data.porcentaje_programa+'%</span>');
+                tabla_r.html('');
+                $('#texto_total').append('<span>'+data.instrumentos+'</span>');
+                $('#texto_porcentaje').append('<span>'+data.porcentaje_programa+'%</span>');
+                
+                if(data.resultados.length != 0){
+                    
 
                     for(var i = 0; i < data.resultados.length; i++){
-                        $c = data.resultados[i]['fk_caracteristicas'];
+                        $c = data.resultados[i]['fk_caracteristicas_codigo'];
 
                         lista_c = $c.split('|');
                         if(lista_c.length > 1){
@@ -1793,18 +1795,31 @@ $(function(e){
                             tamaño = (lista_c.length);
                         }
 
+                        $f = data.resultados[i]['fk_factor_codigo'];
 
-                        for(var j = 0; j < tamaño; j++){
-                            descripcion = data.resultados[i]['descripcion'];
-                            calificacion = data.resultados[i]['ponderacion']; 
+                        lista_f = $f.split('|');
+                        if(lista_f.length > 1){
+                            tamaño_2 = (lista_f.length)-1;
+                        }else{
+                            tamaño_2 = (lista_f.length);
+                        }
+
+                        
+                        for(var j = 0; j < tamaño ; j++){
                             car = lista_c[j];
+                            
+                            for(var m = 0; m < tamaño_2; m++){
+                                descripcion = data.resultados[i]['descripcion'];
+                                calificacion = data.resultados[i]['ponderacion']; 
+                                fac = lista_f[m];
 
+                            }   
                             lista += '<tr>';
-                                lista += '<td>factor</td>';
-                                lista += '<td>'+car+'</td>';
-                                lista += '<td>'+descripcion+'</td>';
-                                lista += '<td>'+calificacion+'</td>';
-                            lista += '</tr>';
+                                    lista += '<td>'+fac+'</td>';
+                                    lista += '<td>'+car+'</td>';
+                                    lista += '<td>'+descripcion+'</td>';
+                                    lista += '<td>'+calificacion+'</td>';
+                                lista += '</tr>';
                         }
                         
                     }
@@ -1813,7 +1828,7 @@ $(function(e){
                     tabla_r.fadeIn(); 
 
                 }else{
-                    tabla_r.append('');
+                    tabla_r.html('');
                 }
             }
            
@@ -1824,6 +1839,7 @@ $(function(e){
     $('#procesos_resultados').on('change', function(e){
         if($('#procesos_resultados').val != 0 ){
             cargarResultados();
+
         }
     });
 

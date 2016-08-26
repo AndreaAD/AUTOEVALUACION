@@ -16,14 +16,6 @@ $objComp=new Elementos(); ?>
             <div class="progreso"></div>
         </div>
     </div>
-    <div class="bloque una-columna">
-        <div class="titulo-bloque texto-izquierda">
-            <h2 class="icon-quill">Proceso programa</h2>
-            <div class="row">
-                <br><br><h4 id="nombre_proceso"></h4>
-            </div>
-        </div>
-    </div>
     <div id="div_contenido_completo" class="una-columna hide">
         <div class="titulo-bloque">
             <h2 class="icon-quill">Factores</h2>

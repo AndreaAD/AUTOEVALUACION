@@ -19,7 +19,7 @@ class InstruEval_Modelo {
 	public $factor_codigo;
 	public $porcentaje;
 	public $caracteristicas;
-	public $fk_caracteristicas_codigo;
+	public $caracteristicas_codigo;
 	public $aspectos;
 	public $evidencias;
 	public $proceso;
@@ -87,7 +87,7 @@ class InstruEval_Modelo {
 
 	public function guardarInstruCarac()
 	{
-		$sqlinsert = 'INSERT INTO doc_instru_evaluacion (descripcion, fk_grupo_respuesta , fk_grupo_interes  , fk_tipo_respuesta , fk_evidencia_grupo_interes, porcentaje ,proceso, estado, fk_factor, fk_factor_codigo, fk_caracteristicas, fk_caracteristicas_codigo, fk_aspectos, fk_evidencia) VALUES ("'.$this->pregunta.'" , "'.$this->opcionRespuesta.'", "'.$this->grupo.'" , "'.$this->tipoRespuesta.'" ,0, "'.$this->porcentaje.'", "'.$this->proceso.'" ,1, "'.$this->factor.'","'.$this->factor_codigo.'","'.$this->caracteristicas.'","'.$this->fk_caracteristicas_codigo.'","'.$this->aspectos.'","'.$this->evidencias.'" )';
+		$sqlinsert = 'INSERT INTO doc_instru_evaluacion (descripcion, fk_grupo_respuesta , fk_grupo_interes  , fk_tipo_respuesta , fk_evidencia_grupo_interes, porcentaje ,proceso, estado, fk_factor, fk_factor_codigo, fk_caracteristicas, fk_caracteristicas_codigo, fk_aspectos, fk_evidencia) VALUES ("'.$this->pregunta.'" , "'.$this->opcionRespuesta.'", "'.$this->grupo.'" , "'.$this->tipoRespuesta.'" ,0, "'.$this->porcentaje.'", "'.$this->proceso.'" ,1, "'.$this->factor.'","'.$this->factor_codigo.'","'.$this->caracteristicas.'","'.$this->caracteristicas_codigo.'","'.$this->aspectos.'","'.$this->evidencias.'" )';
 
 		
 		$observacion =  'Se creo un instrumento de evaluacion '; 
