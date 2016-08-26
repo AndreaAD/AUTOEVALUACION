@@ -143,6 +143,7 @@ class InstruEval_Controlador {
             {
                 //$factor['caracteristicas'][] = $caracteristica;
                 $factor['lista_caracteristicas'][] = $caracteristica['pk_caracteristica'];
+                $factor['lista_caracteristicas_codigos'][] = $caracteristica['codigo'];
                 $aspectos = $this->instrumento->buscarAspecto($caracteristica['pk_caracteristica'])->GetRows();
 
                 $caracteristica['aspectos'] = $aspectos;
@@ -189,10 +190,14 @@ class InstruEval_Controlador {
             if($grupoInteres == 8)
             {
                 $this->instrumento->factor =  '';
+                $this->instrumento->factor_codigo =  '';
                 $this->instrumento->caracteristicas = '';
+                $this->instrumento->caracteristicas_codigo = '';
                 foreach( $array  as $r){
                     $this->instrumento->factor .=  $r->factor.'|';
+                    $this->instrumento->factor_codigo .=  $r->factor_codigo.'|';
                     $this->instrumento->caracteristicas .=  $r->caracteristica.'|';
+                    $this->instrumento->caracteristicas_codigo .=  $r->caracteristica_codigo.'|';
                     
                 }
                 $this->instrumento->proceso =  0;
@@ -202,10 +207,14 @@ class InstruEval_Controlador {
                 $procesos = $_POST['procesos'];
                 foreach ($procesos as &$value) {
                     $this->instrumento->factor =  '';
+                    $this->instrumento->factor_codigo =  '';
                     $this->instrumento->caracteristicas = '';
+                    $this->instrumento->caracteristicas_codigo = '';
                     foreach( $array  as $r){
                         $this->instrumento->factor .=  $r->factor.'|';
+                        $this->instrumento->factor_codigo .=  $r->factor_codigo.'|';
                         $this->instrumento->caracteristicas .=  $r->caracteristica.'|';
+                        $this->instrumento->caracteristicas_codigo .=  $r->caracteristica_codigo.'|';
                         
                     }
                     $this->instrumento->proceso =  $value['value'];
@@ -215,10 +224,14 @@ class InstruEval_Controlador {
                 $procesos = $_POST['procesos'];
                 foreach ($procesos as &$value) {
                     $this->instrumento->factor =  '';
+                    $this->instrumento->factor_codigo =  '';
                     $this->instrumento->caracteristicas = '';
+                    $this->instrumento->caracteristicas_codigo = '';
                     foreach( $array  as $r){
                         $this->instrumento->factor .=  $r->factor.'|';
+                        $this->instrumento->factor_codigo .=  $r->factor_codigo.'|';
                         $this->instrumento->caracteristicas .=  $r->caracteristica.'|';
+                        $this->instrumento->caracteristicas_codigo .=  $r->caracteristica_codigo.'|';
                         $this->instrumento->proceso =  $value['value'];
                         
                     }

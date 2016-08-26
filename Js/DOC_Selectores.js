@@ -1556,13 +1556,15 @@ $(function(e){
                             for (var k = 0; k < data[i]['caracteristicas'][j]['aspectos'].length; k++) {
                                 for (var m = 0; m < data[i]['caracteristicas'][j]['aspectos'][k]['evidencias'].length; m++) {
                                     data_factor = data[i]['pk_factor'];
+                                    data_factor_codigo = data[i]['codigo'];
                                     data_caracteristicas = data[i]['caracteristicas'][j]['pk_caracteristica'];
+                                    data_caracteristicas_codigos = data[i]['caracteristicas'][j]['codigo'];
                                     data_aspectos = data[i]['caracteristicas'][j]['lista_aspectos'];
                                     data_evidencias = data[i]['caracteristicas'][j]['aspectos'][k]['lista_evidencias'];
 
                                 }
                             }
-                            lista += '<tr data-factor="'+data_factor+'" data-caracteristica="'+data_caracteristicas+'"  data-aspectos="'+data_aspectos+'"  data-evidencias="'+data_evidencias+'"><td class="select-checkbox"></td><td>'+data[i]['codigo']+'</td><td>'+data[i]['caracteristicas'][j]['codigo']+'</td><td>'+data[i]['caracteristicas'][j]['codigo']+'- '+data[i]['caracteristicas'][j]['nombre']+'</td></tr>';
+                            lista += '<tr data-factor="'+data_factor+'" data-caracteristica="'+data_caracteristicas+'"  data-aspectos="'+data_aspectos+'"  data-evidencias="'+data_evidencias+'" data-factor_codigo="'+data_factor_codigo+'" data-caracteristica_codigo="'+data_caracteristicas_codigos+'"><td class="select-checkbox"></td><td>'+data[i]['codigo']+'</td><td>'+data[i]['caracteristicas'][j]['codigo']+'</td><td>'+data[i]['caracteristicas'][j]['codigo']+'- '+data[i]['caracteristicas'][j]['nombre']+'</td></tr>';
                         }
                     }
                     tabla.append(lista);
@@ -1572,6 +1574,7 @@ $(function(e){
         });
     }
 
+    $('#tabla_resultados').DataTable();
 
     $sec = $('#seccion_doc').val();
 
@@ -1615,11 +1618,15 @@ $(function(e){
                   var datos = {};
                   var $row = $(this).closest('tr');
                   var factor = $row.data('factor');
+                  var factor_codigo = $row.data('factor_codigo');
                   var aspecto = $row.data('aspectos');
                   var caracteristicas = $row.data('caracteristica');
+                  var caracteristica_codigo = $row.data('caracteristica_codigo');
                   var evidencias = $row.data('evidencias');
                   datos['factor'] = factor;
+                  datos['factor_codigo'] = factor_codigo;
                   datos['caracteristica'] = caracteristicas;
+                  datos['caracteristica_codigo'] = caracteristica_codigo;
                   datos['aspectos'] = aspecto;
                   datos['evidencias'] = evidencias;
 
@@ -1767,13 +1774,46 @@ $(function(e){
                 proceso : $('#procesos_resultados').val()
             },
             success:  function (data) {
+                lista = '';
                 $('#texto_total').html('');
                 $('#texto_porcentaje').html('');
+                var tabla_r = $('#tabla_resultados tbody');
+
                 if(data){
-                    console.log('44');
                     $('#texto_total').append('<span>'+data.instrumentos+'</span>');
                     $('#texto_porcentaje').append('<span>'+data.porcentaje_programa+'%</span>');
 
+                    for(var i = 0; i < data.resultados.length; i++){
+                        $c = data.resultados[i]['fk_caracteristicas'];
+
+                        lista_c = $c.split('|');
+                        if(lista_c.length > 1){
+                            tamaño = (lista_c.length)-1;
+                        }else{
+                            tamaño = (lista_c.length);
+                        }
+
+
+                        for(var j = 0; j < tamaño; j++){
+                            descripcion = data.resultados[i]['descripcion'];
+                            calificacion = data.resultados[i]['ponderacion']; 
+                            car = lista_c[j];
+
+                            lista += '<tr>';
+                                lista += '<td>factor</td>';
+                                lista += '<td>'+car+'</td>';
+                                lista += '<td>'+descripcion+'</td>';
+                                lista += '<td>'+calificacion+'</td>';
+                            lista += '</tr>';
+                        }
+                        
+                    }
+
+                    tabla_r.append(lista);
+                    tabla_r.fadeIn(); 
+
+                }else{
+                    tabla_r.append('');
                 }
             }
            
