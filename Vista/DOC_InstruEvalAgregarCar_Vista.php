@@ -61,13 +61,13 @@
                             <select name="S_opcionesRespuesta"></select>
                         </div>
                     </div>
-                    <div class="row" id="selec_programa_2">
+                    <!-- <div class="row" id="selec_programa_2">
                         <div id="selec_programa" class="col">
                             <label id="lab_pro" class="label_caja">Seleccione el proceso  </label>
                         </div>
                         <div id="checkbox_programas" class="col_2">
                         </div>
-                    </div>
+                    </div> -->
                     <div class="row">
                         <br><br><h1>Caracteristicas</h1>
                     </div>
@@ -92,6 +92,7 @@
                             <input type="button" id="B_guardarInstruCaracteristica" value="Guardar">
                             <br>
                             <input type="hidden" id="id" >
+                            <input type="hidden" name="opc" value="2">
                             <input type="hidden" id="seccion_doc" value="Crear_instrumento_caracteristica">
                         </div>
                     </div>

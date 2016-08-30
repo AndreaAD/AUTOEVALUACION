@@ -44,10 +44,15 @@ class InstruEval_Modelo {
 		$this->grupo= $grupo;
 		$this->porcentaje = $porcentaje;
 		$this->factor = $factor;
+		$this->factor_codigo = $factor_codigo;
 		$this->caracteristicas = $caracteristicas;
+		$this->caracteristicas_codigo = $caracteristicas_codigo;
 		$this->aspectos = $aspectos;
-		$this->evidencias = $evidencias;
+		$this->aspectos_codigo = $aspectos_codigo;
+		$this->evidencia = $evidencia;
+		$this->evidencia_codigo = $evidencia_codigo;
 		$this->proceso = $proceso;
+		$this->opc = $opc;
 
 
 
@@ -61,17 +66,17 @@ class InstruEval_Modelo {
 	 * @param  [int] $proceso
 	 * @return [int] estado 1-0
 	 */
-	public function guardar($suboperacion , $proceso){
+	public function guardar($suboperacion){
 
-		$sql1 = 'SELECT pk_evidencia_grupo_interes FROM cna_evidencia_grupo_interes WHERE fk_evidencia = "'.$this->evidencia.'" ';
-		$resultados = $this->runSQL($sql1);
-		$fk_grupo_interes_eidencia = $resultados->GetRows();
-		$fk = $fk_grupo_interes_eidencia[0]['pk_evidencia_grupo_interes'];
+		//$sql1 = 'SELECT pk_evidencia_grupo_interes FROM cna_evidencia_grupo_interes WHERE fk_evidencia = "'.$this->evidencia.'" ';
+		// $resultados = $this->runSQL($sql1);
+		// $fk_grupo_interes_eidencia = $resultados->GetRows();
+		// $fk = $fk_grupo_interes_eidencia[0]['pk_evidencia_grupo_interes'];
 		$sqlinsert = "";
 		if($suboperacion == "guardar_con_texto"){
-			$sqlinsert = 'INSERT INTO doc_instru_evaluacion (descripcion, fk_evidencia, fk_grupo_respuesta , fk_grupo_interes  , fk_tipo_respuesta , fk_evidencia_grupo_interes, porcentaje ,proceso ,estado, fk_factor, fk_caracteristicas, fk_aspectos, fk_evidencias) VALUES ("'.$this->pregunta.'" , "'.$this->evidencia.'", " ", "'.$this->grupo.'" , "'.$this->tipoRespuesta.'" , "'.$fk.'", "'.$this->opcionRespuesta.'", "'.$proceso.'" ,1, "'.$this->factor.'","'.$this->caracteristicas.'","'.$this->aspectos.'","'.$this->evidencia.'"  )';
+			$sqlinsert = 'INSERT INTO doc_instru_evaluacion_copy (descripcion, fk_grupo_respuesta , fk_grupo_interes  , fk_tipo_respuesta , porcentaje, fk_factor, fk_factor_codigo, fk_caracteristicas, fk_caracteristicas_codigo , fk_aspectos, fk_aspectos_codigo, fk_evidencia, fk_evidencia_codigo,estado, opc ) VALUES ("'.$this->pregunta.'", "'.$this->opcionRespuesta.'", "'.$this->grupo.'", "'.$this->tipoRespuesta.'", "'.$this->porcentaje.'", "'.$this->factor.'", "'.$this->factor_codigo.'","'.$this->caracteristicas.'", "'.$this->caracteristicas_codigo.'","'.$this->aspectos.'", "'.$this->aspectos_codigo.'", "'.$this->evidencia.'", "'.$this->evidencia_codigo.'",1 , "'.$this->opc.'"  )';
 		}else{
-			$sqlinsert = 'INSERT INTO doc_instru_evaluacion (descripcion, fk_evidencia, fk_grupo_respuesta , fk_grupo_interes  , fk_tipo_respuesta , fk_evidencia_grupo_interes, porcentaje ,proceso, estado, fk_factor, fk_caracteristicas, fk_aspectos, fk_evidencias) VALUES ("'.$this->pregunta.'" , "'.$this->evidencia.'", "'.$this->opcionRespuesta.'", "'.$this->grupo.'" , "'.$this->tipoRespuesta.'" , "'.$fk.'", 0 , "'.$proceso.'" ,1, "'.$this->factor.'","'.$this->caracteristicas.'","'.$this->aspectos.'","'.$this->evidencia.'" )';
+			$sqlinsert = 'INSERT INTO doc_instru_evaluacion_copy (descripcion, fk_grupo_respuesta , fk_grupo_interes  , fk_tipo_respuesta , porcentaje, fk_factor, fk_factor_codigo, fk_caracteristicas, fk_caracteristicas_codigo , fk_aspectos, fk_aspectos_codigo, fk_evidencia, fk_evidencia_codigo,estado, opc ) VALUES ("'.$this->pregunta.'", "'.$this->opcionRespuesta.'", "'.$this->grupo.'", "'.$this->tipoRespuesta.'", 0 , "'.$this->factor.'", "'.$this->factor_codigo.'","'.$this->caracteristicas.'", "'.$this->caracteristicas_codigo.'","'.$this->aspectos.'", "'.$this->aspectos_codigo.'", "'.$this->evidencia.'", "'.$this->evidencia_codigo.'" ,1 , "'.$this->opc.'" )';
 		}
 
 
@@ -87,7 +92,7 @@ class InstruEval_Modelo {
 
 	public function guardarInstruCarac()
 	{
-		$sqlinsert = 'INSERT INTO doc_instru_evaluacion (descripcion, fk_grupo_respuesta , fk_grupo_interes  , fk_tipo_respuesta , fk_evidencia_grupo_interes, porcentaje ,proceso, estado, fk_factor, fk_factor_codigo, fk_caracteristicas, fk_caracteristicas_codigo, fk_aspectos, fk_evidencia) VALUES ("'.$this->pregunta.'" , "'.$this->opcionRespuesta.'", "'.$this->grupo.'" , "'.$this->tipoRespuesta.'" ,0, "'.$this->porcentaje.'", "'.$this->proceso.'" ,1, "'.$this->factor.'","'.$this->factor_codigo.'","'.$this->caracteristicas.'","'.$this->caracteristicas_codigo.'","'.$this->aspectos.'","'.$this->evidencias.'" )';
+		$sqlinsert = 'INSERT INTO doc_instru_evaluacion_copy (descripcion, fk_grupo_respuesta , fk_grupo_interes  , fk_tipo_respuesta , porcentaje, fk_factor, fk_factor_codigo, fk_caracteristicas, fk_caracteristicas_codigo, estado, opc ) VALUES ("'.$this->pregunta.'", "'.$this->opcionRespuesta.'", "'.$this->grupo.'", "'.$this->tipoRespuesta.'", 0 , "'.$this->factor.'", "'.$this->factor_codigo.'","'.$this->caracteristicas.'", "'.$this->caracteristicas_codigo.'" ,1 , "'.$this->opc.'" )';
 
 		
 		$observacion =  'Se creo un instrumento de evaluacion '; 
@@ -103,34 +108,34 @@ class InstruEval_Modelo {
 	 * [eliminar elimina los instrumentos de evaluacion]
 	 * @return [int] estado 1-0
 	 */
-	public function eliminar(){
-		$sql = 'UPDATE doc_instru_evaluacion SET estado = 0 WHERE pk_instru_evaluacion = '.$this->id.' ';
-		$observacion =  'Se modifico el estado a  0 el instrumento de evaluacion numero : "'.$this->id.'" '; 
-        $transaccion = "deshabilitar Instrumentos";
-        $this->seg->Seguridad_Enviar($observacion, $transaccion);
-		if($this->runSQL($sql)){
-			return 1;
-		}else{
-			return 0;
-		}
-	}
+	// public function eliminar(){
+	// 	$sql = 'UPDATE doc_instru_evaluacion SET estado = 0 WHERE pk_instru_evaluacion = '.$this->id.' ';
+	// 	$observacion =  'Se modifico el estado a  0 el instrumento de evaluacion numero : "'.$this->id.'" '; 
+ //        $transaccion = "deshabilitar Instrumentos";
+ //        $this->seg->Seguridad_Enviar($observacion, $transaccion);
+	// 	if($this->runSQL($sql)){
+	// 		return 1;
+	// 	}else{
+	// 		return 0;
+	// 	}
+	// }
 
-	/**
-	 * [modificar modifica los instrumentos de evaluacion]
-	 * @param  [int] $proceso
-	 * @return [int] estado 1-0
-	 */
-	public function modificar($proceso){
-		$sql = 'UPDATE doc_instru_evaluacion SET descripcion = "'.$this->pregunta.'",fk_evidencia ="'.$this->evidencia.'" , fk_grupo_respuesta = "'.$this->opcionRespuesta.'" , fk_grupo_interes ="'.$this->grupo.'" , fk_tipo_respuesta = "'.$this->tipoRespuesta.'"  WHERE pk_instru_evaluacion = '.$this->id.' ';
-		/*$observacion =  'Se elimino el instrumento de evaluacion numero : "'.$this->id.'" '; 
-        $transaccion = "Eliminar Instrumentos";
-        $this->seg->Seguridad_Enviar($observacion, $transaccion);*/
-		if($this->runSQL($sql)){
-			return 1;
-		}else{
-			return 0;
-		}
-	}
+	// /**
+	//  * [modificar modifica los instrumentos de evaluacion]
+	//  * @param  [int] $proceso
+	//  * @return [int] estado 1-0
+	//  */
+	// public function modificar($proceso){
+	// 	$sql = 'UPDATE doc_instru_evaluacion SET descripcion = "'.$this->pregunta.'",fk_evidencia ="'.$this->evidencia.'" , fk_grupo_respuesta = "'.$this->opcionRespuesta.'" , fk_grupo_interes ="'.$this->grupo.'" , fk_tipo_respuesta = "'.$this->tipoRespuesta.'"  WHERE pk_instru_evaluacion = '.$this->id.' ';
+	// 	/*$observacion =  'Se elimino el instrumento de evaluacion numero : "'.$this->id.'" '; 
+ //        $transaccion = "Eliminar Instrumentos";
+ //        $this->seg->Seguridad_Enviar($observacion, $transaccion);*/
+	// 	if($this->runSQL($sql)){
+	// 		return 1;
+	// 	}else{
+	// 		return 0;
+	// 	}
+	// }
 	/**
 	 * [cargarinstrumento carga la lista de instrumentos deevaluacion por evidencia]
 	 * @param  [int] $id_evidencia
@@ -203,6 +208,16 @@ class InstruEval_Modelo {
 		$resul = $this->runSQL($sql);
 		return $resul;
 	}	
+
+
+	public function CargarInstrumentos($grupo)
+	{
+		$sql = 'select * from doc_instru_evaluacion_copy where fk_grupo_interes = '.$grupo;
+		$resul = $this->runSQL($sql);
+		return $resul;
+	}	
+
+
 
 	/**
 	 * [runSQL cnexiona  la base de datos]

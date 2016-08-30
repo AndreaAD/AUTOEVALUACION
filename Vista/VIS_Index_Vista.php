@@ -126,9 +126,9 @@
         table th{
             background-color: rgba(0,120,0,1);
         }
-        table tr:nth-child(2n+1){
+        /*table tr:nth-child(2n+1){
             background-color: rgba(0,120,0,0.2);
-        }
+        }*/
         </style>
   </head> 
   <body>

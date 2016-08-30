@@ -147,6 +147,8 @@ class Selectores_Modelo {
         $evidencia = $this->runSQL($sql);
         return $evidencia;
     }
+
+    
     public function obtenerEvidencia2(){
         $sql = 'SELECT * FROM cna_evidencia ';
         $evidencia = $this->runSQL($sql);
@@ -177,7 +179,7 @@ class Selectores_Modelo {
      * @return [int] lista de grupo interes
      */
     public function cargarGrupoInteres(){
-        $sql = 'SELECT * FROM cna_grupo_interes WHERE pk_grupo_interes = 7 OR pk_grupo_interes = 8 AND  estado = 1';
+        $sql = 'SELECT * FROM cna_grupo_interes WHERE institucional = 2 and estado = 1';
         $Respuesta = $this->runSQL($sql);
         return $Respuesta;
     }

@@ -1094,6 +1094,7 @@ table td{
     border-left-width: 1px;
     border-right-width: 1px;
     width:auto;
+    text-align: left;
 }
 .datos-usuario .inicio-sesion-boton{
     background-color:transparent;

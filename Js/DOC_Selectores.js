@@ -201,7 +201,7 @@ $(function(e){
             success:  function (data) {
                 var lista ="";
                 for(var i = 0; i < data.length; i++){
-                    lista += '<input type="checkbox" class="check" name="grupoInteres[]" value="'+data[i].pk_grupo_interes+'">'+data[i].nombre+' ';
+                    lista += '<input type="radio" class="check" name="grupoInteres[]" value="'+data[i].pk_grupo_interes+'">'+data[i].nombre+' ';
                 }
                 div_checkbox.html(lista);           
             }
@@ -233,7 +233,7 @@ $(function(e){
                     success:  function (data) { 
                         var lista = '<div class="row"><ul class="selector" data-rel="factor">';
                         for(var i = 0; i < data.length; i++){
-                            lista += '<li><a href="#" data-id="'+data[i].pk_factor+'">'+data[i].codigo+'. '+data[i].nombre+'</a></li>';
+                            lista += '<li><a href="#" data-codigo="'+data[i].codigo+'"  data-id="'+data[i].pk_factor+'">'+data[i].codigo+'. '+data[i].nombre+'</a></li>';
                         }
                         lista += "</ul></div>";
                         div_emergente.find('.emergente > div[data-role="contenido"]').html(lista);
@@ -295,7 +295,7 @@ $(function(e){
                         var lista = '<div class="row"><ul class="selector" data-rel="caracteristica">';
                         for(var i = 0; i < data.length; i++){
                             
-                            lista += '<li><a href="#" data-id="'+data[i].pk_caracteristica+'">'+data[i].codigo+'. '+data[i].nombre+'</a></li>';
+                            lista += '<li><a href="#" data-codigo="'+data[i].codigo+'" data-id="'+data[i].pk_caracteristica+'">'+data[i].codigo+'. '+data[i].nombre+'</a></li>';
                         }
                         lista += "</ul></div>";
                         div_emergente.find('.emergente > div[data-role="contenido"]').html(lista);
@@ -359,7 +359,7 @@ $(function(e){
                         var lista = '<div class="row"><ul class="selector" data-rel="aspecto">';
                         for(var i = 0; i < data.length; i++){
                             
-                            lista += '<li><a href="#" data-id="'+data[i].pk_aspecto+'">'+data[i].codigo+'. '+data[i].nombre+'</a></li>';
+                            lista += '<li><a href="#" data-codigo="'+data[i].codigo+'" data-id="'+data[i].pk_aspecto+'">'+data[i].codigo+'. '+data[i].nombre+'</a></li>';
                         }
                         lista += "</ul></div>";
                         div_emergente.find('.emergente > div[data-role="contenido"]').html(lista);
@@ -424,7 +424,7 @@ $(function(e){
                         var lista = '<div class="row"><ul class="selector" data-rel="evidencia">';
                         for(var i = 0; i < data.length; i++){
                             
-                            lista += '<li><a href="#" data-id="'+data[i].pk_evidencia+'">'+data[i].codigo+'. '+data[i].nombre+'</a></li>';
+                            lista += '<li><a href="#" data-codigo="'+data[i].codigo+'" data-id="'+data[i].pk_evidencia+'">'+data[i].codigo+'. '+data[i].nombre+'</a></li>';
                         }
                         lista += "</ul></div>";
                         div_emergente.find('.emergente > div[data-role="contenido"]').html(lista);
@@ -547,13 +547,16 @@ $(function(e){
     div_emergente.delegate('.selector a', 'click', function(e){
         var rel = $(this).closest('.selector').data('rel');
         var id = $(this).data('id');
+        var codigo = $(this).data('codigo');
         var descripcion = $(this).text();
         $('#'+rel).text(descripcion);
         switch(rel){
             case 'factor':
                 _id_factor = id;
+                _codigo_factor = codigo;
                 $("input[name='grupoInt']").val();
                 $("input[name='factor']").val(_id_factor);
+                $("input[name='factor_codigo']").val(_codigo_factor);
                 _id_caracteristica = 0;
                 $("input[name='caracteristica']").val("");
                 _id_aspecto = 0;
@@ -574,7 +577,9 @@ $(function(e){
             break;
             case 'caracteristica':
                 _id_caracteristica = id;
+                _codigo_caracteristica = codigo;
                 $("input[name='caracteristica']").val(_id_caracteristica);
+                $("input[name='caracteristica_codigo']").val(_codigo_caracteristica);
                 _id_aspecto = 0;
                 $("input[name='aspecto']").val("");
                 _id_evidencia = 0;
@@ -592,7 +597,9 @@ $(function(e){
             break;
             case 'aspecto':
                 _id_aspecto = id;
+                 _codigo_aspecto = codigo;
                 $("input[name='aspecto']").val(_id_aspecto);
+                $("input[name='aspecto_codigo']").val(_codigo_aspecto);
                 _id_evidencia = 0;
                 $("input[name='evidencia']").val("");
                 _id_instrumento = 0;
@@ -606,7 +613,9 @@ $(function(e){
             break;
             case 'evidencia':
                 _id_evidencia = id;
+                 _codigo_evidencia = codigo;
                 $("input[name='evidencia']").val(_id_evidencia);
+                $("input[name='evidencia_codigo']").val(_codigo_evidencia);
                 _id_instrumento = 0;
                 _id_instrumento = 0;
                 $("input[name='instrumento']").val("");
@@ -1574,8 +1583,6 @@ $(function(e){
         });
     }
 
-    //$('#tabla_resultados').DataTable();
-
     $sec = $('#seccion_doc').val();
 
     if($sec != "")
@@ -1711,6 +1718,7 @@ $(function(e){
         grupo_interes = $('input[name="grupoInteres[]"]').serializeArray();
         procesos = $('input[name="procesos[]"]').serializeArray();
         T_pregunta = $('textarea[name="T_pregunta"]').val();
+        opc = $('input[name="opc"]').val();
         S_tipoRespuesta = $('select[name="S_tipoRespuesta"]').val();
         nuevo_tipo_respuesta = $('input[name="nuevo_tipo_respuesta"]').val();
         S_opcionesRespuesta = $('select[name="S_opcionesRespuesta"]').val();
@@ -1729,7 +1737,8 @@ $(function(e){
                 porcentaje : nuevo_tipo_respuesta,
                 opciones_respuesta: S_opcionesRespuesta,
                 ids: id,
-                procesos : procesos
+                procesos : procesos,
+                opc : opc
             },
             success:  function (data) {
                 $('#mensajes').html("");
@@ -1839,6 +1848,49 @@ $(function(e){
     $('#procesos_resultados').on('change', function(e){
         if($('#procesos_resultados').val != 0 ){
             cargarResultados();
+
+        }
+    });
+
+    var cargarInstrumentos = function(e){
+        $.ajax({
+            url: '../Controlador/DOC_InstruEval_Controlador.php',
+            type:  'post',
+            async: false,
+            dataType:'json',
+            data:{
+                operacion: "CargarInstrumentos",
+                grupo : $('#lista_grupos').val()
+            },
+            success:  function (data) {
+                lista = '';
+                var tabla_r = $('#tabla_instrumentos tbody');
+                tabla_r.html('');
+                
+                if(data.length != 0){
+                    for(var i = 0; i < data.length; i++){ 
+                        lista += '<tr data-id="'+data[i]['pk_instru_evaluacion']+'">';
+                            lista += '<td>'+data[i]['descripcion']+'</td>';
+                            lista += '<td  width="30px"><a href="#" ><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>&nbsp;&nbsp;<a href="#" style="color:red"><i class="fa fa-trash" aria-hidden="true"></i></a></td>';
+                        lista += '</tr>';
+                        
+                    }
+
+                    tabla_r.append(lista);
+                    tabla_r.fadeIn(); 
+
+                }else{
+                    tabla_r.html('');
+                }
+            }
+           
+        });
+        //e.preventDefault();      
+    }
+
+    $('#lista_grupos').on('change', function(e){
+        if($('#lista_grupos').val != 0 ){
+            cargarInstrumentos();
 
         }
     });

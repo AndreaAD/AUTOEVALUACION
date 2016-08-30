@@ -9,15 +9,17 @@
     </div>
         <input type="hidden" name="H_operacion" value="crearInstrumento">
         <input type="hidden" name="factor" value="">
+        <input type="hidden" name="factor_codigo" value="">
         <input type="hidden" name="grupoInt" value="">
         <input type="hidden" name ="caracteristica" value="">
+        <input type="hidden" name ="caracteristica_codigo" value="">
         <input type="hidden" name="aspecto" value="">
+        <input type="hidden" name="aspecto_codigo" value="">
         <input type="hidden" name="evidencia" value="">
+        <input type="hidden" name="evidencia_codigo" value="">
         <input type="hidden" name="id_pregunta" value="">
         <div id="contenido_instru" class="div_formularios">
             <div class="row" id="mensajes"></div>
-            <?php  require_once("elementos_vista.php");
-            $objComp=new Elementos(); ?>
                 <label style="font-weight:bold;font-size:1.3em; display:inline-block; float:left;margin-bottom: 15px;" for="texto-factor" >Grupo interés</label>
                 <div id="div_chechbox" style="display:inline-block; float: left; margin-left: 40px;}"></div>
             <div class="row">
@@ -73,26 +75,19 @@
                     <textarea class="text_pregunta" id="text_pregunta" name="T_pregunta"></textarea>
                 </div>
             </div>
-            <div class="row" id="selec_programa_2">
+            <!-- <div class="row" id="selec_programa_2">
                 <div id="selec_programa" class="col">
                     <label id="lab_pro" class="label_caja">Seleccione el proceso  </label>
                 </div>
                 <div id="checkbox_programas" class="col_2">
                 </div>
-            </div>
+            </div> -->
             <div class="row">
                 <br>
+                <input type="hidden" name="opc" value="1">
                 <input type="submit" id="B_guardarInstru" value="Crear nuevo">
-                <input type="submit" id="B_modificarInstru" value="Modificar" disabled>
                 <input type="submit" id="B_limpiar" value="Limpiar">
                 <br><br>
-            </div>
-            <!--<div class="row">
-                <div id="men_err" class="mensaje_error"></div>
-            </div> -->
-             <div class="row" style="padding-botton:15px;">
-              <table class="tabla2"id="tabla_agregar">
-              </table>
             </div>
         </div>
     </div>
