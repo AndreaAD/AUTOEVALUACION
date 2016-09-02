@@ -1903,8 +1903,21 @@ $(function(e){
     }
 
 
-
-
+    $('#GenerarInstrumentos').on('click', function(e){
+        $.ajax({
+            url: '../Controlador/DOC_Autoevaluacion_Controlador.php',
+            type:  'post',
+            async: false,
+            dataType:'json',
+            data:{
+                operacion: "GenerarInstrumentos"
+            },
+            success:  function (data) {
+                console.log(data);
+            }
+           
+        });
+    });
 
 });
 

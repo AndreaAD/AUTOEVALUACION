@@ -27,6 +27,163 @@ class Autoevaluacion_Modelo {
 		return $factores;
 	}
 
+	// public function consultaUsuario($procesos){
+
+	// 	//echo count($procesos);
+
+	// 	for($j=0; $j<count($procesos); $j++){
+
+	// 		$sql = 'SELECT fk_fase FROM cna_proceso where pk_proceso = '.$procesos[$j]['pk_proceso'];
+	// 		$res = $this->runSQL($sql);
+	// 		$d = $res->GetRows();
+
+	// 	}
+
+	// 		//return $datos;
+	// 	//return $p;
+	// }
+
+	public function listaProcesosFase($procesos){
+
+		$datos = array();
+		$datos_completos = array();
+		for ($i=0; $i < count($procesos) ; $i++) { 
+			$sql = 'SELECT fk_fase FROM cna_proceso where pk_proceso = '.$procesos[$i]['pk_proceso'];
+	 		$res = $this->runSQL($sql);
+	 		$d = $res->GetRows();
+	 		if($d[0]['fk_fase'] == 4){
+	 			array_push($datos, $procesos[$i]['nombre_proceso']);
+	 			
+	 		}
+		}
+
+		return $datos;
+	}
+
+	public function generarInstru($procesos){
+
+		for ($i=0; $i < count($procesos) ; $i++) { 
+			
+			$sql = 'SELECT fk_fase, fk_programa FROM cna_proceso where pk_proceso = '.$procesos[$i]['pk_proceso'];
+	 		$res = $this->runSQL($sql);
+	 		$d = $res->GetRows();
+	 		if($d[0]['fk_fase'] == 4){
+
+	 			$sql0 = 'SELECT fk_facultad FROM sad_programa where pk_programa = '.$d[0]['fk_programa'];
+		 		$res0 = $this->runSQL($sql0);
+		 		$facultad = $res0->GetRows();
+
+
+
+	 			//institucionales
+	 			$consulta_procesos_ins = 'SELECT pk_proceso_institucional FROM cna_proceso_institucional_proceso WHERE pk_proceso = '.$procesos[$i]['pk_proceso'];
+		 		$resultado_procesos = $this->runSQL($consulta_procesos_ins);
+		 		$procesoInstitucional = $resultado_procesos->GetRows();
+		 		$dat = $procesoInstitucional[0]['pk_proceso_institucional'];
+
+		 		if(count($dat) > 0)
+		 		{
+		 			$sql2 = 'SELECT count(*) as total FROM doc_respuesta_instrumentos_copy where fk_grupo_interes = 7 and pk_proceso_insti  = '.$dat;
+			 		$res2 = $this->runSQL($sql2);
+			 		$consultaIns = $res2->GetRows();
+			 		//echo $consultaIns[0]['total'];
+
+			 		if($consultaIns[0]['total'] > 0){
+
+			 		}else{
+			 			$sql3 = 'SELECT * FROM doc_instru_evaluacion_copy where fk_grupo_interes = 7';
+				 		$res3 = $this->runSQL($sql3);
+				 		$listaInstrumentos = $res3->GetRows();
+				 		foreach ($listaInstrumentos as &$value) {
+				 			$sql4 = 'INSERT INTO doc_respuesta_instrumentos_copy (`fk_instrumento`, `descripcion`, `fk_grupo_respuesta`, `fk_grupo_interes`, `fk_tipo_respuesta`, `porcentaje`, `fk_factor`, `fk_factor_codigo`, `fk_caracteristicas`, `fk_caracteristicas_codigo`, `fk_aspectos`, `fk_aspectos_codigo`, `fk_evidencia`, `fk_evidencia_codigo`, `opc`,`fk_proceso`, pk_proceso_insti) VALUES ("'.$value['pk_instru_evaluacion'].'",  "'.$value['descripcion'].'", "'.$value['fk_grupo_interes'].'",  "'.$value['fk_grupo_interes'].'",  "'.$value['fk_tipo_respuesta'].'",  "'.$value['porcentaje'].'",  "'.$value['fk_factor'].'",  "'.$value['fk_factor_codigo'].'",  "'.$value['fk_caracteristicas'].'",  "'.$value['fk_caracteristicas_codigo'].'",  "'.$value['fk_aspectos'].'",  "'.$value['fk_aspectos_codigo'].'",  "'.$value['fk_eviencia'].'",  "'.$value['fk_evidencia_codigo'].'",  "'.$value['opc'].'", 0, "'.$dat.'"); ';
+					 		$res4 = $this->runSQL($sql4);
+				 		}	
+			 		}
+
+
+
+
+			 		$sql5 = 'SELECT count(*) as total FROM doc_respuesta_instrumentos_copy where fk_facultad = '.$facultad[0]['fk_facultad'].' and fk_grupo_interes = 8 and pk_proceso_insti = '.$dat;
+			 		$res5 = $this->runSQL($sql5);
+			 		$consultaFacultad = $res5->GetRows();
+
+			 		//echo $consultaFacultad[0]['total'];
+
+			 		if($consultaFacultad[0]['total'] > 0){
+			 			echo 'tytyt';
+
+			 		}else{
+			 			$sql6 = 'SELECT * FROM doc_instru_evaluacion_copy where fk_grupo_interes = 8';
+				 		$res6 = $this->runSQL($sql6);
+				 		$listaInstrumentos_facultad = $res6->GetRows();
+				 		foreach ($listaInstrumentos_facultad as &$value2) {
+				 			$sql7 = 'INSERT INTO doc_respuesta_instrumentos_copy (`fk_instrumento`, `descripcion`, `fk_grupo_respuesta`, `fk_grupo_interes`, `fk_tipo_respuesta`, `porcentaje`, `fk_factor`, `fk_factor_codigo`, `fk_caracteristicas`, `fk_caracteristicas_codigo`, `fk_aspectos`, `fk_aspectos_codigo`, `fk_evidencia`, `fk_evidencia_codigo`, `opc`,`fk_proceso`, fk_facultad, pk_proceso_insti) VALUES ("'.$value2['pk_instru_evaluacion'].'",  "'.$value2['descripcion'].'", "'.$value2['fk_grupo_interes'].'",  "'.$value2['fk_grupo_interes'].'",  "'.$value2['fk_tipo_respuesta'].'",  "'.$value2['porcentaje'].'",  "'.$value2['fk_factor'].'",  "'.$value2['fk_factor_codigo'].'",  "'.$value2['fk_caracteristicas'].'",  "'.$value2['fk_caracteristicas_codigo'].'",  "'.$value2['fk_aspectos'].'",  "'.$value2['fk_aspectos_codigo'].'",  "'.$value2['fk_eviencia'].'",  "'.$value2['fk_evidencia_codigo'].'",  "'.$value2['opc'].'", "'.$procesos[$i]['pk_proceso'].'", "'.$facultad[0]['fk_facultad'].'", "'.$dat.'"); ';
+					 		$res7 = $this->runSQL($sql7);
+				 		}	
+			 		}
+
+
+
+		 		}else{
+
+		 		}
+
+
+
+		 		// //echo $consultaIns[0]['total'].'<br>';
+		 		// if( $consultaIns[0]['total'] == 0){
+
+		 		// }
+	 		}else{
+
+	 		}
+		}
+
+		//return $resultado_procesos;
+	}
+
+
+
+	// public function insertarInstrumentosProceso($procesos)
+	// {
+	// 	//var_dump($procesos);
+	// 	for ($i=0; $i < count($procesos) ; $i++) { 
+	// 		//echo $procesos[$i]['pk_proceso'].' fase: '.$procesos[$i]['pk_fase'];
+	// 		$sql = 'SELECT fk_fase FROM cna_proceso where pk_proceso = '.$procesos[$i]['pk_proceso'];
+	//  		$res = $this->runSQL($sql);
+	//  		$d = $res->GetRows();
+	//  		if($d[0]['fk_fase'] == 4){
+	//  			$html .= ''; 
+	//  			$sql2 = 'SELECT count(*) as total FROM doc_respuesta_instrumentos_copy where fk_proceso = '.$procesos[$i]['pk_proceso'];
+	// 	 		$res2 = $this->runSQL($sql2);
+	// 	 		$consultaIns = $res2->GetRows();
+	// 	 		//echo $consultaIns[0]['total'].'<br>';
+	// 	 		if( $consultaIns[0]['total'] == 0){
+	// 	 			$sql3 = 'SELECT * FROM doc_instru_evaluacion_copy where estado = 1';
+	// 		 		$res3 = $this->runSQL($sql3);
+	// 		 		$listaInstrumentos = $res3->GetRows();
+	// 		 		foreach ($listaInstrumentos as &$value) {
+	// 		 			$sql4 = 'INSERT INTO doc_respuesta_instrumentos_copy (`fk_instrumento`, `descripcion`, `fk_grupo_respuesta`, `fk_grupo_interes`, `fk_tipo_respuesta`, `porcentaje`, `fk_factor`, `fk_factor_codigo`, `fk_caracteristicas`, `fk_caracteristicas_codigo`, `fk_aspectos`, `fk_aspectos_codigo`, `fk_evidencia`, `fk_evidencia_codigo`, `opc`,`fk_proceso`) VALUES ("'.$value['pk_instru_evaluacion'].'",  "'.$value['descripcion'].'", "'.$value['fk_grupo_interes'].'",  "'.$value['fk_grupo_interes'].'",  "'.$value['fk_tipo_respuesta'].'",  "'.$value['porcentaje'].'",  "'.$value['fk_factor'].'",  "'.$value['fk_factor_codigo'].'",  "'.$value['fk_caracteristicas'].'",  "'.$value['fk_caracteristicas_codigo'].'",  "'.$value['fk_aspectos'].'",  "'.$value['fk_aspectos_codigo'].'",  "'.$value['fk_eviencia'].'",  "'.$value['fk_evidencia_codigo'].'",  "'.$value['opc'].'", "'.$procesos[$i]['pk_proceso'].'"); ';
+	// 			 		$res4 = $this->runSQL($sql4);
+	// 			 		if($res4){
+	// 			 			//echo 1;
+	// 			 		}
+	// 		 		}
+
+	// 	 		}
+	//  		}else{
+
+	//  		}
+	// 	}
+	// }
+
+	public function consultaUsuarioAlcance($rol, $usuario){
+		
+		// $sql = 'SELECT * FROM cna_factor';
+		// $factores = $this->runSQL($sql);
+		// return $factores;
+	}
+
 
 	/**
 	 * [cargarFactores carga los factores]
@@ -69,26 +226,37 @@ class Autoevaluacion_Modelo {
 		return $this->runSQL($sql);
 	}
 
-	public function cargarInformacionPreguntas_2( $grupo , $proceso, $pagina, $items){
-		//echo $grupo;
-		//echo $proceso;
-		 $SQL1 = 'SELECT pk_grupo_interes FROM cna_grupo_interes WHERE nombre = "'.$grupo.'" ';
-		 $resultados = $this->runSQL($SQL1);
-		 $nom = $resultados->GetRows();
-		 $s = $nom[0]['pk_grupo_interes'];
+	public function cargarInformacionPreguntas_2($proceso, $alcance ,$pagina, $items){
 
-		if($proceso == 0){
-			$sql = 'SELECT di.`fk_tipo_respuesta` AS tipo_respuesta, di.`pk_instru_evaluacion` AS pk_instru_evaluacion , di.`descripcion` AS pregunta , di.`porcentaje` AS porcentaje , di.`fk_factor`, di.`fk_caracteristicas`, di.`fk_evidencia`, di.`fk_grupo_interes` 
-FROM doc_instru_evaluacion di
-WHERE (di.`fk_grupo_interes` = 8 OR di.`fk_grupo_interes` = 3) AND di.`proceso` = 0 LIMIT '.($pagina * $items).', '.$items;
-		}else{
-			$sql = 'SELECT di.`fk_tipo_respuesta` AS tipo_respuesta, di.`pk_instru_evaluacion` AS pk_instru_evaluacion , di.`descripcion` AS pregunta , di.`porcentaje` AS porcentaje , di.`fk_factor`, di.`fk_caracteristicas`, di.`fk_evidencia`, di.`fk_grupo_interes` 
-FROM doc_instru_evaluacion di
-WHERE (di.`fk_grupo_interes` = '.$s.' OR di.`fk_grupo_interes` = 3 ) AND di.`proceso` = '.$proceso.' LIMIT '.($pagina * $items).', '.$items;
-		}	
+	 	$sql2 = 'SELECT cnp.`nombre` AS nombre_proceso, di.`fk_tipo_respuesta` AS tipo_respuesta, di.`fk_instrumento` AS pk_instru_evaluacion , di.`descripcion` AS pregunta , di.`porcentaje` AS porcentaje , di.`fk_factor`, di.`fk_caracteristicas`, di.`fk_evidencia`, di.`fk_grupo_interes` FROM doc_respuesta_instrumentos_copy di, cna_proceso cnp
+WHERE di.`fk_proceso` = '.$proceso.' AND di.`fk_proceso` = cnp.`pk_proceso`  LIMIT '.($pagina * $items).', '.$items;
+	 		
+		$res2 = $this->runSQL($sql2);
+ 		return $res2;
 		
-		//return $sql;
-		return $this->runSQL($sql);
+
+		//return $instu;
+
+	// 		//echo $grupo;
+	// 		//echo $proceso;
+	// 		 $SQL1 = 'SELECT pk_grupo_interes FROM cna_grupo_interes WHERE nombre = "'.$grupo.'" ';
+	// 		 $resultados = $this->runSQL($SQL1);
+	// 		 $nom = $resultados->GetRows();
+	// 		 $s = $nom[0]['pk_grupo_interes'];
+
+	// 		if($proceso == 0){
+	// 			$sql = 'SELECT di.`fk_tipo_respuesta` AS tipo_respuesta, di.`pk_instru_evaluacion` AS pk_instru_evaluacion , di.`descripcion` AS pregunta , di.`porcentaje` AS porcentaje , di.`fk_factor`, di.`fk_caracteristicas`, di.`fk_evidencia`, di.`fk_grupo_interes` 
+	// FROM doc_instru_evaluacion di
+	// WHERE (di.`fk_grupo_interes` = 8 OR di.`fk_grupo_interes` = 3) AND di.`proceso` = 0 LIMIT '.($pagina * $items).', '.$items;
+	// 		}else{
+	// 			$sql = 'SELECT di.`fk_tipo_respuesta` AS tipo_respuesta, di.`pk_instru_evaluacion` AS pk_instru_evaluacion , di.`descripcion` AS pregunta , di.`porcentaje` AS porcentaje , di.`fk_factor`, di.`fk_caracteristicas`, di.`fk_evidencia`, di.`fk_grupo_interes` 
+	// FROM doc_instru_evaluacion di
+	// WHERE (di.`fk_grupo_interes` = '.$s.' OR di.`fk_grupo_interes` = 3 ) AND di.`proceso` = '.$proceso.' LIMIT '.($pagina * $items).', '.$items;
+	// 		}	
+			
+	// 		//return $sql;
+	// 		return $this->runSQL($sql);
+	
 	}
 
 	/**
