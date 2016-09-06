@@ -16,10 +16,10 @@
         </div>
     </div> -->
     <div>
-        <div id="div_preguntas" style="width:30%; float:left; height:800px;">
+<!--         <div id="div_preguntas" style="width:30%; float:left; height:800px;">
             
-        </div>
-        <div id="div_procesos" style="width:70%; float:left;">
+        </div> -->
+        <div id="div_procesos" style="width:100%; float:left;">
             
         </div>
     </div>

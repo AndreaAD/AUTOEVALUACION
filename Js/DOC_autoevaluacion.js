@@ -120,38 +120,104 @@ $(function(e){
                 pagina: _pagina,
             },
             success:  function (data) {
+                console.dir(data);
+
             	var div_preguntas = $('#div_preguntas');
             	var div_procesos = $('#div_procesos');
             	div_preguntas.html("");
             	div_procesos.html("");
                 var lista_p = '';
                 var lista_procesos = '';
+                var lista_preguntas_nombre = [];
+                var tabla = '';
+                var proces = '';
+                var lista_proces = [];
+                var pregunta = '';
+                var boton ='';
 
 
                 var lista_preguntas = [];
+
+                tabla += '<table>';
+                tabla += '<tr>';
+                tabla += '<th></th>';
+
 
                 $.each( data, function( key, value ) {
 				  	$.each( value, function( key_2, value_2 ) {
 				  		$.each( value_2, function( key_3, value_3 ) {
 				  			if(key_3 == 'pk_instru_evaluacion'){
 								if( lista_preguntas.indexOf(value_3) == -1 ){
-				  					lista_preguntas.push(value_3);
-				  					lista_p += '<span class="titulo_pregunta">'+value_2['pregunta']+'</span><br>';
-				  				}
-				  				
+                                    lista_preguntas.push(value_3);
+				  					lista_preguntas_nombre.push(value_2['pregunta']);
+				  					// lista_p += '<span class="titulo_pregunta">'+value_2['pregunta']+'</span><br>';
+                                    pregunta = value_2['pregunta'];
+				  			        
+                                }
+                            boton = '<input type="button" value="Subir">';
+                            proc = value_2['nombre_proceso'];
+                            
 					  		}
 						});
-						lista_procesos += '<div class="procesos_lado" style="width:10%; display:inline-block;float:left; padding:5px;">';
-				  			lista_procesos += '<div class="Titulo_proceso">';
-				  				lista_procesos += '<span>'+value_2['nombre_proceso']+'</span>';
-				  			lista_procesos += '</div>';
-				  		lista_procesos += '</div>';
+
+
+
+						
 					});
-				});
+                
+                lista_proces.push(proc);
 
 
-                div_preguntas.html(lista_p);
-                div_procesos.html(lista_procesos);
+
+
+                    // lista_procesos += '<div class="procesos_lado" style="width:10%; display:inline-block;float:left; padding:5px;">';
+                    //     lista_procesos += '<div class="Titulo_proceso">';
+                    //         lista_procesos += '<span>'+proces+'</span>';
+                    //         for( var i=0; i<lista_preguntas.length; i++){
+                    //             lista_procesos += boton;
+                    //         }
+                    //     lista_procesos += '</div>';
+                    // lista_procesos += '</div>';
+
+
+                });
+
+                console.log(data.length);
+
+                for( var m=0; m<lista_proces.length; m++){
+                        tabla += '<th>'+lista_proces[m]+'</th>';
+                }
+
+
+                tabla += '</tr>';
+                for( var i=0; i<lista_preguntas_nombre.length; i++){
+                    tabla += '<tr><td>'+lista_preguntas_nombre[i]+'</td>';
+                    for( var j=0; j<lista_proces.length; j++){
+                        tabla += '<td>';
+                            tabla += '<select>';
+                                tabla += '<option>1</option>';
+                            tabla += '</select><br>';
+                            tabla += '</select><br>';
+                            tabla += boton;
+                        tabla += '</td>';
+                    }
+                    tabla += '</tr>';
+                }
+
+                // tabla += '<tr>';
+                //         tabla += '<td>'+pregunta+'</td>';
+                //         for( var i=0; i<lista_preguntas.length; i++){
+                //             tabla += '<td>'+boton+'</td>';
+                //         }
+                //     tabla += '</tr>';
+
+
+
+                tabla += '</table>';
+
+
+                //div_preguntas.html(lista_p);
+                div_procesos.html(tabla);
 
                 //console.log(lista_preguntas);
 

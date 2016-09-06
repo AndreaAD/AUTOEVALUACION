@@ -13,8 +13,11 @@ class Ado{
         
         $conServidor = "localhost";
         $conBaseDeDatos = "omzsiste_sia";
-        $conUsuario = "sia_admin";
-        $conClave = "S1A_dbUser";
+        $conUsuario = "root";
+        $conClave = "";
+
+        //$conUsuario = "sia_admin";
+        //$conClave = "S1A_dbUser";
         
         $bd = ADONewConnection('mysql');
         $bd->debug = false;
