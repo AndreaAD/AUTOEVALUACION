@@ -97,7 +97,7 @@ class Autoevaluacion_Modelo {
 				 		$res3 = $this->runSQL($sql3);
 				 		$listaInstrumentos = $res3->GetRows();
 				 		foreach ($listaInstrumentos as &$value) {
-				 			$sql4 = 'INSERT INTO doc_respuesta_instrumentos_copy (`fk_instrumento`, `descripcion`, `fk_grupo_respuesta`, `fk_grupo_interes`, `fk_tipo_respuesta`, `porcentaje`, `fk_factor`, `fk_factor_codigo`, `fk_caracteristicas`, `fk_caracteristicas_codigo`, `fk_aspectos`, `fk_aspectos_codigo`, `fk_evidencia`, `fk_evidencia_codigo`, `opc`,`fk_proceso`, pk_proceso_insti) VALUES ("'.$value['pk_instru_evaluacion'].'",  "'.$value['descripcion'].'", "'.$value['fk_grupo_interes'].'",  "'.$value['fk_grupo_interes'].'",  "'.$value['fk_tipo_respuesta'].'",  "'.$value['porcentaje'].'",  "'.$value['fk_factor'].'",  "'.$value['fk_factor_codigo'].'",  "'.$value['fk_caracteristicas'].'",  "'.$value['fk_caracteristicas_codigo'].'",  "'.$value['fk_aspectos'].'",  "'.$value['fk_aspectos_codigo'].'",  "'.$value['fk_eviencia'].'",  "'.$value['fk_evidencia_codigo'].'",  "'.$value['opc'].'", 0, "'.$dat.'"); ';
+				 			$sql4 = 'INSERT INTO doc_respuesta_instrumentos_copy (`fk_instrumento`, `descripcion`, `fk_grupo_respuesta`, `fk_grupo_interes`, `fk_tipo_respuesta`, `porcentaje`, `fk_factor`, `fk_factor_codigo`, `fk_caracteristicas`, `fk_caracteristicas_codigo`, `fk_aspectos`, `fk_aspectos_codigo`, `fk_evidencia`, `fk_evidencia_codigo`, `opc`,`fk_proceso`, pk_proceso_insti) VALUES ("'.$value['pk_instru_evaluacion'].'",  "'.$value['descripcion'].'", "'.$value['fk_grupo_respuesta'].'",  "'.$value['fk_grupo_interes'].'",  "'.$value['fk_tipo_respuesta'].'",  "'.$value['porcentaje'].'",  "'.$value['fk_factor'].'",  "'.$value['fk_factor_codigo'].'",  "'.$value['fk_caracteristicas'].'",  "'.$value['fk_caracteristicas_codigo'].'",  "'.$value['fk_aspectos'].'",  "'.$value['fk_aspectos_codigo'].'",  "'.$value['fk_eviencia'].'",  "'.$value['fk_evidencia_codigo'].'",  "'.$value['opc'].'", 0, "'.$dat.'"); ';
 					 		$res4 = $this->runSQL($sql4);
 				 		}	
 			 		}
@@ -119,7 +119,7 @@ class Autoevaluacion_Modelo {
 				 		$res6 = $this->runSQL($sql6);
 				 		$listaInstrumentos_facultad = $res6->GetRows();
 				 		foreach ($listaInstrumentos_facultad as &$value2) {
-				 			$sql7 = 'INSERT INTO doc_respuesta_instrumentos_copy (`fk_instrumento`, `descripcion`, `fk_grupo_respuesta`, `fk_grupo_interes`, `fk_tipo_respuesta`, `porcentaje`, `fk_factor`, `fk_factor_codigo`, `fk_caracteristicas`, `fk_caracteristicas_codigo`, `fk_aspectos`, `fk_aspectos_codigo`, `fk_evidencia`, `fk_evidencia_codigo`, `opc`,`fk_proceso`, fk_facultad, pk_proceso_insti, fk_sede) VALUES ("'.$value2['pk_instru_evaluacion'].'",  "'.$value2['descripcion'].'", "'.$value2['fk_grupo_interes'].'",  "'.$value2['fk_grupo_interes'].'",  "'.$value2['fk_tipo_respuesta'].'",  "'.$value2['porcentaje'].'",  "'.$value2['fk_factor'].'",  "'.$value2['fk_factor_codigo'].'",  "'.$value2['fk_caracteristicas'].'",  "'.$value2['fk_caracteristicas_codigo'].'",  "'.$value2['fk_aspectos'].'",  "'.$value2['fk_aspectos_codigo'].'",  "'.$value2['fk_eviencia'].'",  "'.$value2['fk_evidencia_codigo'].'",  "'.$value2['opc'].'", "'.$procesos[$i]['pk_proceso'].'", "'.$facultad[0]['fk_facultad'].'", "'.$dat.'", "'.$facultad[0]['fk_sede'].'"); ';
+				 			$sql7 = 'INSERT INTO doc_respuesta_instrumentos_copy (`fk_instrumento`, `descripcion`, `fk_grupo_respuesta`, `fk_grupo_interes`, `fk_tipo_respuesta`, `porcentaje`, `fk_factor`, `fk_factor_codigo`, `fk_caracteristicas`, `fk_caracteristicas_codigo`, `fk_aspectos`, `fk_aspectos_codigo`, `fk_evidencia`, `fk_evidencia_codigo`, `opc`,`fk_proceso`, fk_facultad, pk_proceso_insti, fk_sede) VALUES ("'.$value2['pk_instru_evaluacion'].'",  "'.$value2['descripcion'].'", "'.$value2['fk_grupo_respuesta'].'",  "'.$value2['fk_grupo_interes'].'",  "'.$value2['fk_tipo_respuesta'].'",  "'.$value2['porcentaje'].'",  "'.$value2['fk_factor'].'",  "'.$value2['fk_factor_codigo'].'",  "'.$value2['fk_caracteristicas'].'",  "'.$value2['fk_caracteristicas_codigo'].'",  "'.$value2['fk_aspectos'].'",  "'.$value2['fk_aspectos_codigo'].'",  "'.$value2['fk_eviencia'].'",  "'.$value2['fk_evidencia_codigo'].'",  "'.$value2['opc'].'", "'.$procesos[$i]['pk_proceso'].'", "'.$facultad[0]['fk_facultad'].'", "'.$dat.'", "'.$facultad[0]['fk_sede'].'"); ';
 					 		//echo $sql7;
 					 		//exit();
 					 		$res7 = $this->runSQL($sql7);
@@ -142,7 +142,7 @@ class Autoevaluacion_Modelo {
 				 		$res6 = $this->runSQL($sql6);
 				 		$listaInstrumentos_facultad = $res6->GetRows();
 				 		foreach ($listaInstrumentos_facultad as &$value2) {
-				 			$sql7 = 'INSERT INTO doc_respuesta_instrumentos_copy (`fk_instrumento`, `descripcion`, `fk_grupo_respuesta`, `fk_grupo_interes`, `fk_tipo_respuesta`, `porcentaje`, `fk_factor`, `fk_factor_codigo`, `fk_caracteristicas`, `fk_caracteristicas_codigo`, `fk_aspectos`, `fk_aspectos_codigo`, `fk_evidencia`, `fk_evidencia_codigo`, `opc`,`fk_proceso`, fk_facultad, pk_proceso_insti, fk_sede) VALUES ("'.$value2['pk_instru_evaluacion'].'",  "'.$value2['descripcion'].'", "'.$value2['fk_grupo_interes'].'",  "'.$value2['fk_grupo_interes'].'",  "'.$value2['fk_tipo_respuesta'].'",  "'.$value2['porcentaje'].'",  "'.$value2['fk_factor'].'",  "'.$value2['fk_factor_codigo'].'",  "'.$value2['fk_caracteristicas'].'",  "'.$value2['fk_caracteristicas_codigo'].'",  "'.$value2['fk_aspectos'].'",  "'.$value2['fk_aspectos_codigo'].'",  "'.$value2['fk_eviencia'].'",  "'.$value2['fk_evidencia_codigo'].'",  "'.$value2['opc'].'", "'.$procesos[$i]['pk_proceso'].'", "'.$facultad[0]['fk_facultad'].'", "'.$dat.'", "'.$facultad[0]['fk_sede'].'"); ';
+				 			$sql7 = 'INSERT INTO doc_respuesta_instrumentos_copy (`fk_instrumento`, `descripcion`, `fk_grupo_respuesta`, `fk_grupo_interes`, `fk_tipo_respuesta`, `porcentaje`, `fk_factor`, `fk_factor_codigo`, `fk_caracteristicas`, `fk_caracteristicas_codigo`, `fk_aspectos`, `fk_aspectos_codigo`, `fk_evidencia`, `fk_evidencia_codigo`, `opc`,`fk_proceso`, fk_facultad, pk_proceso_insti, fk_sede) VALUES ("'.$value2['pk_instru_evaluacion'].'",  "'.$value2['descripcion'].'", "'.$value2['fk_grupo_respuesta'].'",  "'.$value2['fk_grupo_interes'].'",  "'.$value2['fk_tipo_respuesta'].'",  "'.$value2['porcentaje'].'",  "'.$value2['fk_factor'].'",  "'.$value2['fk_factor_codigo'].'",  "'.$value2['fk_caracteristicas'].'",  "'.$value2['fk_caracteristicas_codigo'].'",  "'.$value2['fk_aspectos'].'",  "'.$value2['fk_aspectos_codigo'].'",  "'.$value2['fk_eviencia'].'",  "'.$value2['fk_evidencia_codigo'].'",  "'.$value2['opc'].'", "'.$procesos[$i]['pk_proceso'].'", "'.$facultad[0]['fk_facultad'].'", "'.$dat.'", "'.$facultad[0]['fk_sede'].'"); ';
 					 		$res7 = $this->runSQL($sql7);
 				 		}	
 			 		}
@@ -163,7 +163,7 @@ class Autoevaluacion_Modelo {
 				 		$res6 = $this->runSQL($sql6);
 				 		$listaInstrumentos_facultad = $res6->GetRows();
 				 		foreach ($listaInstrumentos_facultad as &$value2) {
-				 			$sql7 = 'INSERT INTO doc_respuesta_instrumentos_copy (`fk_instrumento`, `descripcion`, `fk_grupo_respuesta`, `fk_grupo_interes`, `fk_tipo_respuesta`, `porcentaje`, `fk_factor`, `fk_factor_codigo`, `fk_caracteristicas`, `fk_caracteristicas_codigo`, `fk_aspectos`, `fk_aspectos_codigo`, `fk_evidencia`, `fk_evidencia_codigo`, `opc`,`fk_proceso`, fk_facultad, pk_proceso_insti, fk_sede) VALUES ("'.$value2['pk_instru_evaluacion'].'",  "'.$value2['descripcion'].'", "'.$value2['fk_grupo_interes'].'",  "'.$value2['fk_grupo_interes'].'",  "'.$value2['fk_tipo_respuesta'].'",  "'.$value2['porcentaje'].'",  "'.$value2['fk_factor'].'",  "'.$value2['fk_factor_codigo'].'",  "'.$value2['fk_caracteristicas'].'",  "'.$value2['fk_caracteristicas_codigo'].'",  "'.$value2['fk_aspectos'].'",  "'.$value2['fk_aspectos_codigo'].'",  "'.$value2['fk_eviencia'].'",  "'.$value2['fk_evidencia_codigo'].'",  "'.$value2['opc'].'", "'.$procesos[$i]['pk_proceso'].'", "'.$facultad[0]['fk_facultad'].'", "'.$dat.'", "'.$facultad[0]['fk_sede'].'"); ';
+				 			$sql7 = 'INSERT INTO doc_respuesta_instrumentos_copy (`fk_instrumento`, `descripcion`, `fk_grupo_respuesta`, `fk_grupo_interes`, `fk_tipo_respuesta`, `porcentaje`, `fk_factor`, `fk_factor_codigo`, `fk_caracteristicas`, `fk_caracteristicas_codigo`, `fk_aspectos`, `fk_aspectos_codigo`, `fk_evidencia`, `fk_evidencia_codigo`, `opc`,`fk_proceso`, fk_facultad, pk_proceso_insti, fk_sede) VALUES ("'.$value2['pk_instru_evaluacion'].'",  "'.$value2['descripcion'].'", "'.$value2['fk_grupo_respuesta'].'",  "'.$value2['fk_grupo_interes'].'",  "'.$value2['fk_tipo_respuesta'].'",  "'.$value2['porcentaje'].'",  "'.$value2['fk_factor'].'",  "'.$value2['fk_factor_codigo'].'",  "'.$value2['fk_caracteristicas'].'",  "'.$value2['fk_caracteristicas_codigo'].'",  "'.$value2['fk_aspectos'].'",  "'.$value2['fk_aspectos_codigo'].'",  "'.$value2['fk_eviencia'].'",  "'.$value2['fk_evidencia_codigo'].'",  "'.$value2['opc'].'", "'.$procesos[$i]['pk_proceso'].'", "'.$facultad[0]['fk_facultad'].'", "'.$dat.'", "'.$facultad[0]['fk_sede'].'"); ';
 					 		$res7 = $this->runSQL($sql7);
 				 		}	
 			 		}
@@ -273,12 +273,11 @@ class Autoevaluacion_Modelo {
 
 	public function cargarInformacionPreguntas_2($proceso, $alcance ,$pagina, $items){
 
-	 	$sql2 = 'SELECT cnp.`nombre` AS nombre_proceso, di.`fk_tipo_respuesta` AS tipo_respuesta, di.`fk_instrumento` AS pk_instru_evaluacion , di.`descripcion` AS pregunta , di.`porcentaje` AS porcentaje , di.`fk_factor`, di.`fk_caracteristicas`, di.`fk_evidencia`, di.`fk_grupo_interes` FROM doc_respuesta_instrumentos_copy di, cna_proceso cnp
+	 	$sql2 = 'SELECT di.`fk_proceso`, cnp.`nombre` AS nombre_proceso, di.`fk_tipo_respuesta` AS tipo_respuesta, di.`fk_instrumento` AS pk_instru_evaluacion , di.`descripcion` AS pregunta , di.`porcentaje` AS porcentaje , di.`fk_factor`, di.`fk_caracteristicas`, di.`fk_evidencia`, di.`fk_grupo_interes` FROM doc_respuesta_instrumentos_copy di, cna_proceso cnp
 WHERE di.`fk_proceso` = '.$proceso.' AND di.`fk_proceso` = cnp.`pk_proceso`  LIMIT '.($pagina * $items).', '.$items;
 	 		
 		$res2 = $this->runSQL($sql2);
  		return $res2;
-		
 
 		//return $instu;
 
@@ -310,14 +309,14 @@ WHERE di.`fk_proceso` = '.$proceso.' AND di.`fk_proceso` = cnp.`pk_proceso`  LIM
 	 * @return [int] devuelve el estado de la operacion 1 -0
 	 */
 	public function cargarInformacionRespuestas($id){
-		$sql1 = 'SELECT porcentaje FROM doc_instru_evaluacion WHERE pk_instru_evaluacion = "'.$id.'" ';
+		$sql1 = ' SELECT DISTINCT(fk_instrumento), porcentaje FROM doc_respuesta_instrumentos_copy WHERE fk_instrumento = "'.$id.'" ';
 		$porcentaje = $this->runSQL($sql1);
 		$por = $porcentaje->GetRows();
 		if($por[0]['porcentaje'] == 0){
-			$sql = 'SELECT drp.`pk_respuestas_pregunta` AS pk_respuestas_pregunta, drp.`texto` AS texto, r.`pk_respuesta_ponderacion` AS pk_respuesta, r.`ponderacion` AS ponderacion FROM respuesta_ponderacion r, doc_respuesta_pregunta drp, doc_instru_evaluacion di WHERE di.`pk_instru_evaluacion` = "'.$id.'" AND di.`fk_grupo_respuesta` = drp.`grupo_respuesta` AND drp.`fk_respuesta_ponderacion` = r.`pk_respuesta_ponderacion`';
+			$sql = 'SELECT DISTINCT(drp.`pk_respuestas_pregunta`), drp.`pk_respuestas_pregunta` AS pk_respuestas_pregunta, drp.`texto` AS texto, r.`pk_respuesta_ponderacion` AS pk_respuesta, r.`ponderacion` AS ponderacion FROM respuesta_ponderacion r, doc_respuesta_pregunta drp, doc_respuesta_instrumentos_copy di WHERE di.`fk_instrumento` = "'.$id.'" AND di.`fk_grupo_respuesta` = drp.`grupo_respuesta` AND drp.`fk_respuesta_ponderacion` = r.`pk_respuesta_ponderacion`';
 			return $this->runSQL($sql);
 		}else{
-			$sql = 'SELECT fk_tipo_respuesta FROM doc_instru_evaluacion WHERE pk_instru_evaluacion = "'.$id.'"';
+			$sql = ' SELECT DISTINCT(fk_instrumento), fk_tipo_respuesta FROM doc_respuesta_instrumentos_copy WHERE fk_instrumento = "'.$id.'"';
 			return $this->runSQL($sql);
 		}
 	}

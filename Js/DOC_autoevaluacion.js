@@ -122,102 +122,117 @@ $(function(e){
             success:  function (data) {
                 console.dir(data);
 
-            	var div_preguntas = $('#div_preguntas');
-            	var div_procesos = $('#div_procesos');
-            	div_preguntas.html("");
-            	div_procesos.html("");
-                var lista_p = '';
-                var lista_procesos = '';
-                var lista_preguntas_nombre = [];
-                var tabla = '';
-                var proces = '';
-                var lista_proces = [];
-                var pregunta = '';
-                var boton ='';
-
-
-                var lista_preguntas = [];
-
-                tabla += '<table>';
-                tabla += '<tr>';
-                tabla += '<th></th>';
+                var div_procesos = $('#div_procesos');
+                var lista_ids_preguntas = [];
+                var proc = [];
+                var html = '';
 
 
                 $.each( data, function( key, value ) {
-				  	$.each( value, function( key_2, value_2 ) {
-				  		$.each( value_2, function( key_3, value_3 ) {
-				  			if(key_3 == 'pk_instru_evaluacion'){
-								if( lista_preguntas.indexOf(value_3) == -1 ){
-                                    lista_preguntas.push(value_3);
-				  					lista_preguntas_nombre.push(value_2['pregunta']);
-				  					// lista_p += '<span class="titulo_pregunta">'+value_2['pregunta']+'</span><br>';
-                                    pregunta = value_2['pregunta'];
-				  			        
+                     $.each( value, function( key_2, value_2 ) {
+                        $.each( value_2, function( key_3, value_3 ) {
+                            if(key_3 == 'pk_instru_evaluacion'){
+
+                                if( lista_ids_preguntas.indexOf(value_3) == -1 ){
+                                    lista_ids_preguntas.push(value_3);
                                 }
-                            boton = '<input type="button" value="Subir">';
-                            proc = value_2['nombre_proceso'];
-                            
-					  		}
-						});
+                        
+                                proc.push(value_2['nombre_proceso']);
+                            }
 
-
-
-						
-					});
-                
-                lista_proces.push(proc);
-
-
-
-
-                    // lista_procesos += '<div class="procesos_lado" style="width:10%; display:inline-block;float:left; padding:5px;">';
-                    //     lista_procesos += '<div class="Titulo_proceso">';
-                    //         lista_procesos += '<span>'+proces+'</span>';
-                    //         for( var i=0; i<lista_preguntas.length; i++){
-                    //             lista_procesos += boton;
-                    //         }
-                    //     lista_procesos += '</div>';
-                    // lista_procesos += '</div>';
-
-
+                        });
+                    });
                 });
 
-                console.log(data.length);
 
-                for( var m=0; m<lista_proces.length; m++){
-                        tabla += '<th>'+lista_proces[m]+'</th>';
+                console.log(proc);
+
+                for( var m=0; m<lista_ids_preguntas.length; m++){
+                    html += '<div class="row">';
+                        html += '<div class="titulo">';
+                            html += '<h4>'+lista_ids_preguntas[m]+'</h4>';
+                        html += '</div>';
+                    html += '</div>';
                 }
 
+                div_procesos.html(html);
 
-                tabla += '</tr>';
-                for( var i=0; i<lista_preguntas_nombre.length; i++){
-                    tabla += '<tr><td>'+lista_preguntas_nombre[i]+'</td>';
-                    for( var j=0; j<lista_proces.length; j++){
-                        tabla += '<td>';
-                            tabla += '<select>';
-                                tabla += '<option>1</option>';
-                            tabla += '</select><br>';
-                            tabla += '</select><br>';
-                            tabla += boton;
-                        tabla += '</td>';
-                    }
-                    tabla += '</tr>';
-                }
 
-                // tabla += '<tr>';
-                //         tabla += '<td>'+pregunta+'</td>';
-                //         for( var i=0; i<lista_preguntas.length; i++){
-                //             tabla += '<td>'+boton+'</td>';
-                //         }
+
+
+
+     //         var div_preguntas = $('#div_preguntas');
+     //         div_preguntas.html("");
+     //         div_procesos.html("");
+     //            var lista_p = '';
+     //            var lista_procesos = '';
+     //            var lista_preguntas = [];
+     //            var html = '';
+     //            var proces = '';
+     //            var lista_proces = [];
+     //            var respuestas = [];
+     //            var pregunta = '';
+     //            var boton ='';
+     //            var lista_ids_preguntas = [];
+     //            var pregunta_respuestas = [];
+     //            var arreglo_completo = [];
+
+
+     //            $.each( data, function( key, value ) {
+                 //     $.each( value, function( key_2, value_2 ) {
+                 //         $.each( value_2, function( key_3, value_3 ) {
+     //                        if(key_3 == 'pk_instru_evaluacion'){
+
+     //                            if( lista_ids_preguntas.indexOf(value_3) == -1 ){
+     //                                lista_ids_preguntas.push(value_3);
+     //                                //pregunta_respuestas[value_3]['repuestas'] = value_2['respuestas'];
+     //                                lista_preguntas.push(value_2['pregunta']);
+     //                                pregunta_respuestas.push(value_2['respuestas']);
+
+     //                            }
+                        
+     //                            proc = value_2['nombre_proceso'];
+     //                        }
+                            
+
+
+                    //  });
+
+
+
+                        
+                    // });
+                
+     //                lista_proces.push(proc);
+
+     //            });
+
+
+     //            for( var m=0; m<lista_preguntas.length; m++){
+     //                html += '<div class="row">';
+     //                    html += '<div class="titulo">';
+     //                        html += '<h4>'+lista_preguntas[m]+'</h4>';
+     //                    html += '</div>';
+     //                html += '</div>';
+     //            }
+
+
+                // tabla += '</tr>';
+                // for( var i=0; i<lista_preguntas.length; i++){
+                //     tabla += '<tr><td>'+lista_preguntas[i]+'</td>';
+                //     for( var j=0; j<lista_proces.length; j++){
+                //         tabla += '<td>';
+                //         tabla += '</td>';
+                //     }
                 //     tabla += '</tr>';
+                // }
 
 
 
-                tabla += '</table>';
+                // tabla += '</table>';
 
 
                 //div_preguntas.html(lista_p);
-                div_procesos.html(tabla);
 
                 //console.log(lista_preguntas);
 
