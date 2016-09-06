@@ -137,7 +137,7 @@ $(function(e){
                                     lista_ids_preguntas.push(value_3);
                                 }
                         
-                                proc.push(value_2['nombre_proceso']);
+                                proc.push(value_2);
                             }
 
                         });
@@ -145,14 +145,26 @@ $(function(e){
                 });
 
 
-                console.log(proc);
 
                 for( var m=0; m<lista_ids_preguntas.length; m++){
-                    html += '<div class="row">';
+                    html += '<div class="row" >';
                         html += '<div class="titulo">';
                             html += '<h4>'+lista_ids_preguntas[m]+'</h4>';
                         html += '</div>';
+                        html += '<div style="display:inline-block;">';
+                        for( var i=0; i<proc.length; i++){
+                            if(proc[i].pk_instru_evaluacion == lista_ids_preguntas[m]){
+                                html += '<div class="proceso_div" style="width:30%; background-color:#dffbf1;padding:5px;height:80px;display:inline-block;    font-size: 13px;    margin: 10px;">';
+                                    html += '<button class="accordion">'+proc[i].nombre_proceso+'</button>';
+                                    html += '<div class="panel"><p>dfsfdsfdsf</p>';
+                                    html += '</div>';
+                                html += '</div>';
+                            }
+                        }
+                        html += '</div>';
                     html += '</div>';
+
+
                 }
 
                 div_procesos.html(html);
