@@ -545,3 +545,34 @@
 .tabla2 tr td{
 	padding: 12px;
 }
+
+
+
+button.accordion {
+    background-color: #eee !important;
+    color: #444 !important;
+    cursor: pointer !important;
+    padding: 18px !important;
+    width: 100% !important;
+    text-align: left !important;
+    border: none !important;
+    outline: none !important;
+    transition: 0.4s !important;
+}
+
+/* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+button.accordion.active, button.accordion:hover {
+    background-color: #ddd !important;
+}
+
+/* Style the accordion panel. Note: hidden by default */
+div.panel {
+    padding: 0 18px !important;
+    background-color: white !important;
+    display: none !important;
+}
+
+/* The "show" class is added to the accordion panel when the user clicks on one of the buttons. This will show the panel content */
+div.panel.show {
+    display: block !important;
+}

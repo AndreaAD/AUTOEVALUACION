@@ -36,12 +36,23 @@
 </div>
 
 
-<!-- <script>
-    $(function(e){
-        $('#tabla_instrumentos').DataTable();
-    })
+ <script>
+   
+        
+        var acc = document.getElementsByClassName("accordion");
+        var i;
 
-</script> -->
+        for (i = 0; i < acc.length; i++) {
+            acc[i].onclick = function(){
+                this.classList.toggle("active");
+                this.nextElementSibling.classList.toggle("show");
+            }
+        }
+
+
+ 
+
+</script>
 <!-- <div class="bloque una-columna">
     <div class="titulo-bloque texto-izquierda">
         <h2 class="icon-quill">Lista de instrumentos</h2>
