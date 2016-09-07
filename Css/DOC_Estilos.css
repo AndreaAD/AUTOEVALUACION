@@ -589,3 +589,12 @@ div.accordion:after {
 div.accordion.active:after {
     content: "\2796"; /* Unicode character for "minus" sign (-) */
 }
+
+
+.div_varios_documentos .label_varios_doc{
+	max-width: 100%;
+    margin-left: 16px;
+    font-weight: 600;
+    color: #00730a;
+    font-size: 10px;
+}

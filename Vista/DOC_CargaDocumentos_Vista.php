@@ -5,26 +5,18 @@
 <link rel="stylesheet" href="../Complementos/font-awesome/css/font-awesome.min.css">
 <!-- <script type="text/javascript" src="../Js/DOC_Selectores.js"></script> -->
 <script type="text/javascript" src="../Js/DOC_autoevaluacion.js"></script>
+<script type="text/javascript" src="../Js/DOC_FileUploader.js"></script>
 
 <input type="hidden" name="alcance" value="1">
 
-<div>
-    <!-- <div class="una-columna">
-        <div id="progreso-total" class="progress-bar">
-            <span class="principal"></span>
-            <div class="progreso"></div>
-        </div>
-    </div> -->
-    <div>
-<!--         <div id="div_preguntas" style="width:30%; float:left; height:800px;">
-            
-        </div> -->
+<div id="div_procesos_verificados">
+    <div id="div_contenido_completo">
         <div id="div_procesos" style="width:100%; float:left;">
             
         </div>
     </div>
-    <div id="paginador" data-role="paginador">
-    </div>
+</div>
+<div id="paginador" data-role="paginador">
 </div>
 <div class="errores"></div>
 <div id="div_emergente" class="fondo_emergente">

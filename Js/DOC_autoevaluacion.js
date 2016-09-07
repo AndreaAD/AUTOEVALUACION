@@ -3,7 +3,7 @@ $(function(e){
 
 
     var pagina = 1; 
-    var items = 4;
+    var items = 2;
     var num_paginas = 0;
     var div_emergente = $('#div_emergente');
     var _divOculto = $("#div_contenido_completo");
@@ -144,116 +144,138 @@ $(function(e){
                     });
                 });
 
-                console.log(proc);
+                if(proc.length > 0){
+                    for( var m=0; m<lista_ids_preguntas.length; m++){
+                        html += '<div class="row" >';
+                            html += '<div class="titulo">';
+                                html += '<h4>'+lista_ids_preguntas[m]+'</h4>';
+                            html += '</div>';
+                            for( var i=0; i<proc.length; i++){
+                                if(proc[i].pk_instru_evaluacion == lista_ids_preguntas[m]){
+                                    html += '<div class="proceso_div pregunta" data-rel-pregunta="'+proc[i].pk_respuesta_instrumento+'" data-rel-proceso="'+proc[i].fk_proceso+'" style="width:99%;padding:5px;display:inline-block;    font-size: 13px;    margin: 10px;">';
+                                        html += '<div class="accordion">'+proc[i].nombre_proceso+'</div>';
+                                        html += '<div class="panel"><br>';
 
-                for( var m=0; m<lista_ids_preguntas.length; m++){
-                    html += '<div class="row" >';
-                        html += '<div class="titulo">';
-                            html += '<h4>'+lista_ids_preguntas[m]+'</h4>';
-                        html += '</div>';
-                        for( var i=0; i<proc.length; i++){
-                            if(proc[i].pk_instru_evaluacion == lista_ids_preguntas[m]){
-                                html += '<div class="proceso_div" style="width:99%;padding:5px;display:inline-block;    font-size: 13px;    margin: 10px;">';
-                                    html += '<div class="accordion">'+proc[i].nombre_proceso+'</div>';
-                                    html += '<div class="panel"><br>';
-
-                                        if(proc[i].respuestas.length == 1 ){
-                                                if (proc[i].respuestas[0].fk_tipo_respuesta == 6){
-                                                    html += '<label>Seleccione el porcentaje</label>';
-                                                    html += '<input type="number" min="1" max="100" name="respuesta-porc" data-role="respuesta" data-tipo="numero" data-id-tipo-respuesta="10006">';
-                                                    html += '<span style="font-size: 10px; margin-left: 5px;">El maximo para la escala porcentual es: ' +proc[i].porcentaje+' </span>';
-                                                }
-                                                if (proc[i].respuestas[0].fk_tipo_respuesta == 7){
-                                                    html += '<label>Seleccione el valor ideal </label>';
-                                                    html += '<input type="number" min="1" max="100" name="respuesta-porc" data-role="respuesta" data-tipo="numero" data-id-tipo-respuesta="10007">';
-                                                    html += '<span>El maximo valor ideal es: ' +proc[i].porcentaje+' </span>';
-                                                }
-                                        }else{
-                                            html += '<div class="validador">';
-                                                html += '<label>Seleccione la respuesta</label>';
-                                                html += '<select data-role="respuesta" data-tipo="selector" style="    width: 100% !important;    height: 30px !important;    min-width: 30px !important;">';
-                                                html += '<option data-id="0" value="0"></option>';
-                                                    for( var k = 0; k<proc[i].respuestas.length; k++){
-                                                        html += '<option data-id="'+proc[i].respuestas[k].pk_respuestas_pregunta+'" value="'+proc[i].respuestas[k].ponderacion+'">'+proc[i].respuestas[k].texto+'</option>';
+                                            if(proc[i].respuestas.length == 1 ){
+                                                    if (proc[i].respuestas[0].fk_tipo_respuesta == 6){
+                                                        html += '<label>Seleccione el porcentaje</label>';
+                                                        html += '<input type="number" min="1" max="100" name="respuesta-porc" data-role="respuesta" data-tipo="numero" data-id-tipo-respuesta="10006">';
+                                                        html += '<span style="font-size: 10px; margin-left: 5px;">El maximo para la escala porcentual es: ' +proc[i].porcentaje+' </span>';
                                                     }
-                                                html += '</select>';
-                                            html += '</div>';
-                                        }
-                                        if(proc[i].informacion.length > 0){
-                                            html += '<div>';
-                                                html += '<label>Es recomendado diligenciar la informacion adicional</label>';
-                                                html += '<div class="table">';
-                                                    html += '<table class="archivos">';
-                                                        for(var l = 0; l<proc[i].informacion.length; l++){
-                                                            html += '<tr>';
-                                                            html += '<td><a class="file" href="'+proc[i].informacion[l].url+'" target="_blank">'+proc[i].informacion[l].nombre+'</a></td>';
-                                                            html += '</tr>';
+                                                    if (proc[i].respuestas[0].fk_tipo_respuesta == 7){
+                                                        html += '<label>Seleccione el valor ideal </label>';
+                                                        html += '<input type="number" min="1" max="100" name="respuesta-porc" data-role="respuesta" data-tipo="numero" data-id-tipo-respuesta="10007">';
+                                                        html += '<span>El maximo valor ideal es: ' +proc[i].porcentaje+' </span>';
+                                                    }
+                                            }else{
+                                                html += '<div class="validador">';
+                                                    html += '<label>Seleccione la respuesta</label>';
+                                                    html += '<select data-role="respuesta" data-tipo="selector" style="    width: 100% !important;    height: 30px !important;    min-width: 30px !important;">';
+                                                    html += '<option data-id="0" value="0"></option>';
+                                                        for( var k = 0; k<proc[i].respuestas.length; k++){
+                                                            html += '<option data-id="'+proc[i].respuestas[k].pk_respuestas_pregunta+'" value="'+proc[i].respuestas[k].ponderacion+'">'+proc[i].respuestas[k].texto+'</option>';
                                                         }
-                                                    html += '</table>';
+                                                    html += '</select>';
                                                 html += '</div>';
-                                            html += '</div>';
                                             }
-                                            html += '<div class="validador">';
-                                                html += '<label>Seleccione el(los) documento(s) de informacion adicional que sustentan su respuesta</label>';
-                                                html += '<div class="file-uploader" data-rel="'+proc[i].pk_instru_evaluacion+'">';
-                                                    html += '<input type="file"><a href="#" data-op="cargar_info" data-rel="'+proc[i].pk_instru_evaluacion+'" class="subir">Cargar</a><br>';
-                                                    html += '<div class="progress-bar"><div class="progresoinfo"></div></div>';
+                                            if(proc[i].informacion.length > 0){
+                                                html += '<div>';
+                                                    html += '<label>Es recomendado diligenciar la información adicional</label>';
                                                     html += '<div class="table">';
-                                                        if(proc[i].informacionadicional.length > 0){
-                                                            html += '<table class="info">';
-                                                                for(var t = 0; t<proc[i].informacionadicional.length; t++){
-                                                                    html += '<tr data-id="'+proc[i].informacionadicional[t].pk_documento+'"><td><a  href="'+proc[i].informacionadicional[t].url+'" target="_blank">'+proc[i].informacionadicional[t].nombre+'</a></td><td><a href="#" data-role="borrar">eliminar</a></td></tr>';
-                                                                }
-                                                            html += '</table>';
-                                                        }else{
-                                                            html += '<table class="info">';
-                                                            html += '</table>';
-                                                        }
+                                                        html += '<table class="archivos">';
+                                                            for(var l = 0; l<proc[i].informacion.length; l++){
+                                                                html += '<tr>';
+                                                                html += '<td><a class="file" href="'+proc[i].informacion[l].url+'" target="_blank">'+proc[i].informacion[l].nombre+'</a></td>';
+                                                                html += '</tr>';
+                                                            }
+                                                        html += '</table>';
                                                     html += '</div>';
                                                 html += '</div>';
-                                            html += '</div>';
-                                            html += '<div class="validador">';
-                                                html += '<label data-role="doc">Seleccione el(los) documento(s) que sustentan su respuesta</label>';
-                                                html += '<div class="file-uploader" data-rel="'+proc[i].pk_instru_evaluacion+'">';
-                                                    html += '<input type="file"><a href="#" data-op="cargar_doc" data-rel="'+proc[i].pk_instru_evaluacion+'" class="subir">Cargar</a><br>';
-                                                    html += '<div class="progress-bar"><div class="progreso"></div></div>';
-                                                    html += '<div class="table">';
-                                                        if(proc[i].documentos.length > 0){
-                                                            html += '<table class="archivos">';
-                                                                for(var m = 0; m<proc[i].documentos.length; m++){
-                                                                    html += '<tr data-id="'+proc[i].documentos[m].pk_documento+'"><td><a  href="'+proc[i].documentos[m].url+'" target="_blank">'+proc[i].documentos[m].nombre+'</a></td><td><a href="#" data-role="borrar">eliminar</a></td></tr>';
-                                                                }
-                                                            html += '</table>';
-                                                        }else{
-                                                            html += '<table class="archivos">';
-                                                            html += '</table>';
-                                                        }
+                                                }
+                                                html += '<div class="validador">';
+                                                    html += '<br><label>Seleccione el(los) documento(s) de informacion adicional que sustentan su respuesta</label>';
+                                                    html += '<div class="file-uploader" data-rel="'+proc[i].pk_respuesta_instrumento+'" data-proceso="'+proc[i].fk_proceso+'">';
+                                                        html += '<input type="file"><a href="#" data-op="cargar_info" data-rel="'+proc[i].pk_respuesta_instrumento+'"  data-proceso="'+proc[i].fk_proceso+'" class="subir">Cargar</a><br>';
+                                                        html += '<div class="progress-bar"><div class="progresoinfo"></div></div>';
+                                                        html += '<div class="table">';
+                                                            if(proc[i].informacionadicional.length > 0){
+                                                                html += '<table class="info">';
+                                                                    for(var t = 0; t<proc[i].informacionadicional.length; t++){
+                                                                        html += '<tr data-id="'+proc[i].informacionadicional[t].pk_documento+'"><td><a  href="'+proc[i].informacionadicional[t].url+'" target="_blank">'+proc[i].informacionadicional[t].nombre+'</a></td><td><a href="#" data-role="borrar">eliminar</a></td></tr>';
+                                                                    }
+                                                                html += '</table>';
+                                                            }else{
+                                                                html += '<table class="info">';
+                                                                html += '</table>';
+                                                            }
+                                                        html += '</div>';
                                                     html += '</div>';
-                                                    if ($('input[name="grupoI"]').val() == "Equipo del Programa"){
-                                                        html += '<a href="#" data-role="nuevosArchivos" data-id-instru="'+proc[i].pk_instru_evaluacion+'" class="subir_nuevos">Archivos de procesos anteriores</a>';
-                                                    }
                                                 html += '</div>';
-                                            html += '</div>';
-                                            html += '<div class="validador">';
-                                                html += '<label>Recomendaciones</label>';
-                                                html += '<textarea data-role="observaciones"></textarea>';
-                                            html += '</div>';
+                                                html += '<div class="validador">';
+                                                    html += '<br><label data-role="doc">Seleccione el(los) documento(s) que sustentan su respuesta</label>';
+                                                    html += '<div class="file-uploader" data-rel="'+proc[i].pk_respuesta_instrumento+'" data-proceso="'+proc[i].fk_proceso+'">';
+                                                        html += '<input type="file"><a href="#" data-op="cargar_doc" data-rel="'+proc[i].pk_respuesta_instrumento+'"  data-proceso="'+proc[i].fk_proceso+'" class="subir">Cargar</a><br>';
+                                                        html += '<div class="progress-bar"><div class="progreso"></div></div>';
+                                                        html += '<div class="table">';
+                                                            if(proc[i].documentos.length > 0){
+                                                                html += '<table class="archivos">';
+                                                                    for(var m = 0; m<proc[i].documentos.length; m++){
+                                                                        html += '<tr data-id="'+proc[i].documentos[m].pk_documento+'"><td><a  href="'+proc[i].documentos[m].url+'" target="_blank">'+proc[i].documentos[m].nombre+'</a></td><td><a href="#" data-role="borrar">eliminar</a></td></tr>';
+                                                                    }
+                                                                html += '</table>';
+                                                            }else{
+                                                                html += '<table class="archivos">';
+                                                                html += '</table>';
+                                                            }
+                                                        html += '</div>';
+                                                        // if ($('input[name="grupoI"]').val() == "Equipo del Programa"){
+                                                        //     html += '<a href="#" data-role="nuevosArchivos" data-id-instru="'+proc[i].pk_instru_evaluacion+'" class="subir_nuevos">Archivos de procesos anteriores</a>';
+                                                        // }
+                                                    html += '</div>';
+                                                html += '</div>';
+                                                html += '<div class="validador">';
+                                                    html += '<label>Recomendaciones</label>';
+                                                    html += '<textarea data-role="observaciones"></textarea>';
+                                                html += '</div>';
 
 
+                                        html += '</div>';
                                     html += '</div>';
-                                html += '</div>';
+                                }
                             }
-                        }
-                    html += '</div>';
+                            if(proc.length > 0){
+                                html += '<div class="div_varios_documentos">';
+                                    html += '<label class="label_varios_doc">Si ud desea cargar algún documento, que aplique para todos los procesos de autoevaluación, puede ingresar aqui. </label>';
+                                    html += '<div class="file-uploader" style="margin-left:16px;" >';
+                                        html += '<input type="file">&nbsp;&nbsp;<a href="#" data-op="cargar_doc" class="subir" style="color: #cc0000; font-size:12px;">Cargar</a><br>';
+                                        //html += '<div class="progress-bar"><div class="progreso"></div></div>';
+                                        html += '<div class="table">';
+                                            // if(proc[i].documentos.length > 0){
+                                            //     html += '<table class="archivos">';
+                                            //         for(var m = 0; m<proc[i].documentos.length; m++){
+                                            //             html += '<tr data-id="'+proc[i].documentos[m].pk_documento+'"><td><a  href="'+proc[i].documentos[m].url+'" target="_blank">'+proc[i].documentos[m].nombre+'</a></td><td><a href="#" data-role="borrar">eliminar</a></td></tr>';
+                                            //         }
+                                            //     html += '</table>';
+                                            // }else{
+                                            //     html += '<table class="archivos">';
+                                            //     html += '</table>';
+                                            // }
+                                        html += '</div>';
+                                        // if ($('input[name="grupoI"]').val() == "Equipo del Programa"){
+                                        //     html += '<a href="#" data-role="nuevosArchivos" data-id-instru="'+proc[i].pk_instru_evaluacion+'" class="subir_nuevos">Archivos de procesos anteriores</a>';
+                                        // }
+                                    html += '</div>';
+                                html += '</div>'; 
+                            }
+                        html += '</div>';
 
 
+                    }
+                }else{
+                    html += 'En el momento no cuenta con instrumentos de evaluación generados, para diligenciar información';
                 }
 
                 div_procesos.html(html);
-
-
-
-
 
      //         var div_preguntas = $('#div_preguntas');
      //         div_preguntas.html("");
@@ -439,18 +461,79 @@ $(function(e){
         });
     }
 
-	var cargarPaginador = function(){
+    var guardarRespuestasPreguntas = function(){
+        var respuestas = new Array();
+        
+        $("#div_contenido_completo div.pregunta").each(function(i, e){
+            var tipo = $(this).find('[data-role="respuesta"]').attr('data-tipo');
+            if(tipo == 'selector'){
+                respuestas.push({
+                    id_pregunta: $(this).data('rel-pregunta'),
+                    id_proceso: $(this).data('rel-proceso'),
+                    id_respuesta: $(this).find('select[data-role="respuesta"] option:selected').data('id'),
+                    ponderacion: $(this).find('select[data-role="respuesta"]').val(),
+                    observaciones: $(this).find('textarea[data-role="observaciones"]').val(),
+                    tipo: 'normales'
+                });
+            }else if(tipo == 'numero'){
+                respuestas.push({
+                    id_pregunta: $(this).data('rel-pregunta'),
+                    id_proceso: $(this).data('rel-proceso'),
+                    id_respuesta: $(this).find('input[data-role="respuesta"]').data('id-tipo-respuesta'),
+                    ponderacion: $(this).find('input[data-role="respuesta"]').val(),
+                    observaciones: $(this).find('textarea[data-role="observaciones"]').val(),
+                    tipo: 'numerico'
+                });
+            }
+        });
+        
+        $.ajax({
+            url: '../Controlador/DOC_Autoevaluacion_Controlador.php',
+            method: 'post',
+            dataType:'json',
+            async: false,
+            data: {
+                operacion: 'guadarRespuestas',
+                idgrupo: $('input[name="grupoI"]').val(),
+                respuestas: respuestas
+            },
+            success:  function (data) {
+                verificarPendientes();
+                obtenerPorcentaje();
+            }
+        });
+    }
+
+
+    var cargarPaginador = function(){
         $.ajax({
             url: '../Controlador/DOC_Autoevaluacion_Controlador.php',
             method: 'post',
             dataType:'json',
             async: false,
             data:{
-                operacion: 'obtenerTotalInstrumentos',
-                seccion :  $("input[name='_section']").val()
+                operacion: 'obtenerTotalInstrumentos2',
             },
             success:function (data){
-                num_paginas = data / items;
+
+                var lista_ids_preguntas = [];
+
+                $.each( data, function( key, value ) {
+                     $.each( value, function( key_2, value_2 ) {
+                        $.each( value_2, function( key_3, value_3 ) {
+                            if(key_3 == 'pk_instru_evaluacion'){
+
+                                if( lista_ids_preguntas.indexOf(value_3) == -1 ){
+                                    lista_ids_preguntas.push(value_3);
+                                }
+                            }
+
+                        });
+                    });
+                });
+
+
+                num_paginas = lista_ids_preguntas.length / items;
                 $('div[data-role="paginador"]').empty();
                 for (var i = 0; i < num_paginas; i++) {
                     $('div[data-role="paginador"]').append('<a href="#" data-rel="'+i+'" class="'+(i == 0 ? 'active' : '')+'">'+(i+1)+'</a>');
@@ -535,7 +618,7 @@ $(function(e){
 
 
 	cargarControlador(0);
-    //cargarPaginador();
+    cargarPaginador();
 
     $('div[data-role="paginador"]').delegate('a', 'click', function(e){
         var pag = $(this).data('rel');

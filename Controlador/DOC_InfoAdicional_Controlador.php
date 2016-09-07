@@ -141,7 +141,8 @@ class informacionAdicional_Controlador{
                                 $this->infoAdic->estado = 1;
                                 $this->infoAdic->fk_usuario = $_SESSION['pk_usuario'];
                                 $this->infoAdic->tipo = 2;
-                                $proceso = $_POST['seccion'] ==  $_SESSION['grupos_documental']['grupoP'] ? $_SESSION['pk_proceso'] : 0;
+                                $proceso = $_POST['id_proceso'];
+
                                 if ($this->infoAdic->guardarDocumento($proceso) == 1){
                                     $resul = $this->infoAdic->obtenerIdDocumento($nombre)->GetRows();
                                     echo json_encode(array('estado' => 1,'nombre' => $nombre, 'url' => $url , 'id' => $resul[0]['pk_documento']));
@@ -166,6 +167,7 @@ class informacionAdicional_Controlador{
      * @return [json] [un objeto en json con la informacion correspondiente de un archivo de informacion adicional]
      */
     public function cargarInformacionAdicional(){
+
           $ruta="../Documentos/info_autoevaluacion/";
             $nombre = "";
             $url = "";
@@ -220,7 +222,8 @@ class informacionAdicional_Controlador{
                             $this->infoAdic->estado = $estado;
                             $this->infoAdic->fk_usuario = $_SESSION['pk_usuario'];
                             $this->infoAdic->tipo = 1;
-                            $proceso = $_POST['seccion'] ==  $_SESSION['grupos_documental']['grupoP'] ? $_SESSION['pk_proceso'] : 0;
+                            $proceso = $_POST['id_proceso'];
+
                             if ($this->infoAdic->guardarDocumento($proceso) == 1){
                                 $resul = $this->infoAdic->obtenerIdDocumento($nombre)->GetRows();
                                 echo json_encode(array('estado' => 1,'nombre' => $nombre, 'url' => $url , 'id' => $resul[0]['pk_documento']));
