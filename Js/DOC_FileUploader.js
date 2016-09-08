@@ -43,6 +43,11 @@ $(function(e){
 		var contenedor = $(this).closest('.file-uploader');
 		var operacion;
 		opc = $(this).data('op');
+
+		if(opc == "cargar_doc_todos"){
+			operacion = "CargarVariosArchivos";
+		}
+
 		if (opc == "cargar_info" ){
 			operacion = "cargarInfo";
 		}else{

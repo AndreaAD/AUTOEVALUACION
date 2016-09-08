@@ -436,71 +436,96 @@ WHERE di.`fk_proceso` = '.$proceso.' AND di.`fk_proceso` = cnp.`pk_proceso`';
 	 * @return [int] devuelve el estado de la operacion 1 -0
 	 */
 	public function guardarRespuesta($id_pregunta, $id_respuesta, $ponderacion, $observaciones , $pk_usuario, $fk_proceso, $tipo){
+
+		//ver el grupo de interes
+		$sql5 = 'SELECT * FROM doc_respuesta_instrumentos_copy WHERE pk_respuesta_instrumento = "'.$id_pregunta.'" ';
+		$resultados = $this->runSQL($sql5);
+		$res = $resultados->GetRows();
+		$grupo_interes = $res[0]['fk_grupo_interes'];
+		if($grupo_interes == '8'){
+			//sacar la lista de preguntas que hay de ese tipo
+			$sql6 = 'SELECT pk_respuesta_instrumento FROM doc_respuesta_instrumentos_copy WHERE fk_grupo_interes = "'.$res[0]['fk_grupo_interes'].'"  AND fk_facultad = "'.$res[0]['fk_facultad'].'" AND pk_proceso_insti =  "'.$res[0]['pk_proceso_insti'].'" AND pk_respuesta_instrumento <> "'.$id_pregunta.'" ';
+			
+			$lista_x_facul = $this->runSQL($sql6);
+			$lista_respuestas_facultad = $lista_x_facul->GetRows();
+
+			if(count($lista_respuestas_facultad) > 0 ){
+				for($i=0; $i<count($lista_respuestas_facultad); $i++){
+					//echo $lista_respuestas_facultad[$i]['pk_respuesta_instrumento'];
+
+				}
+			}
+
+
+		}
 		
-		// $sql5 = 'SELECT * FROM doc_documento WHERE fk_respuesta_instrumento = "'.$id_pregunta.'" ';
-		// $resultados = $this->runSQL($sql5);
-		// $res = $resultados->GetRows();
-		// if ($id_respuesta == 10006 ){
-		// 	$operacion = (($ponderacion/100)*4)+1;
-		// 	$ponderacion = number_format($operacion, 2);
-		// }
-		// if ($id_respuesta == 10007 ){
-		// 	$sql7 = 'SELECT porcentaje from doc_respuesta_instrumentos_copy where fk_respuesta_instrumento = "'.$id_pregunta.'" ';
-		// 	$resultados = $this->runSQL($sql7);
-		// 	$res2 = $resultados->GetRows();
-		// 	$operacion =  (($ponderacion/$res2[0]['porcentaje'])*4)+1;
-		// 	$ponderacion = number_format($operacion, 2);
-		// }
+		$sql5 = 'SELECT * FROM doc_documento WHERE fk_respuesta_instrumento = "'.$id_pregunta.'" ';
+		$resultados = $this->runSQL($sql5);
+		$res = $resultados->GetRows();
+		
+		if ($id_respuesta == 10006 ){
+			$operacion = (($ponderacion/100)*4)+1;
+			$ponderacion = number_format($operacion, 2);
+		}
+		if ($id_respuesta == 10007 ){
+			$sql7 = 'SELECT porcentaje from doc_respuesta_instrumentos_copy where pk_respuesta_instrumento = "'.$id_pregunta.'" ';
+			$resultados = $this->runSQL($sql7);
+			$res2 = $resultados->GetRows();
+			$operacion =  (($ponderacion/$res2[0]['porcentaje'])*4)+1;
+			$ponderacion = number_format($operacion, 2);
+		}
 
-		// if ( count($res) > 0 ){
-		// 	$sql1 = ' SELECT fk_programa , fk_sede FROM cna_proceso WHERE pk_proceso = "'.$fk_proceso.'" ';
-		// 	$resultados = $this->runSQL($sql1);
-		// 	$sede = $resultados->GetRows();
-		// 	$s = $sede[0]['fk_sede'];
-		// 	$p = $sede[0]['fk_programa'];
-		// 	$id_evidencia = $this->obtenerIdEvidencia($id_pregunta);
-		// 	$id_grupo_interes = $this->obtenerIdGrupoInteres($id_pregunta);
-		// 	$sql_0 = 'SELECT COUNT(*) as total, pk_respuesta_instrumento FROM doc_respuesta_instrumentos_copy WHERE fk_respuesta_instrumento = "'.$id_pregunta.'" AND fk_evidencia = "'.$id_evidencia.'" AND fk_grupo_interes = "'.$id_grupo_interes.'" AND fk_proceso = "'.$fk_proceso.'"';
-		// 	$res = $this->runSql($sql_0);
-		// 	$instrumento_existente = $res->GetRows();
+		if ( count($res) > 0 ){
+			//$sql1 = ' SELECT fk_programa , fk_sede FROM cna_proceso WHERE pk_proceso = "'.$fk_proceso.'" ';
+			//$resultados = $this->runSQL($sql1);
+			//$sede = $resultados->GetRows();
+			//$s = $sede[0]['fk_sede'];
+			//$p = $sede[0]['fk_programa'];
 
-		// 	if($instrumento_existente[0]['total'] > 0){
-		// 		$pk_respuesta_instrumento = $instrumento_existente[0]['pk_respuesta_instrumento'];
-		// 		$sql_1 = 'UPDATE doc_respuesta_instrumentos_copy SET fk_instrumento = "'.$id_pregunta.'", fk_evidencia = "'.$id_evidencia.'", fk_grupo_interes = "'.$id_grupo_interes.'",fk_usuario = "'.$pk_usuario.'"  , fk_proceso = "'.$fk_proceso.'" ,fk_programa = "'.$p.'" , fk_sede = "'.$s.'", observaciones = "'.$observaciones.'", ponderacion = "'.$ponderacion.'", respuesta = "'.$id_respuesta.'" WHERE pk_respuesta_instrumento = "'.$pk_respuesta_instrumento.'"';
-		// 		$resultado = $this->runSQL($sql_1);
-		// 	}else{
-		// 		$sql_2 = 'INSERT INTO doc_respuesta_instrumentos (fk_instrumento, fk_evidencia, fk_grupo_interes,fk_usuario, fk_proceso, fk_programa , fk_sede , observaciones, ponderacion, respuesta  ) VALUES ("'.$id_pregunta.'", "'.$id_evidencia.'", "'.$id_grupo_interes.'",  "'.$pk_usuario.'" , "'.$fk_proceso.'", "'.$p.'", "'.$s.'",  "'.$observaciones.'", "'.$ponderacion.'", "'.$id_respuesta.'" )';
-		// 		$resultado = $this->runSQL($sql_2);
-		// 	}
-		// 	return $resultado;
+			//$id_evidencia = $this->obtenerIdEvidencia($id_pregunta);
+			//$id_grupo_interes = $this->obtenerIdGrupoInteres($id_pregunta);
 
-		// }else{
-		// 	$sql6 = 'SELECT  MIN(rp.ponderacion)  FROM doc_instru_evaluacion die, doc_respuesta_pregunta drp , respuesta_ponderacion rp WHERE pk_instru_evaluacion = 2 AND die.`fk_grupo_respuesta` = drp.`grupo_respuesta` AND drp.`fk_respuesta_ponderacion` = rp.`pk_respuesta_ponderacion`; ';	
-		// 	$resultados = $this->runSQL($sql6);
-		// 	$tipo_r = $resultados->GetRows();
-		// 	$pond = ($tipo == 'numerico' ? $ponderacion : $tipo_r[0]['ponderacion']);
+			$sql_0 = 'SELECT COUNT(*) as total, pk_respuesta_instrumento FROM doc_respuesta_instrumentos_copy WHERE pk_respuesta_instrumento = "'.$id_pregunta.'"  AND fk_proceso = "'.$fk_proceso.'"';
+			$res = $this->runSql($sql_0);
+			$instrumento_existente = $res->GetRows();
 
-		// 	$sql1 = ' SELECT fk_programa , fk_sede FROM cna_proceso WHERE pk_proceso = "'.$fk_proceso.'" ';
-		// 	$resultados = $this->runSQL($sql1);
-		// 	$sede = $resultados->GetRows();
-		// 	$s = $sede[0]['fk_sede'];
-		// 	$p = $sede[0]['fk_programa'];
-		// 	$id_evidencia = $this->obtenerIdEvidencia($id_pregunta);
-		// 	$id_grupo_interes = $this->obtenerIdGrupoInteres($id_pregunta);
-		// 	$sql_0 = 'SELECT COUNT(*) as total, pk_respuesta_instrumento FROM doc_respuesta_instrumentos WHERE fk_instrumento = "'.$id_pregunta.'" AND fk_evidencia = "'.$id_evidencia.'" AND fk_grupo_interes = "'.$id_grupo_interes.'" AND fk_proceso = "'.$fk_proceso.'"';
-		// 	$res = $this->runSql($sql_0);
-		// 	$instrumento_existente = $res->GetRows();
+			if($instrumento_existente[0]['total'] > 0){
+				$pk_respuesta_instrumento = $instrumento_existente[0]['pk_respuesta_instrumento'];
+				$sql_1 = 'UPDATE doc_respuesta_instrumentos_copy SET fk_usuario = "'.$pk_usuario.'" , fk_programa = "'.$p.'" , fk_sede = "'.$s.'", observaciones = "'.$observaciones.'", ponderacion = "'.$ponderacion.'", respuesta = "'.$id_respuesta.'" WHERE pk_respuesta_instrumento = "'.$pk_respuesta_instrumento.'"';
+				$resultado = $this->runSQL($sql_1);
+			}else{
+				// $sql_2 = 'INSERT INTO doc_respuesta_instrumentos_copy (fk_respuesta_instrumento, fk_evidencia, fk_grupo_interes,fk_usuario, fk_proceso, fk_programa , fk_sede , observaciones, ponderacion, respuesta  ) VALUES ("'.$id_pregunta.'", "'.$id_evidencia.'", "'.$id_grupo_interes.'",  "'.$pk_usuario.'" , "'.$fk_proceso.'", "'.$p.'", "'.$s.'",  "'.$observaciones.'", "'.$ponderacion.'", "'.$id_respuesta.'" )';
+				// $resultado = $this->runSQL($sql_2);
+			}
+			return $resultado;
 
-		// 	if($instrumento_existente[0]['total'] > 0){
-		// 		$pk_respuesta_instrumento = $instrumento_existente[0]['pk_respuesta_instrumento'];
-		// 		$sql_1 = 'UPDATE doc_respuesta_instrumentos SET fk_instrumento = "'.$id_pregunta.'", fk_evidencia = "'.$id_evidencia.'", fk_grupo_interes = "'.$id_grupo_interes.'",fk_usuario = "'.$pk_usuario.'"  , fk_proceso = "'.$fk_proceso.'" ,fk_programa = "'.$p.'" , fk_sede = "'.$s.'", observaciones = "'.$observaciones.'", ponderacion = "'.$pond.'", respuesta = "'.$id_respuesta.'" WHERE pk_respuesta_instrumento = "'.$pk_respuesta_instrumento.'"';
-		// 		$resultado = $this->runSQL($sql_1);
-		// 	}else{
-		// 		$sql_2 = 'INSERT INTO doc_respuesta_instrumentos (fk_instrumento, fk_evidencia, fk_grupo_interes,fk_usuario, fk_proceso, fk_programa , fk_sede , observaciones, ponderacion, respuesta  ) VALUES ("'.$id_pregunta.'", "'.$id_evidencia.'", "'.$id_grupo_interes.'",  "'.$pk_usuario.'" , "'.$fk_proceso.'", "'.$p.'", "'.$s.'",  "'.$observaciones.'", "'.$pond.'", "'.$id_respuesta.'" )';
-		// 		$resultado = $this->runSQL($sql_2);
-		// 	}
-		// 	return $resultado;
-		// }	
+		}else{
+			$sql6 = 'SELECT  MIN(rp.ponderacion)  FROM doc_respuesta_instrumentos_copy die, doc_respuesta_pregunta drp , respuesta_ponderacion rp WHERE die.`pk_respuesta_instrumento` = "'.$id_pregunta.'" AND die.`fk_grupo_respuesta` = drp.`grupo_respuesta` AND drp.`fk_respuesta_ponderacion` = rp.`pk_respuesta_ponderacion`; ';	
+			$resultados = $this->runSQL($sql6);
+			$tipo_r = $resultados->GetRows();
+			$pond = ($tipo == 'numerico' ? $ponderacion : $tipo_r[0]['ponderacion']);
+
+			$sql1 = ' SELECT fk_programa , fk_sede FROM cna_proceso WHERE pk_proceso = "'.$fk_proceso.'" ';
+			$resultados = $this->runSQL($sql1);
+			$sede = $resultados->GetRows();
+			$s = $sede[0]['fk_sede'];
+			$p = $sede[0]['fk_programa'];
+			$id_evidencia = $this->obtenerIdEvidencia($id_pregunta);
+			$id_grupo_interes = $this->obtenerIdGrupoInteres($id_pregunta);
+			$sql_0 = 'SELECT COUNT(*) as total, pk_respuesta_instrumento FROM doc_respuesta_instrumentos_copy WHERE pk_respuesta_instrumento = "'.$id_pregunta.'"  AND fk_proceso = "'.$fk_proceso.'"';
+			$res = $this->runSql($sql_0);
+			$instrumento_existente = $res->GetRows();
+
+			if($instrumento_existente[0]['total'] > 0){
+				$pk_respuesta_instrumento = $instrumento_existente[0]['pk_respuesta_instrumento'];
+				$sql_1 = 'UPDATE doc_respuesta_instrumentos_copy SET fk_usuario = "'.$pk_usuario.'"  , fk_proceso = "'.$fk_proceso.'" ,fk_programa = "'.$p.'" , fk_sede = "'.$s.'", observaciones = "'.$observaciones.'", ponderacion = "'.$pond.'", respuesta = "'.$id_respuesta.'" WHERE pk_respuesta_instrumento = "'.$pk_respuesta_instrumento.'"';
+				$resultado = $this->runSQL($sql_1);
+			}else{
+				// $sql_2 = 'INSERT INTO doc_respuesta_instrumentos (fk_instrumento, fk_evidencia, fk_grupo_interes,fk_usuario, fk_proceso, fk_programa , fk_sede , observaciones, ponderacion, respuesta  ) VALUES ("'.$id_pregunta.'", "'.$id_evidencia.'", "'.$id_grupo_interes.'",  "'.$pk_usuario.'" , "'.$fk_proceso.'", "'.$p.'", "'.$s.'",  "'.$observaciones.'", "'.$pond.'", "'.$id_respuesta.'" )';
+				// $resultado = $this->runSQL($sql_2);
+			}
+			return $resultado;
+		}
 		
 	}
 
@@ -520,7 +545,9 @@ WHERE di.`fk_proceso` = '.$proceso.' AND di.`fk_proceso` = cnp.`pk_proceso`';
 	 * @return [int] devuelve el estado de la operacion 1 -0
 	 */	
 	public function obtenerRespuestas($id_pregunta , $fk_proceso){
-		$sql = 'SELECT di.*,IF(di.respuesta = 10006, CEIL((di.ponderacion-1) / 4 * 100), di.ponderacion) AS respuesta_6, IF(di.respuesta = 10007, CEIL((di.ponderacion-1) / 4 * (SELECT de.porcentaje FROM doc_instru_evaluacion de WHERE de.pk_instru_evaluacion = di.`fk_instrumento`)), di.ponderacion) AS respuesta_7 FROM doc_respuesta_instrumentos di WHERE di.fk_instrumento = "'.$id_pregunta.'" AND di.fk_proceso = "'.$fk_proceso.'" ';
+		$sql = 'SELECT di.*,IF(di.respuesta = 10006, CEIL((di.ponderacion-1) / 4 * 100), di.ponderacion) AS respuesta_6, 
+IF(di.respuesta = 10007, CEIL((di.ponderacion-1) / 4 * (di.`porcentaje`)), di.ponderacion) AS respuesta_7 
+FROM doc_respuesta_instrumentos_copy di WHERE di.pk_respuesta_instrumento = "'.$id_pregunta.'" AND di.fk_proceso = "'.$fk_proceso.'" ';
 		$resultados = $this->runSQL($sql);
 		return $resultados;
 	}

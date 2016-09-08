@@ -148,12 +148,16 @@ class Autoevaluacion_Controlador {
 
         $resultados = 1;
         $pk_usuario = $_SESSION['pk_usuario'];
+        // echo '<pre>';
+        // print_r($_POST['respuestas']);
+        // exit();
         foreach($_POST['respuestas'] as &$valor){
             if(!$this->autoevaluacion->guardarRespuesta($valor['id_pregunta'], $valor['id_respuesta'], $valor['ponderacion'], $valor['observaciones'], $pk_usuario ,$valor['id_proceso'], $valor['tipo'])){
                 $resultados = 0;
             }
         }
-        echo json_encode(array('estado' => $resultados));
+        echo $resultados;
+        //echo json_encode(array('estado' => $resultados));
     }
 
     /**
@@ -197,12 +201,8 @@ class Autoevaluacion_Controlador {
      * @return [json] array codificado en json con el los resultados
      */
     public function obtenerRespuestas(){
-        if ($_POST['idgrupo'] == $_SESSION['grupos_documental']['grupoP']){
-            $fk_proceso =  $_SESSION['pk_proceso'];
-        }else{
-            $fk_proceso = "0";
-        }
-        $resultados = $this->autoevaluacion->obtenerRespuestas($_POST['id_pregunta'] , $fk_proceso)->GetRows();
+
+        $resultados = $this->autoevaluacion->obtenerRespuestas($_POST['id_pregunta'] , $_POST['proceso'])->GetRows();
         echo json_encode($resultados);
     }
 
