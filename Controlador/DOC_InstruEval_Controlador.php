@@ -18,25 +18,50 @@ class InstruEval_Controlador {
      * @return [int] [Estado que indica que resultado se obtuvo de la operacion]
      */
     public function guardarInstrumento(){
-        if($_POST['pregunta'] != "" && $_POST['evidencia'] != "" &&  $_POST['tipoRespuesta'] != ""  && $_POST['opcionesRespuesta']  != "" && $_POST['proceso'] != "" ){
-            $arregloGrupo = $_POST['grupoInteres'];
-             $guardo = 1;
-            if ( count($arregloGrupo) == 1)
-                $grupoInteres = $arregloGrupo[0]['value'];
-            else
-                $grupoInteres = 3; 
+        if($_POST['pregunta'] != "" && $_POST['evidencia'] != "" &&  $_POST['tipoRespuesta'] != ""  && $_POST['opcionesRespuesta']  != "" ){
+
+
+             $arregloGrupo = $_POST['grupoInteres'];
+            //  $guardo = 1;
+            // if ( count($arregloGrupo) == 1)
+                 $grupoInteres = $arregloGrupo[0]['value'];
+            // else
+            //     $grupoInteres = 3; 
 
             $this->instrumento->grupo =  $grupoInteres;
             $this->instrumento->pregunta = $_POST['pregunta'];
+            $this->instrumento->factor = $_POST['factor'];
+            $this->instrumento->factor_codigo = $_POST['factor_codigo'];
+            $this->instrumento->caracteristicas = $_POST['caracteristicas'];
+            $this->instrumento->caracteristicas_codigo = $_POST['caracteristicas_codigo'];
+            $this->instrumento->aspectos = $_POST['aspectos'];
+            $this->instrumento->aspectos_codigo = $_POST['aspectos_codigo'];
             $this->instrumento->evidencia = $_POST['evidencia'];
+            $this->instrumento->evidencia_codigo = $_POST['evidencia_codigo'];
             $this->instrumento->tipoRespuesta = $_POST['tipoRespuesta'];
             $this->instrumento->opcionRespuesta = $_POST['opcionesRespuesta'];
+            
+            $this->instrumento->opc = $_POST['opc'];
 
-            $arregloProceso = $_POST['proceso'];
-            for($i =0; $i<count($arregloProceso); $i++){
-                $guardo = $this->instrumento->guardar($_POST['suboperacion'] , $arregloProceso[$i]['value'] );
-            }
-            echo $guardo;   
+            // if($grupoInteres == 8)
+            // {
+            //     $guardo = $this->instrumento->guardar($_POST['suboperacion'] , 0 );
+            // }else if($grupoInteres == 7){
+            //     $arregloProceso = $_POST['proceso'];
+            //     for($i =0; $i<count($arregloProceso); $i++){
+            //         $this->instrumento->guardar($_POST['suboperacion'] , $arregloProceso[$i]['value'] );
+            //     }
+            // }else if($grupoInteres == 3){
+            //     $this->instrumento->guardar($_POST['suboperacion'] , 0 );
+            //     $arregloProceso = $_POST['proceso'];
+            //     for($i =0; $i<count($arregloProceso); $i++){
+            //         $this->instrumento->guardar($_POST['suboperacion'] , $arregloProceso[$i]['value'] );
+            //     }
+            // }
+
+            $guardo = $this->instrumento->guardar($_POST['suboperacion']);
+
+            echo 1;   
         }else{
             echo 2;
         }  
@@ -80,6 +105,7 @@ class InstruEval_Controlador {
                 $guardo = $this->instrumento->modificar($arregloProceso[$i]['value'] );
 
             }
+
             echo 1;
         }else{
             echo 2; 
@@ -113,6 +139,128 @@ class InstruEval_Controlador {
 
     public function checkprogramasConstruccion(){
         echo json_encode($this->instrumento->checkprogramasConstruccion()->GetRows());
+    }
+
+    public function CargarInstrumentos(){
+        $grupo = $_POST['grupo'];
+        echo json_encode($this->instrumento->CargarInstrumentos($grupo)->GetRows());
+    }
+
+    public function ListarCna(){
+        $cna = array();
+        $factores = $this->instrumento->buscarFactores()->GetRows();
+        $cna =  $factores;
+        foreach ($cna as &$factor) {
+            $caracteristicas = $this->instrumento->buscarCaract($factor['pk_factor'])->GetRows();
+            $factor['caracteristicas'] = $caracteristicas;
+
+            foreach ($factor['caracteristicas'] as &$caracteristica) 
+            {
+                //$factor['caracteristicas'][] = $caracteristica;
+                $factor['lista_caracteristicas'][] = $caracteristica['pk_caracteristica'];
+                $factor['lista_caracteristicas_codigos'][] = $caracteristica['codigo'];
+                $aspectos = $this->instrumento->buscarAspecto($caracteristica['pk_caracteristica'])->GetRows();
+
+                $caracteristica['aspectos'] = $aspectos;
+                foreach ($caracteristica['aspectos'] as &$aspecto) {
+                    $caracteristica['lista_aspectos'][] = $aspecto['pk_aspecto'];
+                    $evidencias = $this->instrumento->buscarEVidencia($aspecto['pk_aspecto'])->GetRows();
+                    $aspecto['evidencias'] = $evidencias;
+                    foreach ($aspecto['evidencias'] as &$evidencia) {
+                        $aspecto['lista_evidencias'][] = $evidencia['pk_evidencia'];
+                    }
+                }
+            }
+
+        }
+       
+        echo json_encode($cna);
+        //echo json_encode($this->instrumento->ListarCna()->GetRows());
+    }
+
+    public function GuardarInstrumentoCaracteristica(){
+
+
+        if($_POST['operacion'] != "" && $_POST['grupo_interes'] != "" &&  $_POST['instrumento'] != ""  && $_POST['tipo_respuesta']  != ""  && $_POST['ids'] != "" ){
+            
+            
+            $arregloGrupo = $_POST['grupo_interes'];
+            // $guardo = 1;
+            // $grupo_interes = '';
+            // if( count($arregloGrupo) == 1){
+                $grupoInteres = $arregloGrupo[0]['value'];
+            // }else{
+            //     $grupoInteres = 3;
+            // }
+
+            $this->instrumento->grupo =  $grupoInteres;
+            $this->instrumento->opc =  $_POST['opc'];
+            $this->instrumento->pregunta = $_POST['instrumento'];
+            $this->instrumento->tipoRespuesta = $_POST['tipo_respuesta'];
+            $this->instrumento->opcionRespuesta = $_POST['opciones_respuesta'];
+            $this->instrumento->porcentaje = $_POST['porcentaje'] ? $_POST['porcentaje'] : 0 ;
+
+
+            $array = json_decode($_POST['ids']);
+
+            // if($grupoInteres == 8)
+            // {
+                $this->instrumento->factor =  '';
+                $this->instrumento->factor_codigo =  '';
+                $this->instrumento->caracteristicas = '';
+                $this->instrumento->caracteristicas_codigo = '';
+                foreach( $array  as $r){
+                    $this->instrumento->factor .=  $r->factor.'|';
+                    $this->instrumento->factor_codigo .=  $r->factor_codigo.'|';
+                    $this->instrumento->caracteristicas .=  $r->caracteristica.'|';
+                    $this->instrumento->caracteristicas_codigo .=  $r->caracteristica_codigo.'|';
+                    
+                }
+                $this->instrumento->guardarInstruCarac();
+
+            // }else if($grupoInteres == 7){
+            //     $procesos = $_POST['procesos'];
+            //     foreach ($procesos as &$value) {
+            //         $this->instrumento->factor =  '';
+            //         $this->instrumento->factor_codigo =  '';
+            //         $this->instrumento->caracteristicas = '';
+            //         $this->instrumento->caracteristicas_codigo = '';
+            //         foreach( $array  as $r){
+            //             $this->instrumento->factor .=  $r->factor.'|';
+            //             $this->instrumento->factor_codigo .=  $r->factor_codigo.'|';
+            //             $this->instrumento->caracteristicas .=  $r->caracteristica.'|';
+            //             $this->instrumento->caracteristicas_codigo .=  $r->caracteristica_codigo.'|';
+                        
+            //         }
+            //         $this->instrumento->proceso =  $value['value'];
+            //         $this->instrumento->guardarInstruCarac();  
+            //     }
+            // }else if($grupoInteres == 3){
+            //     $procesos = $_POST['procesos'];
+            //     foreach ($procesos as &$value) {
+            //         $this->instrumento->factor =  '';
+            //         $this->instrumento->factor_codigo =  '';
+            //         $this->instrumento->caracteristicas = '';
+            //         $this->instrumento->caracteristicas_codigo = '';
+            //         foreach( $array  as $r){
+            //             $this->instrumento->factor .=  $r->factor.'|';
+            //             $this->instrumento->factor_codigo .=  $r->factor_codigo.'|';
+            //             $this->instrumento->caracteristicas .=  $r->caracteristica.'|';
+            //             $this->instrumento->caracteristicas_codigo .=  $r->caracteristica_codigo.'|';
+            //             $this->instrumento->proceso =  $value['value'];
+                        
+            //         }
+            //         $this->instrumento->guardarInstruCarac(); 
+            //     }
+            //     $this->instrumento->proceso =  0;
+            //     $this->instrumento->guardarInstruCarac();  
+
+            // }        
+
+            echo 1;
+        }else{
+             echo 2;
+         }
     }
 
 }
@@ -153,6 +301,15 @@ switch ($_operacion) {
     break;
     case 'checkprogramasConstruccion':
         $controlador->checkprogramasConstruccion();
+    break;
+    case 'ListarCna':
+        $controlador->ListarCna();
+    break;
+    case 'GuardarInstrumentoCaracteristica':
+        $controlador->GuardarInstrumentoCaracteristica();
+    break;    
+    case 'CargarInstrumentos':
+        $controlador->CargarInstrumentos();
     break;
     default:
 

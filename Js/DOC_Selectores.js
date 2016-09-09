@@ -1,5 +1,36 @@
+function updateDataTableSelectAllCtrl(table){
+   var $table             = table.table().node();
+   var $chkbox_all        = $('tbody input[type="checkbox"]', $table);
+   var $chkbox_checked    = $('tbody input[type="checkbox"]:checked', $table);
+   var chkbox_select_all  = $('thead input[name="select_all"]', $table).get(0);
+
+   // If none of the checkboxes are checked
+   if($chkbox_checked.length === 0){
+      chkbox_select_all.checked = false;
+      if('indeterminate' in chkbox_select_all){
+         chkbox_select_all.indeterminate = false;
+      }
+
+   // If all of the checkboxes are checked
+   } else if ($chkbox_checked.length === $chkbox_all.length){
+      chkbox_select_all.checked = true;
+      if('indeterminate' in chkbox_select_all){
+         chkbox_select_all.indeterminate = false;
+      }
+
+   // If some of the checkboxes are checked
+   } else {
+      chkbox_select_all.checked = true;
+      if('indeterminate' in chkbox_select_all){
+         chkbox_select_all.indeterminate = true;
+      }
+   }
+}
+
+
 $(function(e){
 
+    var rows_selected = {};
     var seccion = $('input[name="_section"]').val();
     var cambio_estado = $('input[name="cambio_estado"]').val();
     var link_factor = $('#A_factor');
@@ -28,7 +59,7 @@ $(function(e){
     var tabla_tipo_respuestas = $('#tabla_tipo_respuestas');
     var _divOculto = $("#div_contenido_completo");
     var pagina = 1; 
-    var items = 2;
+    var items = 4;
     var num_paginas = 0;
 
     var _B_nuevoproceso = $("#B_nuevoProceso");
@@ -170,7 +201,7 @@ $(function(e){
             success:  function (data) {
                 var lista ="";
                 for(var i = 0; i < data.length; i++){
-                    lista += '<input type="checkbox" name="grupoInteres[]" value="'+data[i].pk_grupo_interes+'">'+data[i].nombre+' ';
+                    lista += '<input type="radio" class="check" name="grupoInteres[]" value="'+data[i].pk_grupo_interes+'">'+data[i].nombre+' ';
                 }
                 div_checkbox.html(lista);           
             }
@@ -202,7 +233,7 @@ $(function(e){
                     success:  function (data) { 
                         var lista = '<div class="row"><ul class="selector" data-rel="factor">';
                         for(var i = 0; i < data.length; i++){
-                            lista += '<li><a href="#" data-id="'+data[i].pk_factor+'">'+data[i].codigo+'. '+data[i].nombre+'</a></li>';
+                            lista += '<li><a href="#" data-codigo="'+data[i].codigo+'"  data-id="'+data[i].pk_factor+'">'+data[i].codigo+'. '+data[i].nombre+'</a></li>';
                         }
                         lista += "</ul></div>";
                         div_emergente.find('.emergente > div[data-role="contenido"]').html(lista);
@@ -264,7 +295,7 @@ $(function(e){
                         var lista = '<div class="row"><ul class="selector" data-rel="caracteristica">';
                         for(var i = 0; i < data.length; i++){
                             
-                            lista += '<li><a href="#" data-id="'+data[i].pk_caracteristica+'">'+data[i].codigo+'. '+data[i].nombre+'</a></li>';
+                            lista += '<li><a href="#" data-codigo="'+data[i].codigo+'" data-id="'+data[i].pk_caracteristica+'">'+data[i].codigo+'. '+data[i].nombre+'</a></li>';
                         }
                         lista += "</ul></div>";
                         div_emergente.find('.emergente > div[data-role="contenido"]').html(lista);
@@ -328,7 +359,7 @@ $(function(e){
                         var lista = '<div class="row"><ul class="selector" data-rel="aspecto">';
                         for(var i = 0; i < data.length; i++){
                             
-                            lista += '<li><a href="#" data-id="'+data[i].pk_aspecto+'">'+data[i].codigo+'. '+data[i].nombre+'</a></li>';
+                            lista += '<li><a href="#" data-codigo="'+data[i].codigo+'" data-id="'+data[i].pk_aspecto+'">'+data[i].codigo+'. '+data[i].nombre+'</a></li>';
                         }
                         lista += "</ul></div>";
                         div_emergente.find('.emergente > div[data-role="contenido"]').html(lista);
@@ -393,7 +424,7 @@ $(function(e){
                         var lista = '<div class="row"><ul class="selector" data-rel="evidencia">';
                         for(var i = 0; i < data.length; i++){
                             
-                            lista += '<li><a href="#" data-id="'+data[i].pk_evidencia+'">'+data[i].codigo+'. '+data[i].nombre+'</a></li>';
+                            lista += '<li><a href="#" data-codigo="'+data[i].codigo+'" data-id="'+data[i].pk_evidencia+'">'+data[i].codigo+'. '+data[i].nombre+'</a></li>';
                         }
                         lista += "</ul></div>";
                         div_emergente.find('.emergente > div[data-role="contenido"]').html(lista);
@@ -516,13 +547,16 @@ $(function(e){
     div_emergente.delegate('.selector a', 'click', function(e){
         var rel = $(this).closest('.selector').data('rel');
         var id = $(this).data('id');
+        var codigo = $(this).data('codigo');
         var descripcion = $(this).text();
         $('#'+rel).text(descripcion);
         switch(rel){
             case 'factor':
                 _id_factor = id;
+                _codigo_factor = codigo;
                 $("input[name='grupoInt']").val();
                 $("input[name='factor']").val(_id_factor);
+                $("input[name='factor_codigo']").val(_codigo_factor);
                 _id_caracteristica = 0;
                 $("input[name='caracteristica']").val("");
                 _id_aspecto = 0;
@@ -543,7 +577,9 @@ $(function(e){
             break;
             case 'caracteristica':
                 _id_caracteristica = id;
+                _codigo_caracteristica = codigo;
                 $("input[name='caracteristica']").val(_id_caracteristica);
+                $("input[name='caracteristica_codigo']").val(_codigo_caracteristica);
                 _id_aspecto = 0;
                 $("input[name='aspecto']").val("");
                 _id_evidencia = 0;
@@ -561,7 +597,9 @@ $(function(e){
             break;
             case 'aspecto':
                 _id_aspecto = id;
+                 _codigo_aspecto = codigo;
                 $("input[name='aspecto']").val(_id_aspecto);
+                $("input[name='aspecto_codigo']").val(_codigo_aspecto);
                 _id_evidencia = 0;
                 $("input[name='evidencia']").val("");
                 _id_instrumento = 0;
@@ -575,19 +613,21 @@ $(function(e){
             break;
             case 'evidencia':
                 _id_evidencia = id;
+                 _codigo_evidencia = codigo;
                 $("input[name='evidencia']").val(_id_evidencia);
+                $("input[name='evidencia_codigo']").val(_codigo_evidencia);
                 _id_instrumento = 0;
                 _id_instrumento = 0;
                 $("input[name='instrumento']").val("");
                 $('#instrumento').text("");
                 tabla_guardar_info.html("");
                 if ( seccion == 'intru_evaluacion'){
-                    checkprogramas();
-                    if($('#lab_pro').text() == 'No hay procesos en fase de contruccion'){
+                    // checkprogramas();
+                    // if($('#lab_pro').text() == 'No hay procesos en fase de contruccion'){
                         
-                    }else{
-                        cargartablaInstrumentos2();
-                    }
+                    // }else{
+                    //     cargartablaInstrumentos2();
+                    // }
                 }
                 
                 if (seccion == 'infoAdicional'){
@@ -638,13 +678,9 @@ $(function(e){
             break;
             
         }
-        if( seccion == 'autoevaluacion_programa' || seccion == 'autoevaluacion_Institucional' ){
-            cargarInformacionFactor();
-            cargarControlador(0 , $("input[name='grupoI']").val());
-            cargarPaginador();
-        }
         cerrarEmergente(e);
     });
+
     
     /**
      * [cargarInformacionFactor cargar la descripcion de un factor]
@@ -740,45 +776,44 @@ $(function(e){
                 var form = '<form>';
                 for(var i = 0; i<data.length; i++){
                     form += '<div class="row">';
-                        form += '<div class="titulo">';
-                            form += '<h4>'+data[i].caracteristica_codigo+'.'+data[i].caracteristica_nombre+'</h4>';
-                        form += '</div>';
-                        for(var j = 0; j<data[i].instrumentos.length; j++){
-                            form += '<div class="pregunta" data-rel-pregunta="'+data[i].instrumentos[j].pk_instru_evaluacion+'">';
+                        // form += '<div class="titulo">';
+                            // form += '<h4>'+data[i].caracteristica_codigo+'.'+data[i].caracteristica_nombre+'</h4>';
+                        // form += '</div>';
+                            form += '<div class="pregunta" data-rel-pregunta="'+data[i].pk_instru_evaluacion+'">';
                                 form += '<div>';
-                                    form += '<p class="titulo_pregunta">'+data[i].instrumentos[j].codigo+'.'+data[i].instrumentos[j].pregunta+'</p>';
+                                    form += '<p class="titulo_pregunta">'+data[i].pregunta+'</p>';
                                 form += '</div>';
-                                if(data[i].instrumentos[j].respuestas.length == 1 ){
-                                    if (data[i].instrumentos[j].respuestas[0].fk_tipo_respuesta == 6){
+                                if(data[i].respuestas.length == 1 ){
+                                    if (data[i].respuestas[0].fk_tipo_respuesta == 6){
                                         form += '<label>Seleccione el porcentaje</label>';
                                         form += '<input type="number" min="1" max="100" name="respuesta-porc" data-role="respuesta" data-tipo="numero" data-id-tipo-respuesta="10006">';
-                                        form += '<span style="font-size: 10px; margin-left: 5px;">El maximo para la escala porcentual es: ' +data[i].instrumentos[j].porcentaje+' </span>';
+                                        form += '<span style="font-size: 10px; margin-left: 5px;">El maximo para la escala porcentual es: ' +data[i].porcentaje+' </span>';
                                     }
-                                    if (data[i].instrumentos[j].respuestas[0].fk_tipo_respuesta == 7){
+                                    if (data[i].respuestas[0].fk_tipo_respuesta == 7){
                                         form += '<label>Seleccione el valor ideal </label>';
                                         form += '<input type="number" min="1" max="100" name="respuesta-porc" data-role="respuesta" data-tipo="numero" data-id-tipo-respuesta="10007">';
-                                        form += '<span>El maximo valor ideal es: ' +data[i].instrumentos[j].porcentaje+' </span>';
+                                        form += '<span>El maximo valor ideal es: ' +data[i].porcentaje+' </span>';
                                     }
                                 }else{
                                     form += '<div class="validador">';
                                         form += '<label>Seleccione la respuesta</label>';
                                         form += '<select data-role="respuesta" data-tipo="selector">';
                                         form += '<option data-id="0" value="0"></option>';
-                                            for( var k = 0; k<data[i].instrumentos[j].respuestas.length; k++){
-                                                form += '<option data-id="'+data[i].instrumentos[j].respuestas[k].pk_respuestas_pregunta+'" value="'+data[i].instrumentos[j].respuestas[k].ponderacion+'">'+data[i].instrumentos[j].respuestas[k].texto+'</option>';
+                                            for( var k = 0; k<data[i].respuestas.length; k++){
+                                                form += '<option data-id="'+data[i].respuestas[k].pk_respuestas_pregunta+'" value="'+data[i].respuestas[k].ponderacion+'">'+data[i].respuestas[k].texto+'</option>';
                                             }
                                         form += '</select>';
                                     form += '</div>';
                                 }
                                 
-                                if(data[i].instrumentos[j].informacion.length > 0){
+                                if(data[i].informacion.length > 0){
                                 form += '<div>';
                                     form += '<label>Es recomendado diligenciar la informacion adicional</label>';
                                     form += '<div class="table">';
                                         form += '<table class="archivos">';
-                                            for(var l = 0; l<data[i].instrumentos[j].informacion.length; l++){
+                                            for(var l = 0; l<data[i].informacion.length; l++){
                                                 form += '<tr>';
-                                                form += '<td><a class="file" href="'+data[i].instrumentos[j].informacion[l].url+'" target="_blank">'+data[i].instrumentos[j].informacion[l].nombre+'</a></td>';
+                                                form += '<td><a class="file" href="'+data[i].informacion[l].url+'" target="_blank">'+data[i].informacion[l].nombre+'</a></td>';
                                                 form += '</tr>';
                                             }
                                         form += '</table>';
@@ -787,14 +822,14 @@ $(function(e){
                                 }
                                 form += '<div class="validador">';
                                     form += '<label>Seleccione el(los) documento(s) de informacion adicional que sustentan su respuesta</label>';
-                                    form += '<div class="file-uploader" data-rel="'+data[i].instrumentos[j].pk_instru_evaluacion+'">';
-                                        form += '<input type="file"><a href="#" data-op="cargar_info" data-rel="'+data[i].instrumentos[j].pk_instru_evaluacion+'" class="subir">Cargar</a><br>';
+                                    form += '<div class="file-uploader" data-rel="'+data[i].pk_instru_evaluacion+'">';
+                                        form += '<input type="file"><a href="#" data-op="cargar_info" data-rel="'+data[i].pk_instru_evaluacion+'" class="subir">Cargar</a><br>';
                                         form += '<div class="progress-bar"><div class="progresoinfo"></div></div>';
                                         form += '<div class="table">';
-                                            if(data[i].instrumentos[j].informacionadicional.length > 0){
+                                            if(data[i].informacionadicional.length > 0){
                                                 form += '<table class="info">';
-                                                    for(var t = 0; t<data[i].instrumentos[j].informacionadicional.length; t++){
-                                                        form += '<tr data-id="'+data[i].instrumentos[j].informacionadicional[t].pk_documento+'"><td><a  href="'+data[i].instrumentos[j].informacionadicional[t].url+'" target="_blank">'+data[i].instrumentos[j].informacionadicional[t].nombre+'</a></td><td><a href="#" data-role="borrar">eliminar</a></td></tr>';
+                                                    for(var t = 0; t<data[i].informacionadicional.length; t++){
+                                                        form += '<tr data-id="'+data[i].informacionadicional[t].pk_documento+'"><td><a  href="'+data[i].informacionadicional[t].url+'" target="_blank">'+data[i].informacionadicional[t].nombre+'</a></td><td><a href="#" data-role="borrar">eliminar</a></td></tr>';
                                                     }
                                                 form += '</table>';
                                             }else{
@@ -806,14 +841,14 @@ $(function(e){
                                 form += '</div>';
                                 form += '<div class="validador">';
                                     form += '<label data-role="doc">Seleccione el(los) documento(s) que sustentan su respuesta</label>';
-                                    form += '<div class="file-uploader" data-rel="'+data[i].instrumentos[j].pk_instru_evaluacion+'">';
-                                        form += '<input type="file"><a href="#" data-op="cargar_doc" data-rel="'+data[i].instrumentos[j].pk_instru_evaluacion+'" class="subir">Cargar</a><br>';
+                                    form += '<div class="file-uploader" data-rel="'+data[i].pk_instru_evaluacion+'">';
+                                        form += '<input type="file"><a href="#" data-op="cargar_doc" data-rel="'+data[i].pk_instru_evaluacion+'" class="subir">Cargar</a><br>';
                                         form += '<div class="progress-bar"><div class="progreso"></div></div>';
                                         form += '<div class="table">';
-                                            if(data[i].instrumentos[j].documentos.length > 0){
+                                            if(data[i].documentos.length > 0){
                                                 form += '<table class="archivos">';
-                                                    for(var m = 0; m<data[i].instrumentos[j].documentos.length; m++){
-                                                        form += '<tr data-id="'+data[i].instrumentos[j].documentos[m].pk_documento+'"><td><a  href="'+data[i].instrumentos[j].documentos[m].url+'" target="_blank">'+data[i].instrumentos[j].documentos[m].nombre+'</a></td><td><a href="#" data-role="borrar">eliminar</a></td></tr>';
+                                                    for(var m = 0; m<data[i].documentos.length; m++){
+                                                        form += '<tr data-id="'+data[i].documentos[m].pk_documento+'"><td><a  href="'+data[i].documentos[m].url+'" target="_blank">'+data[i].documentos[m].nombre+'</a></td><td><a href="#" data-role="borrar">eliminar</a></td></tr>';
                                                     }
                                                 form += '</table>';
                                             }else{
@@ -822,7 +857,7 @@ $(function(e){
                                             }
                                         form += '</div>';
                                         if ($('input[name="grupoI"]').val() == "Equipo del Programa"){
-                                            form += '<a href="#" data-role="nuevosArchivos" data-id-instru="'+data[i].instrumentos[j].pk_instru_evaluacion+'" class="subir_nuevos">Archivos de procesos anteriores</a>';
+                                            form += '<a href="#" data-role="nuevosArchivos" data-id-instru="'+data[i].pk_instru_evaluacion+'" class="subir_nuevos">Archivos de procesos anteriores</a>';
                                         }
                                     form += '</div>';
                                 form += '</div>';
@@ -831,8 +866,8 @@ $(function(e){
                                     form += '<textarea data-role="observaciones"></textarea>';
                                 form += '</div>';
                             form += '</div>';
-                        }
-                    form += '</div>';
+
+                    form += '</div">';
                 }
                 form += '</form>';
                 _divOculto.html(form);
@@ -856,11 +891,11 @@ $(function(e){
             dataType:'json',
             async: false,
             data:{
-                operacion: 'obtenerTotalCaracteristicas',
-                idFactor :  $("input[name='factor']").val()
+                operacion: 'obtenerTotalInstrumentos',
+                seccion :  $("input[name='_section']").val()
             },
             success:function (data){
-                num_paginas = data[0].total / items;
+                num_paginas = data / items;
                 $('div[data-role="paginador"]').empty();
                 for (var i = 0; i < num_paginas; i++) {
                     $('div[data-role="paginador"]').append('<a href="#" data-rel="'+i+'" class="'+(i == 0 ? 'active' : '')+'">'+(i+1)+'</a>');
@@ -1506,11 +1541,383 @@ $(function(e){
    		});
 	}
 	
-		$('#tipo-respuesta').on('change', function(e){
-			recargartablarespuestas();
-		});
-    
- });
+	$('#tipo-respuesta').on('change', function(e){
+		recargartablarespuestas();
+	});
+
+    var listaCaracteristicas = function(e){
+        $.ajax({
+            url: '../Controlador/DOC_InstruEval_Controlador.php',
+            type:  'post',
+            async: false,
+            dataType:'json',
+            data:{
+                operacion: "ListarCna"
+            },
+            success:  function (data) {
+                var lista = '';
+                var tabla = $('#tabla_caracteristicas tbody');
+                if(data == 0){
+                    tabla.append("");
+                }else{
+                    for(var i = 0; i < data.length; i++){
+                        for (var j = 0; j < data[i]['caracteristicas'].length; j++) {
+                            for (var k = 0; k < data[i]['caracteristicas'][j]['aspectos'].length; k++) {
+                                for (var m = 0; m < data[i]['caracteristicas'][j]['aspectos'][k]['evidencias'].length; m++) {
+                                    data_factor = data[i]['pk_factor'];
+                                    data_factor_codigo = data[i]['codigo'];
+                                    data_caracteristicas = data[i]['caracteristicas'][j]['pk_caracteristica'];
+                                    data_caracteristicas_codigos = data[i]['caracteristicas'][j]['codigo'];
+                                    data_aspectos = data[i]['caracteristicas'][j]['lista_aspectos'];
+                                    data_evidencias = data[i]['caracteristicas'][j]['aspectos'][k]['lista_evidencias'];
+
+                                }
+                            }
+                            lista += '<tr data-factor="'+data_factor+'" data-caracteristica="'+data_caracteristicas+'"  data-aspectos="'+data_aspectos+'"  data-evidencias="'+data_evidencias+'" data-factor_codigo="'+data_factor_codigo+'" data-caracteristica_codigo="'+data_caracteristicas_codigos+'"><td class="select-checkbox"></td><td>'+data[i]['codigo']+'</td><td>'+data[i]['caracteristicas'][j]['codigo']+'</td><td>'+data[i]['caracteristicas'][j]['codigo']+'- '+data[i]['caracteristicas'][j]['nombre']+'</td></tr>';
+                        }
+                    }
+                    tabla.append(lista);
+                    tabla.fadeIn(); 
+                }
+            }
+        });
+    }
+
+    $sec = $('#seccion_doc').val();
+
+    if($sec != "")
+    {
+        if($sec == "Crear_instrumento_caracteristica")
+        {
+
+            listaCaracteristicas();
+            var table = $('#tabla_caracteristicas').DataTable({
+                columnDefs: [{
+                    'targets': 0,
+                    'searchable': false,
+                    'orderable': false,
+                    'width': '1%',
+                    'className': 'dt-body-center',
+                    'render': function (data, type, full, meta){
+                         return '<input type="checkbox" class="chk">';
+                     }
+                }],
+                select: {
+                    style:    'os',
+                    selector: 'td:first-child'
+                },
+                order: [[ 1, 'asc' ]],
+                rowCallback: function(row, data, dataIndex){
+                     // Get row ID
+                    var rowId = data[2];
+
+                     // If row ID is in the list of selected row IDs
+                    if($.inArray(rowId, rows_selected) !== -1){
+                        $(row).find('input[type="checkbox"]').prop('checked', true);
+                        $(row).addClass('selected');
+                    }
+                }
+            });
+
+        
+            $('#tabla_caracteristicas').delegate('input[type="checkbox"]','click', function(e){
+
+                  var datos = {};
+                  var $row = $(this).closest('tr');
+                  var factor = $row.data('factor');
+                  var factor_codigo = $row.data('factor_codigo');
+                  var aspecto = $row.data('aspectos');
+                  var caracteristicas = $row.data('caracteristica');
+                  var caracteristica_codigo = $row.data('caracteristica_codigo');
+                  var evidencias = $row.data('evidencias');
+                  datos['factor'] = factor;
+                  datos['factor_codigo'] = factor_codigo;
+                  datos['caracteristica'] = caracteristicas;
+                  datos['caracteristica_codigo'] = caracteristica_codigo;
+                  datos['aspectos'] = aspecto;
+                  datos['evidencias'] = evidencias;
+
+                  // Get row data
+                  var data = table.row($row).data();
+                  //console.log(data, data[2]);
+                  // Get row ID
+                  var rowId = data[2];
+
+                  // alert(rowId);
+                  // return false;
 
 
+                  // Determine whether row ID is in the list of selected row IDs 
+                  // var index = $.inArray(rowId, rows_selected);
+                  // // If checkbox is checked and row ID is not in list of selected row IDs
+                if(this.checked && !(rowId in rows_selected))
+                {
+                    rows_selected[rowId] = datos;
+                } else if(!this.checked && (rowId in rows_selected)) {
+                    delete rows_selected[rowId];
+                }
+                  // Otherwise, if checkbox is not checked and row ID is in list of selected row IDs
+                  // } else if (!this.checked && index !== -1){
+                  //    rows_selected.splice(index, 1);
+                  // }
+
+                  $('#id').val(JSON.stringify(rows_selected));
+
+                  if(this.checked){
+                     $row.addClass('selected');
+                  } else {
+                     $row.removeClass('selected');
+                  }
+
+                  // Update state of "Select all" control
+                  updateDataTableSelectAllCtrl(table);
+
+                  // Prevent click event from propagating to parent
+                  e.stopPropagation();
+            });
+
+                        // Handle click on table cells with checkboxes
+            $('#tabla_caracteristicas').on('click', 'tbody td, thead th:first-child', function(e){
+                $(this).parent().find('input[type="checkbox"]').trigger('click');
+            });
+
+           // Handle click on "Select all" control
+            $('thead input[name="select_all"]', table.table().container()).on('click', function(e){
+                if(this.checked){
+                    $('#tabla_caracteristicas tbody input[type="checkbox"]:not(:checked)').trigger('click');
+                } else {
+                    $('#tabla_caracteristicas tbody input[type="checkbox"]:checked').trigger('click');
+                }
+
+                // Prevent click event from propagating to parent
+                e.stopPropagation();
+            });
+
+                // Handle table draw event
+                table.on('draw', function(){
+                // Update state of "Select all" control
+                  updateDataTableSelectAllCtrl(table);
+                });
+
+               // Handle form submission event 
+
+        }
+    }
+
+    // $('input[name="grupoInteres[]"]').change(function(e){
+    //     alert($(this).val());
+    //     if($(this).val() == 8){
+    //         $('#selec_programa_2').css('display', 'none');
+    //     }else{
+    //         $('#selec_programa_2').css('display', 'block');
+    //     }
+    // });
+
+
+    $('#B_guardarInstruCaracteristica').on('click', function(e){
+        grupo_interes = $('input[name="grupoInteres[]"]').serializeArray();
+        procesos = $('input[name="procesos[]"]').serializeArray();
+        T_pregunta = $('textarea[name="T_pregunta"]').val();
+        opc = $('input[name="opc"]').val();
+        S_tipoRespuesta = $('select[name="S_tipoRespuesta"]').val();
+        nuevo_tipo_respuesta = $('input[name="nuevo_tipo_respuesta"]').val();
+        S_opcionesRespuesta = $('select[name="S_opcionesRespuesta"]').val();
+        id = $('#id').val();
+
+        $.ajax({
+            url: '../Controlador/DOC_InstruEval_Controlador.php',
+            type:  'post',
+            async: false,
+            dataType:'json',
+            data:{
+                operacion: "GuardarInstrumentoCaracteristica",
+                grupo_interes : grupo_interes,
+                instrumento : T_pregunta,
+                tipo_respuesta: S_tipoRespuesta,
+                porcentaje : nuevo_tipo_respuesta,
+                opciones_respuesta: S_opcionesRespuesta,
+                ids: id,
+                procesos : procesos,
+                opc : opc
+            },
+            success:  function (data) {
+                $('#mensajes').html("");
+                if(data == 2)
+                {
+                   window.scroll(0,0);
+                   $('#mensajes').html("");
+                    $('#mensajes').html("<h4 style='color:red'>Por favor ingrese todos los campos del formulario.</h4>");
+                }else if(data == 1){
+                    $('#mensajes').html("");
+                    $('#mensajes').html("<h4 style='color:green'>Datos guardados satisfactoriamente.</h4>");
+                    //div_emergente.find('.emergente > div[data-role="contenido"]').html('<p>El instrumento se guardo satisfactoriamente</p>');
+                    //ocultar_emergente();
+                    $('input[name="grupoInteres[]"]').attr('checked', false);
+                    $('input[name="procesos[]"]').attr('checked', false);
+                    $('textarea[name="T_pregunta"]').val('');
+                    $('select[name="S_tipoRespuesta"]').val('');
+                    $('input[name="nuevo_tipo_respuesta"]').val('');
+                    $('select[name="S_opcionesRespuesta"]').val('');
+                    $('.chk').attr('checked', false);
+                    $('#tabla_caracteristicas tr').removeClass('selected');
+                    $('#id').val('');
+                    rows_selected = {};
+                    
+
+
+                }
+            },
+           
+        });
+        e.preventDefault();       
+    });
+
+        var cargarResultados = function(e){
+        $.ajax({
+            url: '../Controlador/DOC_Autoevaluacion_Controlador.php',
+            type:  'post',
+            async: false,
+            dataType:'json',
+            data:{
+                operacion: "ResultadosPrograma",
+                proceso : $('#procesos_resultados').val()
+            },
+            success:  function (data) {
+                lista = '';
+                $('#texto_total').html('');
+                $('#texto_porcentaje').html('');
+                var tabla_r = $('#tabla_resultados tbody');
+                tabla_r.html('');
+                $('#texto_total').append('<span>'+data.instrumentos+'</span>');
+                $('#texto_porcentaje').append('<span>'+data.porcentaje_programa+'%</span>');
+                
+                if(data.resultados.length != 0){
+                    
+
+                    for(var i = 0; i < data.resultados.length; i++){
+                        $c = data.resultados[i]['fk_caracteristicas_codigo'];
+
+                        lista_c = $c.split('|');
+                        if(lista_c.length > 1){
+                            tamaño = (lista_c.length)-1;
+                        }else{
+                            tamaño = (lista_c.length);
+                        }
+
+                        $f = data.resultados[i]['fk_factor_codigo'];
+
+                        lista_f = $f.split('|');
+                        if(lista_f.length > 1){
+                            tamaño_2 = (lista_f.length)-1;
+                        }else{
+                            tamaño_2 = (lista_f.length);
+                        }
+
+                        
+                        for(var j = 0; j < tamaño ; j++){
+                            car = lista_c[j];
+                            
+                            for(var m = 0; m < tamaño_2; m++){
+                                descripcion = data.resultados[i]['descripcion'];
+                                calificacion = data.resultados[i]['ponderacion']; 
+                                fac = lista_f[m];
+
+                            }   
+                            lista += '<tr>';
+                                    lista += '<td>'+fac+'</td>';
+                                    lista += '<td>'+car+'</td>';
+                                    lista += '<td>'+descripcion+'</td>';
+                                    lista += '<td>'+calificacion+'</td>';
+                                lista += '</tr>';
+                        }
+                        
+                    }
+
+                    tabla_r.append(lista);
+                    tabla_r.fadeIn(); 
+
+                }else{
+                    tabla_r.html('');
+                }
+            }
+           
+        });
+        //e.preventDefault();      
+    }
+
+    $('#procesos_resultados').on('change', function(e){
+        if($('#procesos_resultados').val != 0 ){
+            cargarResultados();
+
+        }
+    });
+
+    var cargarInstrumentos = function(e){
+        $.ajax({
+            url: '../Controlador/DOC_InstruEval_Controlador.php',
+            type:  'post',
+            async: false,
+            dataType:'json',
+            data:{
+                operacion: "CargarInstrumentos",
+                grupo : $('#lista_grupos').val()
+            },
+            success:  function (data) {
+                lista = '';
+                var tabla_r = $('#tabla_instrumentos tbody');
+                tabla_r.html('');
+                
+                if(data.length != 0){
+                    for(var i = 0; i < data.length; i++){ 
+                        lista += '<tr data-id="'+data[i]['pk_instru_evaluacion']+'">';
+                            lista += '<td>'+data[i]['descripcion']+'</td>';
+                            lista += '<td  width="30px"><a href="#" ><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>&nbsp;&nbsp;<a href="#" style="color:red"><i class="fa fa-trash" aria-hidden="true"></i></a></td>';
+                        lista += '</tr>';
+                        
+                    }
+
+                    tabla_r.append(lista);
+                    tabla_r.fadeIn(); 
+
+                }else{
+                    tabla_r.html('');
+                }
+            }
+           
+        });
+        //e.preventDefault();      
+    }
+
+    $('#lista_grupos').on('change', function(e){
+        if($('#lista_grupos').val != 0 ){
+            cargarInstrumentos();
+
+        }
+    });
+
+
+    if( seccion == 'autoevaluacion_programa' || seccion == 'autoevaluacion_Institucional' ){
+        //cargarInformacionFactor();
+        cargarControlador(0 , $("input[name='grupoI']").val());
+        cargarPaginador();
+    }
+
+
+    $('#GenerarInstrumentos').on('click', function(e){
+        $.ajax({
+            url: '../Controlador/DOC_Autoevaluacion_Controlador.php',
+            type:  'post',
+            async: false,
+            dataType:'json',
+            data:{
+                operacion: "GenerarInstrumentos"
+            },
+            success:  function (data) {
+                console.log(data);
+            }
+           
+        });
+    });
+
+});
 

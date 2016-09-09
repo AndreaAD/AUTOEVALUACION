@@ -13,6 +13,45 @@ class Autoevaluacion_Controlador {
         $this->autoevaluacion = new Autoevaluacion_Modelo;
     }
 
+    public function ResultadosPrograma(){
+        //echo $_POST['proceso'];
+        $fk_proceso = $_POST['proceso'];
+        $institucional = 1;
+        $grupo = "Equipo del Programa";
+        $grupo_2 = "Equipo Institucional";
+        $instrumentos = $this->autoevaluacion->obtenerTotalInstrumentos($grupo, $fk_proceso);
+        $totalPrograma = $this->autoevaluacion->obtenerAcumuladoProceso($fk_proceso);
+        $porcentajePrograma = round(( $totalPrograma * 100 ) / $instrumentos);
+
+        $instrumentos_institucional = $this->autoevaluacion->obtenerTotalInstrumentosInstitucional($grupo_2);
+        $totalInstitucional = $this->autoevaluacion->obtenerAcumuladoProceso(0);
+        $porcentajeInstitucional = round(( $totalInstitucional * 100 ) / $instrumentos_institucional);
+
+        if ($porcentajePrograma == 100 && $porcentajeInstitucional == 100){
+            $estado = 1;
+        }else{
+            $estado = 0;
+        }
+
+
+        $resu = $this->autoevaluacion->ResultadoCompleto($fk_proceso);
+
+        $resultados = array(
+            'institucional' => $institucional,
+            'estado' => $estado,
+            'instrumentos' => $instrumentos,
+            'totalPrograma' => $totalPrograma,
+            'porcentaje_programa' => $porcentajePrograma,
+            'instrumentos_institucional' => $instrumentos_institucional,
+            'totalInstitucional' => $totalInstitucional,
+            'porcentaje_institucional' => $porcentajeInstitucional,
+            'resultados' => $resu
+        );
+        
+        echo json_encode($resultados);
+
+    }
+
     /**
      * [seleccionarFactores selecciona los factores]
      * @return [json] array codificado en json con los factores
@@ -20,6 +59,26 @@ class Autoevaluacion_Controlador {
     public function seleccionarFactores(){
         echo json_encode($this->autoevaluacion->cargarFactores()->GetRows());
     }
+
+    public function obtenerTotalInstrumentos2(){
+
+        $alcance = $_POST['alcance'];
+        $procesos = $_SESSION['array_proceso'];
+        //$datos_completos = [];
+
+
+        $datos_completos = array();
+        for($u=0; $u<count($procesos); $u++){
+            $instrumentos =  $this->autoevaluacion->cargarInformacionPreguntas_total($procesos[$u]['pk_proceso'], $alcance)->GetRows();
+            $datos_completos[$procesos[$u]['pk_proceso']] = $instrumentos;
+
+        }
+
+        echo json_encode($datos_completos);
+    }
+
+
+
 
     /**
      * [seleccionarInformacionFactores selecciona la informacion de cada factor como lo es su nombre, descripcion]
@@ -37,32 +96,30 @@ class Autoevaluacion_Controlador {
      */
     public function cargarInformacionFactor(){
         
-        if ($_POST['idgrupo'] == $_SESSION['grupos_documental']['grupoP']){
-            $fk_proceso = $_SESSION['pk_proceso'];
-        }else{
-            $fk_proceso = 0 ;
-        }
 
+        $alcance = $_POST['alcance'];
         $pagina = $_POST['pagina'];
         $items  = $_POST['items'];
         $grupo = $_POST['grupo'];
 
-        $caracteristicas = array();
-        $arreglo = $this->autoevaluacion->cargarInformacionCaracteristicas($_POST['idFactor'], $pagina, $items)->GetRows();
-        for($i=0; $i<count($arreglo); $i++){
-            $arreglo[$i]['instrumentos'] = array();
-            $instrumentos = $this->autoevaluacion->cargarInformacionPreguntas($arreglo[$i]['pk_caracteristica'] , $grupo , $fk_proceso)->GetRows();
+        $procesos = $_SESSION['array_proceso'];
+        //$datos_completos = [];
+
+
+        $datos_completos = array();
+        for($u=0; $u<count($procesos); $u++){
+            $instrumentos =  $this->autoevaluacion->cargarInformacionPreguntas_2($procesos[$u]['pk_proceso'], $alcance, $pagina, $items)->GetRows();
             for($j=0; $j<count($instrumentos); $j++){
                 $instrumentos[$j]['respuestas'] = array();
                 $instrumentos[$j]['informacion'] = array();
                 $instrumentos[$j]['documentos'] = array();
                 $instrumentos[$j]['informacionadicional'] = array();
-                $respuestas = $this->autoevaluacion->cargarInformacionRespuestas($instrumentos[$j]['pk_instru_evaluacion'])->GetRows();
+                $respuestas = $this->autoevaluacion->cargarInformacionRespuestas($instrumentos[$j]['pk_respuesta_instrumento'])->GetRows();
                 $informacion = $this->autoevaluacion->cargarInformacionAdicional($instrumentos[$j]['pk_instru_evaluacion'])->GetRows();
-                $informacionadicional = $this->autoevaluacion->cargarInformacionAdicionaldoc($instrumentos[$j]['pk_instru_evaluacion'],$_SESSION['pk_usuario'], $fk_proceso )->GetRows();
-                $documento = $this->autoevaluacion->cargarDocumentos($instrumentos[$j]['pk_instru_evaluacion'], $_SESSION['pk_usuario'], $fk_proceso)->GetRows();
-                for($k=0; $k<count($respuestas); $k++){
-                    array_push($instrumentos[$j]['respuestas'], $respuestas[$k]);
+                $informacionadicional = $this->autoevaluacion->cargarInformacionAdicionaldoc($instrumentos[$j]['pk_respuesta_instrumento'],$_SESSION['pk_usuario'], $procesos[$u]['pk_proceso'] )->GetRows();
+                $documento = $this->autoevaluacion->cargarDocumentos($instrumentos[$j]['pk_respuesta_instrumento'], $_SESSION['pk_usuario'], $procesos[$u]['pk_proceso'])->GetRows();
+                 for($k=0; $k<count($respuestas); $k++){
+                     array_push($instrumentos[$j]['respuestas'], $respuestas[$k]);
                 }
                 for($l=0; $l<count($informacion); $l++){
                     array_push($instrumentos[$j]['informacion'], $informacion[$l]);
@@ -73,11 +130,14 @@ class Autoevaluacion_Controlador {
                 for($m=0; $m<count($documento); $m++){
                     array_push($instrumentos[$j]['documentos'], $documento[$m]);
                 }
-                array_push($arreglo[$i]['instrumentos'], $instrumentos[$j]);
+                
             }
-            array_push($caracteristicas, $arreglo[$i]);
+
+            $datos_completos[$procesos[$u]['pk_proceso']] = $instrumentos;
+
         }
-        echo json_encode($caracteristicas);
+
+        echo json_encode($datos_completos);
     }
 
     /**
@@ -86,20 +146,16 @@ class Autoevaluacion_Controlador {
      */
     public function guadarRespuestas(){
 
-        if ($_POST['idgrupo'] == $_SESSION['grupos_documental']['grupoP']){
-            $fk_proceso = $_SESSION['pk_proceso'];
-        }else{
-            $fk_proceso = "0";
-        }
-
         $resultados = 1;
         $pk_usuario = $_SESSION['pk_usuario'];
+        
         foreach($_POST['respuestas'] as &$valor){
-            if(!$this->autoevaluacion->guardarRespuesta($valor['id_pregunta'], $valor['id_respuesta'], $valor['ponderacion'], $valor['observaciones'], $pk_usuario ,$fk_proceso, $valor['tipo'])){
+            if(!$this->autoevaluacion->guardarRespuesta($valor['id_pregunta'], $valor['id_respuesta'], $valor['ponderacion'], $valor['observaciones'], $pk_usuario ,$valor['id_proceso'], $valor['tipo'])){
                 $resultados = 0;
             }
         }
-        echo json_encode(array('estado' => $resultados));
+        echo $resultados;
+        //echo json_encode(array('estado' => $resultados));
     }
 
     /**
@@ -126,9 +182,16 @@ class Autoevaluacion_Controlador {
      * [obtenerTotalCaracteristicas Obtiene el total de caracteristicas segun el factor que le enviamos]
      * @return [json] array codificado en json con el total de caracteristicas un int
      */
-    public function obtenerTotalCaracteristicas(){
-        $resultados = $this->autoevaluacion->totalCaracteristicas($_POST['idFactor'])->GetRows();
-        echo json_encode($resultados);
+    public function obtenerTotalInstrumentos(){
+
+        $seccion = $_POST['seccion'];
+        if($seccion == 'autoevaluacion_programa'){
+            $instrumentos = $this->autoevaluacion->obtenerTotalInstrumentos($_SESSION['grupos_documental']['grupoP'],$_SESSION['pk_proceso']);
+        }else{
+            $instrumentos = $this->autoevaluacion->obtenerTotalInstrumentosInstitucional($_SESSION['grupos_documental']['grupoI']);
+        }
+
+        echo json_encode($instrumentos);
     }
 
     /**
@@ -136,12 +199,8 @@ class Autoevaluacion_Controlador {
      * @return [json] array codificado en json con el los resultados
      */
     public function obtenerRespuestas(){
-        if ($_POST['idgrupo'] == $_SESSION['grupos_documental']['grupoP']){
-            $fk_proceso =  $_SESSION['pk_proceso'];
-        }else{
-            $fk_proceso = "0";
-        }
-        $resultados = $this->autoevaluacion->obtenerRespuestas($_POST['id_pregunta'] , $fk_proceso)->GetRows();
+
+        $resultados = $this->autoevaluacion->obtenerRespuestas($_POST['id_pregunta'] , $_POST['proceso'])->GetRows();
         echo json_encode($resultados);
     }
 
@@ -158,7 +217,7 @@ class Autoevaluacion_Controlador {
         }
 
         $fk_proceso = $_SESSION['pk_proceso'];
-        $instrumentos = $this->autoevaluacion->obtenerTotalInstrumentos($_SESSION['grupos_documental']['grupoP']);
+        $instrumentos = $this->autoevaluacion->obtenerTotalInstrumentos($_SESSION['grupos_documental']['grupoP'], $fk_proceso);
         $totalPrograma = $this->autoevaluacion->obtenerAcumuladoProceso($fk_proceso);
         $porcentajePrograma = round(( $totalPrograma * 100 ) / $instrumentos);
 
@@ -248,6 +307,15 @@ class Autoevaluacion_Controlador {
         $resultados = $this->autoevaluacion->verificarConsolidacion()->GetRows();
         echo json_encode($resultados);
     }
+
+        /**
+     * [verificarConsolidacion Verifica si un proceso se encuentra o no en la tabla doc_procesos_finalizados]
+     * @return [json] array codificado en json con el resultados que se obtuvieron 
+     */
+    public function GenerarInstrumentos(){
+        $datos = $this->autoevaluacion->generarInstru($_SESSION['array_proceso']);
+        echo json_encode($datos);
+    }
 }
 
 $controlador = new Autoevaluacion_Controlador;
@@ -301,6 +369,18 @@ switch ($_operacion) {
     break;
     case 'verificarConsolidacion':
         $controlador->verificarConsolidacion();
+    break;
+    case 'obtenerTotalInstrumentos':
+        $controlador->obtenerTotalInstrumentos();
+    break;
+    case 'ResultadosPrograma':
+        $controlador->ResultadosPrograma();
+    break;
+    case 'GenerarInstrumentos':
+        $controlador->GenerarInstrumentos();
+    break;    
+    case 'obtenerTotalInstrumentos2':
+        $controlador->obtenerTotalInstrumentos2();
     break;
     default:
 

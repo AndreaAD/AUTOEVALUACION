@@ -3,7 +3,7 @@
 class Proceso{
     
     function Ver(){
-        require_once("../BaseDatos/AdoDB.php");
+                
         $conexion = new Ado();
         
         $fk_sede = $_SESSION['sad_fk_sede'];
@@ -32,45 +32,6 @@ class Proceso{
                         fk_programa = '$fk_programa'
                     "; 
         
-        $recordSet = $conexion->conectarAdo($cadena);
-
-        }
-        
-	return $recordSet;
-        
-    }
-    
-     function Ver_Procesos(){
-        require_once("../BaseDatos/AdoDB.php");
-        $conexion = new Ado();
-        
-        $fk_sede = $_SESSION['sad_fk_sede'];
-        $fk_facultad = $_SESSION['sad_fk_facultad'];
-        $fk_programa = $_SESSION['sad_fk_programa'];
-        
-        if($fk_sede == 1 && $fk_facultad == 1 && $fk_programa == 1){
-
-        $cadena = " SELECT
-                            cp.*, sp.nombre as nombre_programa, ss.nombre as nombre_sede
-                    FROM
-                            cna_proceso cp
-                    JOIN sad_programa sp ON sp.pk_programa = cp.fk_programa
-                    JOIN sad_sede ss ON ss.pk_sede = fk_sede
-                    "; 
-        
-        $recordSet = $conexion->conectarAdo($cadena);
-        
-	}
-        else{
-		
-
-        $cadena = " SELECT
-                            cp.*, sp.nombre as nombre_programa, ss.nombre as nombre_sede
-                    FROM
-                            cna_proceso cp
-                    JOIN sad_programa sp ON sp.pk_programa = cp.fk_programa
-                    JOIN sad_sede ss ON ss.pk_sede = cp.fk_sede
-                    WHERE sp.pk_programa = {$fk_programa}"; 
         $recordSet = $conexion->conectarAdo($cadena);
 
         }

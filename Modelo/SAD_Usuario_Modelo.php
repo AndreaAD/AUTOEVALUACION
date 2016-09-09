@@ -86,20 +86,8 @@ class Usuario{
                 	   fk_usuario = '$pk_usuario' "; //Realizamos una consulta
         
         $conexion->conectarAdo($cadena);
-        $lista_actividades = explode(",", $_Datos['vista_check']);
-        foreach ($lista_actividades as $key => $value) {
-            $i=$key+1;
-            while($i<=sizeof($lista_actividades)){
-                if($lista_actividades[$i]==$value){
-                    unset($lista_actividades[$i],$lista_actividades[$key]);
-                    $i=sizeof($lista_actividades);
-                }
-                $i++;
-            }
-        }
-
         
-        foreach($lista_actividades as $pk_actividad){
+        foreach($_Datos['check'] as $pk_actividad){
             
             $cadena = " INSERT INTO sad_usuario_actividad 
                         	(fk_actividades, fk_usuario)
@@ -484,9 +472,7 @@ class Usuario{
             
         }
         
-
-      // echo '<SCRIPT LANGUAGE="javascript">location.href = "../Controlador/VIS_Cerrar_Session_Controlador.php";</SCRIPT>';
-
+       //echo '<SCRIPT LANGUAGE="javascript">location.href = "../Controlador/VIS_Cerrar_Session_Controlador.php";</SCRIPT>';
           
     }
     
@@ -865,7 +851,7 @@ class Usuario{
                             prog.fk_sede = sede.pk_sede
                         AND
                             prog.fk_facultad = fac.pk_facultad"; 
-
+        
         $recordSet = $conexion->conectarAdo($cadena);
         
         $arrayDatos = array();

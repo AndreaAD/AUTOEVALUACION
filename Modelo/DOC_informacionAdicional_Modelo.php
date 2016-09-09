@@ -46,8 +46,9 @@ class InfoAdicional_Modelo {
 	}
 
 	public function guardarDocumento($fk_proceso){
+
 		if ($fk_proceso == 0){
-			$sql = 'INSERT INTO doc_documento (nombre, url, extension, fk_instrueval, estado , fecha , fk_usuario , fk_programa , fk_proceso , fk_sede, tipo) VALUES ("'.$this->nombre.'" , "'.$this->url.'" , "'.$this->extension.'" , "'.$this->fk_instrueval.'" , "'.$this->estado.'" , CURDATE(), "'.$this->fk_usuario.'", "0", "0", "0" , "'.$this->tipo.'")';
+			$sql = 'INSERT INTO doc_documento (nombre, url, extension, fk_respuesta_instrumento, estado , fecha , fk_usuario , fk_programa , fk_proceso , fk_sede, tipo) VALUES ("'.$this->nombre.'" , "'.$this->url.'" , "'.$this->extension.'" , "'.$this->fk_instrueval.'" , "'.$this->estado.'" , CURDATE(), "'.$this->fk_usuario.'", "0", "0", "0" , "'.$this->tipo.'")';
 			if($this->runSQL($sql)){
 				return 1;
 			}else{
@@ -62,7 +63,8 @@ class InfoAdicional_Modelo {
 			//$sql0 = 'SELECT fk_programa FROM sad_usuario WHERE pk_usuario = "'.$this->fk_usuario.'" ';
 			$programa = $this->runSQL($sql0);
 			$pro = $programa->GetRows();
-			$sql = 'INSERT INTO doc_documento (nombre, url, extension, fk_instrueval, estado , fecha , fk_usuario , fk_programa , fk_proceso , fk_sede, tipo) VALUES ("'.$this->nombre.'" , "'.$this->url.'" , "'.$this->extension.'" , "'.$this->fk_instrueval.'" , "'.$this->estado.'" , CURDATE(), "'.$this->fk_usuario.'", "'.$pro[0]['fk_programa'].'", "'.$fk_proceso.'" , "'.$s.'", "'.$this->tipo.'" )';
+			$sql = 'INSERT INTO doc_documento (nombre, url, extension, fk_respuesta_instrumento, estado , fecha , fk_usuario , fk_programa , fk_proceso , fk_sede, tipo) VALUES ("'.$this->nombre.'" , "'.$this->url.'" , "'.$this->extension.'" , "'.$this->fk_instrueval.'" , "'.$this->estado.'" , CURDATE(), "'.$this->fk_usuario.'", "'.$pro[0]['fk_programa'].'", "'.$fk_proceso.'" , "'.$s.'", "'.$this->tipo.'" )';
+			
 			$observacion =  'Se creo un documento para el instrumento de evaluacion numero : "'.$this->fk_instrueval.'" '; 
 	        $transaccion = "Guardar Documentos";
 	        $this->seg->Seguridad_Enviar($observacion, $transaccion);

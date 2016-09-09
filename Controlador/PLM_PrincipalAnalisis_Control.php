@@ -883,7 +883,6 @@ else
     }
     
     $arrInfo = $glo_objModelAnali->buscarProceso($_SESSION["pk_proceso"],$_SESSION["pk_usuario"]);
-    
     if(isset($arrInfo[0][0]))
     {
         $_SESSION["plm_facultad"]=$arrInfo[0];
@@ -894,7 +893,7 @@ else
         
     
         $glo_objViewAnali->mostrarInfo($_SESSION["plm_facultad"], $_SESSION["plm_programa"],$_SESSION["plm_sede"],$_SESSION["plm_director"],$_SESSION["plm_periodo"]);
-        
+
         //busca todos los factores
         $arrFactor[][]=array();
         $arrFactor = $glo_objModelAnali ->buscaFactor();
@@ -915,7 +914,7 @@ else
                     if(isset($arrCalCarac[$j][0]))
                     {
                         if(isset($arrPondeCarac[$j][0]))
-                        {                         
+                        {                      
                             if($temp!=5)
                             {
                                 if($arrCalCarac[$j][0]==$arrPondeCarac[$j][0])
@@ -928,7 +927,8 @@ else
                 }
                 //va calculando la calificación de cada factor
                 $arrCalFactor[$i][1]=$floCal;           
-                $arrCalFactor[$i][0]=$arrFactor[$i][0];                              
+                $arrCalFactor[$i][0]=$arrFactor[$i][0]; 
+                
          
         }
         if(($arrCalFactor[0][0]))

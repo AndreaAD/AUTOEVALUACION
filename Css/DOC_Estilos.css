@@ -1,3 +1,9 @@
+.row select {
+    height: 30px;
+    max-width: 500px;
+    min-width: 500px;
+}
+
 .hide {
 	display: none;
 }
@@ -49,7 +55,7 @@
 
 .row > div.titulo h2 {
 	font-size: 22px;
-	background-color: #cc0000;
+	background-color: #e5ffe5;
 	color: #fff;
 }
 
@@ -69,7 +75,8 @@
 	font-size: 14px;
 	line-height: 20px;
 	border-bottom: 1px solid #ccc;
-	background-color: #f1f1f1;
+	background-color: #d2ead2;
+	padding: 4px;
 }
 .row > div.titulo.alerta h4{
 	background-color: #cc0000;
@@ -537,4 +544,57 @@
 
 .tabla2 tr td{
 	padding: 12px;
+}
+
+
+
+div.accordion {
+    background-color: #f1f1f1 !important;
+    color: #444 !important;
+    cursor: pointer !important;
+    padding: 18px !important;
+    width: 100% !important;
+    text-align: left !important;
+    border: none !important;
+    outline: none !important;
+    transition: 0.4s !important;
+}
+
+/* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+div.accordion.active, div.accordion:hover {
+    background-color: #f1f1f1 !important;
+}
+
+/* Style the accordion panel. Note: hidden by default */
+div.panel {
+    padding: 0 18px !important;
+    background-color: #f5fff6 !important;
+    display: none !important;
+}
+
+/* The "show" class is added to the accordion panel when the user clicks on one of the buttons. This will show the panel content */
+div.panel.show {
+    display: block !important;
+     background-color: #f5fff6 !important;
+}
+
+div.accordion:after {
+    content: '\02795'; /* Unicode character for "plus" sign (+) */
+    font-size: 13px;
+    color: #777;
+    float: right;
+    margin-left: 5px;
+}
+
+div.accordion.active:after {
+    content: "\2796"; /* Unicode character for "minus" sign (-) */
+}
+
+
+.div_varios_documentos .label_varios_doc{
+	max-width: 100%;
+    margin-left: 16px;
+    font-weight: 600;
+    color: #00730a;
+    font-size: 10px;
 }

@@ -67,7 +67,6 @@ class Encuesta{
             $conDB=new Ado();
             
             $sql="SELECT pk_encuesta FROM enc_encuesta WHERE fk_grupo_interes=".$_idGrupoInteres." AND fk_proceso=".$_idProceso." AND publicada=1 AND institucional=0";
-           //echo $sql;die();
             $res=$conDB->conectarAdo($sql);
             //var_dump($res);
             //die();

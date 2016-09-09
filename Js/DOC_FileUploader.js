@@ -43,6 +43,11 @@ $(function(e){
 		var contenedor = $(this).closest('.file-uploader');
 		var operacion;
 		opc = $(this).data('op');
+
+		if(opc == "cargar_doc_todos"){
+			operacion = "CargarVariosArchivos";
+		}
+
 		if (opc == "cargar_info" ){
 			operacion = "cargarInfo";
 		}else{
@@ -57,6 +62,7 @@ $(function(e){
 		formData.append('seccion', seccion);
 		formData.append('operacion',operacion);
 		formData.append('pk_instru_evaluacion', $(this).data('rel'));
+		formData.append('id_proceso', $(this).data('proceso'));
 		$.ajax({
 		    url: '../Controlador/DOC_InfoAdicional_Controlador.php',
 		    type: 'POST',
