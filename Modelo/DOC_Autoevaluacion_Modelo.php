@@ -93,7 +93,7 @@ class Autoevaluacion_Modelo {
 			 		if($consultaIns[0]['total'] > 0){
 
 			 		}else{
-			 			$sql3 = 'SELECT * FROM doc_instru_evaluacion_copy where fk_grupo_interes = 7';
+			 			$sql3 = 'SELECT * FROM doc_instru_evaluacion where fk_grupo_interes = 7';
 				 		$res3 = $this->runSQL($sql3);
 				 		$listaInstrumentos = $res3->GetRows();
 				 		foreach ($listaInstrumentos as &$value) {
@@ -115,7 +115,7 @@ class Autoevaluacion_Modelo {
 			 		if($consultaFacultad[0]['total'] > 0){
 			 			
 			 		}else{
-			 			$sql6 = 'SELECT * FROM doc_instru_evaluacion_copy where fk_grupo_interes = 8';
+			 			$sql6 = 'SELECT * FROM doc_instru_evaluacion where fk_grupo_interes = 8';
 				 		$res6 = $this->runSQL($sql6);
 				 		$listaInstrumentos_facultad = $res6->GetRows();
 				 		foreach ($listaInstrumentos_facultad as &$value2) {
@@ -138,7 +138,7 @@ class Autoevaluacion_Modelo {
 			 		if($consultaFacultad[0]['total'] > 0){
 			 			
 			 		}else{
-			 			$sql6 = 'SELECT * FROM doc_instru_evaluacion_copy where fk_grupo_interes = 9';
+			 			$sql6 = 'SELECT * FROM doc_instru_evaluacion where fk_grupo_interes = 9';
 				 		$res6 = $this->runSQL($sql6);
 				 		$listaInstrumentos_facultad = $res6->GetRows();
 				 		foreach ($listaInstrumentos_facultad as &$value2) {
@@ -159,7 +159,7 @@ class Autoevaluacion_Modelo {
 			 		if($consultaFacultad[0]['total'] > 0){
 			 			
 			 		}else{
-			 			$sql6 = 'SELECT * FROM doc_instru_evaluacion_copy where fk_grupo_interes = 10';
+			 			$sql6 = 'SELECT * FROM doc_instru_evaluacion where fk_grupo_interes = 10';
 				 		$res6 = $this->runSQL($sql6);
 				 		$listaInstrumentos_facultad = $res6->GetRows();
 				 		foreach ($listaInstrumentos_facultad as &$value2) {
@@ -204,7 +204,7 @@ class Autoevaluacion_Modelo {
 	// 	 		$consultaIns = $res2->GetRows();
 	// 	 		//echo $consultaIns[0]['total'].'<br>';
 	// 	 		if( $consultaIns[0]['total'] == 0){
-	// 	 			$sql3 = 'SELECT * FROM doc_instru_evaluacion_copy where estado = 1';
+	// 	 			$sql3 = 'SELECT * FROM doc_instru_evaluacion where estado = 1';
 	// 		 		$res3 = $this->runSQL($sql3);
 	// 		 		$listaInstrumentos = $res3->GetRows();
 	// 		 		foreach ($listaInstrumentos as &$value) {
