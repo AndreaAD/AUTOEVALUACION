@@ -148,9 +148,7 @@ class Autoevaluacion_Controlador {
 
         $resultados = 1;
         $pk_usuario = $_SESSION['pk_usuario'];
-        // echo '<pre>';
-        // print_r($_POST['respuestas']);
-        // exit();
+        
         foreach($_POST['respuestas'] as &$valor){
             if(!$this->autoevaluacion->guardarRespuesta($valor['id_pregunta'], $valor['id_respuesta'], $valor['ponderacion'], $valor['observaciones'], $pk_usuario ,$valor['id_proceso'], $valor['tipo'])){
                 $resultados = 0;

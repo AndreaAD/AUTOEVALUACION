@@ -124,6 +124,7 @@ $(function(e){
 
                 var div_procesos = $('#div_procesos');
                 var lista_ids_preguntas = [];
+                var lista_nombres_preguntas = [];
                 var proc = [];
                 var proc_x_pregunta = [];
                 var html = '';
@@ -136,6 +137,7 @@ $(function(e){
 
                                 if( lista_ids_preguntas.indexOf(value_3) == -1 ){
                                     lista_ids_preguntas.push(value_3);
+                                    lista_nombres_preguntas.push(value_2['pregunta']);
                                 }
                         
                                 proc.push(value_2);
@@ -150,7 +152,7 @@ $(function(e){
 
                         html += '<div class="row" >';
                             html += '<div class="titulo">';
-                                html += '<h4>'+lista_ids_preguntas[m]+'</h4>';
+                                html += '<h4>'+lista_nombres_preguntas[m]+'</h4>';
                             html += '</div>';
                             proc_x_pregunta = [];
                             for( var i=0; i<proc.length; i++){
@@ -223,7 +225,9 @@ $(function(e){
                                 html += '<div class="div_varios_documentos">';
                                     html += '<label class="label_varios_doc">Si ud desea cargar algún documento, que aplique para todos los procesos de autoevaluación, puede ingresar aqui. </label>';
                                     html += '<div class="file-uploader" style="margin-left:16px;" >';
-                                        html += '<input type="file" data-rel="'+lista_ids_preguntas[m]+'" data-proceso="'+proc_x_pregunta+'">&nbsp;&nbsp;<a href="#" data-op="cargar_doc_todos" class="subir" style="color: #cc0000; font-size:12px;">Cargar</a><br>';
+                                        html += '<input id="fileupload" type="file" name="files[]"  multiple>';
+                                        //<input id="fileupload" type="file" name="files[]" data-url="server/php/" multiple>
+                                        //html += '<input name="files[]" type="file" data-role="subir_multiples" multiple data-rel="'+lista_ids_preguntas[m]+'" data-proceso="'+proc_x_pregunta+'">&nbsp;&nbsp;<a href="#" data-op="cargar_doc_todos" class="subir" style="color: #cc0000; font-size:12px;">Cargar</a><br>';
                                         html += '<input type="hidden" id="lista_procesos" value="'+lista_ids_preguntas[m]+'">';
                                         html += '<input type="hidden" id="pregunta_ind" value="'+proc_x_pregunta+'">';
                                         //html += '<div class="progress-bar"><div class="progreso"></div></div>';
@@ -254,6 +258,7 @@ $(function(e){
                 }else{
                     html += 'En el momento no cuenta con instrumentos de evaluación generados, para diligenciar información';
                 }
+
 
                 div_procesos.html(html);
             },complete: function(){
@@ -348,7 +353,29 @@ $(function(e){
         });
     }
 
-        div_emergente.delegate('input[data-role="agregar_archivos"]','click', function(e){
+    $('#div_contenido_completo').delegate('a[data-role="borrar"]', 'click', function(e){
+        var id = $(this).closest('tr').data('id');
+        var tr = $(this).closest('tr');
+        $.ajax({
+            url: '../Controlador/DOC_InfoAdicional_Controlador.php',
+            method: 'post',
+            dataType:'json',
+            async: false,
+            data: {
+                operacion: 'eliminarDocumentos',
+                id_documento: id
+            },
+            success:  function (data) {
+                if (data == '1'){
+                    tr.remove();
+                }
+            }
+        });
+        e.preventDefault();
+    });
+
+
+    div_emergente.delegate('input[data-role="agregar_archivos"]','click', function(e){
         $('input[name="checkboxArchivos[]"]:checked').each(function(e){
             var tr = $(this).closest('tr');
             $.ajax({

@@ -11,7 +11,7 @@
 <?php
 
 	if(count($listaProcesosG) > 0 ){
-		echo '<h4>Los procesos listados acontinuación se encuentran en fase de CAPTURA DE DATOS, desea generar los instrumentos de evaluación para estos procesos.</h4>';
+		echo '<h4>Los procesos listados a continuación se encuentran en fase de CAPTURA DE DATOS, desea generar los instrumentos de evaluación para estos procesos.</h4>';
 		//var_dump($listaProcesosG);
 		echo '<ul style="    text-align: left;    line-height: 10px;">';
 		foreach ($listaProcesosG as $value) {
