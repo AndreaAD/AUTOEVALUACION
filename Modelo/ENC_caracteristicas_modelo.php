@@ -13,15 +13,5 @@ class Caracteristicas{
             return null;
         }
     } 
-    public function getCaracteristicasAll(){
-         require_once("../BaseDatos/AdoDB.php");
-            $conDB=new Ado();
-            $sql="SELECT car.*, fac.nombre as nombre_factor FROM cna_caracteristica car
-                    JOIN cna_factor fac on fac.pk_factor = car.fk_factor";
-            
-            //$sql="SELECT  FROM cna_caracteristica where fk_factor=".$idFactor;
-            $rsDatos=$conDB->conectarAdo($sql);
-            return $rsDatos;
-    }
 }
 ?>

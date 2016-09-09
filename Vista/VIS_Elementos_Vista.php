@@ -744,7 +744,7 @@ class Elementos{
     /******************************************************************************************************************/
     
     /******************************************************************************************************************/    
-    /*********************** Elementos de inicio de sesion, restaurar contraseÔøΩa, cambiar contraseÔøΩa ******************/
+    /*********************** Elementos de inicio de sesion, restaurar contraseÒa, cambiar contraseÒa ******************/
     function div_flotante_session($_Datos){
         ?>
         <div class="<?php echo $_Datos['id']; ?>">
@@ -990,231 +990,179 @@ class Elementos{
             <br />
         </div>
         
-        <link rel="stylesheet" type="text/css" href="../Complementos/DataTables-1.10.12/media/css/jquery.dataTables.css">
-        <script type="text/javascript" language="javascript" src="../Complementos/DataTables-1.10.12/media/js/jquery.dataTables.js"></script>
-        <table id="lista" class="display" cellspacing="0" width="100%">
-        <?php 
+        <div>
+            <label>Paginador Por :</label>
+            <select name="s_paginador" id="s_paginador" onchange="paginador_filtro(1);" >
+                <option value="10"> 10 </option>
+                <option value="20"> 20 </option>
+            </select>            
+            
+            Buscar : <input name="buscador" id="buscador" type="text" />       
+        </div>        
+        
+        <div>
+            <br />
+        </div>
+        
+        <table id="lista"> 
+            <thead>
+                <tr class="tabla_letras" style="visibility: visible;">
+                    <?php
+                    foreach($eleTituloTabla as $elemento=>$valor){
+                        echo '<th >&nbsp;&nbsp;'.$valor.'&nbsp;&nbsp;</th>';
+                    }
+                    ?>
+                </tr>
+            </thead>    
+            <tbody>
+                <?php
+                while(!$resSql->EOF){ 
+                    echo '<tr >'; 
                     
-        if (array_key_exists('check',$eleConteTabla)) {
-            echo '<a href="javascript:seleccionar_todo()">Marcar todos</a> |
-            <a href="javascript:deseleccionar_todo()">Marcar ninguno</a>
-            <br>';
-        
-            
-        }
-        ?>
-            
-    <thead>        
-        <tr>
-            <?php
-            foreach ($eleTituloTabla as $elemento => $valor) {
-                echo '<th>' . $valor . '</th>';
-            }
-            ?>
-        </tr>
-    </thead>        
-    <tbody>
-        <?php
-        while (!$resSql->EOF) {
-            echo '<tr >';
-
-            foreach ($eleConteTabla as $elemento => $valor) {
-
-                if ($elemento == "radio") {
-                    echo '<td>&nbsp;&nbsp;';
-                    echo '<input type="radio" name="radio" id="radio" value="' . $resSql->fields[$valor] . '"/>';
-                    echo '</td>&nbsp;&nbsp;';
-                } else if ($elemento == "check") {
-                    echo '<td>&nbsp;&nbsp;';
-                    echo '<input type="checkbox" onclick="validar_check(' . $resSql->fields[$valor] . ')" name="check[]" id="check[]" value="' . $resSql->fields[$valor] . '"';
-
-                    if (isset($_Datos['filtro_check'])) {
-                        foreach ($_Datos['filtro_check'] as $filtro) {
-                            if ($filtro == $resSql->fields[$valor]) {
-                                echo 'checked';
+                    foreach($eleConteTabla as $elemento=>$valor){
+                        
+                        if($elemento == "radio"){
+                            echo '<td>&nbsp;&nbsp;';
+                            echo '<input type="radio" name="radio" id="radio" value="'.$resSql->fields[$valor].'"/>';
+                            echo '</td>&nbsp;&nbsp;';
+                        }
+                        else if($elemento == "check"){
+                            echo '<td>&nbsp;&nbsp;';
+                            echo '<input type="checkbox" name="check[]" id="check[]" value="'.$resSql->fields[$valor].'"';
+                            
+                            if(isset($_Datos['filtro_check'])){
+                                foreach($_Datos['filtro_check'] as $filtro){
+                                    if($filtro == $resSql->fields[$valor]){
+                                        echo 'checked';
+                                    }
+                                }
+                            }
+                            echo '/>';
+                            echo '&nbsp;&nbsp;</td>';
+                        }
+                        else if($elemento == "contenido_1"){
+                            echo '<td>&nbsp;&nbsp;'.$resSql->fields[$valor].'&nbsp;&nbsp;</td>';
+                        }
+                        else if($elemento == "contenido_2"){
+                            echo '<td>&nbsp;&nbsp;'.$resSql->fields[$valor].'&nbsp;&nbsp;</td>';
+                        }
+                        else if($elemento == "contenido_3"){
+                            echo '<td>&nbsp;&nbsp;'.$resSql->fields[$valor].'&nbsp;&nbsp;</td>';
+                        }
+                        else if($elemento == "contenido_4"){
+                            echo '<td>&nbsp;&nbsp;'.$resSql->fields[$valor].'&nbsp;&nbsp;</td>';
+                        }
+                        else if($elemento == "contenido_5"){
+                            echo '<td>&nbsp;&nbsp;'.$resSql->fields[$valor].'&nbsp;&nbsp;</td>';
+                        }
+                        else if($elemento == "estado"){
+                            if($resSql->fields[$valor] == "1"){
+                                echo '<td>&nbsp;&nbsp;&nbsp;&nbsp;Habilitado&nbsp;&nbsp;&nbsp;&nbsp;</td>';
+                            }
+                            else{
+                                echo '<td>&nbsp;&nbsp;Deshabilitado&nbsp;&nbsp;</td>'; 
                             }
                         }
-                    }
-                    echo '/>';
-                    echo '&nbsp;&nbsp;</td>';
-                } else if ($elemento == "contenido_1") {
-                    echo '<td>&nbsp;&nbsp;' . $resSql->fields[$valor] . '&nbsp;&nbsp;</td>';
-                } else if ($elemento == "contenido_2") {
-                    echo '<td>&nbsp;&nbsp;' . $resSql->fields[$valor] . '&nbsp;&nbsp;</td>';
-                } else if ($elemento == "contenido_3") {
-                    echo '<td>&nbsp;&nbsp;' . $resSql->fields[$valor] . '&nbsp;&nbsp;</td>';
-                } else if ($elemento == "contenido_4") {
-                    echo '<td>&nbsp;&nbsp;' . $resSql->fields[$valor] . '&nbsp;&nbsp;</td>';
-                } else if ($elemento == "contenido_5") {
-                    echo '<td>&nbsp;&nbsp;' . $resSql->fields[$valor] . '&nbsp;&nbsp;</td>';
-                } else if ($elemento == "estado") {
-                    if ($resSql->fields[$valor] == "1") {
-                        echo '<td>&nbsp;&nbsp;&nbsp;&nbsp;Habilitado&nbsp;&nbsp;&nbsp;&nbsp;</td>';
-                    } else {
-                        echo '<td>&nbsp;&nbsp;Deshabilitado&nbsp;&nbsp;</td>';
-                    }
-                } else if ($elemento == "filtro_1") {
-                    foreach ($_Datos['filtro'] as $filtro => $valorFiltro) {
-                        if ($valorFiltro['identificador'] == $valor) {
-                            if ($valorFiltro['pk'] == $resSql->fields[$valor]) {
-                                echo '<td >&nbsp;&nbsp;' . $valorFiltro['nombre'] . '&nbsp;&nbsp;</td>';
+                        else if($elemento == "filtro_1"){
+                            foreach($_Datos['filtro'] as $filtro=>$valorFiltro){
+                                if($valorFiltro['identificador'] == $valor){
+                                    if($valorFiltro['pk'] == $resSql->fields[$valor]){
+                                        echo '<td >&nbsp;&nbsp;'.$valorFiltro['nombre'].'&nbsp;&nbsp;</td>';
+                                    }
+                                }
                             }
                         }
-                    }
-                } else if ($elemento == "filtro_2") {
-                    foreach ($_Datos['filtro'] as $filtro => $valorFiltro) {
-                        if ($valorFiltro['identificador'] == $valor) {
-                            if ($valorFiltro['pk'] == $resSql->fields[$valor]) {
-                                echo '<td >&nbsp;&nbsp;' . $valorFiltro['nombre'] . '&nbsp;&nbsp;</td>';
+                        else if($elemento == "filtro_2"){
+                            foreach($_Datos['filtro'] as $filtro=>$valorFiltro){
+                                if($valorFiltro['identificador'] == $valor){
+                                    if($valorFiltro['pk'] == $resSql->fields[$valor]){
+                                        echo '<td >&nbsp;&nbsp;'.$valorFiltro['nombre'].'&nbsp;&nbsp;</td>';
+                                    }
+                                }
                             }
                         }
-                    }
-                } else if ($elemento == "filtro_3") {
-                    foreach ($_Datos['filtro'] as $filtro => $valorFiltro) {
-                        if ($valorFiltro['identificador'] == $valor) {
-                            if ($valorFiltro['pk'] == $resSql->fields[$valor]) {
-                                echo '<td >&nbsp;&nbsp;' . $valorFiltro['nombre'] . '&nbsp;&nbsp;</td>';
+                        else if($elemento == "filtro_3"){
+                            foreach($_Datos['filtro'] as $filtro=>$valorFiltro){
+                                if($valorFiltro['identificador'] == $valor){
+                                    if($valorFiltro['pk'] == $resSql->fields[$valor]){
+                                        echo '<td >&nbsp;&nbsp;'.$valorFiltro['nombre'].'&nbsp;&nbsp;</td>';
+                                    }
+                                }
                             }
                         }
-                    }
-                } else if ($elemento == "filtro_4") {
-                    foreach ($_Datos['filtro'] as $filtro => $valorFiltro) {
-                        if ($valorFiltro['identificador'] == $valor) {
-                            if ($valorFiltro['pk'] == $resSql->fields[$valor]) {
-                                echo '<td >&nbsp;&nbsp;' . $valorFiltro['nombre'] . '&nbsp;&nbsp;</td>';
+                        else if($elemento == "filtro_4"){
+                            foreach($_Datos['filtro'] as $filtro=>$valorFiltro){
+                                if($valorFiltro['identificador'] == $valor){
+                                    if($valorFiltro['pk'] == $resSql->fields[$valor]){
+                                        echo '<td >&nbsp;&nbsp;'.$valorFiltro['nombre'].'&nbsp;&nbsp;</td>';
+                                    }
+                                }
                             }
                         }
-                    }
-                } else if ($elemento == "filtro_5") {
-                    foreach ($_Datos['filtro'] as $filtro => $valorFiltro) {
-                        if ($valorFiltro['identificador'] == $valor) {
-                            if ($valorFiltro['pk'] == $resSql->fields[$valor]) {
-                                echo '<td >&nbsp;&nbsp;' . $valorFiltro['nombre'] . '&nbsp;&nbsp;</td>';
+                        else if($elemento == "filtro_5"){
+                            foreach($_Datos['filtro'] as $filtro=>$valorFiltro){
+                                if($valorFiltro['identificador'] == $valor){
+                                    if($valorFiltro['pk'] == $resSql->fields[$valor]){
+                                        echo '<td >&nbsp;&nbsp;'.$valorFiltro['nombre'].'&nbsp;&nbsp;</td>';
+                                    }
+                                }
                             }
                         }
-                    }
-                } else if ($elemento == "filtro_1_texto_flotante") {
-                    foreach ($_Datos['filtro'] as $filtro => $valorFiltro) {
-                        if ($valorFiltro['identificador'] == $valor) {
-                            if ($valorFiltro['pk'] == $resSql->fields[$valor]) {
-                                echo '<td style="cursor: pointer;"><span title="' . $valorFiltro['texto_flotante'] . '">&nbsp;&nbsp;' . $valorFiltro['nombre'] . '&nbsp;&nbsp;</span></td>';
+                        else if($elemento == "filtro_1_texto_flotante"){
+                            foreach($_Datos['filtro'] as $filtro=>$valorFiltro){
+                                if($valorFiltro['identificador'] == $valor){
+                                    if($valorFiltro['pk'] == $resSql->fields[$valor]){
+                                        echo '<td style="cursor: pointer;"><span title="'.$valorFiltro['texto_flotante'].'">&nbsp;&nbsp;'.$valorFiltro['nombre'].'&nbsp;&nbsp;</span></td>';
+                                    }
+                                }
                             }
                         }
-                    }
-                } else if ($elemento == "filtro_2_texto_flotante") {
-                    foreach ($_Datos['filtro'] as $filtro => $valorFiltro) {
-                        if ($valorFiltro['identificador'] == $valor) {
-                            if ($valorFiltro['pk'] == $resSql->fields[$valor]) {
-                                echo '<td style="cursor: pointer;"><span title="' . $valorFiltro['texto_flotante'] . '">&nbsp;&nbsp;' . $valorFiltro['nombre'] . '&nbsp;&nbsp;</span></td>';
+                        else if($elemento == "filtro_2_texto_flotante"){
+                            foreach($_Datos['filtro'] as $filtro=>$valorFiltro){
+                                if($valorFiltro['identificador'] == $valor){
+                                    if($valorFiltro['pk'] == $resSql->fields[$valor]){
+                                        echo '<td style="cursor: pointer;"><span title="'.$valorFiltro['texto_flotante'].'">&nbsp;&nbsp;'.$valorFiltro['nombre'].'&nbsp;&nbsp;</span></td>';
+                                    }
+                                }
                             }
                         }
-                    }
-                } else if ($elemento == "filtro_3_texto_flotante") {
-                    foreach ($_Datos['filtro'] as $filtro => $valorFiltro) {
-                        if ($valorFiltro['identificador'] == $valor) {
-                            if ($valorFiltro['pk'] == $resSql->fields[$valor]) {
-                                echo '<td style="cursor: pointer;"><span title="' . $valorFiltro['texto_flotante'] . '">&nbsp;&nbsp;' . $valorFiltro['nombre'] . '&nbsp;&nbsp;</span></td>';
+                        else if($elemento == "filtro_3_texto_flotante"){
+                            foreach($_Datos['filtro'] as $filtro=>$valorFiltro){
+                                if($valorFiltro['identificador'] == $valor){
+                                    if($valorFiltro['pk'] == $resSql->fields[$valor]){
+                                        echo '<td style="cursor: pointer;"><span title="'.$valorFiltro['texto_flotante'].'">&nbsp;&nbsp;'.$valorFiltro['nombre'].'&nbsp;&nbsp;</span></td>';
+                                    }
+                                }
                             }
                         }
-                    }
-                } else if ($elemento == "filtro_4_texto_flotante") {
-                    foreach ($_Datos['filtro'] as $filtro => $valorFiltro) {
-                        if ($valorFiltro['identificador'] == $valor) {
-                            if ($valorFiltro['pk'] == $resSql->fields[$valor]) {
-                                echo '<td style="cursor: pointer;"><span title="' . $valorFiltro['texto_flotante'] . '">&nbsp;&nbsp;' . $valorFiltro['nombre'] . '&nbsp;&nbsp;</span></td>';
+                        else if($elemento == "filtro_4_texto_flotante"){
+                            foreach($_Datos['filtro'] as $filtro=>$valorFiltro){
+                                if($valorFiltro['identificador'] == $valor){
+                                    if($valorFiltro['pk'] == $resSql->fields[$valor]){
+                                        echo '<td style="cursor: pointer;"><span title="'.$valorFiltro['texto_flotante'].'">&nbsp;&nbsp;'.$valorFiltro['nombre'].'&nbsp;&nbsp;</span></td>';
+                                    }
+                                }
                             }
                         }
-                    }
-                } else if ($elemento == "filtro_5_texto_flotante") {
-                    foreach ($_Datos['filtro'] as $filtro => $valorFiltro) {
-                        if ($valorFiltro['identificador'] == $valor) {
-                            if ($valorFiltro['pk'] == $resSql->fields[$valor]) {
-                                echo '<td style="cursor: pointer;"><span title="' . $valorFiltro['texto_flotante'] . '">&nbsp;&nbsp;' . $valorFiltro['nombre'] . '&nbsp;&nbsp;</span></td>';
+                        else if($elemento == "filtro_5_texto_flotante"){
+                            foreach($_Datos['filtro'] as $filtro=>$valorFiltro){
+                                if($valorFiltro['identificador'] == $valor){
+                                    if($valorFiltro['pk'] == $resSql->fields[$valor]){
+                                        echo '<td style="cursor: pointer;"><span title="'.$valorFiltro['texto_flotante'].'">&nbsp;&nbsp;'.$valorFiltro['nombre'].'&nbsp;&nbsp;</span></td>';
+                                    }
+                                }
                             }
                         }
+                        
                     }
+                    
+                    $resSql->MoveNext(); //Nos movemos al siguiente registro
+                    echo '</tr>';
                 }
-            }
-
-            $resSql->MoveNext(); //Nos movemos al siguiente registro
-            echo '</tr>';
-        }
-        ?>      
-    </tbody>
-</table>
-        <input name="vista_check" type="hidden" readonly="" id="vista_check">
-       
-<script>
-        function seleccionar_todo(){
-            for (i=0;i<document.formulario.elements.length;i++)
-               if(document.formulario.elements[i].type == "checkbox")
-                  document.formulario.elements[i].checked=1
-          crear_array_check();
-         } 
-         function deseleccionar_todo(){
-               for (i=0;i<document.formulario.elements.length;i++)
-                  if(document.formulario.elements[i].type == "checkbox")
-                     document.formulario.elements[i].checked=0
-             crear_array_check();
-        } 
-        function validar_check(valor){
-            var num = valor.toString();
-                if($("#vista_check").val()==''){
-                     checkboxValues= num+',';     
-                }else{
-                     checkboxValues= $("#vista_check").val()+','+num+',';     
-                }                 
-
-            //eliminamos la √∫ltima coma.
-            checkboxValues = checkboxValues.substring(0, checkboxValues.length-1);
-
-            $("#vista_check").val(checkboxValues);
-        }
-        function crear_array_check(){
-            var checkboxValues= $("#vista_check").val();
-            $('input[name="check[]"]:checked').each(function() {
+                ?>                        
+            </tbody>    
+        </table>
         
-            checkboxValues += $(this).val() + ",";
-        
-        
-            });
-            //eliminamos la √∫ltima coma.
-   
-            $("#vista_check").val(checkboxValues);
-        }
-        $(document).ready(function () {          
-            
-            crear_array_check();
-            $('#lista').DataTable({
-                "language": {
-                    "sProcessing": "Procesando...",
-                    "sLengthMenu": "Mostrar _MENU_ registros",
-                    "sZeroRecords": "No se encontraron resultados",
-                    "sEmptyTable": "Ning√∫n dato disponible en esta tabla",
-                    "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-                    "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
-                    "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
-                    "sInfoPostFix": "",
-                    "sSearch": "Buscar:",
-                    "sUrl": "",
-                    "sInfoThousands": ",",
-                    "sLoadingRecords": "Cargando...",
-                    "oPaginate": {
-                        "sFirst": "Primero",
-                        "sLast": "Ultimo",
-                        "sNext": "Siguiente",
-                        "sPrevious": "Anterior"
-                    },
-                    "oAria": {
-                        "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
-                        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-                    }
-                }
-            });
-        });
-
-</script>
-  
         <div>
             <?php
             if(isset($_Datos["obligatorio"])){
@@ -1230,7 +1178,8 @@ class Elementos{
             <br />
         </div>
         
-        
+        <div id="num_pag">        
+        </div>
         
         <div>
             <br />

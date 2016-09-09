@@ -14,13 +14,7 @@ class Ado{
         // $conUsuario = "omzsiste_siauser";
         // $conClave = "siaudec2015";
         
-        $conServidor = "localhost";
-        $conBaseDeDatos = "omzsiste_sia";
-        $conUsuario = "sia_admin";
-        $conClave = "S1A_dbUser";
-
-
-        $conServidor = "localhost";
+         $conServidor = "localhost";
         $conBaseDeDatos = "omzsiste_sia";
         $conUsuario = "sia_admin";
         $conClave = "S1A_dbUser";

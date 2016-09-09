@@ -15,8 +15,6 @@ class Ado{
         $conBaseDeDatos = "omzsiste_sia";
         $conUsuario = "sia_admin";
         $conClave = "S1A_dbUser";
-        $conUsuario = "sia_admin";
-        $conClave = "S1A_dbUser";
         
         $bd = ADONewConnection('mysql');
         $bd->debug = false;
