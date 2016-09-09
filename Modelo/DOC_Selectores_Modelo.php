@@ -161,7 +161,7 @@ class Selectores_Modelo {
      * @return [int] lista de instrumentos
      */
     public function obtenerInstrumento($id_evidencia){
-        $sql = 'SELECT * FROM doc_instru_evaluacion_copy WHERE fk_evidencia = '.$id_evidencia;
+        $sql = 'SELECT * FROM doc_instru_evaluacion WHERE fk_evidencia = '.$id_evidencia;
         $pregunta = $this->runSQL($sql);
         return $pregunta;
     }
@@ -211,9 +211,9 @@ class Selectores_Modelo {
      */
     public function cargarDocumentosProceso($id_proceso , $evidencia, $grupo){
         if($grupo == 1){
-            $sql = 'SELECT die.`descripcion`, dd.`fk_instrueval` , dd.`pk_documento` , dd.`nombre` , dd.`url` ,dd.`fecha`, die.`fk_evidencia` , ce.`nombre`AS nombre_evidencia FROM doc_documento dd , cna_proceso cp , doc_instru_evaluacion_copy die , cna_evidencia ce WHERE dd.fk_programa = cp.`fk_programa` AND  dd.`fk_instrueval` = die.`pk_instru_evaluacion` AND die.`fk_evidencia` = ce.`pk_evidencia` AND cp.`pk_proceso` = "'.$id_proceso.'"  AND die.`fk_evidencia` = "'.$evidencia.'" and dd.`estado` = 1 ';
+            $sql = 'SELECT die.`descripcion`, dd.`fk_instrueval` , dd.`pk_documento` , dd.`nombre` , dd.`url` ,dd.`fecha`, die.`fk_evidencia` , ce.`nombre`AS nombre_evidencia FROM doc_documento dd , cna_proceso cp , doc_instru_evaluacion die , cna_evidencia ce WHERE dd.fk_programa = cp.`fk_programa` AND  dd.`fk_instrueval` = die.`pk_instru_evaluacion` AND die.`fk_evidencia` = ce.`pk_evidencia` AND cp.`pk_proceso` = "'.$id_proceso.'"  AND die.`fk_evidencia` = "'.$evidencia.'" and dd.`estado` = 1 ';
         }else{
-            $sql = 'SELECT die.`descripcion`, dd.`fk_instrueval` , dd.`pk_documento` , dd.`nombre` , dd.`url` ,dd.`fecha`, die.`fk_evidencia` , ce.`nombre`AS nombre_evidencia FROM doc_documento dd , cna_proceso cp , doc_instru_evaluacion_copy die , cna_evidencia ce WHERE dd.`fk_instrueval` = die.`pk_instru_evaluacion` AND die.`fk_evidencia` = ce.`pk_evidencia` AND dd.`fk_proceso` = 0 AND die.`fk_evidencia` = "'.$evidencia.'" AND dd.`estado` = 1 ';
+            $sql = 'SELECT die.`descripcion`, dd.`fk_instrueval` , dd.`pk_documento` , dd.`nombre` , dd.`url` ,dd.`fecha`, die.`fk_evidencia` , ce.`nombre`AS nombre_evidencia FROM doc_documento dd , cna_proceso cp , doc_instru_evaluacion die , cna_evidencia ce WHERE dd.`fk_instrueval` = die.`pk_instru_evaluacion` AND die.`fk_evidencia` = ce.`pk_evidencia` AND dd.`fk_proceso` = 0 AND die.`fk_evidencia` = "'.$evidencia.'" AND dd.`estado` = 1 ';
         }
         $pregunta = $this->runSQL($sql);
         return $pregunta;

@@ -263,9 +263,9 @@ class Autoevaluacion_Modelo {
 		$nom = $resultados->GetRows();
 		$s = $nom[0]['pk_grupo_interes'];
 		if($proceso == 0){
-			$sql = 'SELECT DISTINCT ca.`nombre` AS aspecto_nombre, ce.`codigo` AS codigo , tp.`pk_tipo_respuesta` AS tipo_respuesta, di.`pk_instru_evaluacion` AS pk_instru_evaluacion , di.`descripcion` AS pregunta , di.`porcentaje` AS porcentaje FROM cna_aspecto ca , doc_instru_evaluacion_copy di, tipo_respuesta tp, cna_evidencia ce, cna_caracteristica cc WHERE di.`fk_evidencia` = ce.`pk_evidencia` AND di.`fk_tipo_respuesta` = tp.`pk_tipo_respuesta` AND ce.`fk_aspecto` = ca.`pk_aspecto` AND ca.`fk_caracteristica` = "'.$id.'" AND (di.`fk_grupo_interes` ="'.$s.'" OR di.`fk_grupo_interes` = 3) and  di.`fk_evidencia` = ce.`pk_evidencia` ';
+			$sql = 'SELECT DISTINCT ca.`nombre` AS aspecto_nombre, ce.`codigo` AS codigo , tp.`pk_tipo_respuesta` AS tipo_respuesta, di.`pk_instru_evaluacion` AS pk_instru_evaluacion , di.`descripcion` AS pregunta , di.`porcentaje` AS porcentaje FROM cna_aspecto ca , doc_instru_evaluacion di, tipo_respuesta tp, cna_evidencia ce, cna_caracteristica cc WHERE di.`fk_evidencia` = ce.`pk_evidencia` AND di.`fk_tipo_respuesta` = tp.`pk_tipo_respuesta` AND ce.`fk_aspecto` = ca.`pk_aspecto` AND ca.`fk_caracteristica` = "'.$id.'" AND (di.`fk_grupo_interes` ="'.$s.'" OR di.`fk_grupo_interes` = 3) and  di.`fk_evidencia` = ce.`pk_evidencia` ';
 		}else{
-			$sql = 'SELECT DISTINCT ca.`nombre` AS aspecto_nombre, ce.`codigo` AS codigo , tp.`pk_tipo_respuesta` AS tipo_respuesta, di.`pk_instru_evaluacion` AS pk_instru_evaluacion , di.`descripcion` AS pregunta , di.`porcentaje` AS porcentaje FROM cna_aspecto ca , doc_instru_evaluacion_copy di, tipo_respuesta tp, cna_evidencia ce, cna_caracteristica cc WHERE di.`fk_evidencia` = ce.`pk_evidencia` AND di.`fk_tipo_respuesta` = tp.`pk_tipo_respuesta` AND ce.`fk_aspecto` = ca.`pk_aspecto` AND ca.`fk_caracteristica` = "'.$id.'" AND (di.`fk_grupo_interes` ="'.$s.'" OR di.`fk_grupo_interes` = 3) and  di.`fk_evidencia` = ce.`pk_evidencia` AND di.`proceso` = "'.$proceso.'"';
+			$sql = 'SELECT DISTINCT ca.`nombre` AS aspecto_nombre, ce.`codigo` AS codigo , tp.`pk_tipo_respuesta` AS tipo_respuesta, di.`pk_instru_evaluacion` AS pk_instru_evaluacion , di.`descripcion` AS pregunta , di.`porcentaje` AS porcentaje FROM cna_aspecto ca , doc_instru_evaluacion di, tipo_respuesta tp, cna_evidencia ce, cna_caracteristica cc WHERE di.`fk_evidencia` = ce.`pk_evidencia` AND di.`fk_tipo_respuesta` = tp.`pk_tipo_respuesta` AND ce.`fk_aspecto` = ca.`pk_aspecto` AND ca.`fk_caracteristica` = "'.$id.'" AND (di.`fk_grupo_interes` ="'.$s.'" OR di.`fk_grupo_interes` = 3) and  di.`fk_evidencia` = ce.`pk_evidencia` AND di.`proceso` = "'.$proceso.'"';
 		}	
 		//return $sql;
 		return $this->runSQL($sql);
@@ -290,11 +290,11 @@ WHERE di.`fk_proceso` = '.$proceso.' AND di.`fk_proceso` = cnp.`pk_proceso`  LIM
 
 	// 		if($proceso == 0){
 	// 			$sql = 'SELECT di.`fk_tipo_respuesta` AS tipo_respuesta, di.`pk_instru_evaluacion` AS pk_instru_evaluacion , di.`descripcion` AS pregunta , di.`porcentaje` AS porcentaje , di.`fk_factor`, di.`fk_caracteristicas`, di.`fk_evidencia`, di.`fk_grupo_interes` 
-	// FROM doc_instru_evaluacion_copy di
+	// FROM doc_instru_evaluacion di
 	// WHERE (di.`fk_grupo_interes` = 8 OR di.`fk_grupo_interes` = 3) AND di.`proceso` = 0 LIMIT '.($pagina * $items).', '.$items;
 	// 		}else{
 	// 			$sql = 'SELECT di.`fk_tipo_respuesta` AS tipo_respuesta, di.`pk_instru_evaluacion` AS pk_instru_evaluacion , di.`descripcion` AS pregunta , di.`porcentaje` AS porcentaje , di.`fk_factor`, di.`fk_caracteristicas`, di.`fk_evidencia`, di.`fk_grupo_interes` 
-	// FROM doc_instru_evaluacion_copy di
+	// FROM doc_instru_evaluacion di
 	// WHERE (di.`fk_grupo_interes` = '.$s.' OR di.`fk_grupo_interes` = 3 ) AND di.`proceso` = '.$proceso.' LIMIT '.($pagina * $items).', '.$items;
 	// 		}	
 			
@@ -579,7 +579,7 @@ WHERE di.`fk_proceso` = '.$proceso.' AND di.`fk_proceso` = cnp.`pk_proceso`';
 	 * @return [int] devuelve el estado de la operacion 1 -0
 	 */
 	private function obtenerIdEvidencia($id_pregunta){
-		$sql = 'SELECT fk_evidencia FROM doc_instru_evaluacion_copy WHERE pk_instru_evaluacion = "'.$id_pregunta.'"';
+		$sql = 'SELECT fk_evidencia FROM doc_instru_evaluacion WHERE pk_instru_evaluacion = "'.$id_pregunta.'"';
 		$resultados = $this->runSQL($sql);
 		$fk_evidencia = $resultados->GetRows();
 		return $fk_evidencia[0]['fk_evidencia'];
@@ -602,7 +602,7 @@ FROM doc_respuesta_instrumentos_copy di WHERE di.pk_respuesta_instrumento = "'.$
 	 * @return [int] devuelve el estado de la operacion 1 -0
 	 */
 	private function obtenerIdGrupoInteres($id_pregunta){
-		$sql = 'SELECT fk_grupo_interes FROM doc_instru_evaluacion_copy WHERE pk_instru_evaluacion = "'.$id_pregunta.'"';
+		$sql = 'SELECT fk_grupo_interes FROM doc_instru_evaluacion WHERE pk_instru_evaluacion = "'.$id_pregunta.'"';
 		$resultados = $this->runSQL($sql);
 		$fk_grupo_interes = $resultados->GetRows();
 		return $fk_grupo_interes[0]['fk_grupo_interes'];
@@ -617,7 +617,7 @@ FROM doc_respuesta_instrumentos_copy di WHERE di.pk_respuesta_instrumento = "'.$
 		$resultados = $this->runSQL($SQL1);
 		$nom = $resultados->GetRows();
 		$s = $nom[0]['pk_grupo_interes'];
-		$sql = 'SELECT COUNT(*) as total FROM doc_instru_evaluacion_copy  WHERE (fk_grupo_interes  = "'.$s.'" OR fk_grupo_interes  = 3) AND proceso = "'.$proceso.'"';
+		$sql = 'SELECT COUNT(*) as total FROM doc_instru_evaluacion  WHERE (fk_grupo_interes  = "'.$s.'" OR fk_grupo_interes  = 3) AND proceso = "'.$proceso.'"';
 		$resultados = $this->runSQL($sql);
 		$res = $resultados->GetRows();
 		return $res[0]['total'];
@@ -632,7 +632,7 @@ FROM doc_respuesta_instrumentos_copy di WHERE di.pk_respuesta_instrumento = "'.$
 		$resultados = $this->runSQL($SQL1);
 		$nom = $resultados->GetRows();
 		$s = $nom[0]['pk_grupo_interes'];
-		$sql = 'SELECT COUNT(*) as total FROM doc_instru_evaluacion_copy  WHERE (fk_grupo_interes  = 3 or fk_grupo_interes  = 8 ) and proceso = 0';
+		$sql = 'SELECT COUNT(*) as total FROM doc_instru_evaluacion  WHERE (fk_grupo_interes  = 3 or fk_grupo_interes  = 8 ) and proceso = 0';
 		$resultados = $this->runSQL($sql);
 		$res = $resultados->GetRows();
 		return $res[0]['total'];
@@ -711,7 +711,7 @@ FROM doc_respuesta_instrumentos_copy di WHERE di.pk_respuesta_instrumento = "'.$
     public function ResultadoCompleto($fk_proceso)
     {
 		$sql = 'SELECT di.`fk_caracteristicas`,di.`fk_caracteristicas_codigo`,di.`fk_factor_codigo`, di.`fk_factor`, di.`pk_instru_evaluacion`, di.`descripcion`, dr.`ponderacion`, di.`proceso`
-FROM doc_instru_evaluacion_copy di, doc_respuesta_instrumentos dr
+FROM doc_instru_evaluacion di, doc_respuesta_instrumentos dr
 WHERE dr.`fk_proceso` = '.$fk_proceso.' AND di.`proceso` = dr.`fk_proceso` AND di.`pk_instru_evaluacion` = dr.`fk_instrumento`';
         $pregunta = $this->runSQL($sql);
         $res = $pregunta->GetRows(); 
@@ -723,7 +723,7 @@ WHERE dr.`fk_proceso` = '.$fk_proceso.' AND di.`proceso` = dr.`fk_proceso` AND d
 	 * @return [int] devuelve el estado de la operacion 1 -0
 	 */
 	public function consolidacionFinal($fk_proceso){
-		$sql = 'SELECT di.fk_evidencia, MAX(di.fk_proceso) AS fk_proceso, ROUND((SUM(di.ponderacion) / COUNT(di.fk_evidencia)), 2) AS ponderacion, GROUP_CONCAT(DISTINCT di.observaciones ORDER BY di.fk_instrumento ASC SEPARATOR \' | \') AS observacion , de.`fk_evidencia_grupo_interes` AS fk_grupo_evidencia FROM doc_respuesta_instrumentos  di , doc_instru_evaluacion_copy de WHERE (fk_proceso = 0 OR fk_proceso = "'.$fk_proceso.'") AND di.`fk_instrumento` = de.`pk_instru_evaluacion` GROUP BY fk_instrumento HAVING COUNT(fk_instrumento) >= 2';
+		$sql = 'SELECT di.fk_evidencia, MAX(di.fk_proceso) AS fk_proceso, ROUND((SUM(di.ponderacion) / COUNT(di.fk_evidencia)), 2) AS ponderacion, GROUP_CONCAT(DISTINCT di.observaciones ORDER BY di.fk_instrumento ASC SEPARATOR \' | \') AS observacion , de.`fk_evidencia_grupo_interes` AS fk_grupo_evidencia FROM doc_respuesta_instrumentos  di , doc_instru_evaluacion de WHERE (fk_proceso = 0 OR fk_proceso = "'.$fk_proceso.'") AND di.`fk_instrumento` = de.`pk_instru_evaluacion` GROUP BY fk_instrumento HAVING COUNT(fk_instrumento) >= 2';
 		$resultados = $this->runSQL($sql);
 		$res = $resultados->GetRows();
 
@@ -745,7 +745,7 @@ WHERE dr.`fk_proceso` = '.$fk_proceso.' AND di.`proceso` = dr.`fk_proceso` AND d
 		$resultados = $this->runSQL($SQL1);
 		$nom = $resultados->GetRows();
 
-		$sql = 'SELECT di.`pk_respuesta_instrumento`, di.fk_evidencia, di.fk_proceso, ROUND((SUM(di.ponderacion) / COUNT(di.fk_evidencia)), 2) AS ponderacion, GROUP_CONCAT(DISTINCT di.observaciones ORDER BY di.fk_instrumento ASC SEPARATOR \' | \') AS observacion , de.`fk_evidencia_grupo_interes` AS fk_grupo_evidencia FROM doc_respuesta_instrumentos  di , doc_instru_evaluacion_copy de WHERE di.fk_proceso = "'.$fk_proceso.'" AND di.`fk_instrumento` = de.`pk_instru_evaluacion` AND di.`fk_grupo_interes` = "'.$nom[0]['pk_grupo_interes'].'" GROUP BY di.fk_evidencia HAVING COUNT(fk_instrumento) = 1 ';
+		$sql = 'SELECT di.`pk_respuesta_instrumento`, di.fk_evidencia, di.fk_proceso, ROUND((SUM(di.ponderacion) / COUNT(di.fk_evidencia)), 2) AS ponderacion, GROUP_CONCAT(DISTINCT di.observaciones ORDER BY di.fk_instrumento ASC SEPARATOR \' | \') AS observacion , de.`fk_evidencia_grupo_interes` AS fk_grupo_evidencia FROM doc_respuesta_instrumentos  di , doc_instru_evaluacion de WHERE di.fk_proceso = "'.$fk_proceso.'" AND di.`fk_instrumento` = de.`pk_instru_evaluacion` AND di.`fk_grupo_interes` = "'.$nom[0]['pk_grupo_interes'].'" GROUP BY di.fk_evidencia HAVING COUNT(fk_instrumento) = 1 ';
 		$resultados = $this->runSQL($sql);
 		$res = $resultados->GetRows();
 		$respuesta = 1;
@@ -761,7 +761,7 @@ WHERE dr.`fk_proceso` = '.$fk_proceso.' AND di.`proceso` = dr.`fk_proceso` AND d
 		$resultados = $this->runSQL($SQL1);
 		$nom = $resultados->GetRows();
 
-		$sql2 = 'SELECT di.`pk_respuesta_instrumento`, di.fk_evidencia, di.fk_proceso, ROUND((SUM(di.ponderacion) / COUNT(di.fk_evidencia)), 2) AS ponderacion, GROUP_CONCAT(DISTINCT di.observaciones ORDER BY di.fk_instrumento ASC SEPARATOR \' | \') AS observacion , de.`fk_evidencia_grupo_interes` AS fk_grupo_evidencia FROM doc_respuesta_instrumentos  di , doc_instru_evaluacion_copy de WHERE di.fk_proceso = 0 AND di.`fk_instrumento` = de.`pk_instru_evaluacion` AND di.`fk_grupo_interes` = "'.$nom[0]['pk_grupo_interes'].'" GROUP BY di.fk_evidencia HAVING COUNT(fk_instrumento) = 1 ';
+		$sql2 = 'SELECT di.`pk_respuesta_instrumento`, di.fk_evidencia, di.fk_proceso, ROUND((SUM(di.ponderacion) / COUNT(di.fk_evidencia)), 2) AS ponderacion, GROUP_CONCAT(DISTINCT di.observaciones ORDER BY di.fk_instrumento ASC SEPARATOR \' | \') AS observacion , de.`fk_evidencia_grupo_interes` AS fk_grupo_evidencia FROM doc_respuesta_instrumentos  di , doc_instru_evaluacion de WHERE di.fk_proceso = 0 AND di.`fk_instrumento` = de.`pk_instru_evaluacion` AND di.`fk_grupo_interes` = "'.$nom[0]['pk_grupo_interes'].'" GROUP BY di.fk_evidencia HAVING COUNT(fk_instrumento) = 1 ';
 		$resultados2 = $this->runSQL($sql2);
 		$res2 = $resultados2->GetRows();
 

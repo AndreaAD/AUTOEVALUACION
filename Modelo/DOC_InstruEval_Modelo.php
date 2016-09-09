@@ -109,7 +109,7 @@ class InstruEval_Modelo {
 	 * @return [int] estado 1-0
 	 */
 	// public function eliminar(){
-	// 	$sql = 'UPDATE doc_instru_evaluacion_copy SET estado = 0 WHERE pk_instru_evaluacion = '.$this->id.' ';
+	// 	$sql = 'UPDATE doc_instru_evaluacion SET estado = 0 WHERE pk_instru_evaluacion = '.$this->id.' ';
 	// 	$observacion =  'Se modifico el estado a  0 el instrumento de evaluacion numero : "'.$this->id.'" '; 
  //        $transaccion = "deshabilitar Instrumentos";
  //        $this->seg->Seguridad_Enviar($observacion, $transaccion);
@@ -126,7 +126,7 @@ class InstruEval_Modelo {
 	//  * @return [int] estado 1-0
 	//  */
 	// public function modificar($proceso){
-	// 	$sql = 'UPDATE doc_instru_evaluacion_copy SET descripcion = "'.$this->pregunta.'",fk_evidencia ="'.$this->evidencia.'" , fk_grupo_respuesta = "'.$this->opcionRespuesta.'" , fk_grupo_interes ="'.$this->grupo.'" , fk_tipo_respuesta = "'.$this->tipoRespuesta.'"  WHERE pk_instru_evaluacion = '.$this->id.' ';
+	// 	$sql = 'UPDATE doc_instru_evaluacion SET descripcion = "'.$this->pregunta.'",fk_evidencia ="'.$this->evidencia.'" , fk_grupo_respuesta = "'.$this->opcionRespuesta.'" , fk_grupo_interes ="'.$this->grupo.'" , fk_tipo_respuesta = "'.$this->tipoRespuesta.'"  WHERE pk_instru_evaluacion = '.$this->id.' ';
 	// 	/*$observacion =  'Se elimino el instrumento de evaluacion numero : "'.$this->id.'" '; 
  //        $transaccion = "Eliminar Instrumentos";
  //        $this->seg->Seguridad_Enviar($observacion, $transaccion);*/
@@ -142,7 +142,7 @@ class InstruEval_Modelo {
 	 * @return [int] retorna los resultados
 	 */
 	public function cargarinstrumento($id_evidencia){
-		$sql = 'SELECT * FROM doc_instru_evaluacion_copy WHERE fk_evidencia = "'.$id_evidencia.'" AND estado = 1 '; 
+		$sql = 'SELECT * FROM doc_instru_evaluacion WHERE fk_evidencia = "'.$id_evidencia.'" AND estado = 1 '; 
 		$resul = $this->runSQL($sql);
 		return $resul;
 		
