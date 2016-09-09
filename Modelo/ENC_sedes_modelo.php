@@ -10,5 +10,6 @@ class Sedes{
         $rsDatos=$conDB->conectarAdo($sql);
         return $rsDatos;
     }
+    
 }
 ?>

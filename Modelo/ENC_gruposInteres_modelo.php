@@ -7,6 +7,16 @@ class GruposInteres{
         $rsDatos=$conDB->conectarAdo($sql);
         return $rsDatos;
     }
+    
+    public function getGruposEncuestas(){
+        require_once("../BaseDatos/AdoDB.php");
+        $conDB=new Ado();
+        
+        $sql="SELECT * FROM cna_grupo_interes WHERE institucional=0 or institucional=1 AND estado=1";
+        $rsDatos=$conDB->conectarAdo($sql);
+        return $rsDatos;
+    }
+    
     public function getGruposEncuestasNormales(){
         require_once("../BaseDatos/AdoDB.php");
         $conDB=new Ado();

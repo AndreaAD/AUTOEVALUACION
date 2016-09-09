@@ -52,9 +52,13 @@ class ProcesamientoTemporal {
                 $sql = "SELECT fk_proceso_institucional FROM cna_proceso WHERE pk_proceso=" . $_idProceso;
                 $res = $conDB->conectarAdo($sql);
                 $pkProcesoInstitucional = $res[0]['fk_proceso_institucional'];
+                $sql = "UPDATE cna_proceso_institucional SET estado = '0'";
+                $res = $conDB->conectarAdo($sql);
+                $sql = "UPDATE cna_proceso_institucional SET estado = '1' WHERE pk_proceso_institucional = '{$pkProcesoInstitucional}'";
+                $res = $conDB->conectarAdo($sql);
+                 
                 $sql = "SELECT pk_encuesta FROM enc_encuesta WHERE fk_grupo_interes=" . $_idGrupo . " AND fk_proceso_institucional=" . $pkProcesoInstitucional . " AND institucional=1";
                 $res = $conDB->conectarAdo($sql);
-
                 if (count($res) == 0) {
                     $sql = "INSERT INTO enc_encuesta(`fk_grupo_interes`,`fk_proceso_institucional`,`institucional`,`publicada`,`fecha_publicacion`,`id_aleatorio`)";
                     $sql.=" VALUES (" . $_idGrupo . "," . $pkProcesoInstitucional . ",1,1,'" . $fecha . "','" . $_idUnico . "')";
@@ -114,6 +118,7 @@ class ProcesamientoTemporal {
         foreach ($_respuestas as $respuesta) {
             $sql = "INSERT INTO enc_respuesta_pregunta_solucion_encuesta (texto,fk_pregunta_solucion,ponderacion) ";
             $sql.="VALUES ('" . $respuesta['texto'] . "'," . $pkPregunta . "," . $respuesta['ponderacion'] . ")";
+            //echo $sql . '<br>';
             $res = $conDB->conectarAdo($sql);
         }
     }
@@ -132,7 +137,9 @@ class Preguntas {
                 $sql = "SELECT fk_proceso_institucional FROM cna_proceso WHERE pk_proceso=" . $_idProceso;
                 $res = $conDB->conectarAdo($sql);
                 $idProcesoInstitucional = $res[0]['fk_proceso_institucional'];
-                $sql = "SELECT pre.* FROM enc_pregunta_cna_proceso as prepro, enc_pregunta as pre WHERE prepro.fk_proceso_institucional=" . $idProcesoInstitucional . " AND prepro.fk_grupo_interes=" . $_idGrupo . " AND prepro.institucional=1 AND pre.pk_pregunta=prepro.fk_pregunta AND pre.estado=1 AND pre.institucional=1";
+                $sql = "SELECT pre.* FROM enc_pregunta_cna_proceso as prepro, enc_pregunta as pre WHERE prepro.fk_proceso_institucional=" . $idProcesoInstitucional . " AND prepro.fk_grupo_interes=" . $_idGrupo . " AND prepro.institucional=1 AND pre.pk_pregunta=prepro.fk_pregunta AND pre.estado=1";
+            //echo $sql;die();
+                
             }
             $rsDatos = $conDB->conectarAdo($sql);
             return $rsDatos;
@@ -175,7 +182,7 @@ class Evidencias {
 
     public function getEvidenciaUnaPregunta($_idPregunta) {
         $conDB = new Ado();
-        $sql = "SELECT fk_evidencia,fk_caracteristica FROM enc_pregunta_cna_evidencia where fk_pregunta=" . $_idPregunta;
+        $sql = "SELECT fk_evidencia,fk_caracteristica,fk_aspecto FROM enc_pregunta_cna_evidencia where fk_pregunta=" . $_idPregunta;
         $res = $conDB->conectarAdo($sql);
         return $res;
     }

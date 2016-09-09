@@ -1,11 +1,11 @@
 <?php
 
-class Aspecto{
-    
-    function Ver(){
-        
+class Aspecto {
+
+    public function Ver() {
+
         $conexion = new Ado();
-        
+
         $cadena = " SELECT 
                         aspe.*,
                         fact.pk_factor AS fk_factor
@@ -17,40 +17,66 @@ class Aspecto{
                             aspe.fk_caracteristica = cara.pk_caracteristica
                         AND
                             cara.fk_factor = fact.pk_factor
-                    "; 
-        
+                    ";
+
         $recordSet = $conexion->conectarAdo($cadena);
-        
+
         return $recordSet;
-        
     }
     
-    function Ver_X_Caracteristica($_Datos){
-        
-        $pk_caracteristica = $_Datos;
-        
+    public function get_Aspecto_Proceso($id_proceso) {      
         $conexion = new Ado();
-        
+        $cadena = " SELECT
+                            fk_aspecto
+                    FROM
+                            enc_pregunta_cna_evidencia
+                    WHERE
+                            fk_proceso = '{$id_proceso}'
+                    ";
+        $recordSet = $conexion->conectarAdo($cadena);
+        return $recordSet;
+    }
+
+    function get_aspectos() {
+
+        $conexion = new Ado();
+
+        $cadena = " SELECT 
+                        aspe.*
+                    FROM 
+                        cna_aspecto aspe
+                    ";
+
+        $recordSet = $conexion->conectarAdo($cadena);
+
+        return $recordSet;
+    }
+
+    function Ver_X_Caracteristica($_Datos) {
+
+        $pk_caracteristica = $_Datos;
+
+        $conexion = new Ado();
+
         $cadena = " SELECT 
                         * 
                     FROM 
                         cna_aspecto
                     WHERE 
                         fk_caracteristica = '$pk_caracteristica'
-                    "; 
-        
+                    ";
+
         $recordSet = $conexion->conectarAdo($cadena);
-        
+
         return $recordSet;
-        
     }
-    
-    function Ver_X_Aspecto($_Datos){
-        
+
+    function Ver_X_Aspecto($_Datos) {
+
         $pk_aspecto = $_Datos['radio'];
-        
+
         $conexion = new Ado();
-        
+
         $cadena = " SELECT 
                         aspe.*,
                         cara.nombre AS nombre_caracteristica,
@@ -66,42 +92,41 @@ class Aspecto{
                             aspe.fk_caracteristica = cara.pk_caracteristica
                         AND
                             cara.fk_factor = fact.pk_factor
-                    "; 
-        
+                    ";
+
         $recordSet = $conexion->conectarAdo($cadena);
-        
+
         return $recordSet;
-        
     }
-    
-    function Agregar($_Datos){
-        
+
+    function Agregar($_Datos) {
+
         $nombre = $_Datos['nombre'];
         $descripcion = $_Datos['descripcion'];
         $pk_caracteristica = $_SESSION["cna_idcaracteristica"];
-        
+
         $conexion = new Ado();
-        
+
         $estado = "off";
 
         $cadena = " SELECT 
                         * 
                     FROM 
                         cna_proceso; ";
-        
+
         $resSql = $conexion->conectarAdo($cadena);
-        
-        while(!$resSql->EOF){
-            
-            if($resSql->fields['fk_fase'] != "1"){
+
+        while (!$resSql->EOF) {
+
+            if ($resSql->fields['fk_fase'] != "1") {
                 $estado = "on";
             }
-            
+
             $resSql->MoveNext();
         }
-        
-        if($estado == "off"){
-            
+
+        if ($estado == "off") {
+
             $cadena = " INSERT INTO 
                             cna_aspecto 
                         	(pk_aspecto, 
@@ -115,56 +140,52 @@ class Aspecto{
                         	'$descripcion', 
                         	'1',
                             '$pk_caracteristica')
-                        "; 
-            
+                        ";
+
             $conexion->conectarAdo($cadena);
-            
+
             $_SESSION["cna_idaspecto"] = null;
             $_SESSION["cna_idcaracteristica"] = null;
             $_SESSION["cna_idfactor"] = null;
-            
-            $mensaje = "Se a agregado correctamente el nuevo aspecto : ".$nombre;
-        
-        }
-        else{
-            
+
+            $mensaje = "Se a agregado correctamente el nuevo aspecto : " . $nombre;
+        } else {
+
             $mensaje = "Existe un proceso que esta en uso actualmente";
-            
         }
-        
+
         return $mensaje;
-        
     }
-    
-    function Modificar($_Datos){
-        
+
+    function Modificar($_Datos) {
+
         $pk_aspecto = $_Datos['pk_aspecto'];
         $nombre = $_Datos['nombre'];
         $descripcion = $_Datos['descripcion'];
         $fk_caracteristica = $_SESSION["cna_idcaracteristica"];
-        
+
         $conexion = new Ado();
-        
+
         $estado = "off";
 
         $cadena = " SELECT 
                         * 
                     FROM 
                         cna_proceso; ";
-        
+
         $resSql = $conexion->conectarAdo($cadena);
-        
-        while(!$resSql->EOF){
-            
-            if($resSql->fields['fk_fase'] != "1"){
+
+        while (!$resSql->EOF) {
+
+            if ($resSql->fields['fk_fase'] != "1") {
                 $estado = "on";
             }
-            
+
             $resSql->MoveNext();
         }
-        
-        if($estado == "off"){
-            
+
+        if ($estado == "off") {
+
             $cadena = " UPDATE 
                             cna_aspecto 
                     	SET
@@ -175,69 +196,64 @@ class Aspecto{
                             fk_caracteristica = '$fk_caracteristica'  
                     	WHERE
                             pk_aspecto = '$pk_aspecto'
-                        "; 
-            
+                        ";
+
             $conexion->conectarAdo($cadena);
-            
-            $mensaje = "Se a modificado correctamente el aspecto : ".$nombre;
-        
-        }
-        else{
-            
+
+            $mensaje = "Se a modificado correctamente el aspecto : " . $nombre;
+        } else {
+
             $mensaje = "Existe un proceso que esta en uso actualmente";
-            
         }
-        
+
         return $mensaje;
-        
     }
-    
-    function CambiarEstado($_Datos){
-        
+
+    function CambiarEstado($_Datos) {
+
         $conexion = new Ado();
-        
+
         $pk_aspecto = $_Datos['radio'];
-        
+
         $estado = "off";
 
         $cadena = " SELECT 
                         * 
                     FROM 
                         cna_proceso; ";
-        
+
         $resSql = $conexion->conectarAdo($cadena);
-        
-        while(!$resSql->EOF){
-            
-            if($resSql->fields['fk_fase'] != "1"){
+
+        while (!$resSql->EOF) {
+
+            if ($resSql->fields['fk_fase'] != "1") {
                 $estado = "on";
             }
-            
+
             $resSql->MoveNext();
         }
-        
-        if($estado == "off"){
-            
+
+        if ($estado == "off") {
+
             $cadena = " SELECT
                             * 
                     	FROM
                     	   cna_aspecto               	
                     	WHERE
-                    	   pk_aspecto = $pk_aspecto "; 
-            
+                    	   pk_aspecto = $pk_aspecto ";
+
             $recordSet = $conexion->conectarAdo($cadena);
-            
-            while(!$recordSet->EOF){
-                
+
+            while (!$recordSet->EOF) {
+
                 $estado = $recordSet->fields['estado'];
                 $nombre = $recordSet->fields['nombre'];
-                
-                $recordSet->MoveNext(); 
-                
-            }     
-            
-            if($estado == "1"){
-            
+
+                $recordSet->MoveNext();
+            }
+
+            if ($estado == "1") {
+
                 $cadena = " UPDATE 
                                 cna_aspecto 
                         	SET
@@ -248,10 +264,8 @@ class Aspecto{
                                 fk_caracteristica = fk_caracteristica  
                         	WHERE
                                 pk_aspecto = '$pk_aspecto' 
-                            "; 
-                           
-            }
-            else{
+                            ";
+            } else {
                 $cadena = " UPDATE 
                                 cna_aspecto 
                         	SET
@@ -264,21 +278,18 @@ class Aspecto{
                                 pk_aspecto = '$pk_aspecto' 
                             ";
             }
-            
-            $conexion->conectarAdo($cadena);        
-            
-            $mensaje = "Se a cambiado correctamente el estado del aspecto : ".$nombre;
-        
-        }
-        else{
-            
+
+            $conexion->conectarAdo($cadena);
+
+            $mensaje = "Se a cambiado correctamente el estado del aspecto : " . $nombre;
+        } else {
+
             $mensaje = "Existe un proceso que esta en uso actualmente";
-            
         }
-        
+
         return $mensaje;
-        
     }
-    
+
 }
+
 ?>

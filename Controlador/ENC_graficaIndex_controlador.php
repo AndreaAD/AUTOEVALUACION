@@ -41,9 +41,14 @@ hasta el momento de entrar en esta pagina.</p>
             ?><tr>
             <td><?php echo $grupo['nombre'];?></td>
             <?php
-            $cantidad=$objConsultas->getEncuestasGrupoInteres($idProceso,$grupo['pk_grupo_interes'])->fields[0];
+            $cantidad_respuestas=$objConsultas->numeroVecesPregunta($idProceso,$grupo['pk_grupo_interes']);
+            $cantidad_preguntas=$objConsultas->cantidad_preguntas_encuesta($idProceso,$grupo['pk_grupo_interes']);
+            if($cantidad_preguntas==0){
+                echo '<td>0</td>';
+            }else{
+                echo '<td>'.$cantidad_respuestas/$cantidad_preguntas.'</td>'; 
+            }
             ?>
-            <td><?php echo $cantidad; ?></td>
             </tr><?php
         }
     ?>

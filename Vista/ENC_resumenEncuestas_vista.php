@@ -1,5 +1,5 @@
 <?php
-$datos=array("tipo"=>"una-columna",// (necesario) tamaño del bloque puede ser {una-columna,una-columna-centro,una-columna-centro-medio}
+$datos=array("tipo"=>"una-columna",// (necesario) tamaï¿½o del bloque puede ser {una-columna,una-columna-centro,una-columna-centro-medio}
             "titulo"=>"Resumen de Encuestas", // (no necesario) titulo del bloque
             "alignTitulo"=>"texto-izquierda", //  (necesario si se pone titulo) alienacion del titulo {texto-izquierda,texto-derecha,texto-centro, texto-justificado}
             "alignContenido"=>"texto-izquierda", //(necesario) alineacion del contenido del div
@@ -9,7 +9,7 @@ $objComp->div_bloque_principal($datos);
 if($faseProceso==3){
     ?>
     <div class="aletra-fase">
-    <p>Esta seccion solo esta habilitada cuando el proceso se encuetre en fase de 'captura de datos', 'plan de mejoramiento', 'consolidacion', 'cerrado' o 'suspendido'.</p>
+    <p>Esta seccion solo esta habilitada cuando el proceso se encuentre en fase de 'captura de datos', 'plan de mejoramiento', 'consolidacion', 'cerrado' o 'suspendido'.</p>
     </div>
 <?php }else{?>
 <p>La siguiente tabla hace un resumen de la cantidad de encuestas que han sido llenadas por cada grupo de interes
@@ -45,10 +45,16 @@ hasta el momento de entrar en esta pagina.</p>
             ?><tr>
             <td><?php echo $grupo['nombre'];?><a href="#" onclick="enc_resumenDetallado(this);"><input type="hidden" id="grupo" value="<?php echo $grupo['pk_grupo_interes'];?>"/>(ver detalles)</a></td>
             <?php
-            $cantidad=$objConsultas->getEncuestasGrupoInteres($idProceso,$grupo['pk_grupo_interes'])->fields[0];
+            $cantidad_respuestas=$objConsultas->numeroVecesPregunta($idProceso,$grupo['pk_grupo_interes']);
+            $cantidad_preguntas=$objConsultas->cantidad_preguntas_encuesta($idProceso,$grupo['pk_grupo_interes']);
+            if($cantidad_preguntas==0){
+                echo '<td>0</td>';
+            }else{
+                echo '<td>'.$cantidad_respuestas/$cantidad_preguntas.'</td>'; 
+            }
             ?>
-            <td><?php echo $cantidad; ?></td>
-            </tr><?php
+            </tr>
+                <?php
         }
     ?>
     </tbody>

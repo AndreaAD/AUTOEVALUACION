@@ -21,34 +21,46 @@ foreach ($generico as $key => $value) {
         $i++;
     }
 }
-
-
+$id_pregunta = $_REQUEST["pk_pregunta"];
+$tipo_proceso = $_REQUEST["tipo_proceso"];
 $textoPregunta = $_REQUEST["textoPregunta"];
 $grupo_interes = $_REQUEST["grupo_interes"];
 $idTipoRespuesta = $_REQUEST["tipoRespuesta"];
 $textoRespuesta[] = $_REQUEST["textoRespuesta"];
 $pondRespuesta[] = $_REQUEST["ponderacion"];
-//$idGruposInteres[]=$_REQUEST["gruposInteres"];
 $idProceso = $_SESSION["pk_proceso"];
 $idEvidencia = $_SESSION["enc_idevidencia"];
+
 require_once("../Modelo/ENC_preguntas_modelo.php");
-//  echo "Pregunta: ".$textoPregunta;
-//  echo "tipoRespuesta: ".$idTipoRespuesta;
-//  echo "textoRespuesta: ";
-//  print_r($textoRespuesta);
-//  echo "Ponderacion respuesta: ";
-//  print_r($pondRespuesta);
-//  echo "Grupos interes: ";
-//  print_r($idGruposInteres); die();
+foreach ($grupo_interes as $key => $value) {
+    switch ($value) {
+        case 1:
+        case 2:
+        case 4:
+            $institucional = 0;
+            break;
+        default:
+            $institucional = 1;
+            break;
+    }
+}
 $objPreguntas = new Preguntas();
-    $id_pregunta = $objPreguntas->guardarPreguntaGenerica($textoPregunta, $idTipoRespuesta, $textoRespuesta, $pondRespuesta, $idProceso, $institucional, $idGruposInteres);
-
+if ($id_pregunta == '') {
+    $id_pregunta = $objPreguntas->guardarPreguntaGenerica($textoPregunta, $idTipoRespuesta, $textoRespuesta, $pondRespuesta, $institucional);
+}
 foreach ($generico as $key => $value) {
-        $objPreguntas->guardarEvidenciaPreguntaGenerica($id_pregunta, $value);
+    switch ($tipo_proceso) {
+        case 1:
+            $objPreguntas->guardarCaracteristicaPreguntaGenerica($id_pregunta, $value, $idProceso);
 
+            break;
+        case 2:
+            $objPreguntas->guardarAspectoPreguntaGenerica($id_pregunta, $value, $idProceso);
+            break;
+    }
 }
 foreach ($grupo_interes as $key => $value) {
-    $objPreguntas->guardarEnlaceUnaPreguntaGenerico($id_pregunta,$value,$idProceso);
+    $objPreguntas->guardarEnlaceUnaPreguntaGenerico($id_pregunta, $value, $idProceso, $institucional);
 }
 require_once("../Vista/elementos_vista.php");
 $objComp = new Elementos();

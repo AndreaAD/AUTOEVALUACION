@@ -51,14 +51,14 @@
 </style>
 <?php
 $datos = array(
-            "class"=>"grande",//(necesario) tamaño del boton puede ser {grande,mediano,small}
+            "class"=>"grande",//(necesario) tamaï¿½o del boton puede ser {grande,mediano,small}
             "value"=>"Volver",//(necesario) valor que mostrar el boton
             "icono"=>"arrow-left", //(necesario) icono que aparecera en el boton, si se desea sin icono poner {none}
             "onclick"=>"enc_regresar('ENC_resumenEncuestas_controlador.php');"// (necesario) funcion js que se ejecutara si se hace click en el boton
             );     
 $objComp->button_link($datos);
 ?><br /><br /><?php
-$datos=array("tipo"=>"una-columna",// (necesario) tamaño del bloque puede ser {una-columna,una-columna-centro,una-columna-centro-medio}
+$datos=array("tipo"=>"una-columna",// (necesario) tamaï¿½o del bloque puede ser {una-columna,una-columna-centro,una-columna-centro-medio}
             "titulo"=>"Resumen de Detallado", // (no necesario) titulo del bloque
             "alignTitulo"=>"texto-izquierda", //  (necesario si se pone titulo) alienacion del titulo {texto-izquierda,texto-derecha,texto-centro, texto-justificado}
             "alignContenido"=>"texto-izquierda", //(necesario) alineacion del contenido del div
@@ -75,8 +75,7 @@ if($pkEncuesta != -1){
         foreach($rsDatosPreguntas as $pregunta){
             ?><li>
             <div class="pregunta"><?php
-            $cantPregunta=$objConsultas->numeroVecesPregunta($idProceso,$idGrupo,$pregunta['pk_pregunta'])->fields[0];
-            //echo 'cantidad respuesta:'.$cantPregunta;
+            $cantPregunta=$objConsultas->numeroVecesPregunta($idProceso,$idGrupo,$pregunta['pk_pregunta']);
             echo $pregunta['texto'];
             $rsRespuestas=$objRespuestas->getDatosRespuestasSolucionEncuesta($pregunta['pk_pregunta']);
             ?><ul><?php   
@@ -85,7 +84,7 @@ if($pkEncuesta != -1){
             $color=0;
             foreach($rsRespuestas as $respuesta){
                 ?><li><?php
-                $cantRespuesta=$objConsultas->numeroVecesRespuesta($idProceso,$idGrupo,$pregunta['pk_pregunta'],$respuesta['pk_respuesta_pregunta'])->fields[0];
+                $cantRespuesta=$objConsultas->numeroVecesPregunta($idProceso,$idGrupo,$pregunta['pk_pregunta'],$respuesta['pk_respuesta_pregunta']);
                 $datosGrafica[]=array('label'=>$opcion,'valor'=>$cantRespuesta,'color'=>$arrayColores[$color]);
                 //echo 'cantidad respuesta:'.$cantRespuesta;
                 echo '('.$opcion.') '.$respuesta['texto'];

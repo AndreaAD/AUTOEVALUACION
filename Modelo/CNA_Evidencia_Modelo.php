@@ -1,35 +1,35 @@
 <?php
 
-class Evidencia{
-    
-    function Agregar($_Datos){
-        
+class Evidencia {
+
+    function Agregar($_Datos) {
+
         $nombre = $_Datos['nombre'];
         $descripcion = $_Datos['descripcion'];
         $pk_aspecto = $_SESSION["cna_idaspecto"];
-        
+
         $conexion = new Ado();
-        
+
         $estado = "off";
 
         $cadena = " SELECT 
                         * 
                     FROM 
                         cna_proceso; ";
-        
+
         $resSql = $conexion->conectarAdo($cadena);
-        
-        while(!$resSql->EOF){
-            
-            if($resSql->fields['fk_fase'] != "1"){
+
+        while (!$resSql->EOF) {
+
+            if ($resSql->fields['fk_fase'] != "1") {
                 $estado = "on";
             }
-            
+
             $resSql->MoveNext();
         }
-        
-        if($estado == "off"){
-            
+
+        if ($estado == "off") {
+
             $cadena = " INSERT INTO 
                             cna_evidencia 
                         	(pk_evidencia, 
@@ -43,31 +43,27 @@ class Evidencia{
                         	'$descripcion', 
                         	'1',
                             '$pk_aspecto')
-                        "; 
-            
+                        ";
+
             $conexion->conectarAdo($cadena);
-            
+
             $_SESSION["cna_idaspecto"] = null;
             $_SESSION["cna_idcaracteristica"] = null;
             $_SESSION["cna_idfactor"] = null;
-            
-            $mensaje = "Se a agregado correctamente la nueva evidencia : ".$nombre;
-        
-        }
-        else{
-            
+
+            $mensaje = "Se a agregado correctamente la nueva evidencia : " . $nombre;
+        } else {
+
             $mensaje = "Existe un proceso que esta en uso actualmente";
-            
         }
-        
+
         return $mensaje;
-        
     }
-    
-    function Ver(){
-           
+
+    function Ver() {
+
         $conexion = new Ado();
-        
+
         $cadena = " SELECT 
                         evid.* ,
                         fact.pk_factor AS fk_factor,
@@ -83,21 +79,33 @@ class Evidencia{
                             aspe.fk_caracteristica = cara.pk_caracteristica
                         AND
                             cara.fk_factor = fact.pk_factor
-                    "; 
-        
+                    ";
+
         $recordSet = $conexion->conectarAdo($cadena);
-        
+
         return $recordSet;
-        
     }
-    
-    function Ver_X_Grupo_Interes_Check($_Datos){
-        
+
+    public function get_Evidencia_Proceso($id_proceso) {
         $conexion = new Ado();
-        
+        $cadena = " SELECT
+                            fk_evidencia
+                    FROM
+                            enc_pregunta_cna_evidencia
+                    WHERE
+                            fk_proceso = '{$id_proceso}'
+                    ";
+        $recordSet = $conexion->conectarAdo($cadena);
+        return $recordSet;
+    }
+
+    function Ver_X_Grupo_Interes_Check($_Datos) {
+
+        $conexion = new Ado();
+
         $modulo = $_Datos['modulo'];
         $grupo_interes = $_Datos['pk_grupo_interes'];
-        
+
         $cadena = " SELECT 
                         evid.* ,
                         fact.pk_factor AS fk_factor,
@@ -123,21 +131,20 @@ class Evidencia{
                             aspe.fk_caracteristica = cara.pk_caracteristica
                         AND
                             cara.fk_factor = fact.pk_factor
-                    "; 
-        
+                    ";
+
         $recordSet = $conexion->conectarAdo($cadena);
-        
+
         return $recordSet;
-        
     }
-    
-    function Ver_X_Grupo_Interes_No_Check($_Datos){
-        
+
+    function Ver_X_Grupo_Interes_No_Check($_Datos) {
+
         $conexion = new Ado();
-        
+
         $modulo = $_Datos['modulo'];
         $grupo_interes = $_Datos['pk_grupo_interes'];
-        
+
         $cadena = " SELECT 	
                         evid.* ,
                         fact.pk_factor AS fk_factor,
@@ -163,20 +170,19 @@ class Evidencia{
                                                         AND 
                                                             evid_gru.fk_grupo_interes = $grupo_interes
                                                         AND 
-                                                            evid_gru.estado = 1)"; 
-        
+                                                            evid_gru.estado = 1)";
+
         $recordSet = $conexion->conectarAdo($cadena);
-        
+
         return $recordSet;
-        
     }
-    
-    function Ver_X_Evidencia($datos){
-             
+
+    function Ver_X_Evidencia($datos) {
+
         $pk_evidencia = $datos['radio'];
-        
+
         $conexion = new Ado();
-        
+
         $cadena = " SELECT 
                         evid.* ,
                         cara.nombre AS nombre_caracteristica,
@@ -197,43 +203,42 @@ class Evidencia{
                             aspe.fk_caracteristica = cara.pk_caracteristica
                         AND
                             cara.fk_factor = fact.pk_factor
-                    "; 
-        
+                    ";
+
         $recordSet = $conexion->conectarAdo($cadena);
-        
+
         return $recordSet;
-        
     }
-    
-    function Modificar($_Datos){
-        
+
+    function Modificar($_Datos) {
+
         $pk_evidencia = $_Datos['pk_evidencia'];
         $nombre = $_Datos['nombre'];
         $descripcion = $_Datos['descripcion'];
         $fk_factor = $_SESSION["cna_idaspecto"];
-        
+
         $conexion = new Ado();
-        
+
         $estado = "off";
 
         $cadena = " SELECT 
                         * 
                     FROM 
                         cna_proceso; ";
-        
+
         $resSql = $conexion->conectarAdo($cadena);
-        
-        while(!$resSql->EOF){
-            
-            if($resSql->fields['fk_fase'] != "1"){
+
+        while (!$resSql->EOF) {
+
+            if ($resSql->fields['fk_fase'] != "1") {
                 $estado = "on";
             }
-            
+
             $resSql->MoveNext();
         }
-        
-        if($estado == "off"){
-            
+
+        if ($estado == "off") {
+
             $cadena = " UPDATE 
                             cna_evidencia 
                     	SET
@@ -244,71 +249,66 @@ class Evidencia{
                             fk_aspecto = '$fk_factor'  
                     	WHERE
                     	   pk_evidencia = '$pk_evidencia'
-                        "; 
-            
+                        ";
+
             $conexion->conectarAdo($cadena);
-            
+
             $nombre = utf8_encode($nombre);
-            
-            $mensaje = "Se a modificado correctamente la evidencia: ".$nombre;
-        
-        }
-        else{
-            
+
+            $mensaje = "Se a modificado correctamente la evidencia: " . $nombre;
+        } else {
+
             $mensaje = "Existe un proceso que esta en uso actualmente";
-            
         }
-        
+
         return $mensaje;
-        
     }
-    
-    function CambiarEstado($_Datos){
-        
+
+    function CambiarEstado($_Datos) {
+
         $conexion = new Ado();
-        
+
         $pk_evidencia = $_Datos['radio'];
-        
+
         $estado = "off";
 
         $cadena = " SELECT 
                         * 
                     FROM 
                         cna_proceso; ";
-        
+
         $resSql = $conexion->conectarAdo($cadena);
-        
-        while(!$resSql->EOF){
-            
-            if($resSql->fields['fk_fase'] != "1"){
+
+        while (!$resSql->EOF) {
+
+            if ($resSql->fields['fk_fase'] != "1") {
                 $estado = "on";
             }
-            
+
             $resSql->MoveNext();
         }
-        
-        if($estado == "off"){
-            
+
+        if ($estado == "off") {
+
             $cadena = " SELECT
                             * 
                     	FROM
                     	   cna_evidencia               	
                     	WHERE
-                    	   pk_evidencia = $pk_evidencia "; 
-            
+                    	   pk_evidencia = $pk_evidencia ";
+
             $recordSet = $conexion->conectarAdo($cadena);
-            
-            while(!$recordSet->EOF){
-                
+
+            while (!$recordSet->EOF) {
+
                 $estado = $recordSet->fields['estado'];
                 $nombre = $recordSet->fields['nombre'];
-                
-                $recordSet->MoveNext(); 
-                
-            }     
-            
-            if($estado == "1"){
-            
+
+                $recordSet->MoveNext();
+            }
+
+            if ($estado == "1") {
+
                 $cadena = " UPDATE 
                                 cna_evidencia 
                         	SET
@@ -319,10 +319,8 @@ class Evidencia{
                                 fk_aspecto = fk_aspecto  
                         	WHERE
                                 pk_evidencia = '$pk_evidencia' 
-                            "; 
-                           
-            }
-            else{
+                            ";
+            } else {
                 $cadena = " UPDATE 
                                 cna_evidencia 
                         	SET
@@ -335,21 +333,18 @@ class Evidencia{
                                 pk_evidencia = '$pk_evidencia' 
                             ";
             }
-            
-            $conexion->conectarAdo($cadena);        
-            
-            $mensaje = "Se a cambiado correctamente el estado de la evidencia : ".$nombre;
-        
-        }
-        else{
-            
+
+            $conexion->conectarAdo($cadena);
+
+            $mensaje = "Se a cambiado correctamente el estado de la evidencia : " . $nombre;
+        } else {
+
             $mensaje = "Existe un proceso que esta en uso actualmente";
-            
         }
-        
+
         return $mensaje;
-        
     }
-    
+
 }
+
 ?>

@@ -14,13 +14,8 @@ if(isset($_REQUEST['idGrupo']) && isset($_SESSION["pk_proceso"])){
     $objRespuestas=new Respuestas();
     $datosGrupo=$objGrupos->getUnGrupoInteres($idGrupo)->GetArray();
     $arrayColores=array('#F7464A','#46BFBD','#FDB45C','#949FB1','#4D5360','#e35360');
-    if($idGrupo==1 || $idGrupo==2 || $idGrupo==4){
     $pkEncuesta=$objEncuestas->existeEncuesta($idProceso,$idGrupo);
     $rsDatosPreguntas=$objPreguntas->getPreguntasEncuestaGeneral($idProceso,$idGrupo,$pkEncuesta);
-    }else if($idGrupo==3 || $idGrupo==5 || $idGrupo==6){
-    $pkEncuesta=$objEncuestas->existeEncuestaInstitucional($idGrupo);
-    $rsDatosPreguntas=$objPreguntas->getPreguntasEncuestaInsitucional($idGrupo,$pkEncuesta);
-    }
     require_once("../Vista/elementos_vista.php");
     $objComp=new Elementos();
     require_once("../Vista/ENC_resumenEncuestasDetallado_vista.php");

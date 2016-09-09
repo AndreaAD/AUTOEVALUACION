@@ -2,6 +2,14 @@
 
 class Preguntas {
 
+    public function get_preguntas() {
+        require_once("../BaseDatos/AdoDB.php");
+        $conDB = new Ado();
+        $sql = "SELECT * FROM enc_pregunta WHERE estado=1";
+        $resultado = $conDB->conectarAdo($sql);
+        return $resultado;
+    }
+
     public function getAllPreguntasNormales($idEvidencia = -1) {
         if ($idEvidencia != -1) {
             require_once("../BaseDatos/AdoDB.php");
@@ -103,7 +111,7 @@ class Preguntas {
         return $res;
     }
 
-    public function guardarPreguntaGenerica($_txPregunta, $_idTipoRes, $_txRespuesta, $_ponRespuesta, $_idProceso, $institucional, $_idGruposInt) {
+    public function guardarPreguntaGenerica($_txPregunta, $_idTipoRes, $_txRespuesta, $_ponRespuesta, $institucional) {
         require_once("../BaseDatos/AdoDB.php");
         $conDB = new Ado();
         $sql = "INSERT INTO enc_pregunta(texto,fk_tipo_respuesta,estado,institucional)";
@@ -130,10 +138,19 @@ class Preguntas {
         }
         return $idPregunta;
     }
-     public function guardarEvidenciaPreguntaGenerica($idPregunta, $id_generica) {
+
+    public function guardarCaracteristicaPreguntaGenerica($idPregunta, $id_generica, $id_proceso) {
         require_once("../BaseDatos/AdoDB.php");
         $conDB = new Ado();
-        $sql = "INSERT INTO enc_pregunta_cna_evidencia(fk_caracteristica,fk_pregunta) VALUES (" . $id_generica . "," . $idPregunta . ")";
+        $sql = "INSERT INTO enc_pregunta_cna_evidencia(fk_caracteristica,fk_pregunta,fk_proceso) VALUES (" . $id_generica . "," . $idPregunta . "," . $id_proceso . ")";
+        $res = $conDB->conectarAdo($sql);
+        return $res;
+    }
+
+    public function guardarAspectoPreguntaGenerica($idPregunta, $id_generica, $id_proceso) {
+        require_once("../BaseDatos/AdoDB.php");
+        $conDB = new Ado();
+        $sql = "INSERT INTO enc_pregunta_cna_evidencia(fk_aspecto,fk_pregunta,fk_proceso) VALUES (" . $id_generica . "," . $idPregunta . "," . $id_proceso . ")";
         $res = $conDB->conectarAdo($sql);
         return $res;
     }
@@ -148,6 +165,32 @@ class Preguntas {
     }
 
     public function guardarModificaciones($_idPregunta, $_txPregunta, $_idTipoRes, $_txRespuesta, $_ponRespuesta, $_idEvidencia, $_idProceso, $institucional, $_idGruposInt) {
+        require_once("../BaseDatos/AdoDB.php");
+        $conDB = new Ado();
+
+        $sql = "UPDATE enc_pregunta SET texto='" . $_txPregunta . "',fk_tipo_respuesta=" . $_idTipoRes . " WHERE pk_pregunta=" . $_idPregunta;
+        $res = $conDB->conectarAdo($sql);
+        $sql = "DELETE FROM enc_respuesta_pregunta WHERE fk_pregunta=" . $_idPregunta;
+        $res = $conDB->conectarAdo($sql);
+        //var_dump($res);
+        foreach ($_txRespuesta[0] as $clave => $texto) {
+            $sql = "INSERT INTO enc_respuesta_pregunta(texto,fk_respuesta_ponderacion,fk_pregunta) VALUES ('" . $texto . "'," . $_ponRespuesta[0][$clave] . "," . $_idPregunta . ")";
+            $res = $conDB->conectarAdo($sql);
+        }
+        if ($institucional == 1) {
+            $sql = "SELECT fk_proceso_institucional FROM cna_proceso WHERE pk_proceso=" . $_idProceso;
+            $pkProcesoInstitucional = $conDB->conectarAdo($sql)->fields[0];
+            $sql = "DELETE FROM enc_pregunta_cna_proceso WHERE fk_pregunta=" . $_idPregunta . " AND fk_proceso is null  AND institucional=1 AND fk_proceso_institucional=" . $pkProcesoInstitucional;
+            $res = $conDB->conectarAdo($sql);
+            foreach ($_idGruposInt[0] as $idGrupo) {
+                $sql = "INSERT INTO enc_pregunta_cna_proceso(fk_pregunta,fk_grupo_interes,fk_proceso_institucional,institucional) VALUES (" . $_idPregunta . "," . $idGrupo . "," . $pkProcesoInstitucional . ",1)";
+                $res = $conDB->conectarAdo($sql);
+            }
+        }
+        return $res;
+    }
+
+    public function guardarPreguntasInstitucionales($_idPregunta, $_txPregunta, $_idTipoRes, $_txRespuesta, $_ponRespuesta, $_idProceso, $institucional, $_idGruposInt) {
         require_once("../BaseDatos/AdoDB.php");
         $conDB = new Ado();
 
@@ -214,11 +257,16 @@ class Preguntas {
         return $res;
     }
 
-    public function guardarEnlaceUnaPreguntaGenerico($_idPregunta, $_idGruposInteres, $_idProceso) {
+    public function guardarEnlaceUnaPreguntaGenerico($_idPregunta, $_idGruposInteres, $_idProceso, $institucional) {
         require_once("../BaseDatos/AdoDB.php");
         $conDB = new Ado();
-        
-        $sql = "INSERT INTO enc_pregunta_cna_proceso(fk_pregunta,fk_grupo_interes,fk_proceso,institucional) VALUES (" . $_idPregunta . "," . $_idGruposInteres . "," . $_idProceso . ",0)";
+        if ($institucional == '1') {
+            $sql = "SELECT fk_proceso_institucional FROM cna_proceso WHERE pk_proceso=" . $_idProceso;
+            $pkProcesoInstitucional = $conDB->conectarAdo($sql)->fields[0];
+            $sql = "INSERT INTO enc_pregunta_cna_proceso(fk_pregunta,fk_grupo_interes,fk_proceso_institucional,institucional) VALUES (" . $_idPregunta . "," . $_idGruposInteres . "," . $pkProcesoInstitucional . "," . $institucional . ")";
+        } else {
+            $sql = "INSERT INTO enc_pregunta_cna_proceso(fk_pregunta,fk_grupo_interes,fk_proceso,institucional) VALUES (" . $_idPregunta . "," . $_idGruposInteres . "," . $_idProceso . "," . $institucional . ")";
+        }
 
         $res = $conDB->conectarAdo($sql);
         return $res;
@@ -229,11 +277,9 @@ class Preguntas {
             if ($_idEncuesta != -1) {
                 require_once("../BaseDatos/AdoDB.php");
                 $conDB = new Ado();
-                // $sql="SELECT pre.* FROM enc_pregunta_cna_proceso as prepro, enc_pregunta as pre WHERE prepro.fk_proceso=".$_idProceso." AND prepro.fk_grupo_interes=".$_idGrupo." AND pre.pk_pregunta=prepro.fk_pregunta AND pre.estado=1 AND prepro.institucional=0";
                 $sql = "SELECT pk_pregunta,texto FROM enc_pregunta_solucion_encuesta WHERE fk_encuesta=" . $_idEncuesta;
                 //echo $sql;
                 $rsDatos = $conDB->conectarAdo($sql);
-                //print_r($rsDatos);die();
                 return $rsDatos;
             } else {
                 return -1;
@@ -252,6 +298,7 @@ class Preguntas {
               $pkProcesoInstitucional=$conDB->conectarAdo($sql)->fields[0];
               $sql="SELECT pre.* FROM enc_pregunta_cna_proceso as prepro, enc_pregunta as pre WHERE pre.estado=1 AND pre.institucional=1 AND pre.pk_pregunta=prepro.fk_pregunta AND prepro.fk_proceso is null AND prepro.fk_grupo_interes=".$_idGrupo." AND prepro.institucional=1 AND prepro.fk_proceso_institucional=".$pkProcesoInstitucional; */
             $sql = "SELECT pk_pregunta,texto FROM enc_pregunta_solucion_encuesta WHERE fk_encuesta=" . $_idEncuesta;
+
             $rsDatos = $conDB->conectarAdo($sql);
             return $rsDatos;
         } else {

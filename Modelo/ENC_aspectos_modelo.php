@@ -12,5 +12,17 @@ class Aspectos{
             return null;
         }
      }
+     public function getAspectosAll(){
+         require_once("../BaseDatos/AdoDB.php");
+            $conDB=new Ado();
+            $sql="SELECT
+                            asp.*, fac.nombre AS nombre_factor, car.nombre AS nombre_caracteristica
+                    FROM
+                            cna_caracteristica car
+                    JOIN cna_factor fac ON fac.pk_factor = car.fk_factor
+                    JOIN cna_aspecto asp ON asp.fk_caracteristica = car.pk_caracteristica";
+            $rsDatos=$conDB->conectarAdo($sql);
+            return $rsDatos;
+    }
 }
 ?>

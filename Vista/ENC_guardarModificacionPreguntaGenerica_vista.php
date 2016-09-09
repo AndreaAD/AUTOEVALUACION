@@ -26,14 +26,14 @@ if($institucional==0){
         "class"=>"mediano",//(necesario) tama�o del boton puede ser {grande,mediano,small}
         "value"=>"Aceptar",//(necesario) valor que mostrar el boton
         "icono"=>"none", //(necesario) icono que aparecera en el boton, si se desea sin icono poner {none}
-        "onclick"=>"enc_aceptarCrearPregunta(this,'../Controlador/ENC_crearpreguntas_genericas.php');"// (necesario) funcion js que se ejecutara si se hace click en el boton
+        "onclick"=>"enc_aceptarCrearPregunta(this,'../Controlador/ENC_crearpreguntas_genericas.php?tipo={$tipo_proceso}');"// (necesario) funcion js que se ejecutara si se hace click en el boton
         );
 }else{
     $datos = array(
         "class"=>"mediano",//(necesario) tama�o del boton puede ser {grande,mediano,small}
         "value"=>"Aceptar",//(necesario) valor que mostrar el boton
         "icono"=>"none", //(necesario) icono que aparecera en el boton, si se desea sin icono poner {none}
-        "onclick"=>"enc_aceptarCrearPregunta(this,'../Controlador/ENC_encuestaCargosInstitucionales_controlador.php');"// (necesario) funcion js que se ejecutara si se hace click en el boton
+        "onclick"=>"enc_aceptarCrearPregunta(this,'../Controlador/ENC_crearpreguntas_genericas.php?tipo={$tipo_proceso}');"// (necesario) funcion js que se ejecutara si se hace click en el boton
         );
 }
 
