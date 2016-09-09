@@ -65,11 +65,13 @@ switch($opcion){
         $objEncuestas=new Encuesta();
         $objPreguntas=new Preguntas();
         $objRespuestas=new Respuestas();
+        //echo $idGrupoInteres;die();
         //================ Estudiantes, Profesores, Graduados ==============================================//
         if($idGrupoInteres==1 || $idGrupoInteres==2 || $idGrupoInteres==4){
             $idPrograma=$_REQUEST["programa"];
             $idSede=$_REQUEST["sede"];
             $idProceso=$objProcesos->existeProceso($idPrograma,$idSede);
+            //echo $idProceso;die();
             $idEncuesta=$objEncuestas->existeEncuesta($idProceso,$idGrupoInteres);
             $rsDatosPreguntas=$objPreguntas->getPreguntasEncuestaGeneral($idProceso,$idGrupoInteres,$idEncuesta);
         }

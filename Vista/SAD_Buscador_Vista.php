@@ -1,42 +1,11 @@
-<script type='text/javascript' >
-
-    paginador_filtro(1);
-        
-    $.expr[':'].icontains = function(obj, index, meta, stack){
-    return (obj.textContent || obj.innerText || jQuery(obj).text() || '').toLowerCase().indexOf(meta[3].toLowerCase()) >= 0;
-    };
-    
-    $(document).ready(function(){   
-        $('#buscador').keyup(function(){
-                                
-                        //$('#lista tr').show()
-                     $('#lista tr.tabla_letras').show();   
-                     buscar = $('#buscador').val();
-                     $('#lista tr').removeClass('resaltar');
-                            if(jQuery.trim(buscar) != ''){
-                               //if($("#lista tr:icontains('" + buscar + "')") != True)
-                                //$("#lista tr.buscar:not(:icontains('" + buscar + "'))").addClass('buscar');
-                                $("#lista tr:not(:icontains('" + buscar + "'))").addClass('resaltar');                            
-                            }
-            });
-    }); 
-    
- </script>
-<style type="text/css">
-  
-  .resaltar{display:none;}
-    .tabla_letras{visibility: visible;}
-</style>
-       
+      
 <?php
     
 $objComponentes=new Elementos();
              
-    $datos=array("id"=>"formulario");// (no-necesario) id del formulario
-    
-    $objComponentes->form($datos);
+    echo '<form name="formulario" id="formulario">';
      
-    $datos=array("tipo"=>$strTipoColumna,// (necesario) tamaño del bloque puede ser {una-columna,una-columna-centro,una-columna-centro-medio}
+    $datos=array("tipo"=>$strTipoColumna,// (necesario) tamaï¿½o del bloque puede ser {una-columna,una-columna-centro,una-columna-centro-medio}
                 "titulo"=>$strNombreBuscador, // (no necesario) titulo del bloque
                 "alignTitulo"=>"texto-izquierda", //  (necesario si se pone titulo) alienacion del titulo {texto-izquierda,texto-derecha,texto-centro, texto-justificado}
                 "alignContenido"=>"texto-centro", //(necesario) alineacion del contenido del div
@@ -75,7 +44,7 @@ $objComponentes=new Elementos();
         if(isset($filtro_check)){
             $datos = array(
                         "id"=>"seleccionar",//(no necesario) el id que tendra el boton
-                        "class"=>"grande",//(necesario) tamaño del boton puede ser {grande,mediano,small}
+                        "class"=>"grande",//(necesario) tamaï¿½o del boton puede ser {grande,mediano,small}
                         "value"=>"Ver solo los chequeados",//(necesario) valor que mostrar el boton
                         "onclick"=>"FiltrarCheck('$url_filtro_check', 'filtrar_check');"// (necesario) funcion js que se ejecutara si se hace click en el boton
                         );
@@ -86,7 +55,7 @@ $objComponentes=new Elementos();
         if(isset($filtro_no_check)){
             $datos = array(
                         "id"=>"seleccionar",//(no necesario) el id que tendra el boton
-                        "class"=>"grande",//(necesario) tamaño del boton puede ser {grande,mediano,small}
+                        "class"=>"grande",//(necesario) tamaï¿½o del boton puede ser {grande,mediano,small}
                         "value"=>"Ver los no chequeados",//(necesario) valor que mostrar el boton
                         "onclick"=>"FiltrarCheck('$url_filtro_check', 'filtrar_no_check');"// (necesario) funcion js que se ejecutara si se hace click en el boton
                         );
@@ -97,7 +66,7 @@ $objComponentes=new Elementos();
         if(isset($filtro_todo)){
             $datos = array(
                         "id"=>"seleccionar",//(no necesario) el id que tendra el boton
-                        "class"=>"grande",//(necesario) tamaño del boton puede ser {grande,mediano,small}
+                        "class"=>"grande",//(necesario) tamaï¿½o del boton puede ser {grande,mediano,small}
                         "value"=>"Ver Todos",//(necesario) valor que mostrar el boton
                         "onclick"=>"FiltrarCheck('$url_filtro_check', 'filtrar_todo');"// (necesario) funcion js que se ejecutara si se hace click en el boton
                         );
@@ -147,7 +116,7 @@ $objComponentes=new Elementos();
         else{
             $datos = array(
                         "id"=>"seleccionar",//(no necesario) el id que tendra el boton
-                        "class"=>"grande",//(necesario) tamaño del boton puede ser {grande,mediano,small}
+                        "class"=>"grande",//(necesario) tamaï¿½o del boton puede ser {grande,mediano,small}
                         "value"=>$strNombreBoton,//(necesario) valor que mostrar el boton
                         "onclick"=>$strFuncion// (necesario) funcion js que se ejecutara si se hace click en el boton
                         );

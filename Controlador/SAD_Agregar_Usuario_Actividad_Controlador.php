@@ -24,7 +24,7 @@ if(isset($_REQUEST['T_Estado'])){
             $modelo = new Actividad();
             
             $resSqlActividades = $modelo->Ver_X_Usuario($_POST);            
-                        
+           // print_r($resSqlActividades);die();
             filtrar();            
                  
         }break;
@@ -200,7 +200,6 @@ function filtrar(){
     $strFuncion = "ValidarEstado('../Controlador/SAD_Agregar_Usuario_Actividad_Controlador.php', 'guardar_actividad');";
     
     $strTipoColumna = "una-columna";
-    
     require_once('../Vista/SAD_Buscador_Vista.php');
     
 }
@@ -281,8 +280,18 @@ function filtrar_check(){
     mejor para poder generar una seleccion mejor de los componentes que  puede seleccionar*/
     
     $modelo = new Actividad();
+    $estado = $_POST['T_Estado'];
+   
     
-    $resSql = $modelo->Ver($_POST);            
+    if($estado=='filtrar_check'){
+       $resSql = $modelo->Ver_Actividades_Check($_POST); 
+    }
+    if($estado=='filtrar_no_check'){
+       $resSql = $modelo->Ver_Actividades_No_Check($_POST); 
+    }
+    if($estado=='filtrar_todo'){
+       $resSql = $modelo->Ver($_POST); 
+    }
     
     /*********************************************************************************************************/
     
