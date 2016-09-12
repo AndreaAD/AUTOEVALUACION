@@ -65,3 +65,8 @@
     });
 
 </script>
+<!-- <div class="bloque una-columna">
+    <div class="titulo-bloque texto-izquierda">
+        <h2 class="icon-quill">Lista de instrumentos</h2>
+    </div>
+</div> -->
