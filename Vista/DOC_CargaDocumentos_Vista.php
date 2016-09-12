@@ -41,14 +41,14 @@
 
         // });
 
-        $('#fileupload').fileupload({
-            dataType: 'json',
-            done: function (e, data) {
-                // $.each(data.result.files, function (index, file) {
-                //     $('<p/>').text(file.name).appendTo(document.body);
-                // });
-            }
-        });
+        // $('#fileupload').fileupload({
+        //     dataType: 'json',
+        //     done: function (e, data) {
+        //         // $.each(data.result.files, function (index, file) {
+        //         //     $('<p/>').text(file.name).appendTo(document.body);
+        //         // });
+        //     }
+        // });
     
 
         
@@ -65,8 +65,3 @@
     });
 
 </script>
-<!-- <div class="bloque una-columna">
-    <div class="titulo-bloque texto-izquierda">
-        <h2 class="icon-quill">Lista de instrumentos</h2>
-    </div>
-</div> -->

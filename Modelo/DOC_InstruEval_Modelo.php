@@ -74,9 +74,9 @@ class InstruEval_Modelo {
 		// $fk = $fk_grupo_interes_eidencia[0]['pk_evidencia_grupo_interes'];
 		$sqlinsert = "";
 		if($suboperacion == "guardar_con_texto"){
-			$sqlinsert = 'INSERT INTO doc_instru_evaluacion_copy (descripcion, fk_grupo_respuesta , fk_grupo_interes  , fk_tipo_respuesta , porcentaje, fk_factor, fk_factor_codigo, fk_caracteristicas, fk_caracteristicas_codigo , fk_aspectos, fk_aspectos_codigo, fk_evidencia, fk_evidencia_codigo,estado, opc ) VALUES ("'.$this->pregunta.'", "'.$this->opcionRespuesta.'", "'.$this->grupo.'", "'.$this->tipoRespuesta.'", "'.$this->porcentaje.'", "'.$this->factor.'", "'.$this->factor_codigo.'","'.$this->caracteristicas.'", "'.$this->caracteristicas_codigo.'","'.$this->aspectos.'", "'.$this->aspectos_codigo.'", "'.$this->evidencia.'", "'.$this->evidencia_codigo.'",1 , "'.$this->opc.'"  )';
+			$sqlinsert = 'INSERT INTO doc_instru_evaluacion (descripcion, fk_grupo_respuesta , fk_grupo_interes  , fk_tipo_respuesta , porcentaje, fk_factor, fk_factor_codigo, fk_caracteristicas, fk_caracteristicas_codigo , fk_aspectos, fk_aspectos_codigo, fk_evidencia, fk_evidencia_codigo,estado, opc ) VALUES ("'.$this->pregunta.'", "'.$this->opcionRespuesta.'", "'.$this->grupo.'", "'.$this->tipoRespuesta.'", "'.$this->porcentaje.'", "'.$this->factor.'", "'.$this->factor_codigo.'","'.$this->caracteristicas.'", "'.$this->caracteristicas_codigo.'","'.$this->aspectos.'", "'.$this->aspectos_codigo.'", "'.$this->evidencia.'", "'.$this->evidencia_codigo.'",1 , "'.$this->opc.'"  )';
 		}else{
-			$sqlinsert = 'INSERT INTO doc_instru_evaluacion_copy (descripcion, fk_grupo_respuesta , fk_grupo_interes  , fk_tipo_respuesta , porcentaje, fk_factor, fk_factor_codigo, fk_caracteristicas, fk_caracteristicas_codigo , fk_aspectos, fk_aspectos_codigo, fk_evidencia, fk_evidencia_codigo,estado, opc ) VALUES ("'.$this->pregunta.'", "'.$this->opcionRespuesta.'", "'.$this->grupo.'", "'.$this->tipoRespuesta.'", 0 , "'.$this->factor.'", "'.$this->factor_codigo.'","'.$this->caracteristicas.'", "'.$this->caracteristicas_codigo.'","'.$this->aspectos.'", "'.$this->aspectos_codigo.'", "'.$this->evidencia.'", "'.$this->evidencia_codigo.'" ,1 , "'.$this->opc.'" )';
+			$sqlinsert = 'INSERT INTO doc_instru_evaluacion (descripcion, fk_grupo_respuesta , fk_grupo_interes  , fk_tipo_respuesta , porcentaje, fk_factor, fk_factor_codigo, fk_caracteristicas, fk_caracteristicas_codigo , fk_aspectos, fk_aspectos_codigo, fk_evidencia, fk_evidencia_codigo,estado, opc ) VALUES ("'.$this->pregunta.'", "'.$this->opcionRespuesta.'", "'.$this->grupo.'", "'.$this->tipoRespuesta.'", 0 , "'.$this->factor.'", "'.$this->factor_codigo.'","'.$this->caracteristicas.'", "'.$this->caracteristicas_codigo.'","'.$this->aspectos.'", "'.$this->aspectos_codigo.'", "'.$this->evidencia.'", "'.$this->evidencia_codigo.'" ,1 , "'.$this->opc.'" )';
 		}
 
 
@@ -92,7 +92,7 @@ class InstruEval_Modelo {
 
 	public function guardarInstruCarac()
 	{
-		$sqlinsert = 'INSERT INTO doc_instru_evaluacion_copy (descripcion, fk_grupo_respuesta , fk_grupo_interes  , fk_tipo_respuesta , porcentaje, fk_factor, fk_factor_codigo, fk_caracteristicas, fk_caracteristicas_codigo, estado, opc ) VALUES ("'.$this->pregunta.'", "'.$this->opcionRespuesta.'", "'.$this->grupo.'", "'.$this->tipoRespuesta.'", 0 , "'.$this->factor.'", "'.$this->factor_codigo.'","'.$this->caracteristicas.'", "'.$this->caracteristicas_codigo.'" ,1 , "'.$this->opc.'" )';
+		$sqlinsert = 'INSERT INTO doc_instru_evaluacion (descripcion, fk_grupo_respuesta , fk_grupo_interes  , fk_tipo_respuesta , porcentaje, fk_factor, fk_factor_codigo, fk_caracteristicas, fk_caracteristicas_codigo, estado, opc ) VALUES ("'.$this->pregunta.'", "'.$this->opcionRespuesta.'", "'.$this->grupo.'", "'.$this->tipoRespuesta.'", 0 , "'.$this->factor.'", "'.$this->factor_codigo.'","'.$this->caracteristicas.'", "'.$this->caracteristicas_codigo.'" ,1 , "'.$this->opc.'" )';
 
 		
 		$observacion =  'Se creo un instrumento de evaluacion '; 
@@ -212,7 +212,7 @@ class InstruEval_Modelo {
 
 	public function CargarInstrumentos($grupo)
 	{
-		$sql = 'select * from doc_instru_evaluacion_copy where fk_grupo_interes = '.$grupo;
+		$sql = 'select * from doc_instru_evaluacion where fk_grupo_interes = '.$grupo;
 		$resul = $this->runSQL($sql);
 		return $resul;
 	}	

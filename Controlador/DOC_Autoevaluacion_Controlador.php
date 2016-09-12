@@ -96,8 +96,6 @@ class Autoevaluacion_Controlador {
      */
     public function cargarInformacionFactor(){
         
-
-        $alcance = $_POST['alcance'];
         $pagina = $_POST['pagina'];
         $items  = $_POST['items'];
         $grupo = $_POST['grupo'];
@@ -108,7 +106,7 @@ class Autoevaluacion_Controlador {
 
         $datos_completos = array();
         for($u=0; $u<count($procesos); $u++){
-            $instrumentos =  $this->autoevaluacion->cargarInformacionPreguntas_2($procesos[$u]['pk_proceso'], $alcance, $pagina, $items)->GetRows();
+            $instrumentos =  $this->autoevaluacion->cargarInformacionPreguntas_2($procesos[$u]['pk_proceso'], $pagina, $items);
             for($j=0; $j<count($instrumentos); $j++){
                 $instrumentos[$j]['respuestas'] = array();
                 $instrumentos[$j]['informacion'] = array();
@@ -132,6 +130,8 @@ class Autoevaluacion_Controlador {
                 }
                 
             }
+
+
 
             $datos_completos[$procesos[$u]['pk_proceso']] = $instrumentos;
 

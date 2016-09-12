@@ -221,36 +221,36 @@ $(function(e){
                                 }
                             }
 
-                            if(proc.length > 0){
-                                html += '<div class="div_varios_documentos">';
-                                    html += '<label class="label_varios_doc">Si ud desea cargar algún documento, que aplique para todos los procesos de autoevaluación, puede ingresar aqui. </label>';
-                                    html += '<div class="file-uploader" style="margin-left:16px;" >';
-                                        html += '<input id="fileupload" type="file" name="files[]"  multiple>';
-                                        //<input id="fileupload" type="file" name="files[]" data-url="server/php/" multiple>
-                                        //html += '<input name="files[]" type="file" data-role="subir_multiples" multiple data-rel="'+lista_ids_preguntas[m]+'" data-proceso="'+proc_x_pregunta+'">&nbsp;&nbsp;<a href="#" data-op="cargar_doc_todos" class="subir" style="color: #cc0000; font-size:12px;">Cargar</a><br>';
-                                        html += '<input type="hidden" id="lista_procesos" value="'+lista_ids_preguntas[m]+'">';
-                                        html += '<input type="hidden" id="pregunta_ind" value="'+proc_x_pregunta+'">';
-                                        //html += '<div class="progress-bar"><div class="progreso"></div></div>';
-                                        // html += '<div class="table">';
-                                        //     if(proc[i].documentos.length > 0){
-                                        //         html += '<table class="archivos">';
-                                        //             for(var m = 0; m<proc[i].documentos.length; m++){
-                                        //                 html += '<tr data-id="'+proc[i].documentos[m].pk_documento+'"><td><a  href="'+proc[i].documentos[m].url+'" target="_blank">'+proc[i].documentos[m].nombre+'</a></td><td><a href="#" data-role="borrar">eliminar</a></td></tr>';
-                                        //             }
-                                        //         html += '</table>';
-                                        //     }else{
-                                        //         html += '<table class="archivos">';
-                                        //         html += '</table>';
-                                        //     }
-                                        // html += '</div>';
-                                        // if ($('input[name="grupoI"]').val() == "Equipo del Programa"){
-                                        //     html += '<a href="#" data-role="nuevosArchivos" data-id-instru="'+proc[i].pk_instru_evaluacion+'" class="subir_nuevos">Archivos de procesos anteriores</a>';
-                                        // }
-                                    html += '<br><br>';
-                                    html += '</div>';
-                                html += '</div>'; 
-                            }
-                        html += '</div>';
+                        //     if(proc.length > 0){
+                        //         html += '<div class="div_varios_documentos">';
+                        //             html += '<label class="label_varios_doc">Si ud desea cargar algún documento, que aplique para todos los procesos de autoevaluación, puede ingresar aqui. </label>';
+                        //             html += '<div class="file-uploader" style="margin-left:16px;" >';
+                        //                 html += '<input id="fileupload" type="file" name="files[]"  multiple>';
+                        //                 //<input id="fileupload" type="file" name="files[]" data-url="server/php/" multiple>
+                        //                 //html += '<input name="files[]" type="file" data-role="subir_multiples" multiple data-rel="'+lista_ids_preguntas[m]+'" data-proceso="'+proc_x_pregunta+'">&nbsp;&nbsp;<a href="#" data-op="cargar_doc_todos" class="subir" style="color: #cc0000; font-size:12px;">Cargar</a><br>';
+                        //                 html += '<input type="hidden" id="lista_procesos" value="'+lista_ids_preguntas[m]+'">';
+                        //                 html += '<input type="hidden" id="pregunta_ind" value="'+proc_x_pregunta+'">';
+                        //                 //html += '<div class="progress-bar"><div class="progreso"></div></div>';
+                        //                 // html += '<div class="table">';
+                        //                 //     if(proc[i].documentos.length > 0){
+                        //                 //         html += '<table class="archivos">';
+                        //                 //             for(var m = 0; m<proc[i].documentos.length; m++){
+                        //                 //                 html += '<tr data-id="'+proc[i].documentos[m].pk_documento+'"><td><a  href="'+proc[i].documentos[m].url+'" target="_blank">'+proc[i].documentos[m].nombre+'</a></td><td><a href="#" data-role="borrar">eliminar</a></td></tr>';
+                        //                 //             }
+                        //                 //         html += '</table>';
+                        //                 //     }else{
+                        //                 //         html += '<table class="archivos">';
+                        //                 //         html += '</table>';
+                        //                 //     }
+                        //                 // html += '</div>';
+                        //                 // if ($('input[name="grupoI"]').val() == "Equipo del Programa"){
+                        //                 //     html += '<a href="#" data-role="nuevosArchivos" data-id-instru="'+proc[i].pk_instru_evaluacion+'" class="subir_nuevos">Archivos de procesos anteriores</a>';
+                        //                 // }
+                        //             html += '<br><br>';
+                        //             html += '</div>';
+                        //         html += '</div>'; 
+                        //     }
+                        // html += '</div>';
 
 
                     }
