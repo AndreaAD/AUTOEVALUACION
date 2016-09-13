@@ -922,7 +922,7 @@ WHERE df.`fk_proceso` = "'.$id_proceso.'"  AND  df.fk_respuesta_instrumento = dr
 
         $sql1 = 'SELECT dr.`fk_caracteristicas`,dr.`fk_caracteristicas_codigo`,dr.`fk_factor_codigo`, dr.`fk_factor`, dr.`fk_instrumento`, dr.`descripcion`, dr.`ponderacion`, dr.`fk_proceso`
 FROM doc_respuesta_instrumentos dr, doc_respuesta_facultad df
-WHERE dr.`fk_proceso` = "'.$fk_proceso.'" and df.fk_respuesta_instrumento = dr.pk_respuesta_instrumento ';
+WHERE df.`fk_proceso` = "'.$fk_proceso.'" and df.fk_respuesta_instrumento = dr.pk_respuesta_instrumento ';
         $pregunta1 = $this->runSQL($sql1);
         $lista_programa1 = $pregunta1->GetRows(); 
 
@@ -931,7 +931,7 @@ WHERE dr.`fk_proceso` = "'.$fk_proceso.'" and df.fk_respuesta_instrumento = dr.p
 
         $sql2 = 'SELECT dr.`fk_caracteristicas`,dr.`fk_caracteristicas_codigo`,dr.`fk_factor_codigo`, dr.`fk_factor`, dr.`fk_instrumento`, dr.`descripcion`, dr.`ponderacion`, dr.`fk_proceso`
 FROM doc_respuesta_instrumentos dr, doc_respuesta_sede df
-WHERE dr.`fk_proceso` = "'.$fk_proceso.'" and df.fk_respuesta_instrumento = dr.pk_respuesta_instrumento ';
+WHERE df.`fk_proceso` = "'.$fk_proceso.'" and df.fk_respuesta_instrumento = dr.pk_respuesta_instrumento ';
         $pregunta2 = $this->runSQL($sql2);
         $lista_programa2 = $pregunta2->GetRows(); 
 

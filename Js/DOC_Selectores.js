@@ -1798,26 +1798,26 @@ $(function(e){
                         $c = data.resultados[i]['fk_caracteristicas_codigo'];
 
                         lista_c = $c.split('|');
-                        if(lista_c.length > 1){
-                            tamaño = (lista_c.length)-1;
-                        }else{
-                            tamaño = (lista_c.length);
-                        }
+                        // if(lista_c.length > 1){
+                        //     tamaño = (lista_c.length)-1;
+                        // }else{
+                        //     tamaño = (lista_c.length);
+                        // }
 
                         $f = data.resultados[i]['fk_factor_codigo'];
 
                         lista_f = $f.split('|');
-                        if(lista_f.length > 1){
-                            tamaño_2 = (lista_f.length)-1;
-                        }else{
-                            tamaño_2 = (lista_f.length);
-                        }
+                        // if(lista_f.length > 1){
+                        //     tamaño_2 = (lista_f.length)-1;
+                        // }else{
+                        //     tamaño_2 = (lista_f.length);
+                        // }
 
                         
-                        for(var j = 0; j < tamaño ; j++){
+                        for(var j = 0; j < lista_c.length ; j++){
                             car = lista_c[j];
                             
-                            for(var m = 0; m < tamaño_2; m++){
+                            for(var m = 0; m < lista_f.length; m++){
                                 descripcion = data.resultados[i]['descripcion'];
                                 calificacion = data.resultados[i]['ponderacion']; 
                                 fac = lista_f[m];
