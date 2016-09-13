@@ -148,7 +148,7 @@ $(function(e){
                 });
 
 
-                $repetidos = [];
+                //$repetidos = [];
 
                 if(proc.length > 0){
                     for( var m=0; m<lista_ids_preguntas.length; m++){
@@ -168,16 +168,13 @@ $(function(e){
 
                                 if(proc[i].pk_instru_evaluacion == lista_ids_preguntas[m]){
 
-                                    if($repetidos.indexOf(proc[i].pk_respuesta_instrumento) == 1 ){
-                                            console.log(proc[i].nombre_proceso);
-                                    }
 
                                     if( No_repetir_proceso.indexOf(proc[i].pk_respuesta_instrumento) == -1 ){
                                         No_repetir_proceso.push(proc[i].pk_respuesta_instrumento);
 
 
 
-                                        html += '<div class="proceso_div pregunta" data-rel-pregunta="'+proc[i].pk_respuesta_instrumento+'" data-rel-proceso="'+proc[i].fk_proceso+'" style="width:99%;padding:5px;display:inline-block;    font-size: 13px;    margin: 10px;">';
+                                        html += '<div class="proceso_div pregunta" data-rel-pregunta="'+proc[i].pk_respuesta_instrumento+'" data-rel-proceso="'+proc[i].pk_proceso+'" style="width:99%;padding:5px;display:inline-block;    font-size: 13px;    margin: 10px;">';
                                         html += '<div class="accordion">'+proc[i].nombre_proceso+'</div>';
                                         html += '<div class="panel"><br>';
 
@@ -240,7 +237,7 @@ $(function(e){
                                         // html += '<div class="accordion">'+proc[i].nombre_proceso+'</div>';
                                         // html += '<div class="panel"><br>';
                                     }
-                                    $repetidos.push(proc[i].pk_respuesta_instrumento);
+                                    //$repetidos.push(proc[i].pk_respuesta_instrumento);
                                     
                                 }
                             }
@@ -302,7 +299,6 @@ $(function(e){
             if(tipo == 'selector'){
                 respuestas.push({
                     id_pregunta: $(this).data('rel-pregunta'),
-                    id_proceso: $(this).data('rel-proceso'),
                     id_respuesta: $(this).find('select[data-role="respuesta"] option:selected').data('id'),
                     ponderacion: $(this).find('select[data-role="respuesta"]').val(),
                     observaciones: $(this).find('textarea[data-role="observaciones"]').val(),
@@ -311,7 +307,6 @@ $(function(e){
             }else if(tipo == 'numero'){
                 respuestas.push({
                     id_pregunta: $(this).data('rel-pregunta'),
-                    id_proceso: $(this).data('rel-proceso'),
                     id_respuesta: $(this).find('input[data-role="respuesta"]').data('id-tipo-respuesta'),
                     ponderacion: $(this).find('input[data-role="respuesta"]').val(),
                     observaciones: $(this).find('textarea[data-role="observaciones"]').val(),

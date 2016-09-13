@@ -45,25 +45,9 @@ class InfoAdicional_Modelo {
 		}	
 	}
 
-	public function guardarDocumento($fk_proceso){
+	public function guardarDocumento(){
 
-		if ($fk_proceso == 0){
-			$sql = 'INSERT INTO doc_documento (nombre, url, extension, fk_respuesta_instrumento, estado , fecha , fk_usuario , fk_programa , fk_proceso , fk_sede, tipo) VALUES ("'.$this->nombre.'" , "'.$this->url.'" , "'.$this->extension.'" , "'.$this->fk_instrueval.'" , "'.$this->estado.'" , CURDATE(), "'.$this->fk_usuario.'", "0", "0", "0" , "'.$this->tipo.'")';
-			if($this->runSQL($sql)){
-				return 1;
-			}else{
-				return 0;
-			}
-		}else{
-			$sql1 = ' SELECT fk_sede FROM cna_proceso WHERE pk_proceso = "'.$fk_proceso.'" ';
-			$resultados = $this->runSQL($sql1);
-			$sede = $resultados->GetRows();
-			$s = $sede[0]['fk_sede'];
-			$sql0 = 'SELECT fk_programa FROM cna_proceso WHERE pk_proceso = "'.$fk_proceso.'" ';
-			//$sql0 = 'SELECT fk_programa FROM sad_usuario WHERE pk_usuario = "'.$this->fk_usuario.'" ';
-			$programa = $this->runSQL($sql0);
-			$pro = $programa->GetRows();
-			$sql = 'INSERT INTO doc_documento (nombre, url, extension, fk_respuesta_instrumento, estado , fecha , fk_usuario , fk_programa , fk_proceso , fk_sede, tipo) VALUES ("'.$this->nombre.'" , "'.$this->url.'" , "'.$this->extension.'" , "'.$this->fk_instrueval.'" , "'.$this->estado.'" , CURDATE(), "'.$this->fk_usuario.'", "'.$pro[0]['fk_programa'].'", "'.$fk_proceso.'" , "'.$s.'", "'.$this->tipo.'" )';
+			$sql = 'INSERT INTO doc_documento (nombre, url, extension, fk_respuesta_instrumento, estado , fecha , fk_usuario , tipo) VALUES ("'.$this->nombre.'" , "'.$this->url.'" , "'.$this->extension.'" , "'.$this->fk_instrueval.'" , "'.$this->estado.'" , CURDATE(), "'.$this->fk_usuario.'",  "'.$this->tipo.'" )';
 			
 			$observacion =  'Se creo un documento para el instrumento de evaluacion numero : "'.$this->fk_instrueval.'" '; 
 	        $transaccion = "Guardar Documentos";
@@ -73,7 +57,6 @@ class InfoAdicional_Modelo {
 			}else{
 				return 0;
 			}
-		}
 		
 	}
 

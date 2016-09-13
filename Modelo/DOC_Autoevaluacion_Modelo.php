@@ -354,7 +354,7 @@ class Autoevaluacion_Modelo {
 
 		if( $al[0]['fk_alcance_autoevaluacion'] == 1)
 		{
-			$sql2 = 'SELECT di.pk_respuesta_instrumento, di.`fk_proceso`, cnp.`nombre` AS nombre_proceso, di.`fk_tipo_respuesta` AS tipo_respuesta, di.`fk_instrumento` AS pk_instru_evaluacion , di.`descripcion` AS pregunta , di.`porcentaje` AS porcentaje , di.`fk_factor`, di.`fk_caracteristicas`, di.`fk_evidencia`, di.`fk_grupo_interes` FROM doc_respuesta_instrumentos  di, cna_proceso cnp WHERE di.`fk_proceso` = 0 AND di.`fk_proceso` = cnp.`pk_proceso` and di.fk_grupo_interes = 7  LIMIT '.($pagina * $items).', '.$items;
+			$sql2 = 'SELECT di.pk_respuesta_instrumento, cnp.`pk_proceso`, cnp.`nombre` AS nombre_proceso, di.`fk_tipo_respuesta` AS tipo_respuesta, di.`fk_instrumento` AS pk_instru_evaluacion , di.`descripcion` AS pregunta , di.`porcentaje` AS porcentaje , di.`fk_factor`, di.`fk_caracteristicas`, di.`fk_evidencia`, di.`fk_grupo_interes` FROM doc_respuesta_instrumentos  di, cna_proceso cnp WHERE di.`fk_proceso` = 0 AND di.`fk_proceso` = cnp.`pk_proceso` and di.fk_grupo_interes = 7  LIMIT '.($pagina * $items).', '.$items;
 			$res2 = $this->runSQL($sql2);
 			$lista = $res2->GetRows();
 	 		return $lista;
@@ -369,7 +369,7 @@ class Autoevaluacion_Modelo {
 			$lista_respuestas = $respuestas->GetRows();
 
 			foreach ($lista_respuestas as &$value) {
-				$sql2 = 'SELECT di.pk_respuesta_instrumento, di.`fk_proceso`, cnp.`nombre` AS nombre_proceso, di.`fk_tipo_respuesta` AS tipo_respuesta, di.`fk_instrumento` AS pk_instru_evaluacion , di.`descripcion` AS pregunta , di.`porcentaje` AS porcentaje , di.`fk_factor`, di.`fk_caracteristicas`, di.`fk_evidencia`, di.`fk_grupo_interes` FROM doc_respuesta_instrumentos  di, cna_proceso cnp WHERE di.pk_respuesta_instrumento = '.$value['fk_respuesta_instrumento'].' AND cnp.`pk_proceso` = '.$value['fk_proceso'].' ';
+				$sql2 = 'SELECT di.pk_respuesta_instrumento, cnp.`pk_proceso`, cnp.`nombre` AS nombre_proceso, di.`fk_tipo_respuesta` AS tipo_respuesta, di.`fk_instrumento` AS pk_instru_evaluacion , di.`descripcion` AS pregunta , di.`porcentaje` AS porcentaje , di.`fk_factor`, di.`fk_caracteristicas`, di.`fk_evidencia`, di.`fk_grupo_interes` FROM doc_respuesta_instrumentos  di, cna_proceso cnp WHERE di.pk_respuesta_instrumento = '.$value['fk_respuesta_instrumento'].' AND cnp.`pk_proceso` = '.$value['fk_proceso'].' ';
 				$res =$this->runSql($sql2);
 				$datos = $res->GetRows();
 
@@ -392,7 +392,7 @@ class Autoevaluacion_Modelo {
 			$lista_respuestas = $respuestas->GetRows();
 
 			foreach ($lista_respuestas as &$value) {
-				$sql2 = 'SELECT di.pk_respuesta_instrumento, di.`fk_proceso`, cnp.`nombre` AS nombre_proceso, di.`fk_tipo_respuesta` AS tipo_respuesta, di.`fk_instrumento` AS pk_instru_evaluacion , di.`descripcion` AS pregunta , di.`porcentaje` AS porcentaje , di.`fk_factor`, di.`fk_caracteristicas`, di.`fk_evidencia`, di.`fk_grupo_interes` FROM doc_respuesta_instrumentos  di, cna_proceso cnp WHERE di.pk_respuesta_instrumento = '.$value['fk_respuesta_instrumento'].' AND cnp.`pk_proceso` = '.$value['fk_proceso'].' ';
+				$sql2 = 'SELECT di.pk_respuesta_instrumento, cnp.`pk_proceso`, cnp.`nombre` AS nombre_proceso, di.`fk_tipo_respuesta` AS tipo_respuesta, di.`fk_instrumento` AS pk_instru_evaluacion , di.`descripcion` AS pregunta , di.`porcentaje` AS porcentaje , di.`fk_factor`, di.`fk_caracteristicas`, di.`fk_evidencia`, di.`fk_grupo_interes` FROM doc_respuesta_instrumentos  di, cna_proceso cnp WHERE di.pk_respuesta_instrumento = '.$value['fk_respuesta_instrumento'].' AND cnp.`pk_proceso` = '.$value['fk_proceso'].' ';
 				$res =$this->runSql($sql2);
 				$datos = $res->GetRows();
 
@@ -409,7 +409,7 @@ class Autoevaluacion_Modelo {
 
 		if( $al[0]['fk_alcance_autoevaluacion'] == 4)
 		{
-			$sql2 = 'SELECT di.pk_respuesta_instrumento, di.`fk_proceso`, cnp.`nombre` AS nombre_proceso, di.`fk_tipo_respuesta` AS tipo_respuesta, di.`fk_instrumento` AS pk_instru_evaluacion , di.`descripcion` AS pregunta , di.`porcentaje` AS porcentaje , di.`fk_factor`, di.`fk_caracteristicas`, di.`fk_evidencia`, di.`fk_grupo_interes` FROM doc_respuesta_instrumentos  di, cna_proceso cnp WHERE di.`fk_proceso` = "'.$proceso.'" AND di.`fk_proceso` = cnp.`pk_proceso` and di.fk_grupo_interes = 7  LIMIT '.($pagina * $items).', '.$items;
+			$sql2 = 'SELECT di.pk_respuesta_instrumento, cnp.`pk_proceso`, cnp.`nombre` AS nombre_proceso, di.`fk_tipo_respuesta` AS tipo_respuesta, di.`fk_instrumento` AS pk_instru_evaluacion , di.`descripcion` AS pregunta , di.`porcentaje` AS porcentaje , di.`fk_factor`, di.`fk_caracteristicas`, di.`fk_evidencia`, di.`fk_grupo_interes` FROM doc_respuesta_instrumentos  di, cna_proceso cnp WHERE di.`fk_proceso` = "'.$proceso.'" AND di.`fk_proceso` = cnp.`pk_proceso` and di.fk_grupo_interes = 7  LIMIT '.($pagina * $items).', '.$items;
 			$res2 = $this->runSQL($sql2);
 			$lista = $res2->GetRows();
 	 		return $lista;
@@ -474,26 +474,11 @@ class Autoevaluacion_Modelo {
 	 * [cargarDocumentos carga los documentos para cada instrumento de evaluacion]
 	 * @return [int] devuelve el estado de la operacion 1 -0
 	 */
-	public function cargarDocumentos($id , $usuario ,$fk_proceso ){
+	public function cargarDocumentos($id , $usuario){
 
-
-		$sql0 = 'SELECT fk_programa FROM cna_proceso WHERE pk_proceso = "'.$fk_proceso.'" ';
-		$programa = $this->runSQL($sql0);
-		$pro = $programa->GetRows();
+		$sql = 'SELECT * FROM doc_documento  WHERE fk_respuesta_instrumento  = "'.$id.'"  AND tipo = "2"  and estado = 1 ';
+			return $this->runSQL($sql);
 		
-		if ($fk_proceso == 0){
-			$sql = 'SELECT * FROM doc_documento  WHERE fk_respuesta_instrumento  = "'.$id.'" AND fk_programa = "0" AND fk_proceso = "'.$fk_proceso.'" AND tipo = "2"  and estado = 1 ';
-			return $this->runSQL($sql);
-		}else{
-			$sql1 = ' SELECT fk_sede FROM cna_proceso WHERE pk_proceso = "'.$fk_proceso.'" ';
-			$resultados = $this->runSQL($sql1);
-			$sede = $resultados->GetRows();
-			$s = $sede[0]['fk_sede'];
-
-			$sql = 'SELECT * FROM doc_documento  WHERE fk_respuesta_instrumento  = "'.$id.'" AND fk_programa = "'.$pro[0]['fk_programa'].'" AND fk_sede = "'.$s.'" AND fk_proceso = "'.$fk_proceso.'" AND tipo = "2" and estado = 1 ';
-
-			return $this->runSQL($sql);
-		}
 	}
 
 	/**
@@ -506,13 +491,61 @@ class Autoevaluacion_Modelo {
 		return $resultados;
 	}
 
-	public function cargarInformacionPreguntas_total($proceso, $alcance){
-		$sql2 = 'SELECT di.`fk_proceso`, cnp.`nombre` AS nombre_proceso, di.`fk_tipo_respuesta` AS tipo_respuesta, di.`fk_instrumento` AS pk_instru_evaluacion , di.`descripcion` AS pregunta , di.`porcentaje` AS porcentaje , di.`fk_factor`, di.`fk_caracteristicas`, di.`fk_evidencia`, di.`fk_grupo_interes` FROM doc_respuesta_instrumentos di, cna_proceso cnp
+	public function cargarInformacionPreguntas_total($proceso){
+
+		$alcanceSql = 'select fk_grupo_interes from sad_usuario where pk_usuario = '.$_SESSION['pk_usuario'];
+		$alcance = $this->runSQL($alcanceSql);
+		$a = $alcance->GetRows();
+
+		$grupo_interes = 'select fk_alcance_autoevaluacion  from cna_grupo_interes where pk_grupo_interes = '.$a[0]['fk_grupo_interes'];
+		$alca = $this->runSQL($grupo_interes);
+		$al = $alca->GetRows();
+
+
+
+		if( $al[0]['fk_alcance_autoevaluacion'] == 1)
+		{
+			$sql2 = 'SELECT di.`fk_proceso`, cnp.`nombre` AS nombre_proceso, di.`fk_tipo_respuesta` AS tipo_respuesta, di.`fk_instrumento` AS pk_instru_evaluacion , di.`descripcion` AS pregunta , di.`porcentaje` AS porcentaje , di.`fk_factor`, di.`fk_caracteristicas`, di.`fk_evidencia`, di.`fk_grupo_interes` FROM doc_respuesta_instrumentos di, cna_proceso cnp
+WHERE di.`fk_proceso` = 0 AND di.`fk_proceso` = cnp.`pk_proceso`';
+	 		
+			$res2 = $this->runSQL($sql2);
+	 		return $res2;
+		}
+
+		
+		if( $al[0]['fk_alcance_autoevaluacion'] == 2)
+		{
+						$sql2 = 'SELECT di.`fk_proceso`, cnp.`nombre` AS nombre_proceso, dri.`fk_tipo_respuesta` AS tipo_respuesta, dri.`fk_instrumento` AS pk_instru_evaluacion ,
+ dri.`descripcion` AS pregunta , dri.`porcentaje` AS porcentaje , dri.`fk_factor`, dri.`fk_caracteristicas`, dri.`fk_evidencia`,
+  dri.`fk_grupo_interes` FROM doc_respuesta_sede di, cna_proceso cnp, doc_respuesta_instrumentos dri
+WHERE di.`fk_proceso` = "'.$proceso.'" AND di.`fk_proceso` = cnp.`pk_proceso` AND di.fk_respuesta_instrumento = dri.`pk_respuesta_instrumento`';
+	 		
+			$res2 = $this->runSQL($sql2);
+	 		return $res2;
+
+		}
+		
+		if( $al[0]['fk_alcance_autoevaluacion'] == 3)
+		{
+						$sql2 = 'SELECT di.`fk_proceso`, cnp.`nombre` AS nombre_proceso, dri.`fk_tipo_respuesta` AS tipo_respuesta, dri.`fk_instrumento` AS pk_instru_evaluacion ,
+ dri.`descripcion` AS pregunta , dri.`porcentaje` AS porcentaje , dri.`fk_factor`, dri.`fk_caracteristicas`, dri.`fk_evidencia`,
+  dri.`fk_grupo_interes` FROM doc_respuesta_facultad di, cna_proceso cnp, doc_respuesta_instrumentos dri
+WHERE di.`fk_proceso` = "'.$proceso.'" AND di.`fk_proceso` = cnp.`pk_proceso` AND di.fk_respuesta_instrumento = dri.`pk_respuesta_instrumento`';
+	 		
+			$res2 = $this->runSQL($sql2);
+	 		return $res2;
+		}
+		
+		if( $al[0]['fk_alcance_autoevaluacion'] == 4)
+		{
+						$sql2 = 'SELECT di.`fk_proceso`, cnp.`nombre` AS nombre_proceso, di.`fk_tipo_respuesta` AS tipo_respuesta, di.`fk_instrumento` AS pk_instru_evaluacion , di.`descripcion` AS pregunta , di.`porcentaje` AS porcentaje , di.`fk_factor`, di.`fk_caracteristicas`, di.`fk_evidencia`, di.`fk_grupo_interes` FROM doc_respuesta_instrumentos di, cna_proceso cnp
 WHERE di.`fk_proceso` = '.$proceso.' AND di.`fk_proceso` = cnp.`pk_proceso`';
 	 		
-		$res2 = $this->runSQL($sql2);
- 		return $res2;
+			$res2 = $this->runSQL($sql2);
+	 		return $res2;
+		}
 
+		
 	}
 
 	/**
@@ -550,7 +583,7 @@ WHERE di.`fk_proceso` = '.$proceso.' AND di.`fk_proceso` = cnp.`pk_proceso`';
 	 * [guardarRespuesta Guarda las respuestas de un instrumento de evaluacion]
 	 * @return [int] devuelve el estado de la operacion 1 -0
 	 */
-	public function guardarRespuesta($id_pregunta, $id_respuesta, $ponderacion, $observaciones , $pk_usuario, $fk_proceso, $tipo){
+	public function guardarRespuesta($id_pregunta, $id_respuesta, $ponderacion, $observaciones , $pk_usuario,  $tipo){
 
 		//ver el grupo de interes
 		$sql5 = 'SELECT * FROM doc_respuesta_instrumentos  WHERE pk_respuesta_instrumento = "'.$id_pregunta.'" ';
@@ -650,14 +683,13 @@ WHERE di.`fk_proceso` = '.$proceso.' AND di.`fk_proceso` = cnp.`pk_proceso`';
 					}
 
 					if ( count($res) > 0 ){
-
-						$sql_0 = 'SELECT COUNT(*) as total, pk_respuesta_instrumento FROM doc_respuesta_instrumentos  WHERE pk_respuesta_instrumento = "'.$id_pregunta.'"  AND fk_proceso = "'.$fk_proceso.'"';
+						$sql_0 = 'SELECT COUNT(*) as total, pk_respuesta_instrumento FROM doc_respuesta_instrumentos  WHERE pk_respuesta_instrumento = "'.$id_pregunta.'" ';
 						$res = $this->runSql($sql_0);
+						echo $res;
 						$instrumento_existente = $res->GetRows();
 
 						if($instrumento_existente[0]['total'] > 0){
-							$pk_respuesta_instrumento = $instrumento_existente[0]['pk_respuesta_instrumento'];
-							$sql_1 = 'UPDATE doc_respuesta_instrumentos  SET fk_usuario = "'.$pk_usuario.'" , fk_programa = "'.$p.'" , fk_sede = "'.$s.'", observaciones = "'.$observaciones.'", ponderacion = "'.$ponderacion.'", respuesta = "'.$id_respuesta.'" WHERE pk_respuesta_instrumento = "'.$pk_respuesta_instrumento.'"';
+							$sql_1 = 'UPDATE doc_respuesta_instrumentos  SET fk_usuario = "'.$pk_usuario.'" , observaciones = "'.$observaciones.'", ponderacion = '.$ponderacion.', respuesta = "'.$id_respuesta.'" WHERE pk_respuesta_instrumento = "'.$id_pregunta.'"';
 							$resultado = $this->runSQL($sql_1);
 						}else{
 							// $sql_2 = 'INSERT INTO doc_respuesta_instrumentos  (fk_respuesta_instrumento, fk_evidencia, fk_grupo_interes,fk_usuario, fk_proceso, fk_programa , fk_sede , observaciones, ponderacion, respuesta  ) VALUES ("'.$id_pregunta.'", "'.$id_evidencia.'", "'.$id_grupo_interes.'",  "'.$pk_usuario.'" , "'.$fk_proceso.'", "'.$p.'", "'.$s.'",  "'.$observaciones.'", "'.$ponderacion.'", "'.$id_respuesta.'" )';
@@ -670,14 +702,14 @@ WHERE di.`fk_proceso` = '.$proceso.' AND di.`fk_proceso` = cnp.`pk_proceso`';
 						$resultados = $this->runSQL($sql6);
 						$tipo_r = $resultados->GetRows();
 						$pond = ($tipo == 'numerico' ? $ponderacion : $tipo_r[0]['ponderacion']);
+						//$ponderacion = number_format($pond, 2);
 
-						$sql_0 = 'SELECT COUNT(*) as total, pk_respuesta_instrumento FROM doc_respuesta_instrumentos  WHERE pk_respuesta_instrumento = "'.$id_pregunta.'"  AND fk_proceso = "'.$fk_proceso.'"';
+						$sql_0 = 'SELECT COUNT(*) as total, pk_respuesta_instrumento FROM doc_respuesta_instrumentos  WHERE pk_respuesta_instrumento = "'.$id_pregunta.'"  ';
 						$res = $this->runSql($sql_0);
 						$instrumento_existente = $res->GetRows();
 
 						if($instrumento_existente[0]['total'] > 0){
-							$pk_respuesta_instrumento = $instrumento_existente[0]['pk_respuesta_instrumento'];
-							$sql_1 = 'UPDATE doc_respuesta_instrumentos  SET fk_usuario = "'.$pk_usuario.'"  , fk_proceso = "'.$fk_proceso.'" ,fk_programa = "'.$p.'" , fk_sede = "'.$s.'", observaciones = "'.$observaciones.'", ponderacion = "'.$pond.'", respuesta = "'.$id_respuesta.'" WHERE pk_respuesta_instrumento = "'.$pk_respuesta_instrumento.'"';
+							$sql_1 = 'UPDATE doc_respuesta_instrumentos  SET fk_usuario = "'.$pk_usuario.'"  ,observaciones = "'.$observaciones.'", ponderacion = '.$ponderacion.', respuesta = "'.$id_respuesta.'" WHERE pk_respuesta_instrumento = "'.$id_pregunta.'"';
 							$resultado = $this->runSQL($sql_1);
 						}else{
 							// $sql_2 = 'INSERT INTO doc_respuesta_instrumentos (fk_instrumento, fk_evidencia, fk_grupo_interes,fk_usuario, fk_proceso, fk_programa , fk_sede , observaciones, ponderacion, respuesta  ) VALUES ("'.$id_pregunta.'", "'.$id_evidencia.'", "'.$id_grupo_interes.'",  "'.$pk_usuario.'" , "'.$fk_proceso.'", "'.$p.'", "'.$s.'",  "'.$observaciones.'", "'.$pond.'", "'.$id_respuesta.'" )';
@@ -707,7 +739,7 @@ WHERE di.`fk_proceso` = '.$proceso.' AND di.`fk_proceso` = cnp.`pk_proceso`';
 	public function obtenerRespuestas($id_pregunta , $fk_proceso){
 		$sql = 'SELECT di.*,IF(di.respuesta = 10006, CEIL((di.ponderacion-1) / 4 * 100), di.ponderacion) AS respuesta_6, 
 IF(di.respuesta = 10007, CEIL((di.ponderacion-1) / 4 * (di.`porcentaje`)), di.ponderacion) AS respuesta_7 
-FROM doc_respuesta_instrumentos di WHERE di.pk_respuesta_instrumento = "'.$id_pregunta.'" AND di.fk_proceso = "'.$fk_proceso.'" ';
+FROM doc_respuesta_instrumentos di WHERE di.pk_respuesta_instrumento = "'.$id_pregunta.'"  ';
 		$resultados = $this->runSQL($sql);
 		return $resultados;
 	}

@@ -141,9 +141,8 @@ class informacionAdicional_Controlador{
                                 $this->infoAdic->estado = 1;
                                 $this->infoAdic->fk_usuario = $_SESSION['pk_usuario'];
                                 $this->infoAdic->tipo = 2;
-                                $proceso = $_POST['id_proceso'];
 
-                                if ($this->infoAdic->guardarDocumento($proceso) == 1){
+                                if ($this->infoAdic->guardarDocumento() == 1){
                                     $resul = $this->infoAdic->obtenerIdDocumento($nombre)->GetRows();
                                     echo json_encode(array('estado' => 1,'nombre' => $nombre, 'url' => $url , 'id' => $resul[0]['pk_documento']));
                                 }else{

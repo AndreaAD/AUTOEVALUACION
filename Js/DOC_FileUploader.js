@@ -62,7 +62,6 @@ $(function(e){
 		formData.append('seccion', seccion);
 		formData.append('operacion',operacion);
 		formData.append('pk_instru_evaluacion', $(this).data('rel'));
-		formData.append('id_proceso', $(this).data('proceso'));
 		$.ajax({
 		    url: '../Controlador/DOC_InfoAdicional_Controlador.php',
 		    type: 'POST',
