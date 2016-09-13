@@ -288,12 +288,12 @@ class Autoevaluacion_Modelo {
 	// 	}
 	// }
 
-	public function consultaUsuarioAlcance($rol, $usuario){
+	// public function consultaUsuarioAlcance($rol, $usuario){
 		
-		// $sql = 'SELECT * FROM cna_factor';
-		// $factores = $this->runSQL($sql);
-		// return $factores;
-	}
+	// 	// $sql = 'SELECT * FROM cna_factor';
+	// 	// $factores = $this->runSQL($sql);
+	// 	// return $factores;
+	// }
 
 
 	/**
@@ -323,38 +323,42 @@ class Autoevaluacion_Modelo {
 	 * @param  [int] $proceso
 	 * @return [int] devuelve el estado de la operacion si se realiazo o no
 	 */
-	public function cargarInformacionPreguntas($id , $grupo , $proceso){
+	// public function cargarInformacionPreguntas($id , $grupo , $proceso){
 
 
-		$SQL1 = 'SELECT pk_grupo_interes FROM cna_grupo_interes WHERE nombre = "'.$grupo.'" ';
-		$resultados = $this->runSQL($SQL1);
-		$nom = $resultados->GetRows();
-		$s = $nom[0]['pk_grupo_interes'];
-		if($proceso == 0){
-			$sql = 'SELECT DISTINCT ca.`nombre` AS aspecto_nombre, ce.`codigo` AS codigo , tp.`pk_tipo_respuesta` AS tipo_respuesta, di.`pk_instru_evaluacion` AS pk_instru_evaluacion , di.`descripcion` AS pregunta , di.`porcentaje` AS porcentaje FROM cna_aspecto ca , doc_instru_evaluacion di, tipo_respuesta tp, cna_evidencia ce, cna_caracteristica cc WHERE di.`fk_evidencia` = ce.`pk_evidencia` AND di.`fk_tipo_respuesta` = tp.`pk_tipo_respuesta` AND ce.`fk_aspecto` = ca.`pk_aspecto` AND ca.`fk_caracteristica` = "'.$id.'" AND (di.`fk_grupo_interes` ="'.$s.'" OR di.`fk_grupo_interes` = 3) and  di.`fk_evidencia` = ce.`pk_evidencia` ';
-		}else{
-			$sql = 'SELECT DISTINCT ca.`nombre` AS aspecto_nombre, ce.`codigo` AS codigo , tp.`pk_tipo_respuesta` AS tipo_respuesta, di.`pk_instru_evaluacion` AS pk_instru_evaluacion , di.`descripcion` AS pregunta , di.`porcentaje` AS porcentaje FROM cna_aspecto ca , doc_instru_evaluacion di, tipo_respuesta tp, cna_evidencia ce, cna_caracteristica cc WHERE di.`fk_evidencia` = ce.`pk_evidencia` AND di.`fk_tipo_respuesta` = tp.`pk_tipo_respuesta` AND ce.`fk_aspecto` = ca.`pk_aspecto` AND ca.`fk_caracteristica` = "'.$id.'" AND (di.`fk_grupo_interes` ="'.$s.'" OR di.`fk_grupo_interes` = 3) and  di.`fk_evidencia` = ce.`pk_evidencia` AND di.`proceso` = "'.$proceso.'"';
-		}	
-		//return $sql;
-		return $this->runSQL($sql);
-	}
+	// 	$SQL1 = 'SELECT pk_grupo_interes FROM cna_grupo_interes WHERE nombre = "'.$grupo.'" ';
+	// 	$resultados = $this->runSQL($SQL1);
+	// 	$nom = $resultados->GetRows();
+	// 	$s = $nom[0]['pk_grupo_interes'];
+	// 	if($proceso == 0){
+	// 		$sql = 'SELECT DISTINCT ca.`nombre` AS aspecto_nombre, ce.`codigo` AS codigo , tp.`pk_tipo_respuesta` AS tipo_respuesta, di.`pk_instru_evaluacion` AS pk_instru_evaluacion , di.`descripcion` AS pregunta , di.`porcentaje` AS porcentaje FROM cna_aspecto ca , doc_instru_evaluacion di, tipo_respuesta tp, cna_evidencia ce, cna_caracteristica cc WHERE di.`fk_evidencia` = ce.`pk_evidencia` AND di.`fk_tipo_respuesta` = tp.`pk_tipo_respuesta` AND ce.`fk_aspecto` = ca.`pk_aspecto` AND ca.`fk_caracteristica` = "'.$id.'" AND (di.`fk_grupo_interes` ="'.$s.'" OR di.`fk_grupo_interes` = 3) and  di.`fk_evidencia` = ce.`pk_evidencia` ';
+	// 	}else{
+	// 		$sql = 'SELECT DISTINCT ca.`nombre` AS aspecto_nombre, ce.`codigo` AS codigo , tp.`pk_tipo_respuesta` AS tipo_respuesta, di.`pk_instru_evaluacion` AS pk_instru_evaluacion , di.`descripcion` AS pregunta , di.`porcentaje` AS porcentaje FROM cna_aspecto ca , doc_instru_evaluacion di, tipo_respuesta tp, cna_evidencia ce, cna_caracteristica cc WHERE di.`fk_evidencia` = ce.`pk_evidencia` AND di.`fk_tipo_respuesta` = tp.`pk_tipo_respuesta` AND ce.`fk_aspecto` = ca.`pk_aspecto` AND ca.`fk_caracteristica` = "'.$id.'" AND (di.`fk_grupo_interes` ="'.$s.'" OR di.`fk_grupo_interes` = 3) and  di.`fk_evidencia` = ce.`pk_evidencia` AND di.`proceso` = "'.$proceso.'"';
+	// 	}	
+	// 	//return $sql;
+	// 	return $this->runSQL($sql);
+	// }
 
 	public function cargarInformacionPreguntas_2($proceso, $pagina, $items){
-		//pendiente el alcance
+
+
+		// $s = 'SELECT * from  cna_proceso_institucional_proceso  WHERE pk_proceso = '.$proceso;
+		// $r = $this->runSQL($sql);
+		// $t = $r->GetRows();
+
 
 		$alcanceSql = 'select fk_grupo_interes from sad_usuario where pk_usuario = '.$_SESSION['pk_usuario'];
 		$alcance = $this->runSQL($alcanceSql);
 		$a = $alcance->GetRows();
+		//AND di.pk_proceso_insti = "'.$t[0]['pk_proceso_institucional'].'"
 
 		$grupo_interes = 'select fk_alcance_autoevaluacion  from cna_grupo_interes where pk_grupo_interes = '.$a[0]['fk_grupo_interes'];
 		$alca = $this->runSQL($grupo_interes);
 		$al = $alca->GetRows();
 
-
-
 		if( $al[0]['fk_alcance_autoevaluacion'] == 1)
 		{
-			$sql2 = 'SELECT di.pk_respuesta_instrumento, cnp.`pk_proceso`, cnp.`nombre` AS nombre_proceso, di.`fk_tipo_respuesta` AS tipo_respuesta, di.`fk_instrumento` AS pk_instru_evaluacion , di.`descripcion` AS pregunta , di.`porcentaje` AS porcentaje , di.`fk_factor`, di.`fk_caracteristicas`, di.`fk_evidencia`, di.`fk_grupo_interes` FROM doc_respuesta_instrumentos  di, cna_proceso cnp WHERE di.`fk_proceso` = 0 AND di.`fk_proceso` = cnp.`pk_proceso` and di.fk_grupo_interes = 7  LIMIT '.($pagina * $items).', '.$items;
+			$sql2 = 'SELECT di.pk_respuesta_instrumento, cnp.`pk_proceso`, cnp.`nombre` AS nombre_proceso, di.`fk_tipo_respuesta` AS tipo_respuesta, di.`fk_instrumento` AS pk_instru_evaluacion , di.`descripcion` AS pregunta , di.`porcentaje` AS porcentaje , di.`fk_factor`, di.`fk_caracteristicas`, di.`fk_evidencia`, di.`fk_grupo_interes` FROM doc_respuesta_instrumentos  di, cna_proceso cnp WHERE di.`fk_proceso` = 0   AND di.`fk_proceso` = cnp.`pk_proceso` and di.fk_grupo_interes = 7  LIMIT '.($pagina * $items).', '.$items;
 			$res2 = $this->runSQL($sql2);
 			$lista = $res2->GetRows();
 	 		return $lista;
@@ -373,11 +377,11 @@ class Autoevaluacion_Modelo {
 				$res =$this->runSql($sql2);
 				$datos = $res->GetRows();
 
-				
-			}
+				foreach ($datos as &$dato) {
+					$lista[] = $dato;
+				}
 
-			foreach ($datos as &$dato) {
-				$lista[] = $dato;
+				
 			}
 
  			return $lista;
@@ -440,35 +444,35 @@ class Autoevaluacion_Modelo {
 	 * [cargarInformacionAdicionaldoc carga la infromacion adicional para cada instrumento de evaluacion]
 	 * @return [int] devuelve el estado de la operacion 1 -0
 	 */
-	public function cargarInformacionAdicionaldoc($id , $usuario ,$fk_proceso){
+	// public function cargarInformacionAdicionaldoc($id , $usuario ,$fk_proceso){
 
 
-		$sql0 = 'SELECT fk_programa FROM sad_usuario WHERE pk_usuario = "'.$usuario.'" ';
-		$programa = $this->runSQL($sql0);
-		$pro = $programa->GetRows();
+	// 	$sql0 = 'SELECT fk_programa FROM sad_usuario WHERE pk_usuario = "'.$usuario.'" ';
+	// 	$programa = $this->runSQL($sql0);
+	// 	$pro = $programa->GetRows();
 		
-		if ($fk_proceso == 0){
-			$sql = 'SELECT * FROM doc_documento  WHERE fk_respuesta_instrumento  = "'.$id.'" AND fk_programa = "0" AND fk_proceso = "'.$fk_proceso.'" AND tipo ="1" and estado = 1' ;
-			return $this->runSQL($sql);
-		}else{
-			$sql1 = ' SELECT fk_sede FROM cna_proceso WHERE pk_proceso = "'.$fk_proceso.'" ';
-			$resultados = $this->runSQL($sql1);
-			$sede = $resultados->GetRows();
-			$s = $sede[0]['fk_sede'];
+	// 	if ($fk_proceso == 0){
+	// 		$sql = 'SELECT * FROM doc_documento  WHERE fk_respuesta_instrumento  = "'.$id.'" AND fk_programa = "0" AND fk_proceso = "'.$fk_proceso.'" AND tipo ="1" and estado = 1' ;
+	// 		return $this->runSQL($sql);
+	// 	}else{
+	// 		$sql1 = ' SELECT fk_sede FROM cna_proceso WHERE pk_proceso = "'.$fk_proceso.'" ';
+	// 		$resultados = $this->runSQL($sql1);
+	// 		$sede = $resultados->GetRows();
+	// 		$s = $sede[0]['fk_sede'];
 
-			$sql = 'SELECT * FROM doc_documento  WHERE fk_respuesta_instrumento  = "'.$id.'" AND fk_programa = "'.$pro[0]['fk_programa'].'" AND fk_sede = "'.$s.'" AND fk_proceso = "'.$fk_proceso.'" AND tipo="1" and estado = 1';
-			return $this->runSQL($sql);
-		}
-	}
+	// 		$sql = 'SELECT * FROM doc_documento  WHERE fk_respuesta_instrumento  = "'.$id.'" AND fk_programa = "'.$pro[0]['fk_programa'].'" AND fk_sede = "'.$s.'" AND fk_proceso = "'.$fk_proceso.'" AND tipo="1" and estado = 1';
+	// 		return $this->runSQL($sql);
+	// 	}
+	// }
 
 	/**
 	 * [cargarInformacionAdicional carga la infromacion adicional para cada instrumento de evaluacion]
 	 * @return [int] devuelve el estado de la operacion 1 -0
 	 */
-	public function cargarInformacionAdicional($id){
-		$sql = 'SELECT * FROM  doc_informacion_adicional WHERE fk_instrueval = "'.$id.'"';
-		return $this->runSQL($sql);
-	}
+	// public function cargarInformacionAdicional($id){
+	// 	$sql = 'SELECT * FROM  doc_informacion_adicional WHERE fk_instrueval = "'.$id.'"';
+	// 	return $this->runSQL($sql);
+	// }
 
 	/**
 	 * [cargarDocumentos carga los documentos para cada instrumento de evaluacion]
@@ -493,6 +497,14 @@ class Autoevaluacion_Modelo {
 
 	public function cargarInformacionPreguntas_total($proceso){
 
+		// $s = 'SELECT * from  cna_proceso_institucional_proceso  WHERE pk_proceso = '.$proceso;
+		// $r = $this->runSQL($sql);
+		// $t = $r->GetRows();
+		// $insti = $t[0]['pk_proceso_institucional'];
+		//AND di.pk_proceso_insti = "'.$insti.'"
+
+
+
 		$alcanceSql = 'select fk_grupo_interes from sad_usuario where pk_usuario = '.$_SESSION['pk_usuario'];
 		$alcance = $this->runSQL($alcanceSql);
 		$a = $alcance->GetRows();
@@ -506,7 +518,7 @@ class Autoevaluacion_Modelo {
 		if( $al[0]['fk_alcance_autoevaluacion'] == 1)
 		{
 			$sql2 = 'SELECT di.`fk_proceso`, cnp.`nombre` AS nombre_proceso, di.`fk_tipo_respuesta` AS tipo_respuesta, di.`fk_instrumento` AS pk_instru_evaluacion , di.`descripcion` AS pregunta , di.`porcentaje` AS porcentaje , di.`fk_factor`, di.`fk_caracteristicas`, di.`fk_evidencia`, di.`fk_grupo_interes` FROM doc_respuesta_instrumentos di, cna_proceso cnp
-WHERE di.`fk_proceso` = 0 AND di.`fk_proceso` = cnp.`pk_proceso`';
+WHERE di.`fk_proceso` = 0  AND di.`fk_proceso` = cnp.`pk_proceso`';
 	 		
 			$res2 = $this->runSQL($sql2);
 	 		return $res2;
@@ -685,7 +697,6 @@ WHERE di.`fk_proceso` = '.$proceso.' AND di.`fk_proceso` = cnp.`pk_proceso`';
 					if ( count($res) > 0 ){
 						$sql_0 = 'SELECT COUNT(*) as total, pk_respuesta_instrumento FROM doc_respuesta_instrumentos  WHERE pk_respuesta_instrumento = "'.$id_pregunta.'" ';
 						$res = $this->runSql($sql_0);
-						echo $res;
 						$instrumento_existente = $res->GetRows();
 
 						if($instrumento_existente[0]['total'] > 0){
@@ -759,47 +770,90 @@ FROM doc_respuesta_instrumentos di WHERE di.pk_respuesta_instrumento = "'.$id_pr
 	 * [obtenerTotalInstrumentos obtine el total de instrumentos de evaluacion por proceso]
 	 * @return [int] devuelve el estado de la operacion 1 -0
 	 */	
-	public function obtenerTotalInstrumentos($grupo, $proceso){
-		$SQL1 = 'SELECT pk_grupo_interes FROM cna_grupo_interes WHERE nombre = "'.$grupo.'" ';
-		$resultados = $this->runSQL($SQL1);
-		$nom = $resultados->GetRows();
-		$s = $nom[0]['pk_grupo_interes'];
-		$sql = 'SELECT COUNT(*) as total FROM doc_instru_evaluacion  WHERE (fk_grupo_interes  = "'.$s.'" OR fk_grupo_interes  = 3) AND proceso = "'.$proceso.'"';
+	public function obtenerTotalInstrumentos($proceso){
+
+		// $s = 'SELECT * from  cna_proceso_institucional_proceso  WHERE pk_proceso = '.$proceso;
+		// $r = $this->runSQL($sql);
+		// $t = $r->GetRows();
+		//and pk_proceso_insti = '.$t[0]['pk_proceso_institucional']
+
+		$sql = 'SELECT COUNT(*) as total FROM doc_respuesta_instrumentos  WHERE fk_proceso = '.$proceso;
 		$resultados = $this->runSQL($sql);
-		$res = $resultados->GetRows();
-		return $res[0]['total'];
+		$total_programa = $resultados->GetRows();
+
+
+		$sql1 = 'SELECT COUNT(*) as total FROM doc_respuesta_instrumentos  WHERE fk_proceso = 0 '  ;
+		$resultados1 = $this->runSQL($sql1);
+		$total_insti = $resultados1->GetRows();
+
+		$sql2 = 'SELECT COUNT(*) as total FROM doc_respuesta_facultad  WHERE fk_proceso = '.$proceso;
+		$resultado2 = $this->runSQL($sql2);
+		$total_sede = $resultado2->GetRows();
+
+		$sql3 = 'SELECT COUNT(*) as total FROM doc_respuesta_sede  WHERE fk_proceso = '.$proceso;
+		$resultados3 = $this->runSQL($sql3);
+		$total_fac = $resultados3->GetRows();
+
+
+		$total = $total_programa[0]['total'] + $total_insti[0]['total'] + $total_sede[0]['total'] + $total_fac[0]['total'];
+		return $total;
 	}
 
 	/**
 	 * [obtenerTotalInstrumentosInstitucional obtiene el total de instrumentod de evaluacion institucionales]
 	 * @return [int] devuelve el estado de la operacion 1 -0
 	 */
-	public function obtenerTotalInstrumentosInstitucional($grupo){
-		$SQL1 = 'SELECT pk_grupo_interes FROM cna_grupo_interes WHERE nombre = "'.$grupo.'" ';
-		$resultados = $this->runSQL($SQL1);
-		$nom = $resultados->GetRows();
-		$s = $nom[0]['pk_grupo_interes'];
-		$sql = 'SELECT COUNT(*) as total FROM doc_instru_evaluacion  WHERE (fk_grupo_interes  = 3 or fk_grupo_interes  = 8 ) and proceso = 0';
-		$resultados = $this->runSQL($sql);
-		$res = $resultados->GetRows();
-		return $res[0]['total'];
-	}
+	// public function obtenerTotalInstrumentosInstitucional($grupo){
+	// 	$SQL1 = 'SELECT pk_grupo_interes FROM cna_grupo_interes WHERE nombre = "'.$grupo.'" ';
+	// 	$resultados = $this->runSQL($SQL1);
+	// 	$nom = $resultados->GetRows();
+	// 	$s = $nom[0]['pk_grupo_interes'];
+	// 	$sql = 'SELECT COUNT(*) as total FROM doc_instru_evaluacion  WHERE (fk_grupo_interes  = 3 or fk_grupo_interes  = 8 ) and proceso = 0';
+	// 	$resultados = $this->runSQL($sql);
+	// 	$res = $resultados->GetRows();
+	// 	return $res[0]['total'];
+	// }
 
 	/**
 	 * [obtenerAcumuladoProceso obtiene el total de instrumentos por cada proceso]
 	 * @return [int] devuelve el estado de la operacion 1 -0
 	 */
 	public function obtenerAcumuladoProceso($id_proceso){
-		$sql1 = 'SELECT COUNT(DISTINCT dri.`pk_respuesta_instrumento`) AS totalAcu FROM doc_respuesta_instrumentos dri, doc_documento dd WHERE dri.`fk_proceso` = "'.$id_proceso.'"  AND observaciones <> "" AND dd.`fk_instrueval` = dri.`fk_instrumento` AND dd.`estado` = 1 and dri.`ponderacion` <> 1';
-		$sql2 = 'SELECT COUNT(DISTINCT dri.`pk_respuesta_instrumento`) AS totalAcu FROM doc_respuesta_instrumentos dri, doc_documento dd WHERE dri.`fk_proceso` = "'.$id_proceso.'"  AND observaciones <> ""  AND dri.`ponderacion` = 1 ';
+
+		// $s = 'SELECT * from  cna_proceso_institucional_proceso  WHERE pk_proceso = '.$id_proceso;
+		// $r = $this->runSQL($sql);
+		// $t = $r->GetRows();
+		//and dri.pk_proceso_insti = "'.$t[0]['pk_proceso_institucional'].'"
+
+
+
+		$sql4 = 'SELECT COUNT(DISTINCT dri.`pk_respuesta_instrumento`) AS totalAcu FROM doc_respuesta_instrumentos dri WHERE dri.`fk_proceso` = 0   AND observaciones <> "" and ponderacion <> "" ';
+		$resultados4 = $this->runSQL($sql4);
+		$res4 = $resultados4->GetRows();
+
+
+		$sql1 = 'SELECT COUNT(DISTINCT dri.`pk_respuesta_instrumento`) AS totalAcu FROM doc_respuesta_instrumentos dri WHERE dri.`fk_proceso` = "'.$id_proceso.'"  AND observaciones <> "" and ponderacion <> "" ';
 		$resultados1 = $this->runSQL($sql1);
 		$res1 = $resultados1->GetRows();
+
+		$sql2 = 'SELECT COUNT(DISTINCT dri.`pk_respuesta_instrumento`) AS totalAcu 
+FROM doc_respuesta_instrumentos dri, doc_respuesta_facultad df
+WHERE df.`fk_proceso` = "'.$id_proceso.'"  AND  df.fk_respuesta_instrumento = dri.pk_respuesta_instrumento and  dri.observaciones <> "" and dri.ponderacion <> "" ';
 		$resultados2 = $this->runSQL($sql2);
 		$res2 = $resultados2->GetRows();
 
+		$sql3 = 'SELECT COUNT(DISTINCT dri.`pk_respuesta_instrumento`) AS totalAcu 
+FROM doc_respuesta_instrumentos dri, doc_respuesta_sede df
+WHERE df.`fk_proceso` = "'.$id_proceso.'"  AND  df.fk_respuesta_instrumento = dri.pk_respuesta_instrumento and  dri.observaciones <> "" and dri.ponderacion <> "" ';
+		$resultados3 = $this->runSQL($sql3);
+		$res3 = $resultados3->GetRows();
+
+
 		$r = $res1[0]['totalAcu'];
 		$r2 = $res2[0]['totalAcu'];
-		$total = $r + $r2;
+		$r3 = $res3[0]['totalAcu'];
+		$r4 = $res4[0]['totalAcu'];
+		$total = $r + $r2 + $r3 + $r4;
 		return $total;
 	}
 
@@ -808,123 +862,151 @@ FROM doc_respuesta_instrumentos di WHERE di.pk_respuesta_instrumento = "'.$id_pr
 	 */
 	public function porcentajeProcesos(){
 
-
-		$sql = 'SELECT pk_proceso , nombre FROM cna_proceso';
+		$sql = 'SELECT pk_proceso , nombre FROM cna_proceso WHERE estado = 1';
         $pregunta = $this->runSQL($sql);
-        $res = $pregunta->GetRows(); 
-        $instru_programa = $this->obtenerTotalInstrumentos($_SESSION['grupos_documental']['grupoP'], $_SESSION['pk_proceso'] );
-        $instru_insti = $this->obtenerTotalInstrumentosInstitucional($_SESSION['grupos_documental']['grupoI']);
-        
-        $datosprograma = array();
-        $totalInstitucional = $this->obtenerAcumuladoProceso(0);
-		$porcentajeInstitucional = round(( $totalInstitucional * 100 ) / $instru_insti);
-		array_push($datosprograma, array('nombre'=>'Proceso Institucional', 'porcentaje' => $porcentajeInstitucional));
+        $procesos = $pregunta->GetRows(); 
 
-        for($i = 0; $i< count($res); $i++){
-        	$dat = $this->obtenerAcumuladoProceso($res[$i]['pk_proceso']);
-        	$porcentaje = round(( $dat * 100 ) / $instru_programa);
-        	array_push($datosprograma, array('nombre' => $res[$i]['nombre'], 'porcentaje' => $porcentaje ));
+        $datosprograma = array();
+        foreach ($procesos as &$proceso) {
+        	$total_instrumentos = $this->obtenerTotalInstrumentos($proceso['pk_proceso'] );
+        	$acumulado_instrumentos = $this->obtenerAcumuladoProceso($proceso['pk_proceso']);
+        	$porcentaje = round(( $acumulado_instrumentos * 100 ) / $total_instrumentos);
+        	array_push($datosprograma, array('nombre'=> $proceso['nombre'], 'porcentaje' => $porcentaje));
         }
-        return $datosprograma;
+
+  		return $datosprograma;
     }
 
 	/**
 	 * [porcentajeProcesosIndividial obtiene el porcentaje de cada proceso]
 	 * @return [array] devuelve los resultados de esta operacion
 	 */
-    public function porcentajeProcesosIndividial(){
-    	$sql = 'SELECT pk_proceso , nombre FROM cna_proceso where pk_proceso = "'.$_SESSION['pk_proceso'].'"';
-        $pregunta = $this->runSQL($sql);
-        $res = $pregunta->GetRows(); 
-        $nombreProg = $res[0]['nombre'];
+  //   public function porcentajeProcesosIndividial(){
+  //   	$sql = 'SELECT pk_proceso , nombre FROM cna_proceso where pk_proceso = "'.$_SESSION['pk_proceso'].'"';
+  //       $pregunta = $this->runSQL($sql);
+  //       $res = $pregunta->GetRows(); 
+  //       $nombreProg = $res[0]['nombre'];
 
 
-        $instru_programa = $this->obtenerTotalInstrumentos($_SESSION['grupos_documental']['grupoP']);
-        $instru_insti = $this->obtenerTotalInstrumentosInstitucional($_SESSION['grupos_documental']['grupoI']);
+  //       $instru_programa = $this->obtenerTotalInstrumentos($_SESSION['grupos_documental']['grupoP']);
+  //       $instru_insti = $this->obtenerTotalInstrumentosInstitucional($_SESSION['grupos_documental']['grupoI']);
         
-        $datosprograma = array();
-        $totalInstitucional = $this->obtenerAcumuladoProceso(0);
+  //       $datosprograma = array();
+  //       $totalInstitucional = $this->obtenerAcumuladoProceso(0);
 
-		$porcentajeInstitucional = round(( $totalInstitucional * 100 ) / $instru_insti);
-		array_push($datosprograma, array('nombre'=>'Proceso Institucional', 'porcentaje' => $porcentajeInstitucional));
+		// $porcentajeInstitucional = round(( $totalInstitucional * 100 ) / $instru_insti);
+		// array_push($datosprograma, array('nombre'=>'Proceso Institucional', 'porcentaje' => $porcentajeInstitucional));
 
-		$dat = $this->obtenerAcumuladoProceso($_SESSION['pk_proceso']);
-        $porcentaje = round(( $dat * 100 ) / $instru_programa);
-        array_push($datosprograma, array('nombre' => $nombreProg, 'porcentaje' => $porcentaje ));
+		// $dat = $this->obtenerAcumuladoProceso($_SESSION['pk_proceso']);
+  //       $porcentaje = round(( $dat * 100 ) / $instru_programa);
+  //       array_push($datosprograma, array('nombre' => $nombreProg, 'porcentaje' => $porcentaje ));
         
-        return $datosprograma;
-    }
+  //       return $datosprograma;
+  //   }
 
     public function ResultadoCompleto($fk_proceso)
     {
-		$sql = 'SELECT di.`fk_caracteristicas`,di.`fk_caracteristicas_codigo`,di.`fk_factor_codigo`, di.`fk_factor`, di.`pk_instru_evaluacion`, di.`descripcion`, dr.`ponderacion`, di.`proceso`
-FROM doc_instru_evaluacion di, doc_respuesta_instrumentos dr
-WHERE dr.`fk_proceso` = '.$fk_proceso.' AND di.`proceso` = dr.`fk_proceso` AND di.`pk_instru_evaluacion` = dr.`fk_instrumento`';
+    	$s = 'SELECT * from  cna_proceso_institucional_proceso  WHERE pk_proceso = '.$fk_proceso;
+		$r = $this->runSQL($s);
+		$t = $r->GetRows();
+		//$insti = $t[0]['pk_proceso_institucional'];
+    	//$datos = ();
+    	$datos[] = '';
+
+		$sql = 'SELECT dr.`fk_caracteristicas`,dr.`fk_caracteristicas_codigo`,dr.`fk_factor_codigo`, dr.`fk_factor`, dr.`fk_instrumento`, dr.`descripcion`, dr.`ponderacion`, dr.`fk_proceso` FROM doc_respuesta_instrumentos dr WHERE dr.`fk_proceso` ="'.$fk_proceso.'" ';
+
         $pregunta = $this->runSQL($sql);
-        $res = $pregunta->GetRows(); 
-        return $res;
+        $lista_programa = $pregunta->GetRows();
+		array_push($datos, $lista_programa);
+
+
+        $sql1 = 'SELECT dr.`fk_caracteristicas`,dr.`fk_caracteristicas_codigo`,dr.`fk_factor_codigo`, dr.`fk_factor`, dr.`fk_instrumento`, dr.`descripcion`, dr.`ponderacion`, dr.`fk_proceso`
+FROM doc_respuesta_instrumentos dr, doc_respuesta_facultad df
+WHERE dr.`fk_proceso` = "'.$fk_proceso.'" and df.fk_respuesta_instrumento = dr.pk_respuesta_instrumento ';
+        $pregunta1 = $this->runSQL($sql1);
+        $lista_programa1 = $pregunta1->GetRows(); 
+
+
+        array_push($datos, $lista_programa1);
+
+        $sql2 = 'SELECT dr.`fk_caracteristicas`,dr.`fk_caracteristicas_codigo`,dr.`fk_factor_codigo`, dr.`fk_factor`, dr.`fk_instrumento`, dr.`descripcion`, dr.`ponderacion`, dr.`fk_proceso`
+FROM doc_respuesta_instrumentos dr, doc_respuesta_sede df
+WHERE dr.`fk_proceso` = "'.$fk_proceso.'" and df.fk_respuesta_instrumento = dr.pk_respuesta_instrumento ';
+        $pregunta2 = $this->runSQL($sql2);
+        $lista_programa2 = $pregunta2->GetRows(); 
+
+        array_push($datos, $lista_programa2);
+
+        $sql3 = 'SELECT dr.`fk_caracteristicas`,dr.`fk_caracteristicas_codigo`,dr.`fk_factor_codigo`, dr.`fk_factor`, dr.`fk_instrumento`, dr.`descripcion`, dr.`ponderacion`, dr.`fk_proceso`
+FROM doc_respuesta_instrumentos dr WHERE dr.`fk_proceso` = 0 and dr.pk_proceso_insti = "'.$t[0]['pk_proceso_institucional'].'" ';
+        $pregunta3 = $this->runSQL($sql3);
+        $lista_programa3 = $pregunta3->GetRows(); 
+
+        array_push($datos, $lista_programa3);
+
+        return $datos;
     }
 
 	/**
 	 * [consolidacionFinal consolidacion final de repuestas hacia la tabla cna_resultados_evidencia]
 	 * @return [int] devuelve el estado de la operacion 1 -0
 	 */
-	public function consolidacionFinal($fk_proceso){
-		$sql = 'SELECT di.fk_evidencia, MAX(di.fk_proceso) AS fk_proceso, ROUND((SUM(di.ponderacion) / COUNT(di.fk_evidencia)), 2) AS ponderacion, GROUP_CONCAT(DISTINCT di.observaciones ORDER BY di.fk_instrumento ASC SEPARATOR \' | \') AS observacion , de.`fk_evidencia_grupo_interes` AS fk_grupo_evidencia FROM doc_respuesta_instrumentos  di , doc_instru_evaluacion de WHERE (fk_proceso = 0 OR fk_proceso = "'.$fk_proceso.'") AND di.`fk_instrumento` = de.`pk_instru_evaluacion` GROUP BY fk_instrumento HAVING COUNT(fk_instrumento) >= 2';
-		$resultados = $this->runSQL($sql);
-		$res = $resultados->GetRows();
+	// public function consolidacionFinal($fk_proceso){
+	// 	$sql = 'SELECT di.fk_evidencia, MAX(di.fk_proceso) AS fk_proceso, ROUND((SUM(di.ponderacion) / COUNT(di.fk_evidencia)), 2) AS ponderacion, GROUP_CONCAT(DISTINCT di.observaciones ORDER BY di.fk_instrumento ASC SEPARATOR \' | \') AS observacion , de.`fk_evidencia_grupo_interes` AS fk_grupo_evidencia FROM doc_respuesta_instrumentos  di , doc_instru_evaluacion de WHERE (fk_proceso = 0 OR fk_proceso = "'.$fk_proceso.'") AND di.`fk_instrumento` = de.`pk_instru_evaluacion` GROUP BY fk_instrumento HAVING COUNT(fk_instrumento) >= 2';
+	// 	$resultados = $this->runSQL($sql);
+	// 	$res = $resultados->GetRows();
 
 
-		if ( count($res) > 0){
-			$resultados = $this->runSQL($sql);
-			$res = $resultados->GetRows();
-			$respuesta = 1;
-			for($i=0; $i<count($res); $i++){
-				$sql_1 = 'INSERT INTO cna_resultados_evidencia (calificacion, observacion, fk_evidencia_grupo_interes, fk_proceso ) VALUES("'.$res[$i]['ponderacion'].'", "'.$res[$i]['observacion'].'", "'.$res[$i]['fk_grupo_evidencia'].'","'.$res[$i]['fk_proceso'].'" ) ';
-				if(!$this->runSQL($sql_1)){
-					$respuesta = 0;
-				}
-			}
-		}
+	// 	if ( count($res) > 0){
+	// 		$resultados = $this->runSQL($sql);
+	// 		$res = $resultados->GetRows();
+	// 		$respuesta = 1;
+	// 		for($i=0; $i<count($res); $i++){
+	// 			$sql_1 = 'INSERT INTO cna_resultados_evidencia (calificacion, observacion, fk_evidencia_grupo_interes, fk_proceso ) VALUES("'.$res[$i]['ponderacion'].'", "'.$res[$i]['observacion'].'", "'.$res[$i]['fk_grupo_evidencia'].'","'.$res[$i]['fk_proceso'].'" ) ';
+	// 			if(!$this->runSQL($sql_1)){
+	// 				$respuesta = 0;
+	// 			}
+	// 		}
+	// 	}
 
 
-		$SQL1 = 'SELECT pk_grupo_interes FROM cna_grupo_interes WHERE nombre = "'.$_SESSION['grupos_documental']['grupoP'].'"';
-		$resultados = $this->runSQL($SQL1);
-		$nom = $resultados->GetRows();
+	// 	$SQL1 = 'SELECT pk_grupo_interes FROM cna_grupo_interes WHERE nombre = "'.$_SESSION['grupos_documental']['grupoP'].'"';
+	// 	$resultados = $this->runSQL($SQL1);
+	// 	$nom = $resultados->GetRows();
 
-		$sql = 'SELECT di.`pk_respuesta_instrumento`, di.fk_evidencia, di.fk_proceso, ROUND((SUM(di.ponderacion) / COUNT(di.fk_evidencia)), 2) AS ponderacion, GROUP_CONCAT(DISTINCT di.observaciones ORDER BY di.fk_instrumento ASC SEPARATOR \' | \') AS observacion , de.`fk_evidencia_grupo_interes` AS fk_grupo_evidencia FROM doc_respuesta_instrumentos  di , doc_instru_evaluacion de WHERE di.fk_proceso = "'.$fk_proceso.'" AND di.`fk_instrumento` = de.`pk_instru_evaluacion` AND di.`fk_grupo_interes` = "'.$nom[0]['pk_grupo_interes'].'" GROUP BY di.fk_evidencia HAVING COUNT(fk_instrumento) = 1 ';
-		$resultados = $this->runSQL($sql);
-		$res = $resultados->GetRows();
-		$respuesta = 1;
-		for($i=0; $i<count($res); $i++){
-			$sql_1 = 'INSERT INTO cna_resultados_evidencia (calificacion, observacion, fk_evidencia_grupo_interes, fk_proceso ) VALUES("'.$res[$i]['ponderacion'].'", "'.$res[$i]['observacion'].'", "'.$res[$i]['fk_grupo_evidencia'].'","'.$res[$i]['fk_proceso'].'" ) ';
-			if(!$this->runSQL($sql_1)){
-				$respuesta = 0;
-			}
-		}
+	// 	$sql = 'SELECT di.`pk_respuesta_instrumento`, di.fk_evidencia, di.fk_proceso, ROUND((SUM(di.ponderacion) / COUNT(di.fk_evidencia)), 2) AS ponderacion, GROUP_CONCAT(DISTINCT di.observaciones ORDER BY di.fk_instrumento ASC SEPARATOR \' | \') AS observacion , de.`fk_evidencia_grupo_interes` AS fk_grupo_evidencia FROM doc_respuesta_instrumentos  di , doc_instru_evaluacion de WHERE di.fk_proceso = "'.$fk_proceso.'" AND di.`fk_instrumento` = de.`pk_instru_evaluacion` AND di.`fk_grupo_interes` = "'.$nom[0]['pk_grupo_interes'].'" GROUP BY di.fk_evidencia HAVING COUNT(fk_instrumento) = 1 ';
+	// 	$resultados = $this->runSQL($sql);
+	// 	$res = $resultados->GetRows();
+	// 	$respuesta = 1;
+	// 	for($i=0; $i<count($res); $i++){
+	// 		$sql_1 = 'INSERT INTO cna_resultados_evidencia (calificacion, observacion, fk_evidencia_grupo_interes, fk_proceso ) VALUES("'.$res[$i]['ponderacion'].'", "'.$res[$i]['observacion'].'", "'.$res[$i]['fk_grupo_evidencia'].'","'.$res[$i]['fk_proceso'].'" ) ';
+	// 		if(!$this->runSQL($sql_1)){
+	// 			$respuesta = 0;
+	// 		}
+	// 	}
 
 		
-		$SQL1 = 'SELECT pk_grupo_interes FROM cna_grupo_interes WHERE nombre = "'.$_SESSION['grupos_documental']['grupoI'].'"';
-		$resultados = $this->runSQL($SQL1);
-		$nom = $resultados->GetRows();
+	// 	$SQL1 = 'SELECT pk_grupo_interes FROM cna_grupo_interes WHERE nombre = "'.$_SESSION['grupos_documental']['grupoI'].'"';
+	// 	$resultados = $this->runSQL($SQL1);
+	// 	$nom = $resultados->GetRows();
 
-		$sql2 = 'SELECT di.`pk_respuesta_instrumento`, di.fk_evidencia, di.fk_proceso, ROUND((SUM(di.ponderacion) / COUNT(di.fk_evidencia)), 2) AS ponderacion, GROUP_CONCAT(DISTINCT di.observaciones ORDER BY di.fk_instrumento ASC SEPARATOR \' | \') AS observacion , de.`fk_evidencia_grupo_interes` AS fk_grupo_evidencia FROM doc_respuesta_instrumentos  di , doc_instru_evaluacion de WHERE di.fk_proceso = 0 AND di.`fk_instrumento` = de.`pk_instru_evaluacion` AND di.`fk_grupo_interes` = "'.$nom[0]['pk_grupo_interes'].'" GROUP BY di.fk_evidencia HAVING COUNT(fk_instrumento) = 1 ';
-		$resultados2 = $this->runSQL($sql2);
-		$res2 = $resultados2->GetRows();
+	// 	$sql2 = 'SELECT di.`pk_respuesta_instrumento`, di.fk_evidencia, di.fk_proceso, ROUND((SUM(di.ponderacion) / COUNT(di.fk_evidencia)), 2) AS ponderacion, GROUP_CONCAT(DISTINCT di.observaciones ORDER BY di.fk_instrumento ASC SEPARATOR \' | \') AS observacion , de.`fk_evidencia_grupo_interes` AS fk_grupo_evidencia FROM doc_respuesta_instrumentos  di , doc_instru_evaluacion de WHERE di.fk_proceso = 0 AND di.`fk_instrumento` = de.`pk_instru_evaluacion` AND di.`fk_grupo_interes` = "'.$nom[0]['pk_grupo_interes'].'" GROUP BY di.fk_evidencia HAVING COUNT(fk_instrumento) = 1 ';
+	// 	$resultados2 = $this->runSQL($sql2);
+	// 	$res2 = $resultados2->GetRows();
 
-		for($i=0; $i<count($res2); $i++){
-			$sql_1 = 'INSERT INTO cna_resultados_evidencia (calificacion, observacion, fk_evidencia_grupo_interes, fk_proceso ) VALUES("'.$res2[$i]['ponderacion'].'", "'.$res2[$i]['observacion'].'", "'.$res2[$i]['fk_grupo_evidencia'].'", 1 ) ';
-			if(!$this->runSQL($sql_1)){
-				$respuesta = 0;
-			}
-		}
+	// 	for($i=0; $i<count($res2); $i++){
+	// 		$sql_1 = 'INSERT INTO cna_resultados_evidencia (calificacion, observacion, fk_evidencia_grupo_interes, fk_proceso ) VALUES("'.$res2[$i]['ponderacion'].'", "'.$res2[$i]['observacion'].'", "'.$res2[$i]['fk_grupo_evidencia'].'", 1 ) ';
+	// 		if(!$this->runSQL($sql_1)){
+	// 			$respuesta = 0;
+	// 		}
+	// 	}
 
-		$query = 'INSERT INTO doc_proceso_finalizado(fk_proceso, estado)values("'.$fk_proceso.'" , 1)';
-		$consul = $this->runSQL($query);
+	// 	$query = 'INSERT INTO doc_proceso_finalizado(fk_proceso, estado)values("'.$fk_proceso.'" , 1)';
+	// 	$consul = $this->runSQL($query);
 
-		echo $respuesta;
+	// 	echo $respuesta;
 
-	}
+	// }
 
 	/**
 	 * [cargarTiposDeRespuesta carga los tipos de repuesta de un instrumento]

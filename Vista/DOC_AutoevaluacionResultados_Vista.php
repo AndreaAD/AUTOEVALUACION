@@ -3,7 +3,6 @@
 <script type="text/javascript" src="../Js/DOC_FileUploader.js"></script>
 
 <input type="hidden" name="_section" value="resultados">
-<input type="hidden" name="grupoI" value="<?php echo $_SESSION['grupos_documental']['grupoP'] ?>">
 <div id="contenido">
 	<?php
 		include '../Controlador/DOC_graficas.php';

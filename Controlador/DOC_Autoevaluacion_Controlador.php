@@ -16,35 +16,33 @@ class Autoevaluacion_Controlador {
     public function ResultadosPrograma(){
         //echo $_POST['proceso'];
         $fk_proceso = $_POST['proceso'];
-        $institucional = 1;
-        $grupo = "Equipo del Programa";
-        $grupo_2 = "Equipo Institucional";
-        $instrumentos = $this->autoevaluacion->obtenerTotalInstrumentos($grupo, $fk_proceso);
+
+        $instrumentos = $this->autoevaluacion->obtenerTotalInstrumentos($fk_proceso);
         $totalPrograma = $this->autoevaluacion->obtenerAcumuladoProceso($fk_proceso);
         $porcentajePrograma = round(( $totalPrograma * 100 ) / $instrumentos);
 
-        $instrumentos_institucional = $this->autoevaluacion->obtenerTotalInstrumentosInstitucional($grupo_2);
-        $totalInstitucional = $this->autoevaluacion->obtenerAcumuladoProceso(0);
-        $porcentajeInstitucional = round(( $totalInstitucional * 100 ) / $instrumentos_institucional);
+        // $instrumentos_institucional = $this->autoevaluacion->obtenerTotalInstrumentos(0);
+        // $totalInstitucional = $this->autoevaluacion->obtenerAcumuladoProceso(0);
+        // $porcentajeInstitucional = round(( $totalInstitucional * 100 ) / $instrumentos_institucional);
 
-        if ($porcentajePrograma == 100 && $porcentajeInstitucional == 100){
-            $estado = 1;
-        }else{
-            $estado = 0;
-        }
+        // if ($porcentajePrograma == 100 && $porcentajeInstitucional == 100){
+        //     $estado = 1;
+        // }else{
+        //     $estado = 0;
+        // }
 
 
         $resu = $this->autoevaluacion->ResultadoCompleto($fk_proceso);
-
+        //$resu = 1;
         $resultados = array(
-            'institucional' => $institucional,
-            'estado' => $estado,
+            //'institucional' => $institucional,
+            //'estado' => $estado,
             'instrumentos' => $instrumentos,
             'totalPrograma' => $totalPrograma,
             'porcentaje_programa' => $porcentajePrograma,
-            'instrumentos_institucional' => $instrumentos_institucional,
-            'totalInstitucional' => $totalInstitucional,
-            'porcentaje_institucional' => $porcentajeInstitucional,
+            // 'instrumentos_institucional' => $instrumentos_institucional,
+            // 'totalInstitucional' => $totalInstitucional,
+            //'porcentaje_institucional' => $porcentajeInstitucional,
             'resultados' => $resu
         );
         

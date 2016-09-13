@@ -83,23 +83,24 @@ $(function(e){
             var select = $(this).find('select[data-role="respuesta"]');
             var archivos = $(this).find('.file-uploader table.archivos');
             var textarea = $(this).find('textarea[data-role="observaciones"]');
+            var acordeon = $(this).find('[data-role="pend"]');
             
             if(select.val() == 0){
-                select.closest('.validador').find('label').addClass('pendiente');
+                acordeon.append('<i class="fa fa-question-circle" aria-hidden="true" title="Indica que ya respondio el instrumento" style="    position: absolute;    right: 100px;    top: 36px;    color: red;"></i>');
             }else{
-                select.closest('.validador').find('label').removeClass('pendiente');
+                acordeon.append('<i class="fa fa-question-circle" aria-hidden="true" title="Indica que ya respondio el instrumento" style="    position: absolute;    right: 100px;    top: 36px;    color: green;"></i>');
             }
 
-            if(archivos.find('tr').length < 1){
-                archivos.closest('.validador').find('label').addClass('pendiente');
-            }else{
-                archivos.closest('.validador').find('label').removeClass('pendiente');
-            }
+            // if(archivos.find('tr').length < 1){
+            //     acordeon.append('<i class="fa fa-file-text" aria-hidden="true" title="Indica que ya cargo un archivo " style="    position: absolute;    right: 80px;    top: 36px;    color: red;"></i>');
+            // }else{
+            //     acordeon.append('<i class="fa fa-file-text" aria-hidden="true" title="Indica que ya cargo un archivo " style="    position: absolute;    right: 80px;    top: 36px;    color: green;"></i>');
+            // }
 
             if(textarea.val() == ''){
-                textarea.closest('.validador').find('label').addClass('pendiente');
+                acordeon.append('<i class="fa fa-align-left" aria-hidden="true" title="Indica que ya respondio la observacion" style="    position: absolute;    right: 60px;    top: 36px;    color: red;"></i>');
             }else{
-                textarea.closest('.validador').find('label').removeClass('pendiente');
+                acordeon.append('<i class="fa fa-align-left" aria-hidden="true" title="Indica que ya respondio la observacion" style="    position: absolute;    right: 60px;    top: 36px;    color: green;"></i>');
             }
         });     
     }
@@ -174,7 +175,8 @@ $(function(e){
 
 
 
-                                        html += '<div class="proceso_div pregunta" data-rel-pregunta="'+proc[i].pk_respuesta_instrumento+'" data-rel-proceso="'+proc[i].pk_proceso+'" style="width:99%;padding:5px;display:inline-block;    font-size: 13px;    margin: 10px;">';
+                                        html += '<div class="proceso_div pregunta" data-rel-pregunta="'+proc[i].pk_respuesta_instrumento+'" data-rel-proceso="'+proc[i].pk_proceso+'" style="width:99%;padding:5px;display:inline-block;    font-size: 13px;    margin: 10px; position:relative;">';
+                                        html += '<span data-role="pend"></span>';
                                         html += '<div class="accordion">'+proc[i].nombre_proceso+'</div>';
                                         html += '<div class="panel"><br>';
 
@@ -284,8 +286,8 @@ $(function(e){
                 div_procesos.html(html);
             },complete: function(){
                 cargarRespuestas();
-                // verificarPendientes();
-                // obtenerPorcentaje();
+                verificarPendientes();
+                //obtenerPorcentaje();
                 _divOculto.removeClass('hide');
             }
         });
@@ -327,8 +329,8 @@ $(function(e){
             },
             success:  function (data) {
                 
-                console.log(data);
-                //verificarPendientes();
+                //console.log(data);
+                verificarPendientes();
                 //obtenerPorcentaje();
             }
         });

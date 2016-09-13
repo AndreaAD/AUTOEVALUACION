@@ -26,6 +26,7 @@ class Grafica{
 
 $grafica = new Grafica();
 $datos = $grafica->porcentajeProcesos();
+
 $porcentajes = array();
 $nombres = array();
 
@@ -33,6 +34,7 @@ for($i=0; $i<count($datos); $i++){
     array_push($porcentajes , $datos[$i]['porcentaje']);
     array_push($nombres , $datos[$i]['nombre']);
 }
+
 
 
 
@@ -71,6 +73,7 @@ $strCaract2=$strCaract2.",";
 <script>
 
         var barChartData = {
+            yAxisID: 100,
             labels: [<?php echo $strCaract;?>],
             datasets: [
                 {
