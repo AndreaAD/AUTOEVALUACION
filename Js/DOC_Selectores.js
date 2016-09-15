@@ -1791,48 +1791,96 @@ $(function(e){
                 $('#texto_total').append('<span>'+data.instrumentos+'</span>');
                 $('#texto_porcentaje').append('<span>'+data.porcentaje_programa+'%</span>');
                 
+                //console.log(data);
+
+                // obj = {
+                //     factores {
+                //         1: {
+                //             caracteristicas: {
+                                
+                //             }
+                //         },
+                //         2: {}
+                //     }
+                // }
+
                 if(data.resultados.length != 0){
+                    $.each(data.resultados, function(i, e)
+                    {
+                        $.each(e, function(i2, e2)
+                        {
+
+                            descripcion = e2.descripcion;
+                            calificacion = e2.ponderacion; 
+                            
+                            lista_c = e2.fk_caracteristicas_codigo.split('|');
+                            lista_f = e2.fk_factor_codigo.split('|');
+
+                            //console.log(lista_c, lista_f);
+                            for(var j = 0; j < lista_c.length ; j++){
+                                car = lista_c[j];
+                                
+                                for(var m = 0; m < lista_f.length; m++){
+                                    descripcion = data.resultados[i]['descripcion'];
+                                    calificacion = data.resultados[i]['ponderacion']; 
+                                    fac = lista_f[m];
+
+                                }   
+                                lista += '<tr>';
+                                        lista += '<td>'+fac+'</td>';
+                                        lista += '<td>'+car+'</td>';
+                                        lista += '<td>'+descripcion+'</td>';
+                                        lista += '<td>'+calificacion+'</td>';
+                                    lista += '</tr>';
+                            }
+                        });
+                    });
                     
 
+                    /*
                     for(var i = 0; i < data.resultados.length; i++){
-                        $c = data.resultados[i]['fk_caracteristicas_codigo'];
+                    
+                        for(var k = 0; k < data.resultados[i].length; k++){
+                    
+                            $c = data.resultados[i][k]['fk_caracteristicas_codigo'];
+                            console.log($c);
 
-                        lista_c = $c.split('|');
-                        // if(lista_c.length > 1){
-                        //     tamaño = (lista_c.length)-1;
-                        // }else{
-                        //     tamaño = (lista_c.length);
-                        // }
+                            lista_c = $c.split('|');
+                            // if(lista_c.length > 1){
+                            //     tamaño = (lista_c.length)-1;
+                            // }else{
+                            //     tamaño = (lista_c.length);
+                            // }
 
-                        $f = data.resultados[i]['fk_factor_codigo'];
+                            $f = data.resultados[i]['fk_factor_codigo'];
 
-                        lista_f = $f.split('|');
-                        // if(lista_f.length > 1){
-                        //     tamaño_2 = (lista_f.length)-1;
-                        // }else{
-                        //     tamaño_2 = (lista_f.length);
-                        // }
+                            lista_f = $f.split('|');
+                            // if(lista_f.length > 1){
+                            //     tamaño_2 = (lista_f.length)-1;
+                            // }else{
+                            //     tamaño_2 = (lista_f.length);
+                            // }
 
-                        
-                        for(var j = 0; j < lista_c.length ; j++){
-                            car = lista_c[j];
                             
-                            for(var m = 0; m < lista_f.length; m++){
-                                descripcion = data.resultados[i]['descripcion'];
-                                calificacion = data.resultados[i]['ponderacion']; 
-                                fac = lista_f[m];
+                            for(var j = 0; j < lista_c.length ; j++){
+                                car = lista_c[j];
+                                
+                                for(var m = 0; m < lista_f.length; m++){
+                                    descripcion = data.resultados[i]['descripcion'];
+                                    calificacion = data.resultados[i]['ponderacion']; 
+                                    fac = lista_f[m];
 
-                            }   
-                            lista += '<tr>';
-                                    lista += '<td>'+fac+'</td>';
-                                    lista += '<td>'+car+'</td>';
-                                    lista += '<td>'+descripcion+'</td>';
-                                    lista += '<td>'+calificacion+'</td>';
-                                lista += '</tr>';
+                                }   
+                                lista += '<tr>';
+                                        lista += '<td>'+fac+'</td>';
+                                        lista += '<td>'+car+'</td>';
+                                        lista += '<td>'+descripcion+'</td>';
+                                        lista += '<td>'+calificacion+'</td>';
+                                    lista += '</tr>';
+                            }
                         }
-                        
                     }
-
+                    */
                     tabla_r.append(lista);
                     tabla_r.fadeIn(); 
 

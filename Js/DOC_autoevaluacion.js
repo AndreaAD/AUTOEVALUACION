@@ -1,7 +1,7 @@
 $(function(e){
 
     var pagina = 1; 
-    var items = 4;
+    var items = 1;
     var num_paginas = 0;
     var div_emergente = $('#div_emergente');
     var _divOculto = $("#div_contenido_completo");
@@ -158,14 +158,24 @@ $(function(e){
                             html += '<div class="titulo">';
                                 html += '<h4>'+lista_nombres_preguntas[m]+'</h4>';
                             html += '</div>';
-                            proc_x_pregunta = [];
+                            proc_x_pregunta = {};
                             No_repetir_proceso = [];
                             var pintar = '';
+
+                            for( var k=0; k<proc.length; k++)
+                            {
+                                if (typeof proc_x_pregunta[proc[k].pk_respuesta_instrumento]  == 'undefined'){
+                                    proc_x_pregunta[proc[k].pk_respuesta_instrumento] = "";
+                                }
+
+                                proc_x_pregunta[proc[k].pk_respuesta_instrumento] += proc[k].nombre_proceso+" / ";              
+                            }
+
                             for( var i=0; i<proc.length; i++){
 
-                                if( proc_x_pregunta.indexOf(proc[i].fk_proceso) == -1 ){
-                                    proc_x_pregunta.push(proc[i].fk_proceso);
-                                }
+                                // if( proc_x_pregunta.indexOf(proc[i].fk_proceso) == -1 ){
+                                //     proc_x_pregunta.push(proc[i].fk_proceso);
+                                // }
 
                                 if(proc[i].pk_instru_evaluacion == lista_ids_preguntas[m]){
 
@@ -177,7 +187,7 @@ $(function(e){
 
                                         html += '<div class="proceso_div pregunta" data-rel-pregunta="'+proc[i].pk_respuesta_instrumento+'" data-rel-proceso="'+proc[i].pk_proceso+'" style="width:99%;padding:5px;display:inline-block;    font-size: 13px;    margin: 10px; position:relative;">';
                                         html += '<span data-role="pend"></span>';
-                                        html += '<div class="accordion">'+proc[i].nombre_proceso+'</div>';
+                                        html += '<div class="accordion">'+proc_x_pregunta[proc[i].pk_respuesta_instrumento]+'</div>';
                                         html += '<div class="panel"><br>';
 
                                             if(proc[i].respuestas.length == 1 ){

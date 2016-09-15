@@ -373,7 +373,7 @@ class Autoevaluacion_Modelo {
 			$lista_respuestas = $respuestas->GetRows();
 
 			foreach ($lista_respuestas as &$value) {
-				$sql2 = 'SELECT di.pk_respuesta_instrumento, cnp.`pk_proceso`, cnp.`nombre` AS nombre_proceso, di.`fk_tipo_respuesta` AS tipo_respuesta, di.`fk_instrumento` AS pk_instru_evaluacion , di.`descripcion` AS pregunta , di.`porcentaje` AS porcentaje , di.`fk_factor`, di.`fk_caracteristicas`, di.`fk_evidencia`, di.`fk_grupo_interes` FROM doc_respuesta_instrumentos  di, cna_proceso cnp WHERE di.pk_respuesta_instrumento = '.$value['fk_respuesta_instrumento'].' AND cnp.`pk_proceso` = '.$value['fk_proceso'].' ';
+				$sql2 = 'SELECT di.pk_respuesta_instrumento, cnp.`pk_proceso`, cnp.`nombre` AS nombre_proceso, di.`fk_tipo_respuesta` AS tipo_respuesta, di.`fk_instrumento` AS pk_instru_evaluacion , di.`descripcion` AS pregunta , di.`porcentaje` AS porcentaje , di.`fk_factor`, di.`fk_caracteristicas`, di.`fk_evidencia`, di.`fk_grupo_interes` FROM doc_respuesta_instrumentos  di, cna_proceso cnp WHERE di.pk_respuesta_instrumento = '.$value['fk_respuesta_instrumento'].' AND cnp.`pk_proceso` = '.$value['fk_proceso'].'  order by di.pk_respuesta_instrumento ';
 				$res =$this->runSql($sql2);
 				$datos = $res->GetRows();
 
@@ -396,7 +396,7 @@ class Autoevaluacion_Modelo {
 			$lista_respuestas = $respuestas->GetRows();
 
 			foreach ($lista_respuestas as &$value) {
-				$sql2 = 'SELECT di.pk_respuesta_instrumento, cnp.`pk_proceso`, cnp.`nombre` AS nombre_proceso, di.`fk_tipo_respuesta` AS tipo_respuesta, di.`fk_instrumento` AS pk_instru_evaluacion , di.`descripcion` AS pregunta , di.`porcentaje` AS porcentaje , di.`fk_factor`, di.`fk_caracteristicas`, di.`fk_evidencia`, di.`fk_grupo_interes` FROM doc_respuesta_instrumentos  di, cna_proceso cnp WHERE di.pk_respuesta_instrumento = '.$value['fk_respuesta_instrumento'].' AND cnp.`pk_proceso` = '.$value['fk_proceso'].' ';
+				$sql2 = 'SELECT di.pk_respuesta_instrumento, cnp.`pk_proceso`, cnp.`nombre` AS nombre_proceso, di.`fk_tipo_respuesta` AS tipo_respuesta, di.`fk_instrumento` AS pk_instru_evaluacion , di.`descripcion` AS pregunta , di.`porcentaje` AS porcentaje , di.`fk_factor`, di.`fk_caracteristicas`, di.`fk_evidencia`, di.`fk_grupo_interes` FROM doc_respuesta_instrumentos  di, cna_proceso cnp WHERE di.pk_respuesta_instrumento = '.$value['fk_respuesta_instrumento'].' AND cnp.`pk_proceso` = '.$value['fk_proceso'].' order by di.pk_respuesta_instrumento ';
 				$res =$this->runSql($sql2);
 				$datos = $res->GetRows();
 
@@ -911,7 +911,7 @@ WHERE df.`fk_proceso` = "'.$id_proceso.'"  AND  df.fk_respuesta_instrumento = dr
 		$t = $r->GetRows();
 		//$insti = $t[0]['pk_proceso_institucional'];
     	//$datos = ();
-    	$datos[] = '';
+    	$datos = array();
 
 		$sql = 'SELECT dr.`fk_caracteristicas`,dr.`fk_caracteristicas_codigo`,dr.`fk_factor_codigo`, dr.`fk_factor`, dr.`fk_instrumento`, dr.`descripcion`, dr.`ponderacion`, dr.`fk_proceso` FROM doc_respuesta_instrumentos dr WHERE dr.`fk_proceso` ="'.$fk_proceso.'" ';
 

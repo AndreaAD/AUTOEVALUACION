@@ -51,17 +51,11 @@
         // });
     
 
-        
-        var acc = document.getElementsByClassName("accordion");
-        var i;
-
-        for (i = 0; i < acc.length; i++) {
-            acc[i].onclick = function(){
-                this.classList.toggle("active");
-                this.nextElementSibling.classList.toggle("show");
-            }
-        }
-
+        $('body').delegate('.accordion', 'click', function(e)
+        {
+            $(this).toggleClass("active");
+            $(this).next('.panel').toggleClass("show");
+        });
     });
 
 </script>
