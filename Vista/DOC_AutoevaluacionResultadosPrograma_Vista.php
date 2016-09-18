@@ -33,6 +33,14 @@
         <h4 style="float: left;font-size: 17px;">Resultados</h4>
         <div class="row">
             <div class="col">
+                <label class="label_caja">Proceso institucional</label>
+            </div>
+            <div class="col_2" id="proceso_institucional">
+                
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
                 <label class="label_caja">Total instrumentos de evaluación</label>
             </div>
             <div class="col_2" id="texto_total">
@@ -55,10 +63,11 @@
                 <table id="tabla_resultados" class="display select" cellspacing="0" width="100%">
                     <thead>
                         <tr>
+                            <th>Instrumento de evaluación</th>
                             <th>Factor</th>
                             <th>Codigo caracteristica</th>
-                            <th>Descripcion</th>
-                            <th>Calificación</th>
+                            <th>Puntaje obtenido</th>
+                            <th>Lista de documentos</th>
                         </tr>
                     </thead>
                     <tbody>

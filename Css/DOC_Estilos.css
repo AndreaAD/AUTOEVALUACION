@@ -597,3 +597,24 @@ div.accordion.active:after {
     color: #00730a;
     font-size: 10px;
 }
+
+.inset-table {
+	background-color: transparent;
+	padding: 0px;
+	border: none !important;
+}
+
+.inset-table tr{
+	border-collapse: collapse;
+	border: none;
+	text-decoration: none;
+}
+.inset-table td{
+	border-collapse: collapse;
+	border: none;
+	text-decoration: none;
+}
+
+.inset-table td:hover{
+	background-color: #f6f6f6;
+}

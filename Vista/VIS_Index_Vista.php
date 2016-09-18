@@ -530,16 +530,16 @@
                                 <?php include '../Controlador/ENC_graficaIndex_controlador.php';?>
                             </div>
                      </div>
-                    <div class="bloque bloque dos-columnas columna-izquierda">
+                    <div class="bloque bloque columna-izquierda">
                         <div class="titulo-bloque titulo-bloque texto-izquierda">
-                            <h2 class="icon-icon-quill">Gráfica Modulo Documental</h2>
+                            <h2 class="icon-icon-quill">Modulo Documental</h2>
                         </div><!--/titulo-bloque-->
                                     <div class="cuerpo-bloque texto-centro">
-                                        <?php include '../Controlador/DOC_graficasPrograma.php';?>
+                                        <?php include '../Controlador/DOC_tabla_resultados.php';?>
                                     </div>
                      </div> 
                     <?php
-                    require_once("../Controlador/PLM_Inicio_Control.php");
+                    //require_once("../Controlador/PLM_Inicio_Control.php");
                 }
                 else{?>
                 <!--===========AQUI INFORMACION=================-->

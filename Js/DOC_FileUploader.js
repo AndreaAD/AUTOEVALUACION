@@ -92,6 +92,14 @@ $(function(e){
 			    	}else{
 			    		
 			    	}
+
+			    	if(data == 'tamano'){
+			    		alert('Debe seleccionar un archivo de maximo 30 MB');
+			    	}
+
+			    	if(data == 2){
+			    		alert('Seleccine una extensión valida');	
+			    	}
 				}
 
 

@@ -105,13 +105,15 @@ $(function (e){
 	B_guardarInstru.on('click', function(e){
 		var sub= "";
 		var opcionesRes = "";
+		
 		if ( $('select[name="S_tipoRespuesta"]').val() == 6  || $('select[name="S_tipoRespuesta"]').val() == 7 ){
 			sub = "guardar_con_texto";
 			opcionesRes = $('input[name="nuevo_tipo_respuesta"]').val();
 		}else{
 			sub="guardar_normal";
 			opcionesRes = $('select[name="S_opcionesRespuesta"]').val();
-		}		
+		}
+
 		$.ajax({
 	        url: '../Controlador/DOC_InstruEval_Controlador.php',
 	        type:  'post',

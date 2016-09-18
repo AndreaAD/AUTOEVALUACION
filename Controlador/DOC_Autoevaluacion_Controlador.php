@@ -21,6 +21,43 @@ class Autoevaluacion_Controlador {
         $totalPrograma = $this->autoevaluacion->obtenerAcumuladoProceso($fk_proceso);
         $porcentajePrograma = round(( $totalPrograma * 100 ) / $instrumentos);
 
+        $institu = $this->autoevaluacion->obtenerInstitucional($fk_proceso);
+
+        // $instrumentos_institucional = $this->autoevaluacion->obtenerTotalInstrumentos(0);
+        // $totalInstitucional = $this->autoevaluacion->obtenerAcumuladoProceso(0);
+        // $porcentajeInstitucional = round(( $totalInstitucional * 100 ) / $instrumentos_institucional);
+
+        // if ($porcentajePrograma == 100 && $porcentajeInstitucional == 100){
+        //     $estado = 1;
+        // }else{
+        //     $estado = 0;
+        // }
+
+
+        $resu = $this->autoevaluacion->ResultadoCompleto($fk_proceso);
+        //$resu = 1;
+        $resultados = array(
+            //'institucional' => $institucional,
+            //'estado' => $estado,
+            'instrumentos' => $instrumentos,
+            'institucional' => $institu,
+            'totalPrograma' => $totalPrograma,
+            'porcentaje_programa' => $porcentajePrograma,
+            // 'instrumentos_institucional' => $instrumentos_institucional,
+            // 'totalInstitucional' => $totalInstitucional,
+            //'porcentaje_institucional' => $porcentajeInstitucional,
+            'resultados' => $resu
+        );
+        
+        echo json_encode($resultados);
+
+    }
+
+    public function ResultadosProgramaProceso($fk_proceso){
+        $instrumentos = $this->autoevaluacion->obtenerTotalInstrumentos($fk_proceso);
+        $totalPrograma = $this->autoevaluacion->obtenerAcumuladoProceso($fk_proceso);
+        $porcentajePrograma = round(( $totalPrograma * 100 ) / $instrumentos);
+
         // $instrumentos_institucional = $this->autoevaluacion->obtenerTotalInstrumentos(0);
         // $totalInstitucional = $this->autoevaluacion->obtenerAcumuladoProceso(0);
         // $porcentajeInstitucional = round(( $totalInstitucional * 100 ) / $instrumentos_institucional);
@@ -46,7 +83,7 @@ class Autoevaluacion_Controlador {
             'resultados' => $resu
         );
         
-        echo json_encode($resultados);
+        return $resultados;
 
     }
 
@@ -371,6 +408,9 @@ switch ($_operacion) {
     break;    
     case 'obtenerTotalInstrumentos2':
         $controlador->obtenerTotalInstrumentos2();
+    break;
+    case 'ResultadosProgramaProceso':
+        $controlador->ResultadosProgramaProceso($fk_proceso);
     break;
     default:
 

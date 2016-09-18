@@ -1715,6 +1715,8 @@ $(function(e){
 
 
     $('#B_guardarInstruCaracteristica').on('click', function(e){
+
+
         grupo_interes = $('input[name="grupoInteres[]"]').serializeArray();
         procesos = $('input[name="procesos[]"]').serializeArray();
         T_pregunta = $('textarea[name="T_pregunta"]').val();
@@ -1783,58 +1785,125 @@ $(function(e){
                 proceso : $('#procesos_resultados').val()
             },
             success:  function (data) {
+                var row_caract = '';
+                var row_fac = '';
+                var descripcion = '';
+                var calificacion = '';
                 lista = '';
                 $('#texto_total').html('');
                 $('#texto_porcentaje').html('');
+                $('#proceso_institucional').html('');
                 var tabla_r = $('#tabla_resultados tbody');
                 tabla_r.html('');
                 $('#texto_total').append('<span>'+data.instrumentos+'</span>');
                 $('#texto_porcentaje').append('<span>'+data.porcentaje_programa+'%</span>');
+                $('#proceso_institucional').append('<span>'+data.institucional+'</span>');
                 
-                //console.log(data);
-
-                // obj = {
-                //     factores {
-                //         1: {
-                //             caracteristicas: {
-                                
-                //             }
-                //         },
-                //         2: {}
-                //     }
-                // }
+               
 
                 if(data.resultados.length != 0){
-                    $.each(data.resultados, function(i, e)
-                    {
-                        $.each(e, function(i2, e2)
-                        {
+                $.each(data.resultados, function(i, e)
+                {   
 
-                            descripcion = e2.descripcion;
-                            calificacion = e2.ponderacion; 
+                    $.each(e, function(i2, e2)
+                    {   
+                        var car = new Array();
+                        var fac = new Array();
+                        var doc = new Array();
+
+                        $.each(e2.factores, function(i3, e3){
+                            fac.push(e3.codigo);
                             
-                            lista_c = e2.fk_caracteristicas_codigo.split('|');
-                            lista_f = e2.fk_factor_codigo.split('|');
+                            $.each(e3.caracteristicas, function(i4, e4){
+                                car.push(e4.codigo);
 
-                            //console.log(lista_c, lista_f);
-                            for(var j = 0; j < lista_c.length ; j++){
-                                car = lista_c[j];
-                                
-                                for(var m = 0; m < lista_f.length; m++){
-                                    descripcion = data.resultados[i]['descripcion'];
-                                    calificacion = data.resultados[i]['ponderacion']; 
-                                    fac = lista_f[m];
+                            });
 
-                                }   
-                                lista += '<tr>';
-                                        lista += '<td>'+fac+'</td>';
-                                        lista += '<td>'+car+'</td>';
-                                        lista += '<td>'+descripcion+'</td>';
-                                        lista += '<td>'+calificacion+'</td>';
-                                    lista += '</tr>';
-                            }
+                            row_caract = car.length;
+                            
+
                         });
+                        
+
+                        $.each(e2.documentos, function(i8, e8){
+                            doc.push(e8);
+                        });
+
+
+                        row_fac = fac.length;
+
+                        lista += '<tr>';
+                            lista += '<td>'+e2.descripcion+'</td>';
+                            
+                            lista += '<td ><table class="inset-table" border="none" cellspacing="0" cellpadding="0">';
+                            $.each(fac, function(i6, e6){
+                                lista += '<tr><td>'+e6+'</td></tr>';
+                            });
+                            lista += '</table></td>';
+                            
+                            lista += '<td ><table class="inset-table" border="none" cellspacing="0" cellpadding="0">';
+                            $.each(car, function(i7, e7){
+                                lista += '<tr><td>'+e7+'</td></tr>';
+                            });
+                            lista += '</table></td>';
+
+                            lista += '<td ><table class="inset-table" border="none" cellspacing="0" cellpadding="0">';
+                                lista += '<tr><td>'+e2.ponderacion == 'null' ? 0 : e2.ponderacion+'</td></tr>';
+                            lista += '</table></td>';
+
+                            lista += '<td ><table class="inset-table" border="none" cellspacing="0" cellpadding="0">';
+                            $.each(doc, function(i9, e9){
+                                lista += '<tr><td><a  href="'+e9.url+'" target="_blank">'+e9.nombre+'</a></td></tr>';
+                            });
+                            lista += '</table></td>';
+
+                            
+                        lista += '</tr>';
+
+                        
+
+
+                        
+                                    
+                            //         
+                            //         // lista += '<td>'+descripcion+'</td>';
+                            //         // lista += '<td>'+calificacion+'</td>';
                     });
+
+                   
+
+                    
+                   
+
+
+                });
+
+
+
+                //             descripcion = e2.descripcion;
+                //             calificacion = e2.ponderacion; 
+                            
+                //             lista_c = e2.fk_caracteristicas_codigo.split('|');
+                //             lista_f = e2.fk_factor_codigo.split('|');
+
+                //             //console.log(lista_c, lista_f);
+                //             for(var j = 0; j < lista_c.length ; j++){
+                //                 car = lista_c[j];
+                                
+                //                 for(var m = 0; m < lista_f.length; m++){
+                //                     descripcion = data.resultados[i]['descripcion'];
+                //                     calificacion = data.resultados[i]['ponderacion']; 
+                //                     fac = lista_f[m];
+
+                //                 }   
+                //                 lista += '<tr>';
+                //                         lista += '<td>'+fac+'</td>';
+                //                         lista += '<td>'+car+'</td>';
+                //                         lista += '<td>'+descripcion+'</td>';
+                //                         lista += '<td>'+calificacion+'</td>';
+                //                     lista += '</tr>';
+                //             }
+                    
                     
 
                     /*
@@ -1961,7 +2030,10 @@ $(function(e){
                 operacion: "GenerarInstrumentos"
             },
             success:  function (data) {
-                console.log(data);
+                if(data == 1)
+                {
+                    alert('Instrumentos generados satisfactoriamente')
+                }
             }
            
         });

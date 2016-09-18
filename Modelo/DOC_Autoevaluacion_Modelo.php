@@ -47,17 +47,35 @@ class Autoevaluacion_Modelo {
 
 		$datos = array();
 		$datos_completos = array();
+
 		for ($i=0; $i < count($procesos) ; $i++) { 
-			$sql = 'SELECT fk_fase FROM cna_proceso where pk_proceso = '.$procesos[$i]['pk_proceso'];
-	 		$res = $this->runSQL($sql);
-	 		$d = $res->GetRows();
-	 		if($d[0]['fk_fase'] == 4){
-	 			array_push($datos, $procesos[$i]['nombre_proceso']);
-	 			
+
+			$consulta_procesos_ins = 'SELECT pk_proceso_institucional FROM cna_proceso_institucional_proceso WHERE pk_proceso = '.$procesos[$i]['pk_proceso'];
+	 		$resultado_procesos = $this->runSQL($consulta_procesos_ins);
+	 		$procesoInstitucional = $resultado_procesos->GetRows();
+	 		$dat = $procesoInstitucional[0]['pk_proceso_institucional'];
+
+	 		if($dat != 0){
+	 			$sql = 'SELECT fk_fase FROM cna_proceso where pk_proceso = '.$procesos[$i]['pk_proceso'].'  ';
+		 		$res = $this->runSQL($sql);
+		 		$d = $res->GetRows();
+		 		if($d[0]['fk_fase'] == 4){
+		 			array_push($datos, $procesos[$i]['nombre_proceso']);
+		 			
+		 		}
 	 		}
+		
 		}
 
 		return $datos;
+	}
+
+	public function obtenerInstitucional($fk_proceso)
+	{
+		$sql = 'select pid.nombre as nombre from cna_proceso_institucional_proceso cnpi, cna_proceso_institucional_doc pid where cnpi.pk_proceso = "'.$fk_proceso.'" and cnpi.pk_proceso_institucional = pid.id ';
+	 	$res = $this->runSQL($sql);
+	 	$d = $res->GetRows();
+	 	return $d[0]['nombre'];
 	}
 
 	public function generarInstru($procesos){
@@ -100,7 +118,7 @@ class Autoevaluacion_Modelo {
 			 				if($consultaDeInstitucional[0]['total'] > 0){
 
 			 				}else{
-			 					$sql4 = 'INSERT INTO doc_respuesta_instrumentos  (`fk_instrumento`, `descripcion`, `fk_grupo_respuesta`, `fk_grupo_interes`, `fk_tipo_respuesta`, `porcentaje`, `fk_factor`, `fk_factor_codigo`, `fk_caracteristicas`, `fk_caracteristicas_codigo`, `fk_aspectos`, `fk_aspectos_codigo`, `fk_evidencia`, `fk_evidencia_codigo`, `opc`,`fk_proceso`, pk_proceso_insti) VALUES ("'.$value['pk_instru_evaluacion'].'",  "'.$value['descripcion'].'", "'.$value['fk_grupo_respuesta'].'",  "'.$value['fk_grupo_interes'].'",  "'.$value['fk_tipo_respuesta'].'",  "'.$value['porcentaje'].'",  "'.$value['fk_factor'].'",  "'.$value['fk_factor_codigo'].'",  "'.$value['fk_caracteristicas'].'",  "'.$value['fk_caracteristicas_codigo'].'",  "'.$value['fk_aspectos'].'",  "'.$value['fk_aspectos_codigo'].'",  "'.$value['fk_evidencia'].'",  "'.$value['fk_evidencia_codigo'].'",  "'.$value['opc'].'", 0, "'.$dat.'"); ';
+			 					$sql4 = 'INSERT INTO doc_respuesta_instrumentos  (`fk_instrumento`, `descripcion`, `fk_grupo_respuesta`, `fk_grupo_interes`, `fk_tipo_respuesta`, `porcentaje`, `opc`,`fk_proceso`, pk_proceso_insti) VALUES ("'.$value['pk_instru_evaluacion'].'",  "'.$value['descripcion'].'", "'.$value['fk_grupo_respuesta'].'",  "'.$value['fk_grupo_interes'].'",  "'.$value['fk_tipo_respuesta'].'",  "'.$value['porcentaje'].'",  "'.$value['opc'].'", 0, "'.$dat.'"); ';
 					 			$res4 = $this->runSQL($sql4);
 			 				}
 
@@ -123,7 +141,7 @@ class Autoevaluacion_Modelo {
 			 				if($consultaDePrograma[0]['total'] > 0){
 
 			 				}else{
-			 					$sql4 = 'INSERT INTO doc_respuesta_instrumentos  (`fk_instrumento`, `descripcion`, `fk_grupo_respuesta`, `fk_grupo_interes`, `fk_tipo_respuesta`, `porcentaje`, `fk_factor`, `fk_factor_codigo`, `fk_caracteristicas`, `fk_caracteristicas_codigo`, `fk_aspectos`, `fk_aspectos_codigo`, `fk_evidencia`, `fk_evidencia_codigo`, `opc`,`fk_proceso`, pk_proceso_insti) VALUES ("'.$value['pk_instru_evaluacion'].'",  "'.$value['descripcion'].'", "'.$value['fk_grupo_respuesta'].'",  "'.$value['fk_grupo_interes'].'",  "'.$value['fk_tipo_respuesta'].'",  "'.$value['porcentaje'].'",  "'.$value['fk_factor'].'",  "'.$value['fk_factor_codigo'].'",  "'.$value['fk_caracteristicas'].'",  "'.$value['fk_caracteristicas_codigo'].'",  "'.$value['fk_aspectos'].'",  "'.$value['fk_aspectos_codigo'].'",  "'.$value['fk_evidencia'].'",  "'.$value['fk_evidencia_codigo'].'",  "'.$value['opc'].'","'.$procesos[$i]['pk_proceso'].'" , "'.$dat.'"); ';
+			 					$sql4 = 'INSERT INTO doc_respuesta_instrumentos  (`fk_instrumento`, `descripcion`, `fk_grupo_respuesta`, `fk_grupo_interes`, `fk_tipo_respuesta`, `porcentaje`,`opc`,`fk_proceso`, pk_proceso_insti) VALUES ("'.$value['pk_instru_evaluacion'].'",  "'.$value['descripcion'].'", "'.$value['fk_grupo_respuesta'].'",  "'.$value['fk_grupo_interes'].'",  "'.$value['fk_tipo_respuesta'].'",  "'.$value['porcentaje'].'",  "'.$value['opc'].'","'.$procesos[$i]['pk_proceso'].'" , "'.$dat.'"); ';
 					 			$res4 = $this->runSQL($sql4);
 			 				}
 
@@ -250,7 +268,7 @@ class Autoevaluacion_Modelo {
 	 		}
 		}
 
-		//return $resultado_procesos;
+		return 1;
 	}
 
 
@@ -913,15 +931,14 @@ WHERE df.`fk_proceso` = "'.$id_proceso.'"  AND  df.fk_respuesta_instrumento = dr
     	//$datos = ();
     	$datos = array();
 
-		$sql = 'SELECT dr.`fk_caracteristicas`,dr.`fk_caracteristicas_codigo`,dr.`fk_factor_codigo`, dr.`fk_factor`, dr.`fk_instrumento`, dr.`descripcion`, dr.`ponderacion`, dr.`fk_proceso` FROM doc_respuesta_instrumentos dr WHERE dr.`fk_proceso` ="'.$fk_proceso.'" ';
+		$sql = 'SELECT dr.fk_instrumento, dr.descripcion, dr.ponderacion, dr.pk_respuesta_instrumento FROM doc_respuesta_instrumentos dr WHERE dr.`fk_proceso` ="'.$fk_proceso.'" ';
 
         $pregunta = $this->runSQL($sql);
         $lista_programa = $pregunta->GetRows();
 		array_push($datos, $lista_programa);
 
 
-        $sql1 = 'SELECT dr.`fk_caracteristicas`,dr.`fk_caracteristicas_codigo`,dr.`fk_factor_codigo`, dr.`fk_factor`, dr.`fk_instrumento`, dr.`descripcion`, dr.`ponderacion`, dr.`fk_proceso`
-FROM doc_respuesta_instrumentos dr, doc_respuesta_facultad df
+        $sql1 = 'SELECT dr.fk_instrumento, dr.descripcion, dr.ponderacion, dr.pk_respuesta_instrumento FROM doc_respuesta_instrumentos dr, doc_respuesta_facultad df
 WHERE df.`fk_proceso` = "'.$fk_proceso.'" and df.fk_respuesta_instrumento = dr.pk_respuesta_instrumento ';
         $pregunta1 = $this->runSQL($sql1);
         $lista_programa1 = $pregunta1->GetRows(); 
@@ -929,20 +946,46 @@ WHERE df.`fk_proceso` = "'.$fk_proceso.'" and df.fk_respuesta_instrumento = dr.p
 
         array_push($datos, $lista_programa1);
 
-        $sql2 = 'SELECT dr.`fk_caracteristicas`,dr.`fk_caracteristicas_codigo`,dr.`fk_factor_codigo`, dr.`fk_factor`, dr.`fk_instrumento`, dr.`descripcion`, dr.`ponderacion`, dr.`fk_proceso`
-FROM doc_respuesta_instrumentos dr, doc_respuesta_sede df
+        $sql2 = 'SELECT dr.fk_instrumento, dr.descripcion, dr.ponderacion ,dr.pk_respuesta_instrumento FROM doc_respuesta_instrumentos dr, doc_respuesta_sede df
 WHERE df.`fk_proceso` = "'.$fk_proceso.'" and df.fk_respuesta_instrumento = dr.pk_respuesta_instrumento ';
         $pregunta2 = $this->runSQL($sql2);
         $lista_programa2 = $pregunta2->GetRows(); 
 
         array_push($datos, $lista_programa2);
 
-        $sql3 = 'SELECT dr.`fk_caracteristicas`,dr.`fk_caracteristicas_codigo`,dr.`fk_factor_codigo`, dr.`fk_factor`, dr.`fk_instrumento`, dr.`descripcion`, dr.`ponderacion`, dr.`fk_proceso`
-FROM doc_respuesta_instrumentos dr WHERE dr.`fk_proceso` = 0 and dr.pk_proceso_insti = "'.$t[0]['pk_proceso_institucional'].'" ';
+        $sql3 = 'SELECT dr.fk_instrumento, dr.descripcion, dr.ponderacion, dr.pk_respuesta_instrumento FROM doc_respuesta_instrumentos dr WHERE dr.`fk_proceso` = 0 and dr.pk_proceso_insti = "'.$t[0]['pk_proceso_institucional'].'" ';
         $pregunta3 = $this->runSQL($sql3);
         $lista_programa3 = $pregunta3->GetRows(); 
 
         array_push($datos, $lista_programa3);
+
+
+        foreach ($datos as &$value) {
+        	foreach ($value as &$value2) {
+
+	   			$consulta = 'SELECT DISTINCT(cna.fk_factor), cnf.`codigo` FROM doc_instrumento_cna cna, cna_factor cnf WHERE cna.fk_instrumento = "'.$value2['fk_instrumento'].'" AND cna.`fk_factor` = cnf.`pk_factor` ';
+		        $res_consul = $this->runSQL($consulta);
+		        $factores = $res_consul->GetRows();
+
+		        $value2['factores'] = $factores;
+
+		        foreach ($value2['factores'] as &$value3) {
+		        	$consulta2 = 'SELECT DISTINCT(cna.fk_caracteristica), cnc.`codigo` FROM doc_instrumento_cna cna, cna_caracteristica cnc WHERE cna.fk_factor = "'.$value3['fk_factor'].'" AND fk_instrumento = "'.$value2['fk_instrumento'].'" AND cna.`fk_caracteristica` = cnc.`pk_caracteristica` ';
+			        $res_consul2 = $this->runSQL($consulta2);
+			        $carac = $res_consul2->GetRows();
+
+			        $value3['caracteristicas'] = $carac;
+		        }
+
+		        $consulta3 = 'SELECT * from doc_documento where fk_respuesta_instrumento = "'.$value2['pk_respuesta_instrumento'].'" ';
+		        $res_consul3 = $this->runSQL($consulta3);
+		        $documentos = $res_consul3->GetRows();
+
+		        $value2['documentos'] = $documentos;
+
+		    }
+        }
+
 
         return $datos;
     }

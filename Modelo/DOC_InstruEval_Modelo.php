@@ -72,38 +72,86 @@ class InstruEval_Modelo {
 		// $resultados = $this->runSQL($sql1);
 		// $fk_grupo_interes_eidencia = $resultados->GetRows();
 		// $fk = $fk_grupo_interes_eidencia[0]['pk_evidencia_grupo_interes'];
-		$sqlinsert = "";
+
 		if($suboperacion == "guardar_con_texto"){
 			$sqlinsert = 'INSERT INTO doc_instru_evaluacion (descripcion, fk_grupo_respuesta , fk_grupo_interes  , fk_tipo_respuesta , porcentaje, fk_factor, fk_factor_codigo, fk_caracteristicas, fk_caracteristicas_codigo , fk_aspectos, fk_aspectos_codigo, fk_evidencia, fk_evidencia_codigo,estado, opc ) VALUES ("'.$this->pregunta.'", "'.$this->opcionRespuesta.'", "'.$this->grupo.'", "'.$this->tipoRespuesta.'", "'.$this->porcentaje.'", "'.$this->factor.'", "'.$this->factor_codigo.'","'.$this->caracteristicas.'", "'.$this->caracteristicas_codigo.'","'.$this->aspectos.'", "'.$this->aspectos_codigo.'", "'.$this->evidencia.'", "'.$this->evidencia_codigo.'",1 , "'.$this->opc.'"  )';
+
+				if($this->runSQL($sqlinsert)){
+					$consultaUltimo = 'SELECT pk_instru_evaluacion from doc_instru_evaluacion order by pk_instru_evaluacion desc limit 0,1 ';
+					$res = $this->runSQL($consultaUltimo);
+					$ultimo = $res->GetRows();
+
+					$insertPivote = 'INSERT INTO doc_instrumento_cna (  `fk_instrumento`,  `fk_factor`,  `fk_caracteristica`,  `fk_aspecto`,  `fk_evidencia`) values( '.$ultimo[0]['pk_instru_evaluacion'].', '.$this->factor.', '.$this->caracteristicas.', '.$this->aspectos.', '.$this->evidencia.' ) ';
+					if($this->runSQL($insertPivote)){
+						return 1;
+					}else{
+						return 0;
+					}
+
+				}
+
 		}else{
 			$sqlinsert = 'INSERT INTO doc_instru_evaluacion (descripcion, fk_grupo_respuesta , fk_grupo_interes  , fk_tipo_respuesta , porcentaje, fk_factor, fk_factor_codigo, fk_caracteristicas, fk_caracteristicas_codigo , fk_aspectos, fk_aspectos_codigo, fk_evidencia, fk_evidencia_codigo,estado, opc ) VALUES ("'.$this->pregunta.'", "'.$this->opcionRespuesta.'", "'.$this->grupo.'", "'.$this->tipoRespuesta.'", 0 , "'.$this->factor.'", "'.$this->factor_codigo.'","'.$this->caracteristicas.'", "'.$this->caracteristicas_codigo.'","'.$this->aspectos.'", "'.$this->aspectos_codigo.'", "'.$this->evidencia.'", "'.$this->evidencia_codigo.'" ,1 , "'.$this->opc.'" )';
+					
+				if($this->runSQL($sqlinsert)){
+					$consultaUltimo = 'SELECT pk_instru_evaluacion from doc_instru_evaluacion order by pk_instru_evaluacion desc limit 0,1 ';
+					$res = $this->runSQL($consultaUltimo);
+					$ultimo = $res->GetRows();
+
+					$insertPivote = 'INSERT INTO doc_instrumento_cna (  `fk_instrumento`,  `fk_factor`,  `fk_caracteristica`,  `fk_aspecto`,  `fk_evidencia`) values( '.$ultimo[0]['pk_instru_evaluacion'].', '.$this->factor.', '.$this->caracteristicas.', '.$this->aspectos.', '.$this->evidencia.' ) ';
+					if($this->runSQL($insertPivote)){
+						return 1;
+					}else{
+						return 0;
+					}
+
+				}
 		}
 
 
 		$observacion =  'Se creo un instrumento de evaluacion para la evidencia numero : "'.$this->evidencia.'" '; 
         $transaccion = "Crear Instrumentos";
         $this->seg->Seguridad_Enviar($observacion, $transaccion);
-		if($this->runSQL($sqlinsert)){
-			return 1;
-		}else{
-			return 0;
-		}
+		
 	}
 
 	public function guardarInstruCarac()
 	{
-		$sqlinsert = 'INSERT INTO doc_instru_evaluacion (descripcion, fk_grupo_respuesta , fk_grupo_interes  , fk_tipo_respuesta , porcentaje, fk_factor, fk_factor_codigo, fk_caracteristicas, fk_caracteristicas_codigo, estado, opc ) VALUES ("'.$this->pregunta.'", "'.$this->opcionRespuesta.'", "'.$this->grupo.'", "'.$this->tipoRespuesta.'", 0 , "'.$this->factor.'", "'.$this->factor_codigo.'","'.$this->caracteristicas.'", "'.$this->caracteristicas_codigo.'" ,1 , "'.$this->opc.'" )';
+		$sqlinsert = 'INSERT INTO doc_instru_evaluacion (descripcion, fk_grupo_respuesta , fk_grupo_interes  , fk_tipo_respuesta , porcentaje, estado, opc ) VALUES ("'.$this->pregunta.'", "'.$this->opcionRespuesta.'", "'.$this->grupo.'", "'.$this->tipoRespuesta.'", "'.$this->porcentaje.'" ,1 , "'.$this->opc.'" )';
+
+		
+		if($this->runSQL($sqlinsert)){
+			$consultaUltimo = 'SELECT pk_instru_evaluacion from doc_instru_evaluacion order by pk_instru_evaluacion desc limit 0,1 ';
+				$res = $this->runSQL($consultaUltimo);
+				$ultimo = $res->GetRows();
+
+			return $ultimo[0]['pk_instru_evaluacion'];
+		}else{
+			return 0;
+		}
 
 		
 		$observacion =  'Se creo un instrumento de evaluacion '; 
         $transaccion = "Crear Instrumentos";
         $this->seg->Seguridad_Enviar($observacion, $transaccion);
-		if($this->runSQL($sqlinsert)){
+
+        
+	}
+
+	public function guardarInstruCaracCna($fk, $fk_f, $fk_c)
+	{
+		$insertPivote = 'INSERT INTO doc_instrumento_cna (  `fk_instrumento`,  `fk_factor`,  `fk_caracteristica`) values( '.$fk.', '.$fk_f.', '.$fk_c.' ) ';
+		
+
+		if($this->runSQL($insertPivote)){
 			return 1;
 		}else{
 			return 0;
 		}
+
 	}
+
+
 	/**
 	 * [eliminar elimina los instrumentos de evaluacion]
 	 * @return [int] estado 1-0
@@ -161,9 +209,55 @@ class InstruEval_Modelo {
 	}
 
 	public function listaProcesos(){
-		$sql = 'SELECT * from cna_proceso where estado = 1'; 
-		$resul = $this->runSQL($sql);
-		return $resul;
+
+		$sql = 'SELECT * from cna_proceso'; 
+		$res = $this->runSQL($sql);
+		$lista = $res->GetRows();
+
+		//var_dump($lista);
+		$procesos = array();
+
+
+		foreach ($lista as &$proceso) {
+
+			$consulta_procesos_ins = 'SELECT pk_proceso_institucional FROM cna_proceso_institucional_proceso WHERE pk_proceso = '.$proceso['pk_proceso'];
+	 		$resultado_procesos = $this->runSQL($consulta_procesos_ins);
+	 		$procesoInstitucional = $resultado_procesos->GetRows();
+	 		$dat = $procesoInstitucional[0]['pk_proceso_institucional'];
+
+	 		if($dat != 0){
+	 			array_push($procesos, $proceso);
+	 		}
+		}
+		
+		return $procesos;
+	}
+
+	public function listaProcesosFase4(){
+
+		$sql = 'SELECT * from cna_proceso'; 
+		$res = $this->runSQL($sql);
+		$lista = $res->GetRows();
+
+		//var_dump($lista);
+		$procesos = array();
+
+
+		foreach ($lista as &$proceso) {
+
+			$consulta_procesos_ins = 'SELECT pk_proceso_institucional FROM cna_proceso_institucional_proceso WHERE pk_proceso = '.$proceso['pk_proceso'];
+	 		$resultado_procesos = $this->runSQL($consulta_procesos_ins);
+	 		$procesoInstitucional = $resultado_procesos->GetRows();
+	 		$dat = $procesoInstitucional[0]['pk_proceso_institucional'];
+
+	 		if($dat != 0){
+	 			if($proceso['fk_fase'] == 4 ){
+	 				array_push($procesos, $proceso);
+	 			}
+	 		}
+		}
+		
+		return $procesos;
 	}
 
 	

@@ -28,6 +28,7 @@ class InstruEval_Controlador {
             // else
             //     $grupoInteres = 3; 
 
+
             $this->instrumento->grupo =  $grupoInteres;
             $this->instrumento->pregunta = $_POST['pregunta'];
             $this->instrumento->factor = $_POST['factor'];
@@ -197,7 +198,7 @@ class InstruEval_Controlador {
             $this->instrumento->opc =  $_POST['opc'];
             $this->instrumento->pregunta = $_POST['instrumento'];
             $this->instrumento->tipoRespuesta = $_POST['tipo_respuesta'];
-            $this->instrumento->opcionRespuesta = $_POST['opciones_respuesta'];
+            $this->instrumento->opcionRespuesta = $_POST['opciones_respuesta'] ? $_POST['opciones_respuesta'] : 0  ;
             $this->instrumento->porcentaje = $_POST['porcentaje'] ? $_POST['porcentaje'] : 0 ;
 
 
@@ -209,53 +210,15 @@ class InstruEval_Controlador {
                 $this->instrumento->factor_codigo =  '';
                 $this->instrumento->caracteristicas = '';
                 $this->instrumento->caracteristicas_codigo = '';
+
+                $id_instru = $this->instrumento->guardarInstruCarac();
+
                 foreach( $array  as $r){
-                    $this->instrumento->factor .=  $r->factor.'|';
-                    $this->instrumento->factor_codigo .=  $r->factor_codigo.'|';
-                    $this->instrumento->caracteristicas .=  $r->caracteristica.'|';
-                    $this->instrumento->caracteristicas_codigo .=  $r->caracteristica_codigo.'|';
+
+                    $this->instrumento->guardarInstruCaracCna($id_instru, $r->factor, $r->caracteristica);
                     
                 }
-                $this->instrumento->guardarInstruCarac();
-
-            // }else if($grupoInteres == 7){
-            //     $procesos = $_POST['procesos'];
-            //     foreach ($procesos as &$value) {
-            //         $this->instrumento->factor =  '';
-            //         $this->instrumento->factor_codigo =  '';
-            //         $this->instrumento->caracteristicas = '';
-            //         $this->instrumento->caracteristicas_codigo = '';
-            //         foreach( $array  as $r){
-            //             $this->instrumento->factor .=  $r->factor.'|';
-            //             $this->instrumento->factor_codigo .=  $r->factor_codigo.'|';
-            //             $this->instrumento->caracteristicas .=  $r->caracteristica.'|';
-            //             $this->instrumento->caracteristicas_codigo .=  $r->caracteristica_codigo.'|';
-                        
-            //         }
-            //         $this->instrumento->proceso =  $value['value'];
-            //         $this->instrumento->guardarInstruCarac();  
-            //     }
-            // }else if($grupoInteres == 3){
-            //     $procesos = $_POST['procesos'];
-            //     foreach ($procesos as &$value) {
-            //         $this->instrumento->factor =  '';
-            //         $this->instrumento->factor_codigo =  '';
-            //         $this->instrumento->caracteristicas = '';
-            //         $this->instrumento->caracteristicas_codigo = '';
-            //         foreach( $array  as $r){
-            //             $this->instrumento->factor .=  $r->factor.'|';
-            //             $this->instrumento->factor_codigo .=  $r->factor_codigo.'|';
-            //             $this->instrumento->caracteristicas .=  $r->caracteristica.'|';
-            //             $this->instrumento->caracteristicas_codigo .=  $r->caracteristica_codigo.'|';
-            //             $this->instrumento->proceso =  $value['value'];
-                        
-            //         }
-            //         $this->instrumento->guardarInstruCarac(); 
-            //     }
-            //     $this->instrumento->proceso =  0;
-            //     $this->instrumento->guardarInstruCarac();  
-
-            // }        
+                
 
             echo 1;
         }else{
