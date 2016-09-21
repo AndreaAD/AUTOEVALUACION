@@ -2054,7 +2054,7 @@ $(function(e){
                 proceso: $(this).val()
             },
             success:  function (data) {
-                console.log(data);
+                console.dir(data);
             }
            
         }); 

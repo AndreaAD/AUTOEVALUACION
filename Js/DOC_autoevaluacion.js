@@ -121,7 +121,7 @@ $(function(e){
                 pagina: _pagina,
             },
             success:  function (data) {
-                console.dir(data);
+                //console.dir(data);
 
                 var div_procesos = $('#div_procesos');
                 var lista_ids_preguntas = [];

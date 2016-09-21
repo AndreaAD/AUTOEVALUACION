@@ -349,10 +349,7 @@ class Autoevaluacion_Controlador {
         
         $datos = $this->autoevaluacion->consolidado($proceso);
         
-        var_dump($datos);
-        exit();
-
-        //echo json_encode($datos);
+        echo json_encode($datos);
     }
 }
 

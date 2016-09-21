@@ -1160,8 +1160,6 @@ WHERE  cnp.`pk_proceso` = "'.$id_proceso.'" AND di.pk_proceso_insti = "'.$insti.
 
 	$arregloOrdenado = array();
 	$arregloPreguntas = array();
-	$maximo = '';
-	$suma_respuesta = '';
 
 	foreach ($datos as &$value) {
 		array_push($arregloOrdenado, $value['fk_caracteristica']);
@@ -1184,29 +1182,77 @@ WHERE  cnp.`pk_proceso` = "'.$id_proceso.'" AND di.pk_proceso_insti = "'.$insti.
 
 	}
 
+	// echo '<pre>';
+	// print_r($arregloPreguntas);
+	// exit();
+
+	$resultados_finales_carc = array();
+
+
 	foreach ($arregloPreguntas as &$value) {
+
+		$maximo = '';
+		$suma_respuesta = '';
+
 		foreach($value as &$value2) {
 
-			$valor_caracteristica = 
+			$consul_factor = 'select * from cna_caracteristica where pk_caracteristica = '.$value2['fk_caracteristica'].' ';
+			$respu_factor = $this->runSQL($consul_factor);
+			$factor = $respu_factor->GetRows();
+			$f = $factor[0]['fk_factor'];
+
+			$consul_valor_caracteristica = 'select * from cna_proceso_ponderacion where fk_caracteristica = '.$value2['fk_caracteristica'].' and fk_proceso = '.$id_proceso ;
+			$respuesta_valor_cr = $this->runSQL($consul_valor_caracteristica);
+			$ponderado_carac = $respuesta_valor_cr->GetRows();
+
+			$consul_valor_factor = 'select * from cna_proceso_ponderacion where fk_factor = '.$f.' and fk_proceso = '.$id_proceso ;
+			$respuesta_valor_factor = $this->runSQL($consul_valor_factor);
+			$ponderado_factor = $respuesta_valor_factor->GetRows();
 			
 			$consulta = 'SELECT MAX(ponderacion) AS maximo  FROM respuesta_ponderacion WHERE fk_tipo_respuesta = '.$value2['tipo_respuesta'].'  ';
 			$r5 = $this->runSQL($consulta);
 			$maximo_ = $r5->GetRows();
 
-			$suma_respuesta += $value2['ponderacion'];
+			$ponderacion = $value2['ponderacion'] == '' ? 0  : $value2['ponderacion'] ;
+			$suma_respuesta += $ponderacion;
 			$maximo += $maximo_[0]['maximo'];
 			$valor_caracteristica = $suma_respuesta/$maximo;
-			//$valor_ponderado_aspecto = $suma_respuesta/$maximo;
+			$valor_ponderado_caracteristica = $valor_caracteristica * $ponderado_carac[0]['ponderacion_porcentual'];
 
-			// echo $suma_respuesta;
-			// echo $maximo;
-			// echo 'valor_cara = '.$valor_caracteristica;
-			// exit();
+			$suma_ponderados_carac += $valor_ponderado_caracteristica;
 
+			// var_dump('ponderacion:'.$ponderacion);
+			// var_dump('maximo:'.$maximo_[0]['maximo']);
+			// var_dump('suma_pon:'.$suma_respuesta);
+			// var_dump('maximo:'.$maximo);
+			// var_dump('valor_car:'.$valor_caracteristica);
+			// var_dump('valor_pond:'.$valor_ponderado_caracteristica);
+
+			$array = array(
+			    "factor" => $f,
+			    "ponderado_factor" => $ponderado_factor[0]['ponderacion_porcentual'],
+			    "caracteristica" => $value2['fk_caracteristica'],
+			    "suma_valores" => $suma_respuesta,
+			    "maximo" => $maximo,
+			    "valor_caracteristica" => $valor_caracteristica,
+			    "valor_carac" => $ponderado_carac[0]['ponderacion_porcentual'],
+			    "valor_ponderado_caracteristica" => $valor_ponderado_caracteristica,
+			);
 		}
+
+		array_push($resultados_finales_carc, $array);
+	}
+
+	//var_dump($resultados_finales_carc);
+
+	foreach ($resultados_finales_carc as &$resultados_carac) {
+
 	}
 
 
+
+	
+	return $resultados_finales_carc;
 
 }
 
