@@ -1810,6 +1810,7 @@ $(function(e){
                         var car = new Array();
                         var fac = new Array();
                         var doc = new Array();
+                        var calificacion = '';
 
                         $.each(e2.factores, function(i3, e3){
                             fac.push(e3.codigo);
@@ -1829,6 +1830,7 @@ $(function(e){
                             doc.push(e8);
                         });
 
+                        calificacion = e2.ponderacion == null ? 0 : e2.ponderacion;
 
                         row_fac = fac.length;
 
@@ -1848,7 +1850,7 @@ $(function(e){
                             lista += '</table></td>';
 
                             lista += '<td ><table class="inset-table" border="none" cellspacing="0" cellpadding="0">';
-                                lista += '<tr><td>'+e2.ponderacion == 'null' ? 0 : e2.ponderacion+'</td></tr>';
+                                lista += '<tr><td>'+calificacion+'</td></tr>';
                             lista += '</table></td>';
 
                             lista += '<td ><table class="inset-table" border="none" cellspacing="0" cellpadding="0">';
@@ -2032,12 +2034,35 @@ $(function(e){
             success:  function (data) {
                 if(data == 1)
                 {
-                    alert('Instrumentos generados satisfactoriamente')
+                    alert('Instrumentos generados satisfactoriamente');
                 }
             }
            
         });
     });
+
+
+    $('#procesos_ponderacion').on('change', function(e){
+        if($(this).val() != 0 ){
+            $.ajax({
+            url: '../Controlador/DOC_Autoevaluacion_Controlador.php',
+            type:  'post',
+            async: false,
+            dataType:'json',
+            data:{
+                operacion: "Consolidado",
+                proceso: $(this).val()
+            },
+            success:  function (data) {
+                console.log(data);
+            }
+           
+        }); 
+        }
+    });
+
+
+
 
 });
 

@@ -343,6 +343,17 @@ class Autoevaluacion_Controlador {
         $datos = $this->autoevaluacion->generarInstru($_SESSION['array_proceso']);
         echo json_encode($datos);
     }
+
+    public function Consolidado(){
+        $proceso = $_POST['proceso']; 
+        
+        $datos = $this->autoevaluacion->consolidado($proceso);
+        
+        var_dump($datos);
+        exit();
+
+        //echo json_encode($datos);
+    }
 }
 
 $controlador = new Autoevaluacion_Controlador;
@@ -411,6 +422,9 @@ switch ($_operacion) {
     break;
     case 'ResultadosProgramaProceso':
         $controlador->ResultadosProgramaProceso($fk_proceso);
+    break;
+    case 'Consolidado':
+        $controlador->Consolidado();
     break;
     default:
 

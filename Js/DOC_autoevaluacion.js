@@ -1,7 +1,7 @@
 $(function(e){
 
     var pagina = 1; 
-    var items = 1;
+    var items = 4;
     var num_paginas = 0;
     var div_emergente = $('#div_emergente');
     var _divOculto = $("#div_contenido_completo");
@@ -187,7 +187,7 @@ $(function(e){
 
                                         html += '<div class="proceso_div pregunta" data-rel-pregunta="'+proc[i].pk_respuesta_instrumento+'" data-rel-proceso="'+proc[i].pk_proceso+'" style="width:99%;padding:5px;display:inline-block;    font-size: 13px;    margin: 10px; position:relative;">';
                                         html += '<span data-role="pend"></span>';
-                                        html += '<div class="accordion">'+proc_x_pregunta[proc[i].pk_respuesta_instrumento]+'</div>';
+                                        html += '<div class="accordion"><strong style="font-weight: bold;">'+proc_x_pregunta[proc[i].pk_respuesta_instrumento].substr(0, proc_x_pregunta[proc[i].pk_respuesta_instrumento].length -2)+'</strong></div>';
                                         html += '<div class="panel"><br>';
 
                                             if(proc[i].respuestas.length == 1 ){

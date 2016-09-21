@@ -103,6 +103,7 @@ class informacionAdicional_Controlador{
                         $nombre = $key['name'];//Obtenemos el nombre del archivo
                         $temporal = $key['tmp_name']; //Obtenemos el nombre del archivo temporal
                         $tamano= ($key['size'] / 1000)."Kb"; //Obtenemos el tamaño en KB
+                        $tamano_dato= ($key['size'] / 1000); //Obtenemos el tamaño en KB
                         $tipoDocumento = $key['type']; // obtenemos el tipo de documento
                         
                         $url = $ruta.$nombre; // generamos la url
@@ -127,9 +128,8 @@ class informacionAdicional_Controlador{
                                     }
                                 }
                             }     
-
                             //move_uploaded_file($temporal, $ruta.$nombre); //Movemos el archivo temporal a la ruta especificada
-                            if($tamano > 30000){
+                            if($tamano_dato < 30000 ){
 
                                 if(move_uploaded_file($temporal, $ruta.$nombre))
                                 {
