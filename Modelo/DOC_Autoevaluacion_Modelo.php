@@ -1201,6 +1201,16 @@ WHERE  cnp.`pk_proceso` = "'.$id_proceso.'" AND di.pk_proceso_insti = "'.$insti.
 			$factor = $respu_factor->GetRows();
 			$f = $factor[0]['fk_factor'];
 
+			//echo $f[0]['fk_factor'];
+
+			$consul_factor2 = 'select * from cna_factor where pk_factor = '.$f.' ';
+			//echo $consul_factor2;
+			$respu_factor2 = $this->runSQL($consul_factor2);
+			$factor2 = $respu_factor2->GetRows();
+			$f_nombre = $factor2[0]['nombre'];
+
+
+
 			$consul_valor_caracteristica = 'select * from cna_proceso_ponderacion where fk_caracteristica = '.$value2['fk_caracteristica'].' and fk_proceso = '.$id_proceso ;
 			$respuesta_valor_cr = $this->runSQL($consul_valor_caracteristica);
 			$ponderado_carac = $respuesta_valor_cr->GetRows();
@@ -1228,31 +1238,110 @@ WHERE  cnp.`pk_proceso` = "'.$id_proceso.'" AND di.pk_proceso_insti = "'.$insti.
 			// var_dump('valor_car:'.$valor_caracteristica);
 			// var_dump('valor_pond:'.$valor_ponderado_caracteristica);
 
+
+			$opracion_12 = ( $valor_ponderado_caracteristica * 100 ) * 100;
+			//var_dump($opracion_12);
+			$opracion_22 = ( $ponderado_carac[0]['ponderacion_porcentual'] * 100 );
+			//var_dump($opracion_22);
+			$cumplimiento2 = $opracion_12 / $opracion_22;
+
+
 			$array = array(
+			    "nombre" => $factor[0]['nombre'],
+			    "codigo" => $factor[0]['codigo'],
 			    "factor" => $f,
+			    "factor_nombre" => $f_nombre,
 			    "ponderado_factor" => $ponderado_factor[0]['ponderacion_porcentual'],
 			    "caracteristica" => $value2['fk_caracteristica'],
 			    "suma_valores" => $suma_respuesta,
 			    "maximo" => $maximo,
 			    "valor_caracteristica" => $valor_caracteristica,
-			    "valor_carac" => $ponderado_carac[0]['ponderacion_porcentual'],
+			    "valor_carac" => $ponderado_carac[0]['ponderacion_porcentual'] * 100,
 			    "valor_ponderado_caracteristica" => $valor_ponderado_caracteristica,
+			    "valor_ponderado_caracteristica2" => $valor_ponderado_caracteristica * 100,
+			    "cumplimiento" => $cumplimiento2,
 			);
 		}
 
 		array_push($resultados_finales_carc, $array);
 	}
 
-	//var_dump($resultados_finales_carc);
+//
 
-	foreach ($resultados_finales_carc as &$resultados_carac) {
+	$arreglo_f = array();
+	$arreglo_factores_final = array();
+
+	foreach ($resultados_finales_carc as &$value) {
+		array_push($arreglo_f, $value['factor']);
+		$lista_fac = array_unique($arreglo_f);
+		sort($lista_fac);
+	}
+
+
+	foreach ($lista_fac as &$fa) {
+
+		$arreglo2 = array();
+		foreach ($resultados_finales_carc as &$value2) {
+
+			if($fa == $value2['factor'] ){
+				array_push($arreglo2, $value2);
+			}
+			$arreglo_factores_final[$fa] = $arreglo2;
+			
+		}
 
 	}
 
 
+	$resultados_finales_factor = array();
 
-	
-	return $resultados_finales_carc;
+	foreach ($arreglo_factores_final as &$value3) {
+
+		$valor_f = '';
+		$suma_caracteristicas = '';
+
+		foreach ($value3 as &$value4) {
+
+			
+			$suma_caracteristicas += $value4['valor_ponderado_caracteristica'];
+			$valor_f = ((float)$value4['ponderado_factor']) * 100 ;
+		}
+
+		$ponderado_c = ($suma_caracteristicas)*$valor_f;
+
+		$consulta_factor = 'select * from cna_factor where pk_factor ='.$value4['factor']; 
+		$resultado_factor = $this->runSQL($consulta_factor);
+		$factor = $resultado_factor->GetRows();
+
+		$opracion_1 = ( $ponderado_c ) * 100;
+		//var_dump($opracion_1);
+		$opracion_2 = ( $value4['ponderado_factor'] * 100 );
+		//var_dump($opracion_2);
+
+		$cumplimiento = $opracion_1 / $opracion_2;
+
+		$array = array(
+		    "suma_caracteristicas" => $suma_caracteristicas,
+		    "valor_factor" => $value4['ponderado_factor']*100,
+		    "ponderado_factor_final" => $ponderado_c,
+		    "ponderado_factor_porcentaje" => $ponderado_c ,
+		    "cumplimiento" => $cumplimiento,
+		    "factor" => $value4['factor'],
+		    "codigo" => $factor[0]['codigo'],
+		    "nombre" => $factor[0]['nombre'],
+		);
+
+
+		array_push($resultados_finales_factor, $array);
+	}
+
+
+	$arreglo_datos_finales = array();
+	array_push($arreglo_datos_finales, $resultados_finales_carc);
+	array_push($arreglo_datos_finales, $resultados_finales_factor);
+
+
+	return $arreglo_datos_finales;
 
 }
 

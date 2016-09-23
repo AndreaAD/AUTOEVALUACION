@@ -96,7 +96,13 @@ class informacionAdicional_Controlador{
         $ruta="../Documentos/info_autoevaluacion/";
             $nombre = "";
             $url = "";
+
+            // print_r($_POST['archivo']);
+            // var_dump($_FILES);
+            // exit();
+
             if ($_FILES != null && $_POST['pk_instru_evaluacion'] != ""){ 
+
                 foreach ($_FILES as $key) {
                     if($key['error'] == UPLOAD_ERR_OK ){//Verificamos si se subio correctamente
                         $sobreescribir = false; //Sobreescribir el archivo si existe, si se deja en false genera un nombre nuevo 

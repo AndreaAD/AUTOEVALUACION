@@ -7,10 +7,6 @@
 <!-- <script type="text/javascript" src="../Js/DOC_Selectores.js"></script> -->
 <script type="text/javascript" src="../Js/DOC_autoevaluacion.js"></script>
 <script type="text/javascript" src="../Js/DOC_FileUploader.js"></script>
-
-<script src="../Complementos/jQuery-File-Upload/js/vendor/jquery.ui.widget.js"></script>
-<script src="../Complementos/jQuery-File-Upload/js/jquery.iframe-transport.js"></script>
-<script src="../Complementos/jQuery-File-Upload/js/jquery.fileupload.js"></script>
 <input type="hidden" name="alcance" value="1">
 
 <div id="div_procesos_verificados">
@@ -33,23 +29,7 @@
 
 
 <script>
-    $(document).ready(function() {
-
-        // $('#div_varios_documentos').delegate('input[data-role="subir_multiples"]', 'click', function(e){
-
-
-
-        // });
-
-        // $('#fileupload').fileupload({
-        //     dataType: 'json',
-        //     done: function (e, data) {
-        //         // $.each(data.result.files, function (index, file) {
-        //         //     $('<p/>').text(file.name).appendTo(document.body);
-        //         // });
-        //     }
-        // });
-    
+    $(function () { 
 
         $('body').delegate('.accordion', 'click', function(e)
         {

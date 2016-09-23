@@ -215,7 +215,7 @@ $(function(e){
                                             html += '<div class="validador">';
                                                 html += '<br><label data-role="doc">Seleccione el(los) documento(s) que sustentan su respuesta</label>';
                                                 html += '<div class="file-uploader" data-rel="'+proc[i].pk_respuesta_instrumento+'" data-proceso="'+proc[i].fk_proceso+'">';
-                                                    html += '<input type="file"><a href="#" data-op="cargar_doc" data-rel="'+proc[i].pk_respuesta_instrumento+'"  data-proceso="'+proc[i].fk_proceso+'" class="subir">Cargar</a><br>';
+                                                    html += '<input type="file" name="upload[]" multiple="multiple" class="fileupload"><a href="#" data-op="cargar_doc" data-rel="'+proc[i].pk_respuesta_instrumento+'"  data-proceso="'+proc[i].fk_proceso+'" class="subir">Cargar</a><br>';
                                                     //html += '<div class="progress-bar"><div class="progreso"></div></div>';
                                                     html += '<div class="table">';
                                                         if(proc[i].documentos.length > 0){

@@ -279,7 +279,7 @@ class Autoevaluacion_Controlador {
     public function consolidacionFinal(){
         $fk_proceso = $_SESSION['pk_proceso'];
         $resultados = $this->autoevaluacion->consolidacionFinal($fk_proceso);
-        echo $resultados;
+        echo json_encode($resultados);
     
     }
 
@@ -345,6 +345,7 @@ class Autoevaluacion_Controlador {
     }
 
     public function Consolidado(){
+        
         $proceso = $_POST['proceso']; 
         
         $datos = $this->autoevaluacion->consolidado($proceso);
