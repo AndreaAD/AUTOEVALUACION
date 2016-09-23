@@ -57,8 +57,13 @@ $(function(e){
 
 		var formData = new FormData();
 		var file = contenedor.find('input[type="file"]')[0];
+
+		for (var i = 0; i < file.files.length ; i++) {
+			formData.append('archivo'+i, file.files[i]);
+		}
+
 		var seccion = $('input[name="grupoI"]').val();
-		formData.append('archivo', file.files[0]);
+		//formData.append('archivo', lista_archivos);
 		formData.append('seccion', seccion);
 		formData.append('operacion',operacion);
 		formData.append('pk_instru_evaluacion', $(this).data('rel'));

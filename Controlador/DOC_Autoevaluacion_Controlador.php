@@ -346,8 +346,14 @@ class Autoevaluacion_Controlador {
 
     public function Consolidado(){
         
-        $proceso = $_POST['proceso']; 
-        
+        $opcion = $_POST['opcion'];
+
+        if($opcion == 'ResultadosIndex'){
+            $proceso = $_SESSION['pk_proceso'];
+        }else{
+            $proceso = $_POST['proceso']; 
+        }
+
         $datos = $this->autoevaluacion->consolidado($proceso);
         
         echo json_encode($datos);
