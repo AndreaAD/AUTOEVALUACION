@@ -121,7 +121,7 @@ $(function(e){
                 pagina: _pagina,
             },
             success:  function (data) {
-                //console.dir(data);
+                console.dir(data);
 
                 var div_procesos = $('#div_procesos');
                 var lista_ids_preguntas = [];
@@ -148,18 +148,19 @@ $(function(e){
                     });
                 });
 
-
                 //$repetidos = [];
-
+                console.log(proc);
                 if(proc.length > 0){
                     for( var m=0; m<lista_ids_preguntas.length; m++){
-
+                        console.log(lista_ids_preguntas);
                         html += '<div class="row" >';
                             html += '<div class="titulo">';
                                 html += '<h4>'+lista_nombres_preguntas[m]+'</h4>';
                             html += '</div>';
                             proc_x_pregunta = {};
                             No_repetir_proceso = [];
+                            lista_procesos = [];
+                            lista_instrumentos = [];
                             var pintar = '';
 
                             for( var k=0; k<proc.length; k++)
@@ -173,6 +174,8 @@ $(function(e){
 
                             for( var i=0; i<proc.length; i++){
 
+                                
+
                                 // if( proc_x_pregunta.indexOf(proc[i].fk_proceso) == -1 ){
                                 //     proc_x_pregunta.push(proc[i].fk_proceso);
                                 // }
@@ -182,6 +185,7 @@ $(function(e){
 
                                     if( No_repetir_proceso.indexOf(proc[i].pk_respuesta_instrumento) == -1 ){
                                         No_repetir_proceso.push(proc[i].pk_respuesta_instrumento);
+                                        lista_instrumentos.push(proc[i].pk_respuesta_instrumento);
 
 
 
@@ -216,7 +220,7 @@ $(function(e){
                                                 html += '<br><label data-role="doc">Seleccione el(los) documento(s) que sustentan su respuesta</label>';
                                                 html += '<div class="file-uploader" data-rel="'+proc[i].pk_respuesta_instrumento+'" data-proceso="'+proc[i].fk_proceso+'">';
                                                     html += '<input type="file" name="upload[]" multiple="multiple" class="fileupload"><a href="#" data-op="cargar_doc" data-rel="'+proc[i].pk_respuesta_instrumento+'"  data-proceso="'+proc[i].fk_proceso+'" class="subir">Cargar</a><br>';
-                                                    //html += '<div class="progress-bar"><div class="progreso"></div></div>';
+                                                    html += '<div class="errores_archivos" style="color:red; margin-top:5px;"></div>';
                                                     html += '<div class="table">';
                                                         if(proc[i].documentos.length > 0){
                                                             html += '<table class="archivos">';
@@ -254,35 +258,33 @@ $(function(e){
                                 }
                             }
 
-                            // if(proc.length > 0){
-                            //     html += '<div class="div_varios_documentos">';
-                            //         html += '<label class="label_varios_doc">Si ud desea cargar algún documento, que aplique para todos los procesos de autoevaluación, puede ingresar aqui. </label>';
-                            //         html += '<div class="file-uploader" style="margin-left:16px;" >';
-                            //             html += '<input id="fileupload" type="file" name="files[]"  multiple>';
-                            //             //<input id="fileupload" type="file" name="files[]" data-url="server/php/" multiple>
-                            //             //html += '<input name="files[]" type="file" data-role="subir_multiples" multiple data-rel="'+lista_ids_preguntas[m]+'" data-proceso="'+proc_x_pregunta+'">&nbsp;&nbsp;<a href="#" data-op="cargar_doc_todos" class="subir" style="color: #cc0000; font-size:12px;">Cargar</a><br>';
-                            //             html += '<input type="hidden" id="lista_procesos" value="'+lista_ids_preguntas[m]+'">';
-                            //             html += '<input type="hidden" id="pregunta_ind" value="'+proc_x_pregunta+'">';
-                            //             //html += '<div class="progress-bar"><div class="progreso"></div></div>';
-                            //             // html += '<div class="table">';
-                            //             //     if(proc[i].documentos.length > 0){
-                            //             //         html += '<table class="archivos">';
-                            //             //             for(var m = 0; m<proc[i].documentos.length; m++){
-                            //             //                 html += '<tr data-id="'+proc[i].documentos[m].pk_documento+'"><td><a  href="'+proc[i].documentos[m].url+'" target="_blank">'+proc[i].documentos[m].nombre+'</a></td><td><a href="#" data-role="borrar">eliminar</a></td></tr>';
-                            //             //             }
-                            //             //         html += '</table>';
-                            //             //     }else{
-                            //             //         html += '<table class="archivos">';
-                            //             //         html += '</table>';
-                            //             //     }
-                            //             // html += '</div>';
-                            //             // if ($('input[name="grupoI"]').val() == "Equipo del Programa"){
-                            //             //     html += '<a href="#" data-role="nuevosArchivos" data-id-instru="'+proc[i].pk_instru_evaluacion+'" class="subir_nuevos">Archivos de procesos anteriores</a>';
-                            //             // }
-                            //         html += '<br><br>';
-                            //         html += '</div>';
-                            //     html += '</div>'; 
-                            // }
+                            if(proc.length > 1){
+                                html += '<div class="div_varios_documentos">';
+                                    html += '<label class="label_varios_doc">Si desea cargar algún documento, que aplique para todos los procesos de autoevaluación, puede ingresar aqui. </label>';
+                                        html += '<div class="file-uploader" style="margin-left:20px; " data-rel="'+lista_ids_preguntas[m]+'" data-proceso="'+lista_procesos+'">';
+                                        html += '<input type="file" name="upload[]" multiple="multiple" class="fileupload"><a style="box-shadow: none;    font-size: 12px;    margin-left: 20px;    color: #cc0000;"  href="#" data-op="cargar_doc_multiples" data-rel="'+lista_instrumentos+'"  data-proceso="'+lista_procesos+'" class="subir">Cargar</a><br>';
+                                        html += '<input type="hidden" id="instrumento" value="'+lista_ids_preguntas[m]+'">';
+                                        html += '<input type="hidden" id="procesos" value="'+lista_procesos+'">';
+                                        html += '<div class="errores_archivos" style="color:red; margin-top:5px;"></div>';
+                                        // html += '<div class="table">';
+                                        //     if(proc[i].documentos.length > 0){
+                                        //         html += '<table class="archivos">';
+                                        //             for(var m = 0; m<proc[i].documentos.length; m++){
+                                        //                 html += '<tr data-id="'+proc[i].documentos[m].pk_documento+'"><td><a  href="'+proc[i].documentos[m].url+'" target="_blank">'+proc[i].documentos[m].nombre+'</a></td><td><a href="#" data-role="borrar">eliminar</a></td></tr>';
+                                        //             }
+                                        //         html += '</table>';
+                                        //     }else{
+                                        //         html += '<table class="archivos">';
+                                        //         html += '</table>';
+                                        //     }
+                                        // html += '</div>';
+                                        // if ($('input[name="grupoI"]').val() == "Equipo del Programa"){
+                                        //     html += '<a href="#" data-role="nuevosArchivos" data-id-instru="'+proc[i].pk_instru_evaluacion+'" class="subir_nuevos">Archivos de procesos anteriores</a>';
+                                        // }
+                                    html += '<br><br>';
+                                    html += '</div>';
+                                html += '</div>'; 
+                            }
                         html += '</div>';
 
 

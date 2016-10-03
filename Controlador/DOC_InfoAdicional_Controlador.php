@@ -97,9 +97,7 @@ class informacionAdicional_Controlador{
             $nombre = "";
             $url = "";
 
-            // print_r($_POST['archivo']);
-            // var_dump($_FILES);
-            // exit();
+            $resultados_consulta = array();
 
             if ($_FILES != null && $_POST['pk_instru_evaluacion'] != ""){ 
 
@@ -144,31 +142,40 @@ class informacionAdicional_Controlador{
                                     $this->infoAdic->nombre = $nombre;
                                     $this->infoAdic->url = $url;
                                     $this->infoAdic->extension = $extension;
-                                    $this->infoAdic->fk_instrueval = $_POST['pk_instru_evaluacion'];
-                                    $this->infoAdic->estado = 1;
-                                    $this->infoAdic->fk_usuario = $_SESSION['pk_usuario'];
-                                    $this->infoAdic->tipo = 2;
 
-                                    if ($this->infoAdic->guardarDocumento() == 1){
-                                        $resul = $this->infoAdic->obtenerIdDocumento($nombre)->GetRows();
-                                        echo json_encode(array('estado' => 1,'nombre' => $nombre, 'url' => $url , 'id' => $resul[0]['pk_documento']));
-                                    }else{
-                                        echo json_encode(array('estado' => 0));
+                                    $lista_instrumentos = $_POST['pk_instru_evaluacion'];
+                                    $res = explode(',' , $lista_instrumentos);
+
+                                    foreach ($res as &$value) {
+                                        $this->infoAdic->fk_instrueval = $value;
+                                        $this->infoAdic->estado = 1;
+                                        $this->infoAdic->fk_usuario = $_SESSION['pk_usuario'];
+                                        $this->infoAdic->tipo = 2;
+
+                                        if ($this->infoAdic->guardarDocumento() == 1){
+                                            $resul = $this->infoAdic->obtenerIdDocumento($nombre)->GetRows();
+                                            array_push($resultados_consulta, array('estado' => 1,'nombre' => $nombre, 'url' => $url , 'id' => $resul[0]['pk_documento']) );
+                                        }else{
+                                            array_push($resultados_consulta, array('estado' => 0,'nombre' => $nombre) );
+                                        }
                                     }
+                                    
                                 }else{
-                                    echo 'no movio';
+                                    array_push($resultados_consulta, array('estado' => 2,'nombre' => $nombre) );
                                 } 
                             }else{
-                                echo 'tamano';
+                                array_push($resultados_consulta, array('estado' => 3,'nombre' => $nombre) );
                             }
                         }else{
-                            echo 2; // la extension no sirve
+                           array_push($resultados_consulta, array('estado' => 4,'nombre' => $nombre) );
                         }
                     }else{
-                        echo 3; // no pudi subirse el archivo
+                        array_push($resultados_consulta, array('estado' => 5,'nombre' => $nombre) );
                     }
                 }
             }
+
+            echo json_encode($resultados_consulta);
     }
 
         // public function CargarVariosArchivos(){
@@ -386,6 +393,9 @@ switch ($operacion) {
         $controladorIA->ConsultarInfoAdicional();
     break;
     case 'cargarArchivo':
+        $controladorIA->cargarArchivo();
+    break;
+    case 'CargarVariosArchivos':
         $controladorIA->cargarArchivo();
     break;
     case 'eliminarDocumentos':

@@ -1,4 +1,4 @@
-/* funcion para cerrar las ventanas emergente de inicio de sesion, cerrar sesion cambiar contraseña y restaurar contraseña*/
+/* funcion para cerrar las ventanas emergente de inicio de sesion, cerrar sesion cambiar contraseï¿½a y restaurar contraseï¿½a*/
 function CancelarDatosLoggin($url){
     
     window.location = $url;
@@ -112,7 +112,7 @@ function ValidarTexto(evt){
 
 /******************************************** enpaginador de una tabla ****************************************************/
 function tabla2 (){
-    // Con estas 3 líneas sobreescribimos el Constains para que no sea case sensitive pues por default en jquery  viene con case sensitive. Si no lo pones, queda como Case sensitive
+    // Con estas 3 lï¿½neas sobreescribimos el Constains para que no sea case sensitive pues por default en jquery  viene con case sensitive. Si no lo pones, queda como Case sensitive
     $.expr[':'].Contains = function(x, y, z){
         return jQuery(x).text().toLowerCase().indexOf(z[3].toLowerCase())>=0;
     };
@@ -253,220 +253,220 @@ function paginador($comienzo){
 
 function paginador_filtro($comienzo){
     
-    var pag = parseInt($('#s_paginador').val());
-    
-    var estado = $('#estado').val();
-    
-    var inputRadio_EU=document.getElementsByName('radio'), inputCheck_EU=document.getElementsByName('check[]');
-        
-    var filas = 0, num_pag = 0, filas_total = 0;
-    
-    var array_check =  new Array();
-    var array_no_check = new Array();
-    
-    var inici_array_check = 0;
-    var inici_array_no_check = 0;
-       
-    var num_elementos = 0;    
-    var num_interacciones = 1;
-    
-    var capa = document.getElementById("num_pag");
-    
-    document.getElementById("num_pag").innerHTML="";
-
-    $('#lista tr').show(); 
-    
-    for(i=1; i<=$comienzo; i++){
-        num_elementos +=pag;
-    }
-    
-    if(estado == 'filtrar' || estado == 'filtrar_todo'){ 
-        if(inputRadio_EU.length > 0){
-            filas_total = inputRadio_EU.length;
-            num_pag = Math.ceil(filas_total/pag);
-        }
-        else if(inputCheck_EU.length > 0){
-            filas_total = inputCheck_EU.length;
-            num_pag = Math.ceil(filas_total/pag);
-        }
-    }
-    else if(estado == 'filtrar_check'){          
-        if(inputCheck_EU.length > 0){
-            filas_total = inputCheck_EU.length;
-        }
-        for(j=0; j<inputCheck_EU.length; j++) {
-            if(inputCheck_EU.item(j).checked == false){  
-                array_no_check[inici_array_no_check] = j;
-                inici_array_no_check++;
-            }
-            else if(inputCheck_EU.item(j).checked == true){       
-                filas++;
-                array_check[inici_array_check] = j;
-                inici_array_check++;
-            }
-        }             
-          
-        num_pag = Math.ceil((filas)/pag);
-    }
-    else if(estado == 'filtrar_no_check'){        
-        if(inputCheck_EU.length > 0){
-            filas_total = inputCheck_EU.length;
-        }
-        for(j=0; j<inputCheck_EU.length; j++) {
-            if(inputCheck_EU.item(j).checked == false){      
-                filas++;
-                array_no_check[inici_array_no_check] = j;
-                inici_array_no_check++;
-            }
-            else if(inputCheck_EU.item(j).checked == true){   
-                array_check[inici_array_check] = j;
-                inici_array_check++;
-            }
-        }             
-          
-        num_pag = Math.ceil((filas)/pag);
-    }
-    else{
-        if(inputRadio_EU.length > 0){
-            filas_total = inputRadio_EU.length;
-            num_pag = Math.ceil(filas_total/pag);
-        }
-        if(inputCheck_EU.length > 0){
-            filas_total = inputCheck_EU.length;
-            num_pag = Math.ceil(filas_total/pag);
-        }
-    }
-    
-    /**/
-    if(num_pag>1){
-        if($comienzo==1){    
-            var h1 = document.createElement('a');
-            h1.setAttribute("href", '#');
-            h1.setAttribute("onclick", "paginador_filtro("+1+")");
-            h1.innerHTML = "<font color='black'> Anterior. </font>";
-        }
-        else if($comienzo>1){
-            var h1 = document.createElement('a');
-            h1.setAttribute("href", '#');
-            h1.setAttribute("onclick", "paginador_filtro("+($comienzo-1)+")");
-            h1.innerHTML = "<font color='black'> Anterior. </font>";        
-        }
-                
-        capa.appendChild(h1);
-    }
-    /**/
-    if(num_pag>1){
-        for(j=1; j<=num_pag; j++){
-            
-            if(j!=$comienzo){
-                var h1 = document.createElement('a');
-                h1.setAttribute("style",'background: #000000;  border-radius: 0.8em;  -moz-border-radius: 0.8em;  -webkit-border-radius: 0.8em;  color: #ffffff;  display: inline-block;  font-weight: bold;  line-height: 1.2em;  margin-right: 6px;  text-align: center;  width: 1.2em;')
-                h1.setAttribute("href", '#');
-                h1.setAttribute("onclick", "paginador_filtro("+j+")");
-                h1.innerHTML = "<font color='white' size='2px'>"+j+"</font>";                
-            }
-            else if(j==$comienzo){
-                var h1 = document.createElement('a');
-                h1.setAttribute("style",'background: #5EA226;  border-radius: 0.8em;  -moz-border-radius: 0.8em;  -webkit-border-radius: 0.8em;  color: #ffffff;  display: inline-block;  font-weight: bold;  line-height: 1.2em;  margin-right: 6px;  text-align: center;  width: 1.2em;')
-                h1.setAttribute("href", '#');
-                h1.setAttribute("onclick", "paginador_filtro("+j+")");
-                h1.innerHTML = "<font color='white' size='2px'>"+j+"</font>";
-            }
-            
-            capa.appendChild(h1);
-            
-        }
-    }
-    /**/
-    if(num_pag>1){
-        if($comienzo==1){
-            var h1 = document.createElement('a');
-            h1.setAttribute("href", '#');
-            h1.setAttribute("onclick", "paginador_filtro("+2+")");
-            h1.innerHTML = "<font color='black'> Siguiente. </font>";        
-        }
-        else if($comienzo<num_pag){
-            var h1 = document.createElement('a');
-            h1.setAttribute("href", '#');
-            h1.setAttribute("onclick", "paginador_filtro("+($comienzo+1)+")");
-            h1.innerHTML = "<font color='black'> Siguiente. </font>";        
-        }
-        else if($comienzo==num_pag){
-            var h1 = document.createElement('a');
-            h1.setAttribute("href", '#');
-            h1.setAttribute("onclick", "paginador_filtro("+num_pag+")");
-            h1.innerHTML = "<font color='black'> Siguiente. </font>";        
-        }
-                
-        capa.appendChild(h1);
-    }
-    
-    /******************************************************************/
-        
-    if(inputRadio_EU.length > 0){
-        for(i=0; i<filas_total; i++){
-            if(num_interacciones <= pag && i>=(num_elementos-pag)){
-                document.getElementById('lista').rows[i+1].style.display = 'true';
-                num_interacciones++;
-            }
-            else{
-                document.getElementById('lista').rows[i+1].style.display = 'none';                    
-            }
-        }
-    }    
-    else if(inputCheck_EU.length > 0){
-        if(estado == 'filtrar_check'){
-            for(i=0; i<array_no_check.length; i++){
-                document.getElementById('lista').rows[array_no_check[i]+1].style.display = 'none';
-            }
-            for(i=0; i<array_check.length; i++){
-                if(num_interacciones <= pag && i>=(num_elementos-pag)){
-                    document.getElementById('lista').rows[array_check[i]+1].style.display = 'true';
-                    num_interacciones++;
-                }
-                else{
-                    document.getElementById('lista').rows[array_check[i]+1].style.display = 'none';                    
-                }
-            }
-        }
-        else if(estado == 'filtrar_no_check'){  
-            for(i=0; i<array_check.length; i++){
-                document.getElementById('lista').rows[array_check[i]+1].style.display = 'none';
-            }
-            for(i=0; i<array_no_check.length; i++){
-                if(num_interacciones <= pag && i>=(num_elementos-pag)){
-                    document.getElementById('lista').rows[array_no_check[i]+1].style.display = 'true';
-                    num_interacciones++;
-                }
-                else{
-                    document.getElementById('lista').rows[array_no_check[i]+1].style.display = 'none';                    
-                }
-            }
-        }
-        else if(estado == 'filtrar_todo' || estado == 'filtrar'){  
-            for(i=0; i<filas_total; i++){
-                if(num_interacciones <= pag && i>=(num_elementos-pag)){
-                    document.getElementById('lista').rows[i+1].style.display = 'true';
-                    num_interacciones++;
-                }
-                else{
-                    document.getElementById('lista').rows[i+1].style.display = 'none';                    
-                }
-            }
-        }
-        else{
-           for(i=0; i<filas_total; i++){
-                if(num_interacciones <= pag && i>=(num_elementos-pag)){
-                    document.getElementById('lista').rows[i+1].style.display = 'true';
-                    num_interacciones++;
-                }
-                else{
-                    document.getElementById('lista').rows[i+1].style.display = 'none';                    
-                }
-            } 
-        }
-    }
-    
+//    var pag = parseInt($('#s_paginador').val());
+//    
+//    var estado = $('#estado').val();
+//    
+//    var inputRadio_EU=document.getElementsByName('radio'), inputCheck_EU=document.getElementsByName('check[]');
+//        
+//    var filas = 0, num_pag = 0, filas_total = 0;
+//    
+//    var array_check =  new Array();
+//    var array_no_check = new Array();
+//    
+//    var inici_array_check = 0;
+//    var inici_array_no_check = 0;
+//       
+//    var num_elementos = 0;    
+//    var num_interacciones = 1;
+//    
+//    var capa = document.getElementById("num_pag");
+//    
+//   // document.getElementById("num_pag").innerHTML="";
+//
+//    $('#lista tr').show(); 
+//    
+//    for(i=1; i<=$comienzo; i++){
+//        num_elementos +=pag;
+//    }
+//    
+//    if(estado == 'filtrar' || estado == 'filtrar_todo'){ 
+//        if(inputRadio_EU.length > 0){
+//            filas_total = inputRadio_EU.length;
+//            num_pag = Math.ceil(filas_total/pag);
+//        }
+//        else if(inputCheck_EU.length > 0){
+//            filas_total = inputCheck_EU.length;
+//            num_pag = Math.ceil(filas_total/pag);
+//        }
+//    }
+//    else if(estado == 'filtrar_check'){          
+//        if(inputCheck_EU.length > 0){
+//            filas_total = inputCheck_EU.length;
+//        }
+//        for(j=0; j<inputCheck_EU.length; j++) {
+//            if(inputCheck_EU.item(j).checked == false){  
+//                array_no_check[inici_array_no_check] = j;
+//                inici_array_no_check++;
+//            }
+//            else if(inputCheck_EU.item(j).checked == true){       
+//                filas++;
+//                array_check[inici_array_check] = j;
+//                inici_array_check++;
+//            }
+//        }             
+//          
+//        num_pag = Math.ceil((filas)/pag);
+//    }
+//    else if(estado == 'filtrar_no_check'){        
+//        if(inputCheck_EU.length > 0){
+//            filas_total = inputCheck_EU.length;
+//        }
+//        for(j=0; j<inputCheck_EU.length; j++) {
+//            if(inputCheck_EU.item(j).checked == false){      
+//                filas++;
+//                array_no_check[inici_array_no_check] = j;
+//                inici_array_no_check++;
+//            }
+//            else if(inputCheck_EU.item(j).checked == true){   
+//                array_check[inici_array_check] = j;
+//                inici_array_check++;
+//            }
+//        }             
+//          
+//        num_pag = Math.ceil((filas)/pag);
+//    }
+//    else{
+//        if(inputRadio_EU.length > 0){
+//            filas_total = inputRadio_EU.length;
+//            num_pag = Math.ceil(filas_total/pag);
+//        }
+//        if(inputCheck_EU.length > 0){
+//            filas_total = inputCheck_EU.length;
+//            num_pag = Math.ceil(filas_total/pag);
+//        }
+//    }
+//    
+//    /**/
+//    if(num_pag>1){
+//        if($comienzo==1){    
+//            var h1 = document.createElement('a');
+//            h1.setAttribute("href", '#');
+//            h1.setAttribute("onclick", "paginador_filtro("+1+")");
+//            h1.innerHTML = "<font color='black'> Anterior. </font>";
+//        }
+//        else if($comienzo>1){
+//            var h1 = document.createElement('a');
+//            h1.setAttribute("href", '#');
+//            h1.setAttribute("onclick", "paginador_filtro("+($comienzo-1)+")");
+//            h1.innerHTML = "<font color='black'> Anterior. </font>";        
+//        }
+//                
+//        capa.appendChild(h1);
+//    }
+//    /**/
+//    if(num_pag>1){
+//        for(j=1; j<=num_pag; j++){
+//            
+//            if(j!=$comienzo){
+//                var h1 = document.createElement('a');
+//                h1.setAttribute("style",'background: #000000;  border-radius: 0.8em;  -moz-border-radius: 0.8em;  -webkit-border-radius: 0.8em;  color: #ffffff;  display: inline-block;  font-weight: bold;  line-height: 1.2em;  margin-right: 6px;  text-align: center;  width: 1.2em;')
+//                h1.setAttribute("href", '#');
+//                h1.setAttribute("onclick", "paginador_filtro("+j+")");
+//                h1.innerHTML = "<font color='white' size='2px'>"+j+"</font>";                
+//            }
+//            else if(j==$comienzo){
+//                var h1 = document.createElement('a');
+//                h1.setAttribute("style",'background: #5EA226;  border-radius: 0.8em;  -moz-border-radius: 0.8em;  -webkit-border-radius: 0.8em;  color: #ffffff;  display: inline-block;  font-weight: bold;  line-height: 1.2em;  margin-right: 6px;  text-align: center;  width: 1.2em;')
+//                h1.setAttribute("href", '#');
+//                h1.setAttribute("onclick", "paginador_filtro("+j+")");
+//                h1.innerHTML = "<font color='white' size='2px'>"+j+"</font>";
+//            }
+//            
+//            capa.appendChild(h1);
+//            
+//        }
+//    }
+//    /**/
+//    if(num_pag>1){
+//        if($comienzo==1){
+//            var h1 = document.createElement('a');
+//            h1.setAttribute("href", '#');
+//            h1.setAttribute("onclick", "paginador_filtro("+2+")");
+//            h1.innerHTML = "<font color='black'> Siguiente. </font>";        
+//        }
+//        else if($comienzo<num_pag){
+//            var h1 = document.createElement('a');
+//            h1.setAttribute("href", '#');
+//            h1.setAttribute("onclick", "paginador_filtro("+($comienzo+1)+")");
+//            h1.innerHTML = "<font color='black'> Siguiente. </font>";        
+//        }
+//        else if($comienzo==num_pag){
+//            var h1 = document.createElement('a');
+//            h1.setAttribute("href", '#');
+//            h1.setAttribute("onclick", "paginador_filtro("+num_pag+")");
+//            h1.innerHTML = "<font color='black'> Siguiente. </font>";        
+//        }
+//                
+//        capa.appendChild(h1);
+//    }
+//    
+//    /******************************************************************/
+//        
+//    if(inputRadio_EU.length > 0){
+//        for(i=0; i<filas_total; i++){
+//            if(num_interacciones <= pag && i>=(num_elementos-pag)){
+//                document.getElementById('lista').rows[i+1].style.display = 'true';
+//                num_interacciones++;
+//            }
+//            else{
+//                document.getElementById('lista').rows[i+1].style.display = 'none';                    
+//            }
+//        }
+//    }    
+//    else if(inputCheck_EU.length > 0){
+//        if(estado == 'filtrar_check'){
+//            for(i=0; i<array_no_check.length; i++){
+//                document.getElementById('lista').rows[array_no_check[i]+1].style.display = 'none';
+//            }
+//            for(i=0; i<array_check.length; i++){
+//                if(num_interacciones <= pag && i>=(num_elementos-pag)){
+//                    document.getElementById('lista').rows[array_check[i]+1].style.display = 'true';
+//                    num_interacciones++;
+//                }
+//                else{
+//                    document.getElementById('lista').rows[array_check[i]+1].style.display = 'none';                    
+//                }
+//            }
+//        }
+//        else if(estado == 'filtrar_no_check'){  
+//            for(i=0; i<array_check.length; i++){
+//                document.getElementById('lista').rows[array_check[i]+1].style.display = 'none';
+//            }
+//            for(i=0; i<array_no_check.length; i++){
+//                if(num_interacciones <= pag && i>=(num_elementos-pag)){
+//                    document.getElementById('lista').rows[array_no_check[i]+1].style.display = 'true';
+//                    num_interacciones++;
+//                }
+//                else{
+//                    document.getElementById('lista').rows[array_no_check[i]+1].style.display = 'none';                    
+//                }
+//            }
+//        }
+//        else if(estado == 'filtrar_todo' || estado == 'filtrar'){  
+//            for(i=0; i<filas_total; i++){
+//                if(num_interacciones <= pag && i>=(num_elementos-pag)){
+//                    document.getElementById('lista').rows[i+1].style.display = 'true';
+//                    num_interacciones++;
+//                }
+//                else{
+//                    document.getElementById('lista').rows[i+1].style.display = 'none';                    
+//                }
+//            }
+//        }
+//        else{
+//           for(i=0; i<filas_total; i++){
+//                if(num_interacciones <= pag && i>=(num_elementos-pag)){
+//                    document.getElementById('lista').rows[i+1].style.display = 'true';
+//                    num_interacciones++;
+//                }
+//                else{
+//                    document.getElementById('lista').rows[i+1].style.display = 'none';                    
+//                }
+//            } 
+//        }
+//    }
+//    
 }
 /**************************************************************************************************************************/
 
@@ -647,7 +647,7 @@ function ValidarDatosRTO($url){
     }
     /**********************************************************************************************************/ 
 
-    /******************* validacion al momento de añadirle unas actividades a un usuario **********************/
+    /******************* validacion al momento de aï¿½adirle unas actividades a un usuario **********************/
     /***************** validacion para la tabal de tipo radio de los usuarios *********************************/
     if ( document.getElementById( "obligatorio_usuario" )) {
         var variRadio_UA = 0, inputRadio_UA=document.getElementsByName("pk_usuario")
@@ -1316,7 +1316,7 @@ function set_date(date, nombre, calendario_select){
 }
 
 function show_calendar(nombre){
-	//div donde se mostrará calendario
+	//div donde se mostrarï¿½ calendario
 	//$('#calendario').toggle();
     $(nombre).fadeToggle();
 }	

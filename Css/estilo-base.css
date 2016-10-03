@@ -25,11 +25,11 @@
 
 }
 body *,input{
-    font-family: ‘latoregular’, Arial, serif;
+    font-family: Arial, serif;
     font-weight: 300;
 }
 h1,h2,h3,h4,h5,h6,label{
-    font-family: ‘latoregular’, Arial, serif;
+    font-family: Arial, serif;
     font-weight: 300;
     font-size: 0.9em;
 }
@@ -290,11 +290,12 @@ html,body{
   padding-bottom:8px;
   margin-left: -0.7em;
   /*z-index: 12;*/
-  width: 85%;
+  width: 100%;
   box-shadow: 1px 4px 5px 2px rgba(0,0,0,0.7),inset 0px 10px 5px 0px rgba(250,250,250,0.4);
   /*overflow: hidden;*/
   border-radius:7px 0px 7px 0px;/* Reemplazo del borde del menu -- t1emporal */
   cursor:pointer;
+  -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;
 }
 .una-linea-menu:before{
   height: 0px;
@@ -494,12 +495,13 @@ a{
   padding: 0.7em 2.5em 0.7em 2.5em;
   margin: 0.3em 0.3em;
   color:rgb(255,255,255);
-  width: 6rem;
-  height:5rem;
+  width: 9rem;
+  height:6rem;
   border-radius: 5px; 
   font-size:0.8rem;
   overflow: hidden;
-  /*box-shadow: inset 0px 0px 5px 2px rgba(255,255,255,0.7);*/
+  -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;
+  box-shadow: inset 0px 0px 5px 2px rgba(255,255,255,0.7);
 }
 .texto-boton{
   display: block;
@@ -605,7 +607,7 @@ a{
 }
 .una-columna-centro-medio{
   display: inline-block;
-  width: 50%;
+  width: 100%;
   height: auto;
   clear: both;
 }
@@ -926,8 +928,8 @@ a.boton-normal{
   /*background-image: linear-gradient(to top,rgba(180,180,180,1),rgba(250,250,250,1));*/ /*--------------------------------*/ 
   
  /*Modificado 28/10/2014 Miguel villamizar
- se pretende establecer el mismo tamaño de los botones 
- para toda la aplicación 
+ se pretende establecer el mismo tamaï¿½o de los botones 
+ para toda la aplicaciï¿½n 
  
   max-width: 200px;
   min-width: 100px;
@@ -1094,7 +1096,6 @@ table td{
     border-left-width: 1px;
     border-right-width: 1px;
     width:auto;
-    text-align: left;
 }
 .datos-usuario .inicio-sesion-boton{
     background-color:transparent;
