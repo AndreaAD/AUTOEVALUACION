@@ -251,7 +251,7 @@ class InstruEval_Modelo {
 	 		$dat = $procesoInstitucional[0]['pk_proceso_institucional'];
 
 	 		if($dat != 0){
-	 			if($proceso['fk_fase'] == 4 ){
+	 			if($proceso['fk_fase'] == 4 OR $proceso['fk_fase'] == 5 OR $proceso['fk_fase'] == 6){
 	 				array_push($procesos, $proceso);
 	 			}
 	 		}

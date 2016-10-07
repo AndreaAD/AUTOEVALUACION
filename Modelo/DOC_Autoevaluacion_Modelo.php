@@ -59,9 +59,35 @@ class Autoevaluacion_Modelo {
 	 			$sql = 'SELECT fk_fase FROM cna_proceso where pk_proceso = '.$procesos[$i]['pk_proceso'].'  ';
 		 		$res = $this->runSQL($sql);
 		 		$d = $res->GetRows();
-		 		if($d[0]['fk_fase'] == 4){
+		 		if($d[0]['fk_fase'] == 4 ){
 		 			array_push($datos, $procesos[$i]['nombre_proceso']);
 		 			
+		 		}
+	 		}
+		
+		}
+
+		return $datos;
+	}
+
+	public function listaProcesosFase5($procesos){
+
+		$datos = array();
+		$datos_completos = array();
+
+		for ($i=0; $i < count($procesos) ; $i++) { 
+
+			$consulta_procesos_ins = 'SELECT pk_proceso_institucional FROM cna_proceso_institucional_proceso WHERE pk_proceso = '.$procesos[$i]['pk_proceso'];
+	 		$resultado_procesos = $this->runSQL($consulta_procesos_ins);
+	 		$procesoInstitucional = $resultado_procesos->GetRows();
+	 		$dat = $procesoInstitucional[0]['pk_proceso_institucional'];
+
+	 		if($dat != 0){
+	 			$sql = 'SELECT fk_fase FROM cna_proceso where pk_proceso = '.$procesos[$i]['pk_proceso'].'  ';
+		 		$res = $this->runSQL($sql);
+		 		$d = $res->GetRows();
+		 		if($d[0]['fk_fase'] == 5){
+		 			array_push($datos, $procesos[$i]['nombre_proceso']);
 		 		}
 	 		}
 		
@@ -431,7 +457,10 @@ class Autoevaluacion_Modelo {
 
 		if( $al[0]['fk_alcance_autoevaluacion'] == 4)
 		{
-			$sql2 = 'SELECT di.pk_respuesta_instrumento, cnp.`pk_proceso`, cnp.`nombre` AS nombre_proceso, di.`fk_tipo_respuesta` AS tipo_respuesta, di.`fk_instrumento` AS pk_instru_evaluacion , di.`descripcion` AS pregunta , di.`porcentaje` AS porcentaje , di.`fk_factor`, di.`fk_caracteristicas`, di.`fk_evidencia`, di.`fk_grupo_interes` FROM doc_respuesta_instrumentos  di, cna_proceso cnp WHERE di.`fk_proceso` = "'.$proceso.'" AND di.`fk_proceso` = cnp.`pk_proceso` and di.fk_grupo_interes = 7  LIMIT '.($pagina * $items).', '.$items;
+			$sql2 = 'SELECT di.pk_respuesta_instrumento, cnp.`pk_proceso`, cnp.`nombre` AS nombre_proceso, di.`fk_tipo_respuesta` AS tipo_respuesta, di.`fk_instrumento` AS pk_instru_evaluacion , di.`descripcion` AS pregunta , di.`porcentaje` AS porcentaje , di.`fk_factor`, di.`fk_caracteristicas`, di.`fk_evidencia`, di.`fk_grupo_interes` FROM doc_respuesta_instrumentos  di, cna_proceso cnp WHERE di.`fk_proceso` = "'.$proceso.'" AND di.`fk_proceso` = cnp.`pk_proceso` and di.fk_grupo_interes = 10  LIMIT '.($pagina * $items).', '.$items;
+			//echo $sql12;
+			//exit();
+
 			$res2 = $this->runSQL($sql2);
 			$lista = $res2->GetRows();
 	 		return $lista;

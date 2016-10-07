@@ -10,83 +10,104 @@ class informacionAdicional_Controlador{
     /**
      * [__construct constructor de la clase, inicializa una instancia del modelo]
      */
+
+
+
     public function __construct(){
         $this->infoAdic = new InfoAdicional_Modelo;
     }
 
-    /**
-     * [guardarInfoAdicional sube un archivo de informacion adicional y lo guarda en la carpeta correspodiente a al instrumento y luego lo inserta en base de datos]
-     * @return [void] [se retorna un valor numerico como codigo de estado]
-     */
-    public function guardarInfoAdicional(){
-        //$ruta="documentos/";
-        $ruta="../Documentos/info_adicional/";
-        $nombre = "";
-        $url = "";
-        // Establecer la zona horaria predeterminada a usar. Disponible desde PHP 5.1
-        date_default_timezone_set('UTC');
-        //Imprimimos la fecha actual dandole un formato
-        $fecha = date("d-m-Y");
-        if ($_FILES != null && $_POST['pregunta'] != ""){ 
-            foreach ($_FILES as $key) {
-                if($key['error'] == UPLOAD_ERR_OK ){//Verificamos si se subio correctamente
-                    $sobreescribir = false; //Sobreescribir el archivo si existe, si se deja en false genera un nombre nuevo 
-                    $nombre = $key['name'];//Obtenemos el nombre del archivo
-                    $temporal = $key['tmp_name']; //Obtenemos el nombre del archivo temporal
-                    $tamano= ($key['size'] / 1000)."Kb"; //Obtenemos el tamaÃ±o en KB
-                    $tipoDocumento = $key['type']; // obtenemos el tipo de documento
-                    
-                    $url = $ruta.$nombre; // generamos la url
-
-                    $trozos = explode(".", $nombre); // separamos la extension del nombre del documento
-                    $extension = end($trozos); // obtenemos la extension del documento
-
-                    // verificamos que la extension sea permitida
-                    
-                    if (($extension == "pdf")||($extension == "docx")||($extension == "doc")||($extension == "xlsx")||($extension == "xls")){
-                         // Comprueba si el archivo existe en la ubicacion donde lo vamos a copiar 
-                        if (file_exists($ruta.$nombre)) {
-                            //si es falso se genera un nuevo nombre al documento
-                            if (!$sobreescribir) {
-                                $i = 1;
-                                while ($i) {
-                                    if (!file_exists($ruta.$i."_".$nombre)) {
-                                        $nombre = $i."_".$nombre;
-                                        $i = 0;
-                                    } else {
-                                        $i++;
-                                    }
-                                }
-                            }
-                        }     
-
-                       if(move_uploaded_file($temporal, $ruta.$nombre))
-                        {
-                            $this->infoAdic = new InfoAdicional_Modelo;
-                            $this->infoAdic->nombre = $nombre;
-                            $this->infoAdic->url = $url;
-                            $this->infoAdic->extension = $extension;
-                            $this->infoAdic->fk_instrueval = $_POST['pregunta'];
-                            $this->infoAdic->estado = 1;
-                            $this->infoAdic->fk_usuario = $_SESSION['pk_usuario'];
-                            echo  $this->infoAdic->guardar();
-                        }else{
-                            
-                        }
-                    }else{
-
-                        echo 2; // la extension no sirve
-                    }
-
-                }else{
-                    echo 3; // no pudi subirse el archivo
-                }
-            }
-        }else{
-            
-           echo 4; //echo por favor seleccione un documento;
+    public function generateRandomString($length = 10) {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
         }
+        echo $randomString;
     }
+
+
+    // /**
+    //  * [guardarInfoAdicional sube un archivo de informacion adicional y lo guarda en la carpeta correspodiente a al instrumento y luego lo inserta en base de datos]
+    //  * @return [void] [se retorna un valor numerico como codigo de estado]
+    //  */
+    // public function guardarInfoAdicional(){
+    //     //$ruta="documentos/";
+    //     $ruta="../Documentos/info_adicional/";
+    //     $nombre = "";
+    //     $url = "";
+    //     // Establecer la zona horaria predeterminada a usar. Disponible desde PHP 5.1
+    //     date_default_timezone_set('UTC');
+    //     //Imprimimos la fecha actual dandole un formato
+    //     $fecha = date("d-m-Y");
+    //     if ($_FILES != null && $_POST['pregunta'] != ""){ 
+    //         foreach ($_FILES as $key) {
+    //             if($key['error'] == UPLOAD_ERR_OK ){//Verificamos si se subio correctamente
+    //                 $sobreescribir = false; //Sobreescribir el archivo si existe, si se deja en false genera un nombre nuevo 
+    //                 $nombre = $key['name'];//Obtenemos el nombre del archivo
+    //                 $temporal = $key['tmp_name']; //Obtenemos el nombre del archivo temporal
+    //                 $tamano= ($key['size'] / 1000)."Kb"; //Obtenemos el tamaÃ±o en KB
+    //                 $tipoDocumento = $key['type']; // obtenemos el tipo de documento
+
+    //                 $aleatorio = generateRandomString(10);
+
+    //                 $nombre_generado = $aleatorio;
+                    
+    //                 $url = $ruta.$nombre_generado; // generamos la url
+
+    //                 $trozos = explode(".", $nombre); // separamos la extension del nombre del documento
+    //                 $extension = end($trozos); // obtenemos la extension del documento
+
+    //                 // verificamos que la extension sea permitida
+                    
+    //                 if (($extension == "pdf")||($extension == "docx")||($extension == "doc")||($extension == "xlsx")||($extension == "xls")){
+    //                      // Comprueba si el archivo existe en la ubicacion donde lo vamos a copiar 
+    //                     if (file_exists($ruta.$nombre_generado)) {
+    //                         //si es falso se genera un nuevo nombre al documento
+    //                         if (!$sobreescribir) {
+    //                             $nuevo_aleatorio = generateRandomString(10);
+    //                             $nombre_generado = $nuevo_aleatorio;
+                                
+    //                             // $i = 1;
+    //                             // while ($i) {
+    //                             //     if (!file_exists($ruta.$i."_".$nombre)) {
+    //                             //         $nombre = $i."_".$nombre;
+    //                             //         $i = 0;
+    //                             //     } else {
+    //                             //         $i++;
+    //                             //     }
+    //                             // }
+    //                         }
+    //                     }     
+
+    //                    if(move_uploaded_file($temporal, $ruta.$nuevo_aleatorio))
+    //                     {
+    //                         $this->infoAdic = new InfoAdicional_Modelo;
+    //                         $this->infoAdic->nombre = $nombre;
+    //                         $this->infoAdic->url = $url;
+    //                         $this->infoAdic->extension = $extension;
+    //                         $this->infoAdic->fk_instrueval = $_POST['pregunta'];
+    //                         $this->infoAdic->estado = 1;
+    //                         $this->infoAdic->fk_usuario = $_SESSION['pk_usuario'];
+    //                         echo  $this->infoAdic->guardar();
+    //                     }else{
+                            
+    //                     }
+    //                 }else{
+
+    //                     echo 2; // la extension no sirve
+    //                 }
+
+    //             }else{
+    //                 echo 3; // no pudi subirse el archivo
+    //             }
+    //         }
+    //     }else{
+            
+    //        echo 4; //echo por favor seleccione un documento;
+    //     }
+    // }
 
     /**
      * [cargarArchivo sube un archivo y lo guarda en la carpeta correspodiente]
@@ -109,8 +130,17 @@ class informacionAdicional_Controlador{
                         $tamano= ($key['size'] / 1000)."Kb"; //Obtenemos el tamaño en KB
                         $tamano_dato= ($key['size'] / 1000); //Obtenemos el tamaño en KB
                         $tipoDocumento = $key['type']; // obtenemos el tipo de documento
+
+                        //generateRandomString(10);
+
+                        //$nombre_generado = generateRandomString(10);
+                        //echo '1';
+
+                        //$random = substr( md5(rand()), 0, 10);
+                        //$nombre_generado = $random;
                         
                         $url = $ruta.$nombre; // generamos la url
+
 
                         $trozos = explode(".", $nombre); // separamos la extension del nombre del documento
                         $extension = end($trozos); // obtenemos la extension del documento
@@ -118,9 +148,14 @@ class informacionAdicional_Controlador{
                         
                         if (($extension == "pdf")||($extension == "docx")||($extension == "doc")||($extension == "xlsx")||($extension == "xls")){
                              // Comprueba si el archivo existe en la ubicacion donde lo vamos a copiar 
-                            if (file_exists($ruta.$nombre)) {
+                            if (file_exists($ruta.$nombre_generado)) {
                                 //si es falso se genera un nuevo nombre al documento
                                 if (!$sobreescribir) {
+
+                                    //$nuevo_aleatorio = generateRandomString(10);
+                                    //$nombre_generado = $nuevo_aleatorio;
+
+
                                     $i = 1;
                                     while ($i) {
                                         if (!file_exists($ruta.$i."_".$nombre)) {

@@ -121,7 +121,7 @@ $(function(e){
                 pagina: _pagina,
             },
             success:  function (data) {
-                console.dir(data);
+                //console.dir(data);
 
                 var div_procesos = $('#div_procesos');
                 var lista_ids_preguntas = [];
@@ -220,7 +220,7 @@ $(function(e){
                                                 html += '<br><label data-role="doc">Seleccione el(los) documento(s) que sustentan su respuesta</label>';
                                                 html += '<div class="file-uploader" data-rel="'+proc[i].pk_respuesta_instrumento+'" data-proceso="'+proc[i].fk_proceso+'">';
                                                     html += '<input type="file" name="upload[]" multiple="multiple" class="fileupload"><a href="#" data-op="cargar_doc" data-rel="'+proc[i].pk_respuesta_instrumento+'"  data-proceso="'+proc[i].fk_proceso+'" class="subir">Cargar</a><br>';
-                                                    html += '<div class="errores_archivos" style="color:red; margin-top:5px;"></div>';
+                                                    html += '<div class="errores_archivos" style="color:red;font-size: 11px; margin-top:5px;"></div>';
                                                     html += '<div class="table">';
                                                         if(proc[i].documentos.length > 0){
                                                             html += '<table class="archivos">';
@@ -258,14 +258,14 @@ $(function(e){
                                 }
                             }
 
-                            if(proc.length > 1){
+                            if(No_repetir_proceso.length > 1){
                                 html += '<div class="div_varios_documentos">';
                                     html += '<label class="label_varios_doc">Si desea cargar algún documento, que aplique para todos los procesos de autoevaluación, puede ingresar aqui. </label>';
                                         html += '<div class="file-uploader" style="margin-left:20px; " data-rel="'+lista_ids_preguntas[m]+'" data-proceso="'+lista_procesos+'">';
                                         html += '<input type="file" name="upload[]" multiple="multiple" class="fileupload"><a style="box-shadow: none;    font-size: 12px;    margin-left: 20px;    color: #cc0000;"  href="#" data-op="cargar_doc_multiples" data-rel="'+lista_instrumentos+'"  data-proceso="'+lista_procesos+'" class="subir">Cargar</a><br>';
                                         html += '<input type="hidden" id="instrumento" value="'+lista_ids_preguntas[m]+'">';
                                         html += '<input type="hidden" id="procesos" value="'+lista_procesos+'">';
-                                        html += '<div class="errores_archivos" style="color:red; margin-top:5px;"></div>';
+                                        html += '<div class="errores_archivos" style="color:red; margin-top:5px;font-size: 11px;"></div>';
                                         // html += '<div class="table">';
                                         //     if(proc[i].documentos.length > 0){
                                         //         html += '<table class="archivos">';
