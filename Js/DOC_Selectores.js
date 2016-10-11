@@ -2062,7 +2062,7 @@ $(function(e){
                     var html_tabla_2 = '';
 
 
-                    $.each(data[1], function(i, e){
+                    $.each(data[0], function(i, e){
                         //console.log(data[1]);
                         //$.each(e, function(i1, e1){
                             //console.log(e);
@@ -2070,7 +2070,7 @@ $(function(e){
                                 html_tabla_1 += '<td>'+e.codigo+'</td>';
                                 html_tabla_1 += '<td>'+e.nombre+'</td>';
                                 html_tabla_1 += '<td>'+e.valor_factor+'%</td>';
-                                html_tabla_1 += '<td>'+e.ponderado_factor_porcentaje+'%</td>';
+                                html_tabla_1 += '<td>'+e.total_+'%</td>';
                                 html_tabla_1 += '<td>'+e.cumplimiento+'%</td>';
                             html_tabla_1 += '</tr>';
                         //});
@@ -2078,7 +2078,7 @@ $(function(e){
 
                     tabla_factor.html(html_tabla_1);
 
-                    $.each(data[0], function(i, e){
+                    $.each(data[1], function(i, e){
                         //console.log(data[1]);
                         //$.each(e, function(i1, e1){
                             //console.log(e);
@@ -2086,7 +2086,7 @@ $(function(e){
                                 html_tabla_2 += '<td>'+e.codigo+'</td>';
                                 html_tabla_2 += '<td>'+e.factor_nombre+'</td>';
                                 html_tabla_2 += '<td>'+e.nombre+'</td>';
-                                html_tabla_2 += '<td>'+e.valor_carac+'%</td>';
+                                html_tabla_2 += '<td>'+e.valor_carac_porcentaje+'%</td>';
                                 html_tabla_2 += '<td>'+e.valor_ponderado_caracteristica2+'%</td>';
                                 html_tabla_2 += '<td>'+e.cumplimiento+'%</td>';
                             html_tabla_2 += '</tr>';
@@ -2102,6 +2102,25 @@ $(function(e){
     });
 
 
+    $('#boton_consolidaciondb').on('click', function(e){
+        if($('#proceso_consolidacion').val() != 0 ){
+            $.ajax({
+                url: '../Controlador/DOC_Autoevaluacion_Controlador.php',
+                type:  'post',
+                async: false,
+                dataType:'json',
+                data:{
+                    operacion: "ConsolidadoDb",
+                    proceso: $('#proceso_consolidacion').val()
+                },
+                success:  function (data) {
+                    console.dir(data);
+                    
+                }
+               
+            }); 
+        }
+    });
 
 
 });

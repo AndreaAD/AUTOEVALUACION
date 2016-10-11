@@ -148,7 +148,7 @@ class informacionAdicional_Controlador{
                         
                         if (($extension == "pdf")||($extension == "docx")||($extension == "doc")||($extension == "xlsx")||($extension == "xls")){
                              // Comprueba si el archivo existe en la ubicacion donde lo vamos a copiar 
-                            if (file_exists($ruta.$nombre_generado)) {
+                            if (file_exists($ruta.$nombre)) {
                                 //si es falso se genera un nuevo nombre al documento
                                 if (!$sobreescribir) {
 

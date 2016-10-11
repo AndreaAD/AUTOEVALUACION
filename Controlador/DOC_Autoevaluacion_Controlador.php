@@ -358,6 +358,31 @@ class Autoevaluacion_Controlador {
         
         echo json_encode($datos);
     }
+
+    public function ConsolidadoDb(){
+
+        // $proceso = $_POST['proceso']; 
+        // $datos = $this->autoevaluacion->consolidado($proceso);
+
+        // // var_dump($datos);
+        // // exit();
+
+
+        // //recorro las caracteristicas
+        // // foreach ($datos[0] as &$value) {
+        // //     $datos = $this->autoevaluacion->guardarConsolidadoCaracteristica($value, $proceso);
+        // // }
+
+        // foreach ($datos[1] as &$value) {
+        //     $datos = $this->autoevaluacion->guardarConsolidadoFactor($value, $proceso);
+        // }
+
+        // //exit();
+        // //var_dump($datos);
+        // //exit();
+        // //echo json_encode($datos);
+    }
+
 }
 
 $controlador = new Autoevaluacion_Controlador;
@@ -429,6 +454,9 @@ switch ($_operacion) {
     break;
     case 'Consolidado':
         $controlador->Consolidado();
+    break;
+    case 'ConsolidadoDb':
+        $controlador->ConsolidadoDb();
     break;
     default:
 

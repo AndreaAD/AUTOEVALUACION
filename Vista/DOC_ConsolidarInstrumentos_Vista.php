@@ -11,16 +11,23 @@
 <?php
 
 	if(count($listaProcesosG) > 0 ){
-		echo '<h4>Los procesos listados a continuación se encuentran en fase de CONSOLIDACIÓN, desea consolidar la información de estos procesos.</h4>';
-		//var_dump($listaProcesosG);
-		echo '<ul style="    text-align: left;    line-height: 10px;">';
-		foreach ($listaProcesosG as $value) {
-			echo '<li><span>'.$value.'</span></li><br>';
-		}
-		echo '</ul>';
-		echo '<input type="button" id="ConsolidarInstrumentos" value="Consolidar">';
+		echo '<div class="row">';
+            echo '<div class="col">';
+                echo '<label class="label_caja">Seleccione el proceso</label>';
+            echo '</div>';
+            echo '<div class="col_2">';
+                echo '<select name="proceso_consolidacion" id="proceso_consolidacion">';
+                    echo '<option value="0">Seleccionar</option>';
+                        foreach ($listaProcesosG as $value) {
+                            echo '<option value="'.$value['pk_proceso'].'">'.$value['nombre_proceso'].'</option>';  
+                        }
+                echo '</select><br><br>';
+            echo '</div>';
+        echo '</div>';
+        echo '<br>';
+        echo '<input type="button" id="boton_consolidaciondb" value="Consolidar">';
 	}else{
-		echo '<h4>En este momento no cuenta con ningun proceso en fase de CONSOLIDACIÓN para consolidar infromación.</h4>';
+		echo '<h4>En este momento no cuenta con ningun proceso en fase de CONSOLIDACIÓN para consolidar información.</h4>';
 
 	}
 ?>

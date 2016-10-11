@@ -9,7 +9,6 @@ $listaProcesosG =  $instancia->listaProcesosFase5($_SESSION['array_proceso']);
 //exit();
 
 
-
 //$listaProcesosG =  $instancia->consolidado();
 
 
@@ -18,6 +17,8 @@ $listaProcesosG =  $instancia->listaProcesosFase5($_SESSION['array_proceso']);
 //$insertar_ins =  $instancia->insertarInstrumentosProceso($_SESSION['array_proceso']);
 
 require_once("../Vista/DOC_ConsolidarInstrumentos_Vista.php");
+
+
 
 ?>
 
