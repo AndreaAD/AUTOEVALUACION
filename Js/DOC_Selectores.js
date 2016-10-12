@@ -2054,7 +2054,7 @@ $(function(e){
                 proceso: $(this).val()
             },
             success:  function (data) {
-                //console.dir(data);
+                console.dir(data);
                 if(data){
                     var tabla_factor = $('#tabla_ponderacion_factor tbody');
                     var tabla_carac = $('#tabla_ponderacion_caracteristica tbody');

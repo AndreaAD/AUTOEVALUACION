@@ -1211,10 +1211,6 @@ WHERE  cnp.`pk_proceso` = "'.$id_proceso.'" AND di.pk_proceso_insti = "'.$insti.
 
 	}
 
-	// echo '<pre>';
-	// print_r($arregloPreguntas);
-	// exit();
-
 	$resultados_finales_carc = array();
 
 	//recorrer las caracteristicas generales
@@ -1227,106 +1223,84 @@ WHERE  cnp.`pk_proceso` = "'.$id_proceso.'" AND di.pk_proceso_insti = "'.$insti.
 			$maximo = '';
 			$suma_respuesta = '';
 				
-					$consul_factor2 = 'select * from cna_factor where pk_factor = '.$caracteristica['fk_factor'].' ';
-					//echo $consul_factor2;
-					$respu_factor2 = $this->runSQL($consul_factor2);
-					$factor2 = $respu_factor2->GetRows();
-					$f_nombre = $factor2[0]['nombre'];
+			$consul_factor2 = 'select * from cna_factor where pk_factor = '.$caracteristica['fk_factor'].' ';
+			//echo $consul_factor2;
+			$respu_factor2 = $this->runSQL($consul_factor2);
+			$factor2 = $respu_factor2->GetRows();
+			$f_nombre = $factor2[0]['nombre'];
 
 
-					$consul_valor_caracteristica = 'select * from cna_proceso_ponderacion where fk_caracteristica = '.$caracteristica['pk_caracteristica'].' and fk_proceso = '.$id_proceso ;
-					$respuesta_valor_cr = $this->runSQL($consul_valor_caracteristica);
-					$ponderado_carac = $respuesta_valor_cr->GetRows();
+			$consul_valor_caracteristica = 'select * from cna_proceso_ponderacion where fk_caracteristica = '.$caracteristica['pk_caracteristica'].' and fk_proceso = '.$id_proceso ;
+			$respuesta_valor_cr = $this->runSQL($consul_valor_caracteristica);
+			$ponderado_carac = $respuesta_valor_cr->GetRows();
 
-					$consul_valor_factor = 'select * from cna_proceso_ponderacion where fk_factor = '.$caracteristica['fk_factor'].' and fk_proceso = '.$id_proceso ;
-					$respuesta_valor_factor = $this->runSQL($consul_valor_factor);
-					$ponderado_factor = $respuesta_valor_factor->GetRows();
-					
-					if(array_key_exists($caracteristica['pk_caracteristica'], $arregloPreguntas)){
-
-										
-						$consulta = 'SELECT MAX(ponderacion) AS maximo  FROM respuesta_ponderacion WHERE fk_tipo_respuesta = '.$arregloPreguntas[$caracteristica['pk_caracteristica']][0]['tipo_respuesta'];
-						$r5 = $this->runSQL($consulta);
-						$maximo_ = $r5->GetRows();
-
-						$ponderacion = $arregloPreguntas[$caracteristica['pk_caracteristica']][0]['ponderacion'] == '' ? 0  : $arregloPreguntas[$caracteristica['pk_caracteristica']][0]['ponderacion'] ;
-
-						$suma_respuesta += $ponderacion;
-						$maximo += $maximo_[0]['maximo'];
-						$valor_caracteristica = $suma_respuesta/$maximo;
-						$valor_ponderado_caracteristica = $valor_caracteristica * $ponderado_carac[0]['ponderacion_porcentual'];
-
-
-						$suma_ponderados_carac += $valor_ponderado_caracteristica;
-
-						$opracion_12 = ( $valor_ponderado_caracteristica * 100 ) * 100;
-						$opracion_22 = ( $ponderado_carac[0]['ponderacion_porcentual'] * 100 );
-						$cumplimiento2 = $opracion_12 / $opracion_22;
-
-
-
-
-						$array = array(
-						    "nombre" => $factor2[0]['nombre'],
-						    "codigo" => $factor2[0]['codigo'],
-						    "factor" => $caracteristica['fk_factor'],
-						    "factor_nombre" => $f_nombre,
-						    "ponderado_factor" => $ponderado_factor[0]['ponderacion_porcentual'],
-						    "caracteristica" => $caracteristica['pk_caracteristica'],
-						    "suma_valores" => $suma_respuesta,
-						    "maximo" => $maximo,
-						    "valor_caracteristica" => $valor_caracteristica,
-						    "valor_carac" => $ponderado_carac[0]['ponderacion_porcentual'],
-						    "valor_carac_porcentaje" => $ponderado_carac[0]['ponderacion_porcentual'] * 100,
-						    "valor_ponderado_caracteristica" => $valor_ponderado_caracteristica,
-						    "valor_ponderado_caracteristica2" => $valor_ponderado_caracteristica * 100,
-						    "cumplimiento" => $cumplimiento2
-						);
-
-					}else{
-
-						// $consulta = 'SELECT MAX(ponderacion) AS maximo  FROM respuesta_ponderacion WHERE fk_tipo_respuesta = '.$arregloPreguntas[$caracteristica['pk_caracteristica']][0]['tipo_respuesta'];
-						// $r5 = $this->runSQL($consulta);
-						// $maximo_ = $r5->GetRows();
-
-						// $ponderacion = $arregloPreguntas[$caracteristica['pk_caracteristica']][0]['ponderacion'] == '' ? 0  : $arregloPreguntas[$caracteristica['pk_caracteristica']][0]['ponderacion'] ;
-
-						// $suma_respuesta += $ponderacion;
-						// $maximo += $maximo_[0]['maximo'];
-						// $valor_caracteristica = $suma_respuesta/$maximo;
-						// $valor_ponderado_caracteristica = $valor_caracteristica * $ponderado_carac[0]['ponderacion_porcentual'];
-
-
-						// $suma_ponderados_carac += $valor_ponderado_caracteristica;
-
-						// $opracion_12 = ( $valor_ponderado_caracteristica * 100 ) * 100;
-						// $opracion_22 = ( $ponderado_carac[0]['ponderacion_porcentual'] * 100 );
-						// $cumplimiento2 = $opracion_12 / $opracion_22;
-
-						//echo '2';
-						$array = array(
-						    "nombre" => $caracteristica['nombre'],
-						    "codigo" => $caracteristica['codigo'],
-						    "factor" =>  $caracteristica['fk_factor'],
-						    "factor_nombre" => $f_nombre,
-						    "ponderado_factor" => $ponderado_factor[0]['ponderacion_porcentual'],
-						    "caracteristica" => $caracteristica['pk_caracteristica'],
-						    "suma_valores" => 0 ,
-						    "maximo" => 0,
-						    "valor_caracteristica" => 0 ,
-						    "valor_carac" => $ponderado_carac[0]['ponderacion_porcentual'],
-						    "valor_carac_porcentaje" => $ponderado_carac[0]['ponderacion_porcentual'] * 100,
-						    "valor_ponderado_caracteristica" => 0 ,
-						    "valor_ponderado_caracteristica2" => 0 ,
-						    "cumplimiento" => 0 
-						);
-					}
-			//}	
+			$consul_valor_factor = 'select * from cna_proceso_ponderacion where fk_factor = '.$caracteristica['fk_factor'].' and fk_proceso = '.$id_proceso ;
+			$respuesta_valor_factor = $this->runSQL($consul_valor_factor);
+			$ponderado_factor = $respuesta_valor_factor->GetRows();
 			
-		//}
+			if(array_key_exists($caracteristica['pk_caracteristica'], $arregloPreguntas)){
+								
+				$consulta = 'SELECT MAX(ponderacion) AS maximo  FROM respuesta_ponderacion WHERE fk_tipo_respuesta = '.$arregloPreguntas[$caracteristica['pk_caracteristica']][0]['tipo_respuesta'];
+				$r5 = $this->runSQL($consulta);
+				$maximo_ = $r5->GetRows();
+
+				$ponderacion = $arregloPreguntas[$caracteristica['pk_caracteristica']][0]['ponderacion'] == '' ? 0  : $arregloPreguntas[$caracteristica['pk_caracteristica']][0]['ponderacion'] ;
+
+				$suma_respuesta += $ponderacion;
+				$maximo += $maximo_[0]['maximo'];
+				$valor_caracteristica = $suma_respuesta/$maximo;
+				$valor_ponderado_caracteristica = $valor_caracteristica * $ponderado_carac[0]['ponderacion_porcentual'];
 
 
-		array_push($resultados_finales_carc, $array);
+				$suma_ponderados_carac += $valor_ponderado_caracteristica;
+
+				$opracion_12 = ( $valor_ponderado_caracteristica * 100 ) * 100;
+				$opracion_22 = ( $ponderado_carac[0]['ponderacion_porcentual'] * 100 );
+				$cumplimiento2 = $opracion_12 / $opracion_22;
+
+
+
+
+				$array = array(
+				     "nombre" => $caracteristica['nombre'],
+				    "codigo" => $caracteristica['codigo'],
+				    "factor" => $caracteristica['fk_factor'],
+				    "factor_nombre" => $f_nombre,
+				    "ponderado_factor" => $ponderado_factor[0]['ponderacion_porcentual'],
+				    "caracteristica" => $caracteristica['pk_caracteristica'],
+				    "suma_valores" => $suma_respuesta,
+				    "maximo" => $maximo,
+				    "valor_caracteristica" => $valor_caracteristica,
+				    "valor_carac" => $ponderado_carac[0]['ponderacion_porcentual'],
+				    "valor_carac_porcentaje" => $ponderado_carac[0]['ponderacion_porcentual'] * 100,
+				    "valor_ponderado_caracteristica" => $valor_ponderado_caracteristica,
+				    "valor_ponderado_caracteristica2" => $valor_ponderado_caracteristica * 100,
+				    "cumplimiento" => $cumplimiento2
+				);
+
+				array_push($resultados_finales_carc, $array);
+
+			}else{
+
+				$array = array(
+				    "nombre" => $caracteristica['nombre'],
+				    "codigo" => $caracteristica['codigo'],
+				    "factor" =>  $caracteristica['fk_factor'],
+				    "factor_nombre" => $f_nombre,
+				    "ponderado_factor" => $ponderado_factor[0]['ponderacion_porcentual'],
+				    "caracteristica" => $caracteristica['pk_caracteristica'],
+				    "suma_valores" => 0 ,
+				    "maximo" => 0,
+				    "valor_caracteristica" => 0 ,
+				    "valor_carac" => $ponderado_carac[0]['ponderacion_porcentual'],
+				    "valor_carac_porcentaje" => $ponderado_carac[0]['ponderacion_porcentual'] * 100,
+				    "valor_ponderado_caracteristica" => 0 ,
+				    "valor_ponderado_caracteristica2" => 0 ,
+				    "cumplimiento" => 0 
+				);
+
+				array_push($resultados_finales_carc, $array);
+			}
 	}
 
 
@@ -1339,6 +1313,7 @@ WHERE  cnp.`pk_proceso` = "'.$id_proceso.'" AND di.pk_proceso_insti = "'.$insti.
 		$lista_fac = array_unique($arreglo_f);
 		sort($lista_fac);
 	}
+
 
 
 	foreach ($lista_fac as &$fa) {
@@ -1366,38 +1341,31 @@ WHERE  cnp.`pk_proceso` = "'.$id_proceso.'" AND di.pk_proceso_insti = "'.$insti.
 		$total_ = '';
 
 		foreach ($value3 as &$value4) {
-			//echo $value4['valor_carac'];
 			$suma_caracteristicas += $value4['valor_ponderado_caracteristica'];
 			$suma_caracteristicas_maximo += $value4['valor_carac'];
 			$valor_f = ((float)$value4['ponderado_factor']) ;
+			$factor__ = ($value4['factor']) ;
 		}
 
 		$ponderado_c = ($suma_caracteristicas)*($valor_f);
 
-		$consulta_factor = 'select * from cna_factor where pk_factor ='.$value4['factor']; 
+		$consulta_factor = 'select * from cna_factor where pk_factor ='.$factor__; 
 		$resultado_factor = $this->runSQL($consulta_factor);
 		$factor = $resultado_factor->GetRows();
 
-		$opracion_1 = ( $ponderado_c * 100) * 100;
-		//var_dump($opracion_1);
-		$opracion_2 = ( $value4['ponderado_factor'] * 100 );
-		//var_dump($opracion_2);
+		$valor_factor  = $valor_f *100;
+		$total_ = ($suma_caracteristicas / $suma_caracteristicas_maximo) * $valor_factor;
+		$cumplimiento = ($total_ * 100)/ $valor_factor;
 
-		$cumplimiento = $opracion_1 / $opracion_2;
-		$total_  = $suma_caracteristicas / $suma_caracteristicas_maximo;
-
-		$valor_factor  = $value4['ponderado_factor']*100;
 
 		$array = array(
 		    "suma_caracteristicas" => $suma_caracteristicas,
 		    "suma_caracteristicas_maximo" => $suma_caracteristicas_maximo,
 		    "valor_division_maximo" => $suma_caracteristicas / $suma_caracteristicas_maximo,
-		    "total_" => ($suma_caracteristicas / $suma_caracteristicas_maximo) * $valor_factor,
-		    "valor_factor" => $value4['ponderado_factor']*100,
-		    "ponderado_factor_final" => $ponderado_c,
-		    "ponderado_factor_porcentaje" => $ponderado_c ,
+		    "total_" => $total_,
+		    "valor_factor" => $valor_factor,
 		    "cumplimiento" => $cumplimiento,
-		    "factor" => $value4['factor'],
+		    "factor" => $factor__,
 		    "codigo" => $factor[0]['codigo'],
 		    "nombre" => $factor[0]['nombre'],
 		);
