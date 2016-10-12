@@ -361,26 +361,20 @@ class Autoevaluacion_Controlador {
 
     public function ConsolidadoDb(){
 
-        // $proceso = $_POST['proceso']; 
-        // $datos = $this->autoevaluacion->consolidado($proceso);
-
-        // // var_dump($datos);
-        // // exit();
-
+        $proceso = $_POST['proceso']; 
+        $datos = $this->autoevaluacion->consolidado($proceso);
 
         // //recorro las caracteristicas
-        // // foreach ($datos[0] as &$value) {
-        // //     $datos = $this->autoevaluacion->guardarConsolidadoCaracteristica($value, $proceso);
-        // // }
 
-        // foreach ($datos[1] as &$value) {
-        //     $datos = $this->autoevaluacion->guardarConsolidadoFactor($value, $proceso);
-        // }
+        foreach ($datos[1] as &$caracteristica) {
+            $datos = $this->autoevaluacion->guardarConsolidadoCaracteristica($caracteristica, $proceso);
+        }
 
-        // //exit();
-        // //var_dump($datos);
-        // //exit();
-        // //echo json_encode($datos);
+        foreach ($datos[0] as &$factor) {
+            $datos = $this->autoevaluacion->guardarConsolidadoFactor($factor, $proceso);
+        }
+
+        return true;
     }
 
 }

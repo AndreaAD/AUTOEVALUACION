@@ -1385,25 +1385,54 @@ WHERE  cnp.`pk_proceso` = "'.$id_proceso.'" AND di.pk_proceso_insti = "'.$insti.
 
 }
 
-public function guardarConsolidadoCaracteristica($valor_caracteristica, $proceso)
+public function guardarConsolidadoCaracteristica($caracteristica, $proceso)
 {
-	var_dump($valor_caracteristica);
-	exit();
+	$total_sin_formato = $caracteristica['valor_ponderado_caracteristica2'] / 100;
+	$total = number_format($total_sin_formato, 3);
 
-	$consulta = '' ;
+	$consulta = 'select pk_cna_resultados_evidencia as id from cna_resultados_evidencia where fk_caracteristica = "'.$caracteristica['caracteristica'].'" and fk_proceso = "'.$proceso.'" and fk_modulo = 5 ';
 	$respuesta = $this->runSQL($consulta);
 	$datos = $respuesta->GetRows();
+
+	$respuesta = $this->runSQL($consulta);
+	$datos = $respuesta->GetRows();
+
+	if(count($datos) == 0){
+		$consulta2 = 'insert into cna_resultados_evidencia (fk_caracteristica, calificacion, fk_proceso, fk_modulo) values("'.$caracteristica['caracteristica'].'", "'.$total.'" , "'.$proceso.'", 5  ) ';
+		$respuesta2 = $this->runSQL($consulta2);
+		return true;
+	}else{
+		$consulta3 = 'update cna_resultados_evidencia set fk_caracteristica = "'.$caracteristica['caracteristica'].'", calificacion = "'.$total.'", fk_proceso = "'.$proceso.'", fk_modulo = 5 where pk_cna_resultados_evidencia = '.$datos[0]['id'];
+
+		$respuesta3 = $this->runSQL($consulta3);
+		return true;
+	}
+
 }
 
-public function guardarConsolidadoFactor($valor_factor, $proceso)
+public function guardarConsolidadoFactor($factor, $proceso)
 {
-	var_dump($valor_factor);
-	exit();
 
-	$consulta = '' ;
+	$total_sin_formato = $factor['total_'] / 100;
+	$total = number_format($total_sin_formato, 3);
+
+	$consulta = 'select pk_cna_resultados_evidencia as id from cna_resultados_evidencia where fk_factor = "'.$factor['factor'].'" and fk_proceso = "'.$proceso.'" and fk_modulo = 5 ';
 	$respuesta = $this->runSQL($consulta);
 	$datos = $respuesta->GetRows();
 
+	$respuesta = $this->runSQL($consulta);
+	$datos = $respuesta->GetRows();
+
+	if(count($datos) == 0){
+		$consulta2 = 'insert into cna_resultados_evidencia (fk_factor, calificacion, fk_proceso, fk_modulo) values("'.$factor['factor'].'", "'.$total.'" , "'.$proceso.'", 5  ) ';
+		$respuesta2 = $this->runSQL($consulta2);
+		return true;
+	}else{
+		$consulta3 = 'update cna_resultados_evidencia set fk_factor = "'.$factor['factor'].'", calificacion = "'.$total.'", fk_proceso = "'.$proceso.'", fk_modulo = 5 where pk_cna_resultados_evidencia = '.$datos[0]['id'];
+
+		$respuesta3 = $this->runSQL($consulta3);
+		return true;
+	}
 
 }
 
