@@ -13,6 +13,7 @@ jsGeneral();
 //para asi ir a cada caso de uso
 if(isset($_REQUEST['H_opcion']))
 {
+    echo 'entre1';
     switch($_REQUEST['H_opcion']){
         
          case 'obserCarac':{
@@ -868,7 +869,7 @@ if(isset($_REQUEST['H_opcion']))
 }
 else
 { 
-    
+    echo 'entre2';
     //si no detecta el componente h_opción, 
     //entra aqui , donde muestra la información del proceso
     // y una tabla con todos los factores y sus calificaciones
@@ -885,6 +886,8 @@ else
     $arrInfo = $glo_objModelAnali->buscarProceso($_SESSION["pk_proceso"],$_SESSION["pk_usuario"]);
     if(isset($arrInfo[0][0]))
     {
+        echo 'entre3';
+
         $_SESSION["plm_facultad"]=$arrInfo[0];
         $_SESSION["plm_programa"]=$arrInfo[1];
         $_SESSION["plm_sede"]=$arrInfo[2];
@@ -896,41 +899,65 @@ else
 
         //busca todos los factores
         $arrFactor[][]=array();
-        $arrFactor = $glo_objModelAnali ->buscaFactor();
+        $arrFactor = $glo_objModelAnali->buscaFactor();
         $floCal = 0;
         $temp=0;
         $arrCalFactor[][]=array();
-        $arrCarac[][]=array();
-        for($i=0; $i<count($arrFactor); $i++)
-        {
-            $arrCarac = $glo_objModelAnali->buscarCarac($arrFactor[$i][0],$_SESSION["pk_proceso"]);
-            $arrPondeCarac =$glo_objModelAnali->buscaPondeCarac($arrFactor[$i][0],$_SESSION["pk_proceso"]);
-            $arrCalCarac[][] = array();
-            $floCal =0;
+        $arrCarac[] =array();
+        $arrAspectos[] =array();
+
+        require_once('../Modelo/PLM_PrincipalAnalisis_Modelo.php');
+        $instancia  = new Analisis;
+
+        foreach ($arrFactor as &$value) {
             
-                $arrCalCarac=calCarac($arrCarac);
-                for($j=0; $j<count($arrCalCarac); $j++)
-                {
-                    if(isset($arrCalCarac[$j][0]))
-                    {
-                        if(isset($arrPondeCarac[$j][0]))
-                        {                      
-                            if($temp!=5)
-                            {
-                                if($arrCalCarac[$j][0]==$arrPondeCarac[$j][0])
-                                {
-                                    $floCal +=  ($arrCalCarac[$j][1]*$arrPondeCarac[$j][2])/100;  
-                                }
-                            }   
-                        }
-                    }
-                }
-                //va calculando la calificación de cada factor
-                $arrCalFactor[$i][1]=$floCal;           
-                $arrCalFactor[$i][0]=$arrFactor[$i][0]; 
+            $arrCarac =  $instancia->listaCaracteristicasProceso($value[0]);
+
+        }
+
+        foreach ($arrCarac as &$value) {
+            
+            $arrAspectos =  $instancia->listaAspectosProceso($value[0]);
+
+        }
+
+        // for($i=0; $i<count($arrFactor); $i++)
+        // {
+        //     $arrCarac = $glo_objModelAnali->buscarCarac($arrFactor[$i][0],$_SESSION["pk_proceso"]);
+            
+        //     // $arrPondeCarac =$glo_objModelAnali->buscaPondeCarac($arrFactor[$i][0],$_SESSION["pk_proceso"]);
+        //     // $arrCalCarac[][] = array();
+        //     // $floCal =0;
+            
+        //     //     $arrCalCarac=calCarac($arrCarac);
+        //     //     for($j=0; $j<count($arrCalCarac); $j++)
+        //     //     {
+        //     //         if(isset($arrCalCarac[$j][0]))
+        //     //         {
+        //     //             if(isset($arrPondeCarac[$j][0]))
+        //     //             {                      
+        //     //                 if($temp!=5)
+        //     //                 {
+        //     //                     if($arrCalCarac[$j][0]==$arrPondeCarac[$j][0])
+        //     //                     {
+        //     //                         $floCal +=  ($arrCalCarac[$j][1]*$arrPondeCarac[$j][2])/100;  
+        //     //                     }
+        //     //                 }   
+        //     //             }
+        //     //         }
+        //     //     }
+        //     //     //va calculando la calificación de cada factor
+        //     //     $arrCalFactor[$i][1]=$floCal;           
+        //     //     $arrCalFactor[$i][0]=$arrFactor[$i][0]; 
                 
          
-        }
+        // }
+
+        // echo '<pre>';
+        // var_dump($arrCarac);
+        // exit();
+
+
         if(($arrCalFactor[0][0]))
         {
            $arrEscaFac[][]=array();

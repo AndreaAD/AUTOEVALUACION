@@ -100,7 +100,6 @@ jsGeneral();
         jsSelector();
         
         $arrInfo = $objPlan->buscarProceso($_SESSION["pk_proceso"],$_SESSION["pk_usuario"]);
-        
         if(isset($arrInfo[0][0]))
         {
             $_SESSION["plm_facultad"]=$arrInfo[0];

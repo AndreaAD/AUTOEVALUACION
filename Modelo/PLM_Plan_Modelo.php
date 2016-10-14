@@ -716,23 +716,32 @@ class Plan {
         
         $conexion->conectarAdo();
 
-		 
+        $cadena_1 = "select pk_grupo_interes from cna_grupo_interes where nombre = 'Directivos Academicos' ";
+        $recordSet1 = $conexion->Ejecutar($cadena_1);
+
+        $dato[] = array();
+        $i=0;
+        
+        while(!$recordSet1->EOF)
+        {        
+            $dato[0]=$recordSet1->fields[0];
+            $recordSet1->MoveNext();
+            $i++;
+        }      
+	 
         $cadena = " SELECT G.nombre, C.nombre, B.nombre, A.fecha_inicio, CONCAT( E.nombre,' ', E.apellido) AS nombre
                     FROM cna_proceso A, sad_sede B, sad_programa C, cna_fase D,
-                         sad_usuario E, sad_proceso_usuario F, sad_facultad G, sad_usuario_tipo_usuario H, sad_tipo_usuario I
+                         sad_usuario E, sad_proceso_usuario F, sad_facultad G
                     WHERE A.pk_proceso = ".$intIdProceso." AND
                           A.fk_programa = C.pk_programa  AND
                           A.fk_sede = B.pk_sede AND
                           D.pk_fase = A.fk_fase AND 
                           D.pk_fase = 6 AND
-                          E.pk_usuario = F.fk_usuario  AND
+                          E.pk_usuario = ".$intIdUsuario."  AND
                           A.pk_proceso = F.fk_proceso AND
-                          E.fk_programa = C.pk_programa AND
+                          (E.fk_programa = C.pk_programa OR E.fk_programa = '1' ) AND
                           G.pk_facultad = C.fk_facultad AND
-                          E.pk_usuario = H.fk_usuario AND
-                          H.fk_tipo_usuario = I.pk_tipo_usuario AND
-                          I.pk_tipo_usuario = 4  ;";
-					  
+                          E.fk_grupo_interes = ".$dato[0]." limit 0,1 ;";
         
         $recordSet = $conexion->Ejecutar($cadena);
         
