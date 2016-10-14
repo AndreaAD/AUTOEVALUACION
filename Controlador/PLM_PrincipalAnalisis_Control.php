@@ -869,7 +869,6 @@ if(isset($_REQUEST['H_opcion']))
 }
 else
 { 
-    echo 'entre2';
     //si no detecta el componente h_opción, 
     //entra aqui , donde muestra la información del proceso
     // y una tabla con todos los factores y sus calificaciones
@@ -886,7 +885,6 @@ else
     $arrInfo = $glo_objModelAnali->buscarProceso($_SESSION["pk_proceso"],$_SESSION["pk_usuario"]);
     if(isset($arrInfo[0][0]))
     {
-        echo 'entre3';
 
         $_SESSION["plm_facultad"]=$arrInfo[0];
         $_SESSION["plm_programa"]=$arrInfo[1];
@@ -905,20 +903,24 @@ else
         $arrCalFactor[][]=array();
         $arrCarac[] =array();
         $arrAspectos[] =array();
+        $datos[] =array();
 
         require_once('../Modelo/PLM_PrincipalAnalisis_Modelo.php');
         $instancia  = new Analisis;
 
         foreach ($arrFactor as &$value) {
-            
             $arrCarac =  $instancia->listaCaracteristicasProceso($value[0]);
+            foreach ($arrCarac as &$caracteristica){
+                
+                $datos =  $instancia->obtenerDatosPonderacion($caracteristica[0], $_SESSION["pk_proceso"]);
 
-        }
-
-        foreach ($arrCarac as &$value) {
-            
-            $arrAspectos =  $instancia->listaAspectosProceso($value[0]);
-
+                foreach ($datos as &$resultado) {
+                    foreach ($resultado as &$resultado2) {
+                        var_dump(count($resultado2));
+                        exit();
+                    }
+                }
+            }
         }
 
         // for($i=0; $i<count($arrFactor); $i++)
@@ -958,62 +960,62 @@ else
         // exit();
 
 
-        if(($arrCalFactor[0][0]))
-        {
-           $arrEscaFac[][]=array();
-           if($temp != 2 )
-           {
-                $arrEscaFac[][]=array();
-                for($i=0; $i<count($arrCalFactor); $i++)
-                {
-                    if(isset( $arrCalFactor[$i][0]))
-                    {
-                        $arrEscaFac[$i][0] = $arrCalFactor[$i][0];
-                        $floCal=$arrCalFactor[$i][1];
-                        $glo_objModelAnali-> guardaCalFac($arrCalFactor[$i][0], $floCal,$_SESSION["pk_proceso"]);
+        // if(($arrCalFactor[0][0]))
+        // {
+        //    $arrEscaFac[][]=array();
+        //    if($temp != 2 )
+        //    {
+        //         $arrEscaFac[][]=array();
+        //         for($i=0; $i<count($arrCalFactor); $i++)
+        //         {
+        //             if(isset( $arrCalFactor[$i][0]))
+        //             {
+        //                 $arrEscaFac[$i][0] = $arrCalFactor[$i][0];
+        //                 $floCal=$arrCalFactor[$i][1];
+        //                 $glo_objModelAnali-> guardaCalFac($arrCalFactor[$i][0], $floCal,$_SESSION["pk_proceso"]);
                         
-                        $floCal = str_replace(",",".",$floCal);
+        //                 $floCal = str_replace(",",".",$floCal);
                         
-                        if( $glo_objModelAnali-> buscaEscala($floCal))
-                        {
-                            $arrEscaFac[$i][1] = $glo_objModelAnali-> buscaEscala($floCal);
-                        }
-                        else
-                        {
-                            // este mensaje sale cuando la calificación no esta en el rango de la escala
-                            $arrEscaFac[$i][1] ="No está en el rango de la escala!"; 
-                        }
-                    }
-                }                    
-            }
-        }
-        else
-        {
-            $glo_objViewAnali->mensaje("NO HAY FACTORES REGISTRADOS !");
-        }
-        if($temp==4)
-        {
-            $glo_objViewAnali->mensaje("NO HAY ASPECTOS REGISTRADOS !");
-        }
-        if($temp==2)
-        {
-            $glo_objViewAnali->mensaje("NO HAY EVIDENCIAS REGISTRADAS !");
-        }
-        if($temp==3)
-        {
-            $glo_objViewAnali->mensaje("NO HAY GRUPOS DE INTERÉS REGISTRADOS !");
-        } 
-        if($temp==5)
-        {
-            $glo_objViewAnali->mensaje("LAS CARACTEÍSTICAS NO ESTAN PONDERADAS !");
-        }                
+        //                 if( $glo_objModelAnali-> buscaEscala($floCal))
+        //                 {
+        //                     $arrEscaFac[$i][1] = $glo_objModelAnali-> buscaEscala($floCal);
+        //                 }
+        //                 else
+        //                 {
+        //                     // este mensaje sale cuando la calificación no esta en el rango de la escala
+        //                     $arrEscaFac[$i][1] ="No está en el rango de la escala!"; 
+        //                 }
+        //             }
+        //         }                    
+        //     }
+        // }
+        // else
+        // {
+        //     $glo_objViewAnali->mensaje("NO HAY FACTORES REGISTRADOS !");
+        // }
+        // if($temp==4)
+        // {
+        //     $glo_objViewAnali->mensaje("NO HAY ASPECTOS REGISTRADOS !");
+        // }
+        // if($temp==2)
+        // {
+        //     $glo_objViewAnali->mensaje("NO HAY EVIDENCIAS REGISTRADAS !");
+        // }
+        // if($temp==3)
+        // {
+        //     $glo_objViewAnali->mensaje("NO HAY GRUPOS DE INTERÉS REGISTRADOS !");
+        // } 
+        // if($temp==5)
+        // {
+        //     $glo_objViewAnali->mensaje("LAS CARACTEÍSTICAS NO ESTAN PONDERADAS !");
+        // }                
         
-        if($temp==0)
-        {
-            $glo_objViewAnali ->mostrarFac($arrFactor,$arrCalFactor, $arrEscaFac);
+        // if($temp==0)
+        // {
+        //     $glo_objViewAnali ->mostrarFac($arrFactor,$arrCalFactor, $arrEscaFac);
             
             
-        }
+        // }
     }
     else
     {
