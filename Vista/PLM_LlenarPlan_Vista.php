@@ -82,8 +82,7 @@ class LlenarPlanView {
     //en esta función se cargan todos los datos para poder generar un plan de mejoramiento
     // se carga el analisi causal, la caracteristica y el puntaje
     public function cargarDatos($caracteristica, $consolidado, $areas, $rubros, $proyectos)
-    {
-	   
+    {	   
         global $objComponentes;
         $this->elementos();
 		$temp=0;
@@ -124,7 +123,7 @@ class LlenarPlanView {
 					$temp=1;
                     ?>
                     
-                       <label><?php echo "Dede hacer antes la consolidación!!! "?></label>
+                       <label><?php echo "Debe hacer antes la consolidación!!! "?></label>
               
               
                     <?php
@@ -139,6 +138,9 @@ class LlenarPlanView {
                 
                     <td style="text-align: center;">
                 <?php 
+
+                var_dump($consolidado[0][0]);
+                exit();
                 
                 if(($consolidado[0][0]))
                 {

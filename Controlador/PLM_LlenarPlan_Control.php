@@ -33,7 +33,7 @@ jsGeneral();
                 
             
                 $caracteristica = $objPlan->buscarCaracteristicaById($_SESSION["plm_carac"], $conexion);
-                $consolidado = $objPlan->buscarConsolidadoCaracteristica($_SESSION["plm_carac"], $conexion);                    
+                $consolidado = $objPlan->buscarConsolidadoCaracteristica($_SESSION["plm_carac"], $conexion);
                 $ambitos = $objPlan->buscarAmbitos($conexion);
                 $areas = $objPlan->buscarAreas($conexion);
                 $rubros = $objPlan->buscarRubros($conexion);

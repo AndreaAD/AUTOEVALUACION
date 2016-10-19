@@ -273,7 +273,6 @@ class Plan {
 			FROM plm_caracteristica_proceso 
 			WHERE fk_caracteristica = $caracteristica
 				AND fk_proceso = $_proceso"; //Realizamos una consulta
-        
         $recordSet = $conexion->Ejecutar($cadena);
         
         $conexion->Close();

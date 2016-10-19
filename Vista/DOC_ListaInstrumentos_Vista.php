@@ -7,8 +7,7 @@
 <script>
     $(function(e){
         $('#tabla_instrumentos').DataTable();
-    })
-
+    });
 
 </script>
 <div class="bloque una-columna">
@@ -36,7 +35,7 @@
         </div> 
         <div class="row" style="width:96%;">
             <div class="col-md-12">
-                <table id="tabla_instrumentos" class="display select" cellspacing="0" width="100%">
+                <table id="tabla_instrumentos">
                     <thead>
                         <tr>
                             <th>Descripción</th>
