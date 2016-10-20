@@ -40,13 +40,15 @@ if(isset($arrInfo[0][0]))
     $arrCarac[] =array();
     $arrAspectos[] =array();
     $datos[] =array();
-    $resultados_tabla[] =array();
+    $resultados_tabla =array();
 
     require_once('../Modelo/PLM_PrincipalAnalisis_Modelo.php');
     $instancia  = new Analisis;
 
     foreach ($arrFactor as &$value) {
         $datos =  $instancia->obtenerDatosPonderacionFactor($value[0], $_SESSION["pk_proceso"]);
+        $datos_ponderacion_factor =  $instancia->obtenerPonderacionFactor($value[0], $_SESSION["pk_proceso"]);
+        $escala_cualitativa =  $instancia->obtenerEscalaCualitativa();
 
         $tamaño = count($datos);
         $promedio1 = 0;
@@ -70,6 +72,8 @@ if(isset($arrInfo[0][0]))
                 $promedio_modulo6 = $promedio;
             }
 
+            $porcentaje_cumplimiento = ( $promedio * 100 ) / ( $datos_ponderacion_factor[0]['ponderacion_porcentual'] * 100 );
+
         }else if($tamaño == 2){
 
             $promedio1 = $datos[0]['calificacion'] != NULL ? $datos[0]['calificacion']  : 0 ;
@@ -91,17 +95,23 @@ if(isset($arrInfo[0][0]))
             $resultados_promedio = $promedio1 + $promedio2;
             $promedio = $resultados_promedio / 2;
 
+
+            $porcentaje_cumplimiento = ( $promedio * 100 ) / ( $datos_ponderacion_factor[0]['ponderacion_porcentual'] * 100 );
+
         }
 
         //$promedio = number_format ($promedio ,2);
-
         $resultados_carc = array(
             'factor' => $value[5],
+            'pk_factor' => $value[0],
+            'nombre' => $value[1],
+            'ponderacion_porcentual' => $datos_ponderacion_factor[0]['ponderacion_porcentual'] * 100,
             'valor_modulo_5' => $promedio_modulo5,
             'valor_modulo_6' => $promedio_modulo6,
-            'promedio' => $promedio,
+            'promedio' => $promedio  * 100,
+            'porcentaje_cumplimiento' => number_format($porcentaje_cumplimiento *100, 2),
+            'escala' => '',
         );
-
 
         array_push($resultados_tabla, $resultados_carc);
 

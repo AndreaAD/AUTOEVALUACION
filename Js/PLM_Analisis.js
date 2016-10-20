@@ -435,3 +435,61 @@ function atrasObserCarac()
 		}       
    });
 } 
+
+$(function(e){
+
+    $( "#tabla_analisis_factor" ).delegate("input[name='seleccionar_factor']", "change", function() {
+        var factor =$(this).closest('tr').data('rel');
+        $('#id_fact').val(factor);
+
+    });
+
+    $("#buscar_caracteristicas").on('click', function(e){
+        if($('#id_fact').val() != 0){
+            var id = $('#id_fact').val();
+            $.ajax({
+                url: '../Controlador/PLM_PrincipalAnalisis_Control.php',
+                dataType:'html',
+                data:{
+                    id_factor : id,
+                    H_opcion : 'buscarCaract',
+                },
+                success:  function (data) {
+                    $('.principal-panel-sub-contenido').html(data);
+                    
+                }
+               
+            }); 
+        }
+
+    });
+
+    // $('#atras_').on('click', function(e){
+    //      window.history.back();
+    // });    
+
+    $( "#tabla_analisis_caracteristicas" ).delegate("input[name='seleccionar_caracteristica']", "change", function() {
+        var caracteristica =$(this).closest('tr').data('rel');
+        $('#id_carac').val(caracteristica);
+
+    });
+
+    $('#agregar_analisis').on('click', function(e){
+        if($('#id_carac').val() != 0){
+            var id = $('#id_carac').val();
+            $.ajax({
+                url: '../Controlador/PLM_PrincipalAnalisis_Control.php',
+                dataType:'html',
+                data:{
+                    id_carac : id,
+                    H_opcion : 'AddAnalisis',
+                },
+                success:  function (data) {
+                    $('.principal-panel-sub-contenido').html(data);
+                    
+                }
+            });
+        }
+    });
+
+});

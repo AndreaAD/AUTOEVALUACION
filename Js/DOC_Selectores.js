@@ -2124,40 +2124,6 @@ $(function(e){
         }
     });
 
-    $('#guardar_caracteristica_analisis').on('click', function(e){
-        
-        var tabla = $("#tabla_analisis_caracteristicas").DataTable();
-        
-
-        // tabla.rows().every( function ( rowIdx, tableLoop, rowLoop ) {
-        //     var data = this.data();
-        //     alert(data[1]+'-'+data[4]+'-'+data[5]+'-'+data[6]+'-'+data[7]);
-        // } );
-
-        //debo guardar estos datos en la tabla plm_caracteristica_proceso y traer de la tabla de ponderacion lo otro
-
-
-        // $("#tabla_analisis_caracteristicas tbody tr").each(function (index) 
-        // {
-        //     var caracteristica = $(this).data('rel');
-        //     var campo1, campo2, campo3, campo4;
-        //     $(this).children("td").each(function (index2) 
-        //     {
-        //         switch (index2) 
-        //         {
-        //             case 4: campo1 = $(this).text();
-        //                     break;
-        //             case 5: campo2 = $(this).val();
-        //                     break;
-        //             case 6: campo3 = $(this).val();
-        //                     break;
-        //             case 7: campo4 = $(this).val();
-        //                     break;
-        //         }
-        //     });
-        //     alert(campo1 + ' - ' + campo2 + ' - ' + campo3+' - ' + campo4+ ' - ' + caracteristica);
-        // });
-    });
 
 
 });

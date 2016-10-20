@@ -222,65 +222,8 @@ if(isset($_REQUEST['H_opcion']))
         }break;
                 
         case 'AddAnalisis':{
-            
-            //lo que se quiere es agregar un análisis a la característica seleccionada 
-            $arrIdFac[] = array();
-            $cont=-1;
-            
-            if(isset($_REQUEST['select']))
-            {
-                $arrIdFac[0] = $_REQUEST['select'];
-                $_SESSION["PLM_IdCarac"] = $arrIdFac[0];
-                $cont=0;
-            }
-            else if(isset($_SESSION["PLM_IdCarac"]))
-			{
-				$cont=0;
-			}
-            if($cont != -1)
-            {     
-                //traemos el codigo d ela característica a la cual se le debe agragar el análisis
-                if(isset($_SESSION["plm_cal_car"]))
-                {
-                }
-                else
-                {
-                    $i=0;
-                    $aux=0;
-                    while(isset($_SESSION["plm_id".$i]))
-                    {
-                        if($_SESSION["plm_id".$i] == $_SESSION["PLM_IdCarac"])
-                        {
-                            $_SESSION["plm_cal_car"]=$_SESSION["plm_cal".$i];
-                            $aux=1;  
-                            break;                              
-                        }
-                        $i++;
-                    }
-                    if($aux==0)
-                    {
-                        $_SESSION["plm_cal_car"] = 0;
-                    }
-                }
-                
-                //se muestra la información del proceso actual
-                $glo_objViewAnali->mostrarInfo($_SESSION["plm_facultad"],$_SESSION["plm_programa"],$_SESSION["plm_sede"],$_SESSION["plm_director"],$_SESSION["plm_periodo"]);
-                
-                //mostramos el historial del factor
-                $arrFactor = $glo_objModelAnali->buscaFactorCod($_SESSION["PLM_IdFactor"]);
-                $glo_objViewAnali->mostrarTablaDinamic($arrFactor, "Factor", $_SESSION["plm_cal_fac"]);
-    
-                //mostramos el historial del la característica
-                $arrFactor = $glo_objModelAnali->buscaCaractCod($_SESSION["PLM_IdCarac"]);
-                $glo_objViewAnali->mostrarTablaDinamic($arrFactor, "Característica",$_SESSION["plm_cal_car"]);
-				
-				
-				$glo_objViewAnali->mostrarAnalisis();
-            }
-            else if($cont == -1)
-            {
-                $glo_objViewAnali->mensaje("Debe seleccionar una característica !!!");
-            }
+                $Característica = $_GET['id_carac'];
+                require_once("../Vista/PLM_NuevoAnalisis_Vista.php");
         }break;
         
         case 'verGraficaFac':{
@@ -339,141 +282,131 @@ if(isset($_REQUEST['H_opcion']))
             
         }break;
        
-        case 'buscarCaract':{
-            
-            //muestra las características, con la calificación, la ponderación y la escala cualitativa
-            
+        case 'buscarCaract':{       
+
+            $factor = $_REQUEST['id_factor'];
+
+            global $glo_objViewAnali, $glo_objModelAnali, $arrFactor, $temp;
+        
             $temp=0;
-            if(isset($_SESSION["PLM_IdCarac"]))
-            {
-                unset($_SESSION["PLM_IdCarac"]);
-            }
-            if(isset($_SESSION["PLM_IdAspec"]))
-            {
-                unset($_SESSION["PLM_IdAspec"]);                
-            }
-            if(isset($_SESSION["PLM_IdEvi"]))
-            {
-                unset($_SESSION["PLM_IdEvi"]);                
-            }
-            
-            
+                    
             if(isset($_SESSION["PLM_IdFactor"]))
             {
-                $cont=0;
+                unset($_SESSION["PLM_IdFactor"]);                
             }
-            else
-            {
-                //captura el codigo del factor seleccionado
-                $arrIdFac[] = array();
-                $intF = $_POST['H_contFac'];
-                $cont=-1;
-                
-                if(isset($_REQUEST['select']))
-                {
-                    $arrIdFac[0] = $_REQUEST['select'];
-                    $_SESSION["PLM_IdFactor"] = $arrIdFac[0];
-                    $cont=1;
-                }             
+            
+            $arrInfo = $glo_objModelAnali->buscarProceso($_SESSION["pk_proceso"],$_SESSION["pk_usuario"]);
 
-            }
-            if($cont==-1)
+            
+
+            if(isset($arrInfo[0][0]))
             {
-                $glo_objViewAnali->mensaje("No seleccionó, ningún factor!!!");
-            }
-            else
-            {                           
-                //muestra la información del proceso actual
-                $glo_objViewAnali->mostrarInfo($_SESSION["plm_facultad"],$_SESSION["plm_programa"],$_SESSION["plm_sede"],$_SESSION["plm_director"],$_SESSION["plm_periodo"]);
-                                       
-                //busca las características de un factor 
-                $arrCarac = $glo_objModelAnali->buscarCarac($_SESSION["PLM_IdFactor"], $_SESSION["pk_proceso"]);
-                $arrCalCarac[][] = array();
-                $arrEscaCarac[][]=array();
+
+                $_SESSION["plm_facultad"]=$arrInfo[0];
+                $_SESSION["plm_programa"]=$arrInfo[1];
+                $_SESSION["plm_sede"]=$arrInfo[2];
+                $_SESSION["plm_director"]=$arrInfo[4];
+                $_SESSION["plm_periodo"]=$arrInfo[3];
                 
-                if(($arrCarac[0][0]))
-                {                    
-                   $arrCalCarac=calCarac($arrCarac);
-                   if(($arrCalCarac[0][0]))
-                   {
-                       if($temp != 2 )
-                       {
-                            for($i=0; $i<count($arrCalCarac); $i++)
-                            {
-                                $arrEscaCarac[$i][0] = $arrCalCarac[$i][0];
-                                $floCal=$arrCalCarac[$i][1];
-                                $glo_objModelAnali->guardaCalCarac($arrCalCarac[$i][0], $arrCalCarac[$i][1],$_SESSION["pk_proceso"]);
-                                
-                                $floCal = str_replace(",",".",$floCal);
-                                
-                                if( $glo_objModelAnali-> buscaEscala($floCal))
-                                {
-                                    $arrEscaCarac[$i][1] = $glo_objModelAnali-> buscaEscala($floCal);
-                                }
-                                else
-                                {
-                                    //este mensaje se muestra cuando la calificación no esta en el rango de la escala
-                                    $arrEscaCarac[$i][1] ="No está en el rango de la escala!";
-                                }
-                            }                    
-                        }
-                    }
-                    else
-                    {
-                        $temp=4;
-                    }
-					
-					
-                    //lo que se quiere es traer la calificación de un factor, en
-                    //la variable de sessión "plm_cal_fac"
-                    if(isset($_SESSION["plm_cal_fac"]))
-                    {
-                    }
-                    else
-                    {
-                        $i=0;
-						$aux=0;
-                        while(isset($_SESSION["plm_id".$i]))
-                        {
-                            if($_SESSION["plm_id".$i] == $_SESSION["PLM_IdFactor"])
-                            {
-                                $_SESSION["plm_cal_fac"]=$_SESSION["plm_cal".$i]; 
-								$aux=1;						
-                                break;                               
+            
+                $glo_objViewAnali->mostrarInfo($_SESSION["plm_facultad"], $_SESSION["plm_programa"],$_SESSION["plm_sede"],$_SESSION["plm_director"],$_SESSION["plm_periodo"]);
+
+                //busca todos los factores
+                $arrFactor[][]=array();
+                $arrFactor = $glo_objModelAnali->buscaFactor();
+                $floCal = 0;
+                $temp=0;
+                $arrCalFactor[][]=array();
+                $arrCarac[] =array();
+                $arrAspectos[] =array();
+                $datos[] =array();
+                $resultados_tabla =array();
+
+                require_once('../Modelo/PLM_PrincipalAnalisis_Modelo.php');
+                $instancia  = new Analisis;
+
+                    $arrCarac =  $instancia->listaCaracteristicasProceso($factor);
+                    foreach ($arrCarac as &$caracteristica){
+                        $datos =  $instancia->obtenerDatosPonderacion($caracteristica[0], $_SESSION["pk_proceso"]);
+                        $factor_ = $instancia->buscarFactor_($factor);
+
+                        $datos_ponderacion_caracteristica =  $instancia->obtenerPonderacionCaracteristica($caracteristica[0], $_SESSION["pk_proceso"]);
+
+
+                        $escala_cualitativa =  $instancia->obtenerEscalaCualitativa();
+
+                        $tamaño = count($datos);
+                        $promedio1 = 0;
+                        $promedio2 = 0;
+                        $promedio_modulo5 = 0;
+                        $promedio_modulo6 = 0;
+                        $promedio = 0;
+
+                        if($tamaño == 0){
+                            // $promedio  = 0.00;
+                            // $promedio_modulo5 = 0.00;
+                            // $promedio_modulo6 = 0.00;
+                            $glo_objViewAnali->mensaje("EL PROCESO ACTUAL NO SE HA CONSOLIDADO!");
+
+                        }else if($tamaño == 1){
+
+                            $promedio = $datos[0]['calificacion'];
+                            if($datos[0]['fk_modulo'] == 5){
+                                $promedio_modulo5 = $promedio;
+                            }else{
+                                $promedio_modulo6 = $promedio;
                             }
-                            $i++;
+
+
+                            $porcentaje_cumplimiento = ( $promedio * 100 ) / ( $datos_ponderacion_caracteristica[0]['ponderacion_porcentual'] * 100 );
+
+                        }else if($tamaño == 2){
+
+                            $promedio1 = $datos[0]['calificacion'] != NULL ? $datos[0]['calificacion']  : 0 ;
+                            $promedio2 = $datos[1]['calificacion'] != NULL ? $datos[1]['calificacion']  : 0 ;
+
+                            if($datos[0]['fk_modulo'] == 5){
+                                $promedio_modulo5 = $promedio1;
+                            }else{
+                                $promedio_modulo6 = $promedio1;
+                            }
+
+
+                            if($datos[1]['fk_modulo'] == 5){
+                                $promedio_modulo5 = $promedio2;
+                            }else{
+                                $promedio_modulo6 = $promedio2;
+                            }
+
+                            $resultados_promedio = $promedio1 + $promedio2;
+                            $promedio = $resultados_promedio / 2;
+
+
+                            $porcentaje_cumplimiento = ( $promedio * 100 ) / ( $datos_ponderacion_caracteristica[0]['ponderacion_porcentual'] * 100 );
+
                         }
-                        
-                        if($aux==0)
-                        {
-                            $_SESSION["plm_cal_fac"]=0;
-                        }
+
+                        //$promedio = number_format ($promedio ,2);
+
+                        $resultados_carc = array(
+                            'caracteristica_id' => $caracteristica['pk_caracteristica'],
+                            'factor' => $factor_[0][5],
+                            'pk_factor' => $factor_[0],
+                            'nombre' => $factor_[1],
+                            'caracteristica' => $caracteristica['codigo'],
+                            'ponderacion_porcentual' => $datos_ponderacion_caracteristica[0]['ponderacion_porcentual'] * 100,
+                            'valor_modulo_5' => $promedio_modulo5,
+                            'valor_modulo_6' => $promedio_modulo6,
+                            'promedio' => $promedio  * 100,
+                            'porcentaje_cumplimiento' => number_format($porcentaje_cumplimiento *100, 2),
+                            'escala' => '',
+                        );
+
+
+                        array_push($resultados_tabla, $resultados_carc);
+
                     }
-                    
-                    $arrFactor = $glo_objModelAnali->buscaFactorCod($_SESSION["PLM_IdFactor"]);
-                    $arrPondeCarac = $glo_objModelAnali->buscaPondeCarac($_SESSION["PLM_IdFactor"], $_SESSION["pk_proceso"]);
-                    
-                    $glo_objViewAnali->mostrarTablaDinamic($arrFactor, "Factor",$_SESSION["plm_cal_fac"]);
-                    $glo_objViewAnali->mostrarCaract($arrCarac,$arrCalCarac,$arrEscaCarac, $arrPondeCarac);     
-                    
-                                   
-                }
-                else
-                {
-                    $glo_objViewAnali->mensaje("NO HAY CARACTERÍSTICAS REGISTRADAS !");
-                }
-                if($temp==4)
-                {
-                    $glo_objViewAnali->mensaje("NO HAY ASPECTOS REGISTRADOS !");
-                }
-                if($temp==2)
-                {
-                    $glo_objViewAnali->mensaje("NO HAY EVIDENCIAS REGISTRADAS !");
-                }
-                if($temp==3)
-                {
-                    $glo_objViewAnali->mensaje("NO HAY GRUPOS DE INTERÉS REGISTRADOS !");
-                }
+                require_once("../Vista/PLM_AnalisisResultados_Vista.php");
             }
         }break;   
         case 'buscarAspec':{     
