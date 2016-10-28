@@ -94,11 +94,14 @@ if(isset($arrInfo[0][0]))
 
             $resultados_promedio = $promedio1 + $promedio2;
             $promedio = $resultados_promedio / 2;
-
-
             $porcentaje_cumplimiento = ( $promedio * 100 ) / ( $datos_ponderacion_factor[0]['ponderacion_porcentual'] * 100 );
 
         }
+
+        $p = $promedio * 100;
+        $p_2 = $p / 2;
+
+        $consulta_escala = $instancia->ConsultarEscala($p_2);
 
         //$promedio = number_format ($promedio ,2);
         $resultados_carc = array(
@@ -110,8 +113,18 @@ if(isset($arrInfo[0][0]))
             'valor_modulo_6' => $promedio_modulo6,
             'promedio' => $promedio  * 100,
             'porcentaje_cumplimiento' => number_format($porcentaje_cumplimiento *100, 2),
-            'escala' => '',
+            'escala' => $consulta_escala[0][0],
         );
+
+        $prom_db = $promedio * 100;
+
+        $consulta = $instancia->BuscarPonderacionFactorPlm($value[0], $_SESSION["pk_proceso"]);
+        if($consulta[0] > 0){
+            $consulta = $instancia->GuardarPonderacionFactorPlm($value[0], $_SESSION["pk_proceso"], $prom_db, 2);
+        }else{
+            $consulta = $instancia->GuardarPonderacionFactorPlm($value[0], $_SESSION["pk_proceso"], $prom_db, 1);
+        }
+
 
         array_push($resultados_tabla, $resultados_carc);
 

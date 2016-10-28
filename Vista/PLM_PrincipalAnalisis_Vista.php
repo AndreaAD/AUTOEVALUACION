@@ -2132,7 +2132,7 @@ class AnalisisFactor
     }
     
     //muestra un gráfica que puede ser de los factores, características y de los aspectos
-    function mostGrafCarac($arrCarac, $strTitulo, $strAtras)
+    function mostGrafCarac($arrCarac,$factor, $strTitulo, $strAtras)
     {
         global $objComponentes;
         $this->elementos();
@@ -2192,7 +2192,7 @@ class AnalisisFactor
         
         
         $datos=array("tipo"=>"bloque una-columna",
-                    "titulo"=>utf8_encode($strTitulo),
+                    "titulo"=>$strTitulo,
                     "alignTitulo"=>"titulo-bloque texto-izquierda",
                     "alignContenido"=>"texto-centro",
                     "icono"=>"icon-quill");
@@ -2224,11 +2224,12 @@ class AnalisisFactor
                     
                     </canvas>
                 </div>
+                <input type="hidden" id="valor_factor" value="<?php echo $factor ?>">
                 
         <?php
         
         
-         $datos = array(
+        $datos = array(
                     "id"=>"B_atras",//el nombre que tendra el grupo de elementos
                     "class"=>"grande",//(necesario) tamaño del boton puede ser {grande,mediano,small}
                     "icono"=>"none", //(necesario) icono que aparecera en el boton, si se desea sin icono poner {none}

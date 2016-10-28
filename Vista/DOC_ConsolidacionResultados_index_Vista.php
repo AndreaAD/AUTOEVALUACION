@@ -5,8 +5,18 @@
 <script type="text/javascript" src="../Js/DOC_SelectoresIndex.js"></script>
 <script>
     $(function(e){
-        $('#tabla_ponderacion_factor').DataTable();
-        $('#tabla_ponderacion_caracteristica').DataTable();
+        $('#tabla_ponderacion_factor').DataTable( {
+        dom: 'Bfrtip',
+        buttons: [
+            'copy', 'csv', 'excel', 'pdf', 'print'
+        ]
+    });
+        $('#tabla_ponderacion_caracteristica').DataTable( {
+        dom: 'Bfrtip',
+        buttons: [
+            'copy', 'csv', 'excel', 'pdf', 'print'
+        ]
+    });
     })
 
 

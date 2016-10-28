@@ -4,6 +4,8 @@ session_start();
 define('FPDF_FONTPATH','../fpdf/font/');
 require('../fpdf/fpdf.php');
 
+$factor = $_GET['id_factor'];
+
 //esta es una clase para mostrar datos en un pdf.
 class PDF extends FPDF
 {
@@ -122,18 +124,18 @@ class PDF extends FPDF
     
     function Header()
     {
-         // Salto de línea
+         // Salto de lÃ­nea
         $this->Ln(16);
          
          $this->AddFont('Arial','','Arial.php');
         $this->SetFont('Arial','',12);
         // Movernos a la derecha
         $this->Cell(80);
-        // Título
+        // TÃ­tulo
          $this->Cell(80);
         $this->Ln(1);
          $this->Cell(130);
-        $this->Cell(20,20,''.'REPORTE ANÁLISIS DE RESULTADOS POR FACTOR',0,0,'C');
+        $this->Cell(20,20,''.'REPORTE ANÃLISIS DE RESULTADOS POR CARACTERISTICA',0,0,'C');
         $this->Ln(9);
         
        
@@ -170,7 +172,7 @@ $pdf->Image("../imagenes/ESCUDO_UDEC.png", 20 ,10, 35 , 18,'png');
 
 for($i=0;$i<1;$i++)
 {
-    $pdf ->Row(array('PROGRAMA ACADÉMICO','SEDE','DIRECTOR','PERIODO'));
+    $pdf ->Row(array('PROGRAMA ACADÃ‰MICO','SEDE','DIRECTOR','PERIODO'));
     $pdf->AddFont('Arial','','Arial.php');
     $pdf->SetFont('Arial','',12);
     $pdf->SetFillColor(192,217,192);
@@ -190,7 +192,7 @@ $pdf->AddFont('Arial','','Arial.php');
 $pdf->SetFont('Arial','',12);
 $pdf->SetFillColor(5,147,5);
 $pdf->SetTextColor(255);
-$pdf ->Row(array('Codigo','Nombre','Ponderación','Calificación','Porcentaje Cumplimiento','Escala cualitativa'));
+$pdf ->Row(array('Codigo','Nombre','PonderaciÃ³n','CalificaciÃ³n','Porcentaje Cumplimiento','Escala cualitativa'));
 
 
 $pdf->SetFillColor(192,217,192);
@@ -224,25 +226,27 @@ if(isset($arrInfo[0][0]))
     $datos[] =array();
     $resultados_tabla =array();
 
-    foreach ($arrFactor as &$value) {
-        $datos =  $instancia->obtenerDatosPonderacionFactor($value[0], $_SESSION["pk_proceso"]);
-        $datos_ponderacion_factor =  $instancia->obtenerPonderacionFactor($value[0], $_SESSION["pk_proceso"]);
+    $arrCarac =  $instancia->listaCaracteristicasProceso($factor);
+    foreach ($arrCarac as &$caracteristica){
+        $datos =  $instancia->obtenerDatosPonderacion($caracteristica[0], $_SESSION["pk_proceso"]);
+        $factor_ = $instancia->buscarFactor_($factor);
+
+        $datos_ponderacion_caracteristica =  $instancia->obtenerPonderacionCaracteristica($caracteristica[0], $_SESSION["pk_proceso"]);
+
+
         $escala_cualitativa =  $instancia->obtenerEscalaCualitativa();
 
-        $tamaño = count($datos);
+        $tamaÃ±o = count($datos);
         $promedio1 = 0;
         $promedio2 = 0;
         $promedio_modulo5 = 0;
         $promedio_modulo6 = 0;
         $promedio = 0;
 
-        if($tamaño == 0){
-            // $promedio  = 0.00;
-            // $promedio_modulo5 = 0.00;
-            // $promedio_modulo6 = 0.00;
+        if($tamaÃ±o == 0){
             $glo_objViewAnali->mensaje("EL PROCESO ACTUAL NO SE HA CONSOLIDADO!");
 
-        }else if($tamaño == 1){
+        }else if($tamaÃ±o == 1){
 
             $promedio = $datos[0]['calificacion'];
             if($datos[0]['fk_modulo'] == 5){
@@ -251,9 +255,10 @@ if(isset($arrInfo[0][0]))
                 $promedio_modulo6 = $promedio;
             }
 
-            $porcentaje_cumplimiento = ( $promedio * 100 ) / ( $datos_ponderacion_factor[0]['ponderacion_porcentual'] * 100 );
 
-        }else if($tamaño == 2){
+            $porcentaje_cumplimiento = ( $promedio * 100 ) / ( $datos_ponderacion_caracteristica[0]['ponderacion_porcentual'] * 100 );
+
+        }else if($tamaÃ±o == 2){
 
             $promedio1 = $datos[0]['calificacion'] != NULL ? $datos[0]['calificacion']  : 0 ;
             $promedio2 = $datos[1]['calificacion'] != NULL ? $datos[1]['calificacion']  : 0 ;
@@ -273,21 +278,27 @@ if(isset($arrInfo[0][0]))
 
             $resultados_promedio = $promedio1 + $promedio2;
             $promedio = $resultados_promedio / 2;
-            $porcentaje_cumplimiento = ( $promedio * 100 ) / ( $datos_ponderacion_factor[0]['ponderacion_porcentual'] * 100 );
 
-        }
 
-        $p = $promedio * 100;
+            $porcentaje_cumplimiento = ( $promedio * 100 ) / ( $datos_ponderacion_caracteristica[0]['ponderacion_porcentual'] * 100 );
+
+        }   
+
+
+        $p = $promedio * 10 ;
         $p_2 = $p / 2;
 
         $consulta_escala = $instancia->ConsultarEscala($p_2);
 
         //$promedio = number_format ($promedio ,2);
+
         $resultados_carc = array(
-            'factor' => $value[5],
-            'pk_factor' => $value[0],
-            'nombre' => $value[1],
-            'ponderacion_porcentual' => $datos_ponderacion_factor[0]['ponderacion_porcentual'] * 100,
+            'caracteristica_id' => $caracteristica['pk_caracteristica'],
+            'factor' => $factor_[0][5],
+            'pk_factor' => $factor_[0][0],
+            'nombre' => $factor_[0][1],
+            'caracteristica' => $caracteristica['codigo'],
+            'ponderacion_porcentual' => $datos_ponderacion_caracteristica[0]['ponderacion_porcentual'] * 100,
             'valor_modulo_5' => $promedio_modulo5,
             'valor_modulo_6' => $promedio_modulo6,
             'promedio' => $promedio  * 100,
@@ -295,32 +306,31 @@ if(isset($arrInfo[0][0]))
             'escala' => $consulta_escala[0][0],
         );
 
+
+        $pond_porcentual_db = $datos_ponderacion_caracteristica[0]['ponderacion_porcentual'] * 100;
         $prom_db = $promedio * 100;
 
-        $consulta = $instancia->BuscarPonderacionFactorPlm($value[0], $_SESSION["pk_proceso"]);
+        $consulta = $instancia->BuscarPonderacionCaracteristicaPlm($factor_[0][0],$caracteristica['pk_caracteristica'], $_SESSION["pk_proceso"]);
         if($consulta[0] > 0){
-            $consulta = $instancia->GuardarPonderacionFactorPlm($value[0], $_SESSION["pk_proceso"], $prom_db, 2);
+            $consulta = $instancia->GuardarPonderacionCaracteristicaPlm($factor_[0][0],$_SESSION["pk_proceso"], $caracteristica['pk_caracteristica'], $pond_porcentual_db, $prom_db, 2);
         }else{
-            $consulta = $instancia->GuardarPonderacionFactorPlm($value[0], $_SESSION["pk_proceso"], $prom_db, 1);
+            $consulta = $instancia->GuardarPonderacionCaracteristicaPlm($factor_[0][0],$_SESSION["pk_proceso"], $caracteristica['pk_caracteristica'],$pond_porcentual_db , $prom_db, 1);
         }
-
 
         array_push($resultados_tabla, $resultados_carc);
 
-        //require('../Vista/PLM_ReportePdf_Vista.php');
     }
-
 }
 
 
 $pdf->SetFillColor(255,255,255);
 foreach($resultados_tabla as &$resultado){
 
-    $pdf ->Row(array($resultado['factor'],utf8_decode($resultado['nombre']),$resultado['ponderacion_porcentual'],$resultado['promedio'],$resultado['porcentaje_cumplimiento'],$resultado['escala']));
+    $pdf ->Row(array($resultado['factor'],utf8_decode($resultado['caracteristica']),$resultado['ponderacion_porcentual'],$resultado['promedio'],$resultado['porcentaje_cumplimiento'],$resultado['escala']));
 }
 
 
-$datos_grafica = $instancia->buscaCalFac($_SESSION['pk_proceso']);
+$datos_grafica = $instancia->buscaCalCarac($factor, $_SESSION['pk_proceso']);
  
 include("../pChart/pChart/pData.class");  
 include("../pChart/pChart/pChart.class");  
@@ -328,22 +338,6 @@ include("../pChart/pChart/pChart.class");
 $arregloDatos = array();
 $arregloTitulos = array();
 $DataSet = new pData;
-
-// $Datos->AddPoint(array(8,7,8,9,10,5),"Carlos");
-// $Datos->AddPoint(array(4,2,4,5,10,6),"Pedro");
-// $Datos->AddPoint(array(6,1,2,1,4,2),"Juan");
-// $Datos->AddPoint(array("Enero","Febrero","Marzo","Abril","Mayo","Junio"),"Meses");
-
-
-// Ahora, debemos indicarle qué tipo de datos son, pues los primeros tres son los datos para las estadísticas y el último es el eje x (horizontal).
-
-// $Datos->AddSerie("Carlos");
-// $Datos->AddSerie("Pedro");
-// $Datos->AddSerie("Juan");
-// $Datos->SetAbsciseLabelSerie("Meses"); 
-
-
-
 
 foreach ($datos_grafica as &$value) {
     array_push($arregloDatos, $value[1]);
@@ -377,10 +371,10 @@ $DataSet->SetAbsciseLabelSerie();
  $Test->setFontProperties("../pChart/Fonts/Tahoma.ttf",8);  
  $Test->drawLegend(590,10,$DataSet->GetDataDescription(),255,255,255);  
  $Test->setFontProperties("../pChart/Fonts/Tahoma.ttf",10);  
- $Test->drawTitle(50,22,"Grafica de Calificación",50,50,50,585);           
+ $Test->drawTitle(50,22,"Grafica de CalificaciÃ³n",50,50,50,585);           
 
 // se genera un imagen 
-$Test->Render("../imagenes/reporteAnalisis".$_SESSION['pk_proceso'].".png"); 
+$Test->Render("../imagenes/reporteAnalisisCarac".$_SESSION['pk_proceso'].".png"); 
             
     $pdf ->Ln();
     $pdf ->Ln();
@@ -391,7 +385,7 @@ $Test->Render("../imagenes/reporteAnalisis".$_SESSION['pk_proceso'].".png");
     
     $pdf->Cell(50,50,'','C');
     //se inserta la imagen en el documento pdf
-    $pdf->Image("../imagenes/reporteAnalisis".$_SESSION['pk_proceso'].".png", 65 ,70, 0 , 0,'png');
+    $pdf->Image("../imagenes/reporteAnalisisCarac".$_SESSION['pk_proceso'].".png", 65 ,70, 0 , 0,'png');
     $pdf ->Ln();
     $pdf->Cell(56,7,'','C');
     $pdf->Cell(56,7,'','C');

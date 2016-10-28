@@ -1592,6 +1592,37 @@ $(function(e){
 
             listaCaracteristicas();
             var table = $('#tabla_caracteristicas').DataTable({
+            "language": {
+                "sProcessing": "Procesando...",
+                "sLengthMenu": "Mostrar _MENU_ registros",
+                "sZeroRecords": "No se encontraron resultados",
+                "sEmptyTable": "Ningún dato disponible en esta tabla",
+                "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                "sInfoPostFix": "",
+                "sSearch": "Buscar:",
+                "sUrl": "",
+                "sInfoThousands": ",",
+                "sLoadingRecords": "Cargando...",
+                "oPaginate": {
+                    "sFirst": "Primero",
+                    "sLast": "Ultimo",
+                    "sNext": "Siguiente",
+                    "sPrevious": "Anterior"
+                },
+                "oAria": {
+                    "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                }
+            },
+            dom: 'Bfrtip',
+            buttons: [
+                'copyHtml5',
+                'excelHtml5',
+                'csvHtml5',
+                'pdfHtml5'
+            ],
                 columnDefs: [{
                     'targets': 0,
                     'searchable': false,
@@ -1972,6 +2003,8 @@ $(function(e){
     });
 
     var cargarInstrumentos = function(e){
+
+
         $.ajax({
             url: '../Controlador/DOC_InstruEval_Controlador.php',
             type:  'post',
@@ -1990,23 +2023,18 @@ $(function(e){
                     for(var i = 0; i < data.length; i++){ 
                         lista += '<tr data-id="'+data[i]['pk_instru_evaluacion']+'">';
                             lista += '<td>'+data[i]['descripcion']+'</td>';
-                            lista += '<td  width="30px"><a href="#" ><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>&nbsp;&nbsp;<a href="#" style="color:red"><i class="fa fa-trash" aria-hidden="true"></i></a></td>';
+                            //lista += '<td  width="30px"><a href="#" ><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>&nbsp;&nbsp;<a href="#" style="color:red"><i class="fa fa-trash" aria-hidden="true"></i></a></td>';
                         lista += '</tr>';
                         
                     }
 
                     tabla_r.append(lista);
-
                     tabla_r.fadeIn(); 
-
-                }else{
-                    //tabla_r.html('');
 
                 }
             }
            
         });
-        //e.preventDefault();      
     }
 
     $('#lista_grupos').on('change', function(e){

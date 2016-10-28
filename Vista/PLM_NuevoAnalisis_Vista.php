@@ -11,23 +11,33 @@
     </div>
     <div class="contenido">
         <div class="row">
-            <label style="font-weight:bold;font-size:1.3em; padding-right:4em;" >Fortalezas</label>
-            <textarea id="fortalezas" style="width:90%; height:50px;"></textarea>
+            <div class="col">
+                &nbsp;<label class="label_caja">Fortalezas</label>
+            </div>
+            <div class="col_2">
+                <textarea class="text_pregunta" id="fortalezas"></textarea>
+            </div>
         </div>
         <div class="row">
-            <label style="font-weight:bold;font-size:1.3em; padding-right:4em;" >Debilidades</label>
-            <textarea id="debilidades" style="width:90%; height:50px;"></textarea>
+            <div class="col">
+                &nbsp;<label class="label_caja">Debilidades</label>
+            </div>
+            <div class="col_2">
+                <textarea class="text_pregunta" id="debilidades"></textarea>
+            </div>
         </div>
-    </div>
-</div>
-<div class="bloque una-columna">
-    <div class="titulo-bloque texto-izquierda">
-        <h2 class="icon-quill">Analísis causal</h2>
-    </div>
-    <div class="contenido">
         <div class="row">
-            <label style="font-weight:bold;font-size:1.3em; padding-right:4em;" >Analisis causal</label>
-            <textarea id="analisis_causal" style="width:90%; height:50px;"></textarea>
+            <div class="col">
+                &nbsp;<label class="label_caja">Analisis causal</label>
+            </div>
+            <div class="col_2">
+                <textarea class="text_pregunta" id="analisis_causal"></textarea>
+            </div>
         </div>
+        <input type="hidden" id="pk_caracteristica_proceso" value="<?php echo $valor_pk;  ?>">
+        <input type="hidden" id="valor_carac" value="<?php echo $valor_carac;  ?>">
+        <input type="hidden" id="valor_fac" value="<?php echo $valor_fac;  ?>">
+        <input type="button" id="guardar_analisis" value="Guardar">
+        <input type="button" value="Atrás" id="atras_carac">
     </div>
 </div>

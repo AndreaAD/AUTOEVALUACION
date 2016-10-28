@@ -214,15 +214,20 @@ if(isset($_REQUEST['H_opcion']))
         
          case 'guardarAnalisis':{
              //guarda el análisis de la característica
-            $glo_objModelAnali->guardaAnalisisCarac($_SESSION["PLM_IdCarac"],$_SESSION["PLM_IdFactor"],$_POST["TA_analisis"],$_POST["TA_fortaleza"],$_POST["TA_debilidad"], $_SESSION["pk_proceso"]);
+            $glo_objModelAnali->guardaAnalisisCarac($_GET["PLM_IdCarac"],$_GET["PLM_IdFactor"],$_GET["TA_analisis"],$_GET["TA_fortaleza"],$_GET["TA_debilidad"], $_SESSION["pk_proceso"]);
             
             $glo_objViewAnali->mensaje("Proceso Exitoso!!!");
-            $glo_objViewAnali->botonAtras("pagAtrasAspec()","buscarEvi");
+            //$glo_objViewAnali->botonAtras("pagAtrasAspec()","buscarEvi");
 			
         }break;
                 
         case 'AddAnalisis':{
                 $Característica = $_GET['id_carac'];
+
+                $valor = $glo_objModelAnali->buscarPkCaracteristicaProceso($Característica, $_SESSION["pk_proceso"]);
+                $valor_pk = $valor[0]['pk_caracteristica_proceso'];
+                $valor_carac = $valor[0]['fk_caracteristica'];
+                $valor_fac = $valor[0]['fk_factor'];
                 require_once("../Vista/PLM_NuevoAnalisis_Vista.php");
         }break;
         
@@ -239,18 +244,14 @@ if(isset($_REQUEST['H_opcion']))
         }break;
         case 'verGraficaCarac':{
             // en este caso lo que hacermos es mostrar la gráfica de características
-            
+            $factor = $_GET['factor'];
             //mostramos la información del proceso 
             $glo_objViewAnali->mostrarInfo($_SESSION["plm_facultad"],$_SESSION["plm_programa"],$_SESSION["plm_sede"],$_SESSION["plm_director"],$_SESSION["plm_periodo"]);
             //traemos la caracteristica y su calificación
-            $arrCaracGrap = $glo_objModelAnali ->buscaCalCarac($_SESSION["PLM_IdFactor"],$_SESSION["pk_proceso"]);
-		
-            //mostramos el historial del factor
-            $arrFactor = $glo_objModelAnali->buscaFactorCod($_SESSION["PLM_IdFactor"]);
-            $glo_objViewAnali->mostrarTablaDinamic($arrFactor, "Factor",$_SESSION["plm_cal_fac"]);
-            
+            $arrCaracGrap = $glo_objModelAnali ->buscaCalCarac($factor,$_SESSION["pk_proceso"]);
+		            
             //mostramos la gráfica de las características
-            $glo_objViewAnali ->mostGrafCarac($arrCaracGrap,"Gráfica De Características", "AtrasGrafCarac();");
+            $glo_objViewAnali ->mostGrafCarac($arrCaracGrap,$factor,"Gráfica De Características", "AtrasGrafCarac();");
             
         }break;
         case 'verGraficaAspec':{
@@ -343,9 +344,6 @@ if(isset($_REQUEST['H_opcion']))
                         $promedio = 0;
 
                         if($tamaño == 0){
-                            // $promedio  = 0.00;
-                            // $promedio_modulo5 = 0.00;
-                            // $promedio_modulo6 = 0.00;
                             $glo_objViewAnali->mensaje("EL PROCESO ACTUAL NO SE HA CONSOLIDADO!");
 
                         }else if($tamaño == 1){
@@ -384,24 +382,40 @@ if(isset($_REQUEST['H_opcion']))
 
                             $porcentaje_cumplimiento = ( $promedio * 100 ) / ( $datos_ponderacion_caracteristica[0]['ponderacion_porcentual'] * 100 );
 
-                        }
+                        }   
+
+
+                        $p = $promedio * 10 ;
+                        $p_2 = $p / 2;
+
+                        $consulta_escala = $instancia->ConsultarEscala($p_2);
 
                         //$promedio = number_format ($promedio ,2);
 
                         $resultados_carc = array(
                             'caracteristica_id' => $caracteristica['pk_caracteristica'],
                             'factor' => $factor_[0][5],
-                            'pk_factor' => $factor_[0],
-                            'nombre' => $factor_[1],
+                            'pk_factor' => $factor_[0][0],
+                            'nombre' => $factor_[0][1],
                             'caracteristica' => $caracteristica['codigo'],
                             'ponderacion_porcentual' => $datos_ponderacion_caracteristica[0]['ponderacion_porcentual'] * 100,
                             'valor_modulo_5' => $promedio_modulo5,
                             'valor_modulo_6' => $promedio_modulo6,
                             'promedio' => $promedio  * 100,
                             'porcentaje_cumplimiento' => number_format($porcentaje_cumplimiento *100, 2),
-                            'escala' => '',
+                            'escala' => $consulta_escala[0][0],
                         );
 
+
+                        $pond_porcentual_db = $datos_ponderacion_caracteristica[0]['ponderacion_porcentual'] * 100;
+                        $prom_db = $promedio * 100;
+
+                        $consulta = $instancia->BuscarPonderacionCaracteristicaPlm($factor_[0][0],$caracteristica['pk_caracteristica'], $_SESSION["pk_proceso"]);
+                        if($consulta[0] > 0){
+                            $consulta = $instancia->GuardarPonderacionCaracteristicaPlm($factor_[0][0],$_SESSION["pk_proceso"], $caracteristica['pk_caracteristica'], $pond_porcentual_db, $prom_db, 2);
+                        }else{
+                            $consulta = $instancia->GuardarPonderacionCaracteristicaPlm($factor_[0][0],$_SESSION["pk_proceso"], $caracteristica['pk_caracteristica'],$pond_porcentual_db , $prom_db, 1);
+                        }
 
                         array_push($resultados_tabla, $resultados_carc);
 
@@ -801,12 +815,6 @@ if(isset($_REQUEST['H_opcion']))
 }
 else
 { 
-    //si no detecta el componente h_opción, 
-    //entra aqui , donde muestra la información del proceso
-    // y una tabla con todos los factores y sus calificaciones
-    //su escala con la ponderación
-
-
     global $glo_objViewAnali, $glo_objModelAnali, $arrFactor, $temp;
     
     $temp=0;
@@ -819,7 +827,6 @@ else
     $arrInfo = $glo_objModelAnali->buscarProceso($_SESSION["pk_proceso"],$_SESSION["pk_usuario"]);
     if(isset($arrInfo[0][0]))
     {
-
         $_SESSION["plm_facultad"]=$arrInfo[0];
         $_SESSION["plm_programa"]=$arrInfo[1];
         $_SESSION["plm_sede"]=$arrInfo[2];
@@ -902,7 +909,6 @@ else
                     'promedio' => $promedio,
                     'caracteristica_id' => $caracteristica['pk_caracteristica']
                 );
-
 
                 array_push($resultados_tabla, $resultados_carc);
 

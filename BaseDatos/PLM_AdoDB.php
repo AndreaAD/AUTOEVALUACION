@@ -14,7 +14,7 @@ class Ado{
         // $conUsuario = "omzsiste_siauser";
         // $conClave = "siaudec2015";
         
-         $conServidor = "localhost";
+        $conServidor = "localhost";
         $conBaseDeDatos = "omzsiste_sia";
         $conUsuario = "sia_admin";
         $conClave = "S1A_dbUser";
@@ -23,7 +23,7 @@ class Ado{
         $bd->debug = false;
         $bd->Connect($conServidor,$conUsuario,$conClave,$conBaseDeDatos);
         $bd->SetCharSet("utf8");
-         $bd->EXECUTE("set names 'utf8'");
+        $bd->EXECUTE("set names 'utf8'");
         return $bd;
         
     }
@@ -33,6 +33,7 @@ class Ado{
         $resultado = $bd->execute($cadena);
         return $resultado;
     }
+
     public function Close()
     {
         global $bd;

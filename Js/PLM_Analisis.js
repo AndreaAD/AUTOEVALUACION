@@ -144,8 +144,8 @@ function guardarAnalisis()
 
 function AtrasCarac()
 {
-       $.ajax({
-        url:   '../Controlador/PLM_PrincipalAnalisis_Control.php',
+    $.ajax({
+        url:   '../Controlador/PLM_PrincipalAnalisisFactor_Control.php',
          type:  'post',
         dataType:'html',
 		success:  function (data) {
@@ -282,12 +282,15 @@ function AtrasGrafAspec()
 } 
 function AtrasGrafCarac()
 {
-     $('#H_opcion').val("buscarCaract");
      $.ajax({
         url:   '../Controlador/PLM_PrincipalAnalisis_Control.php',
          type:  'post',
         dataType:'html',
-        data: $('#buscarAspec').serialize(),
+        data: 
+            {
+                id_factor :$('#valor_factor').val(),
+                H_opcion : 'buscarCaract',
+            },
 		success:  function (data) {
 			$('.principal-panel-sub-contenido').html(data);
 		}       
@@ -464,10 +467,6 @@ $(function(e){
 
     });
 
-    // $('#atras_').on('click', function(e){
-    //      window.history.back();
-    // });    
-
     $( "#tabla_analisis_caracteristicas" ).delegate("input[name='seleccionar_caracteristica']", "change", function() {
         var caracteristica =$(this).closest('tr').data('rel');
         $('#id_carac').val(caracteristica);
@@ -490,6 +489,91 @@ $(function(e){
                 }
             });
         }
+    });
+
+    $('#ver_grafica_factor').on('click', function(e){
+        $.ajax({
+            url: '../Controlador/PLM_PrincipalAnalisis_Control.php',
+            dataType:'html',
+            data:{
+                H_opcion : 'verGraficaFac',
+            },
+            success:  function (data) {
+                $('.principal-panel-sub-contenido').html(data);
+                
+            }
+        });
+    });    
+
+    $('#ver_grafica_caracteristica').on('click', function(e){
+        $.ajax({
+            url: '../Controlador/PLM_PrincipalAnalisis_Control.php',
+            dataType:'html',
+            data:{
+                H_opcion : 'verGraficaCarac',
+                factor : $('#id_factor').val(),
+            },
+            success:  function (data) {
+                $('.principal-panel-sub-contenido').html(data);
+                
+            }
+        });
+    });    
+
+
+    $('#atras_carac').on('click', function(e){
+        AtrasCarac();
+    });
+
+    $('#agregar_analisis').on('click', function(e){
+        if($('#id_carac').val() != 0){
+            $.ajax({
+                url: '../Controlador/PLM_PrincipalAnalisis_Control.php',
+                dataType:'html',
+                data:{
+                    H_opcion : 'AddAnalisis',
+                    id_carac : $('#id_carac').val(),
+                },
+                success:  function (data) {
+                    $('.principal-panel-sub-contenido').html(data);
+                    
+                }
+            });
+        }
+    });
+
+    $('#guardar_analisis').on('click', function(e){
+        var pk_caracteristica = $('#pk_caracteristica_proceso').val();
+        var PLM_IdCarac = $('#valor_carac').val();
+        var PLM_IdFactor = $('#valor_fac').val();
+        var TA_analisis = $('#fortalezas').val();
+        var TA_fortaleza = $('#debilidades').val();
+        var TA_debilidad = $('#analisis_causal').val();
+
+        $.ajax({
+            url: '../Controlador/PLM_PrincipalAnalisis_Control.php',
+            dataType:'html',
+            data:{
+                H_opcion : 'guardarAnalisis',
+                pk_caracteristica : pk_caracteristica,
+                PLM_IdCarac : PLM_IdCarac,
+                PLM_IdFactor : PLM_IdFactor,
+                TA_analisis : TA_analisis,
+                TA_fortaleza : TA_fortaleza,
+                TA_debilidad : TA_debilidad,
+            },
+            success:  function (data) {
+                $('.principal-panel-sub-contenido').html(data);
+                
+            }
+        });
+        
+        
+        
+        
+        
+
+
     });
 
 });
