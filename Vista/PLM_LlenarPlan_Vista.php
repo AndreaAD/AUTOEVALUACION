@@ -138,9 +138,6 @@ class LlenarPlanView {
                 
                     <td style="text-align: center;">
                 <?php 
-
-                var_dump($consolidado[0][0]);
-                exit();
                 
                 if(($consolidado[0][0]))
                 {

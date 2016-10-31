@@ -135,7 +135,7 @@ class PDF extends FPDF
          $this->Cell(80);
         $this->Ln(1);
          $this->Cell(130);
-        $this->Cell(20,20,''.'REPORTE ANÁLISIS DE RESULTADOS POR CARACTERISTICA',0,0,'C');
+        $this->Cell(20,20,''.utf8_decode('REPORTE ANÁLISIS DE RESULTADOS POR CARACTERISTICA'),0,0,'C');
         $this->Ln(9);
         
        
@@ -172,12 +172,12 @@ $pdf->Image("../imagenes/ESCUDO_UDEC.png", 20 ,10, 35 , 18,'png');
 
 for($i=0;$i<1;$i++)
 {
-    $pdf ->Row(array('PROGRAMA ACADÉMICO','SEDE','DIRECTOR','PERIODO'));
+    $pdf ->Row(array(utf8_decode('PROGRAMA ACADÉMICO'),'SEDE','DIRECTOR','PERIODO'));
     $pdf->AddFont('Arial','','Arial.php');
     $pdf->SetFont('Arial','',12);
     $pdf->SetFillColor(192,217,192);
     $pdf->SetTextColor(0);
-    $pdf ->Row(array(''.$_SESSION["plm_programa"],''.$_SESSION["plm_sede"],''.$_SESSION["plm_director"],''.$_SESSION["plm_periodo"]));
+    $pdf ->Row(array(''.utf8_decode($_SESSION["plm_programa"]),''.utf8_decode($_SESSION["plm_sede"]),''.utf8_decode($_SESSION["plm_director"]),''.utf8_decode($_SESSION["plm_periodo"])));
 }
     
 $i=0;
@@ -192,7 +192,7 @@ $pdf->AddFont('Arial','','Arial.php');
 $pdf->SetFont('Arial','',12);
 $pdf->SetFillColor(5,147,5);
 $pdf->SetTextColor(255);
-$pdf ->Row(array('Codigo','Nombre','Ponderación','Calificación','Porcentaje Cumplimiento','Escala cualitativa'));
+$pdf ->Row(array('Codigo','Nombre',utf8_decode('Ponderación'),utf8_decode('Calificación'),'Porcentaje Cumplimiento','Escala cualitativa'));
 
 
 $pdf->SetFillColor(192,217,192);

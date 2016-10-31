@@ -89,7 +89,7 @@ class HistoricosFactorVista
          </script>
         <div class="contenedor-tabla80">
         <table id="T_tabla" >
-        <th style="width: 200%;">Factores</th>
+        <th style="width: 100%;">Factores</th>
         <th style="width: 50%;"><?php echo utf8_encode("Año");?></th>
         <th style="width: 50%;"><?php echo utf8_encode("Calificación");?></th>
         <th style="width: 50%;">Cod Proceso</th>
@@ -125,12 +125,12 @@ class HistoricosFactorVista
                         ?>
                         
                         <tr>
-                            <td ><?php echo utf8_encode($arrFator[$j][1]);?></td>
-                            <td ><?php echo utf8_encode($arrProceCal[$i][$k][2]);?></td>
+                            <td ><?php echo $arrFator[$j][1];?></td>
+                            <td ><?php echo $arrProceCal[$i][$k][2];?></td>
                             <td ><?php echo  sprintf('%.2f',$arrProceCal[$i][$k][1]);?></td>
-                            <td ><?php echo utf8_encode($arrProceCal[$i][$k][5]);?></td>
-                            <td ><?php echo utf8_encode($arrProceCal[$i][$k][3]);?></td>
-                            <td ><?php echo utf8_encode($arrProceCal[$i][$k][4]);?></td>
+                            <td ><?php echo $arrProceCal[$i][$k][5];?></td>
+                            <td ><?php echo $arrProceCal[$i][$k][3];?></td>
+                            <td ><?php echo $arrProceCal[$i][$k][4];?></td>
                         </tr>
                         <?php 
                         
@@ -217,7 +217,7 @@ class HistoricosFactorVista
             <script>
             
                     var barChartData = {
-                        labels: [<?php echo utf8_encode($strFactor);?>],
+                        labels: [<?php echo $strFactor;?>],
                         datasets: [
                             <?php 
                             for($i=0; $i<count($arrCalF); $i++)
@@ -351,6 +351,7 @@ class HistoricosFactorVista
     //muestra los procesos almacenados y que el usuario puede ver
     function historico_procesos($arrProcesos)
     {
+
         global $objComponentes;
         
         $this->elementos();

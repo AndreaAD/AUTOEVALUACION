@@ -24,6 +24,7 @@
       <div class="cuerpo-bloque texto-centro">
       
         <a id="BTN_agregar" class="boton-icono" onclick="enlace_llenar_plm();" ><i class="icono icon-download"></i><span class="texto-boton">Diligenciar</span></a>
+        <a id="BTN_agregar" class="boton-icono" onclick="enlace_llenar_plm_factor();" ><i class="icono icon-download"></i><span class="texto-boton">Diligenciar plm</span></a>
         <!--<a id="BTN_modifica" class="boton-icono" onclick="enlace_modificar_plm();" ><i class="icono icon-busy"></i><span class="texto-boton">Modificar</span></a>--!>
         <!--<a id="BTN_modifica" class="boton-icono" onclick="enlace_modificar_plm();" ><i class="icono icon-pencil"></i><span class="texto-boton">Habilitar</span></a>--!>
         <!--<a id="BTN_modifica" class="boton-icono" onclick="enlace_modificar_plm();" ><i class="icono icon-busy"></i><span class="texto-boton">Inhabilitar</span></a>--!>

@@ -317,6 +317,19 @@ function enlace_llenar_plm(){
             }
         });
 }
+
+function enlace_llenar_plm_factor(){
+        $.ajax({
+            url:   '../Controlador/PLM_LlenarPlanFactor_Control.php',
+            type:  'post',
+            dataType:'html',
+            data: {},
+            success:  function (data) {
+                $('.principal-panel-sub-contenido').html(data);
+            }
+        });
+}
+
 function enlace_modificar_plm() {
         $.ajax({
             url:   '../Controlador/PLM_ModPlan_Control.php',

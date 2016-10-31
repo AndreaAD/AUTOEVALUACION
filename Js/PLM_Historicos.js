@@ -20,7 +20,6 @@ div_emergente.find('.emergente span[data-rol="cerrar"]').on('click', function(e)
 
 function geneConsilidado()
 {
-   
         $.ajax({
         url:   '../Controlador/PLM_Historicos_Control.php',
         type:  'post',

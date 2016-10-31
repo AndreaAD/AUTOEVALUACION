@@ -350,7 +350,9 @@ foreach ($datos_grafica as &$value) {
     array_push($arregloTitulos, $value[0]);
 }
 
-$DataSet->AddPoint(array($arregloDatos),"Factores");
+//var_dump($arregloTitulos);
+
+$DataSet->AddPoint(array(1,2,100),"Factores");
 $DataSet->AddAllSeries();  
 $DataSet->SetAbsciseLabelSerie();  
 
