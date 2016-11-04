@@ -5,9 +5,9 @@ class Plan {
     public function conectar()
     {
         global $conexion;
-        include("../BaseDatos/PLM_AdoDB_Inicio.php");
-        
-        $conexion = new PLM_Ado();
+        include_once("../BaseDatos/PLM_AdoDB.php");
+        $conexion = new Ado();
+        return $conexion;
         
     }
     
@@ -69,14 +69,73 @@ class Plan {
 	 
     }
     
-    //busca los factores activados
+    public function guardar_objetivo($proceso, $nombre, $factor, $fecha_inicio, $fecha_fin, $peso, $indicador, $responsable, $cargo, $meta, $descripcion, $recursos, $evidencias ) {
+        $conexion = $this->conectar();		
+		$conexion->conectarAdo();
+
+        $sql = 'select * from plm_plan_factor where fk_proceso = '.$proceso.' and fk_factor = '.$factor;
+        $resultado = $conexion->Ejecutar($sql);
+        $resul = $resultado->GetRows();
+
+
+        if(count($resul) == 0){
+             $cadena = "INSERT INTO plm_plan_factor(fk_proceso, nombre , fk_factor, fecha_inicio, fecha_fin, peso, indicador, responsable, cargo, meta, descripcion, recursos, evidencias ) VALUES ($proceso,'$nombre' , $factor, '$fecha_inicio', '$fecha_fin', '$peso', '$indicador','$responsable', '$cargo','$meta', '$descripcion' ,'$recursos', '$evidencias' ) ";
+
+                echo $cadena;
+        
+        }else{
+             $cadena = "UPDATE plm_plan_factor SET nombre = '$nombre', fecha_inicio = '$fecha_inicio', fecha_fin = '$fecha_fin', peso = '$peso', indicador = '$indicador', responsable = '$responsable', cargo = '$cargo', meta = '$meta', descripcion = '$descripcion', recursos = '$recursos', evidencias = '$evidencias'  WHERE fk_proceso = $proceso and fk_factor = $factor ";
+             echo $cadena;
+        }
+
+        $consulta_final = $conexion->Ejecutar($cadena);
+
+        if($consulta_final){
+            $sql2 = 'select * from plm_plan_factor where fk_proceso = '.$proceso.' and fk_factor = '.$factor;
+            $dato = $conexion->Ejecutar($sql2);
+            $ultimo = $dato->GetRows();
+            return $ultimo;
+        }
+
+    }
+
+    public function consultar_plan($proceso, $factor)
+    {
+        $conexion = $this->conectar();      
+        $conexion->conectarAdo();     
+        $sql2 = 'select * from plm_plan_factor where fk_proceso = '.$proceso.' and fk_factor = '.$factor;
+        $dato = $conexion->Ejecutar($sql2);
+        $ultimo = $dato->GetRows();
+        return $ultimo;
+    }    
+    
+
+    public function NombreProceso($proceso)
+    {
+        $conexion = $this->conectar();      
+        $conexion->conectarAdo();     
+        $sql2 = 'select * from cna_proceso where pk_proceso = '.$proceso.' ';
+        $dato = $conexion->Ejecutar($sql2);
+        $ultimo = $dato->GetRows();
+        return $ultimo;
+    }    
+
+
+    public function cargar_tabla_plan($proceso)
+    {
+        $conexion = $this->conectar();      
+        $conexion->conectarAdo();     
+        $sql2 = 'select * from plm_plan_factor where fk_proceso = '.$proceso.' ';
+        $dato = $conexion->Ejecutar($sql2);
+        $ultimo = $dato->GetRows();
+        return $ultimo;
+    }
+
     public function buscarFactores() {
-        
-        global $conexion;
-		
-		$conexion->conectarAdo();     
+
+        $conexion = $this->conectar();      
+        $conexion->conectarAdo();     
         $cadena = "SELECT pk_factor, nombre, codigo FROM cna_factor WHERE estado = 1;"; //Realizamos una consulta
-        
         $recordSet = $conexion->Ejecutar($cadena);
         
         $conexion->Close();

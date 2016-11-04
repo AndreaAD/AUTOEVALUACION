@@ -4,6 +4,7 @@ session_start();
 //$_SESSION["pk_proceso"]=1;
 //$_SESSION["pk_usuario"]=9;
 // se valida el componente h_opcion
+
 if(isset($_REQUEST['H_opcion']))
 {
     switch($_REQUEST['H_opcion']){

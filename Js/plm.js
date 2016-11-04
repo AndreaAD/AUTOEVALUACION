@@ -426,7 +426,6 @@ function enlace_buscar_poractividad(){
 }
 
 function enlace_buscar_por_carac(){
-    
     $('#H_opcion').val("ver_factor");
         $.ajax({
             url:   '../Controlador/PLM_ConsPlan_Control.php',

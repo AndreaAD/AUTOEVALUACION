@@ -106,6 +106,7 @@ function busca2c(){
         data: $('#buscar').serialize(),
         success:  function (data) {
             $('.principal-panel-contenido').html(data);
+            $('.principal-panel-sub-contenido').html('');
         } 		
    });  
 }
@@ -245,3 +246,159 @@ function fecha_Inv()
     
     
 }
+
+$(function(e){
+
+    // $('#boton_objetivo').on('click', function(e){
+    //     if( $('.div_oculto_objetivo').is(":visible") ){
+    //         $('.div_oculto_objetivo').css('display', 'none');
+    //     }else{
+    //         $('.div_oculto_objetivo').css('display', 'block');
+    //     }
+    // });
+
+    cargarTablaFactorPlam();
+
+    $('#tabla_factor_plm tbody').delegate('a', 'click'  ,function(e){
+        var id = $(this).closest('tr').data('rel');
+        $('#lista_factores').val(id).trigger('change');
+        $('#guardar_plm').val('Modificar');
+    });
+
+
+    function cargarTablaFactorPlam()
+    {
+        $.ajax({
+            url: '../Controlador/PLM_planes_Controlador_2.php',
+            type:  'post',
+            async: false,
+            dataType:'json',
+            data:{
+                proceso: $('#proceso').val(),
+                operacion : "cargar_tabla_plan"
+            },
+            success:  function (data) {
+                if(data.length > 0){
+                    var tabla = $('#tabla_factor_plm tbody');
+                    tabla.html('');
+                    var lista = '';
+                    for(var i=0; i<data.length; i++){
+                        lista += '<tr data-rel="'+data[i]['fk_factor']+'">';
+                            lista += '<td>'+data[i]['fk_factor']+'</td>';
+                            lista += '<td>'+data[i]['nombre']+'</td>';
+                            lista += '<td>'+data[i]['fecha_inicio']+'</td>';
+                            lista += '<td>'+data[i]['fecha_fin']+'</td>';
+                            lista += '<td><a href="#">Modificar</a></td>';
+                        lista += '</tr>';
+                    }
+                    tabla.html(lista);
+                }
+            }    
+        });
+    }
+
+    $('#guardar_plm').on('click', function(e){
+
+        if( $('#nombre').val() != "" || $('#lista_factores option:selected').val() != 0   ||  $('#fecha_inicio').val() != "" || $('#fecha_fin').val() != ""  || $('#peso').val() != ""  || $('#indicador').val() != ""  || $('#responsable').val() != ""  || $('#cargo').val() != ""  || $('#descripcion').val() != "" ||   $('#recursos').val() != "" ||  $('#evidencias').val() != "" ){
+            $.ajax({
+                url: '../Controlador/PLM_planes_Controlador_2.php',
+                type:  'post',
+                async: false,
+                dataType:'json',
+                data:{
+                    nombre: $('#nombre').val(),
+                    proceso: $('#proceso').val(),
+                    factor: $('#lista_factores option:selected').val(),
+                    fecha_inicio: $('#fecha_inicio').val(),
+                    fecha_fin: $('#fecha_fin').val(),
+                    peso: $('#peso').val(),
+                    indicador: $('#indicador').val(),
+                    responsable: $('#responsable').val(),
+                    cargo: $('#cargo').val(),
+                    meta: $('#meta').val(),
+                    descripcion: $('#descripcion').val(),
+                    recursos: $('#recursos').val(),
+                    evidencias: $('#evidencias').val(),
+                    operacion : "guardar_objetivo"
+                },
+                success:  function (data) {
+                    $('#nombre').val('');
+                    $('#fecha_inicio').val('');
+                    $('#fecha_fin').val('');
+                    $('#peso').val('');
+                    $('#indicador').val('');
+                    $('#responsable').val('');
+                    $('#cargo').val('');
+                    $('#meta').val('');
+                    $('#descripcion').val('');
+                    $('#recursos').val('');
+                    $('#evidencias').val('');
+
+                    if(data){
+                        $('#nombre').val(data[0]['nombre']);
+                        $('#fecha_inicio').val(data[0]['fecha_inicio']);
+                        $('#fecha_fin').val(data[0]['fecha_fin']);
+                        $('#peso').val(data[0]['peso']);
+                        $('#indicador').val(data[0]['indicador']);
+                        $('#responsable').val(data[0]['responsable']);
+                        $('#cargo').val(data[0]['cargo']);
+                        $('#meta').val(data[0]['meta']);
+                        $('#descripcion').val(data[0]['descripcion']);
+                        $('#recursos').val(data[0]['recursos']);
+                        $('#evidencias').val(data[0]['evidencias']);
+                        cargarTablaFactorPlam();
+                    }
+                }
+            });
+        }else{
+            alert('Debe ingresar todos los campos.');
+        }
+
+    });
+
+
+    $('select#lista_factores').on('change', function(e){
+        if($('#lista_factores option:selected').val() != 0){
+            $('#guardar_plm').val('Guardar');
+            $.ajax({
+                url: '../Controlador/PLM_planes_Controlador_2.php',
+                type:  'post',
+                async: false,
+                dataType:'json',
+                data:{
+                    proceso: $('#proceso').val(),
+                    factor: $('#lista_factores option:selected').val(),
+                    operacion : "consultar_plan"
+                },
+                success:  function (data) {
+                    $('#nombre').val('');
+                    $('#fecha_inicio').val('');
+                    $('#fecha_fin').val('');
+                    $('#peso').val('');
+                    $('#indicador').val('');
+                    $('#responsable').val('');
+                    $('#cargo').val('');
+                    $('#meta').val('');
+                    $('#descripcion').val('');
+                    $('#recursos').val('');
+                    $('#evidencias').val('');
+
+                    if(data.length > 0){
+                        $('#nombre').val(data[0]['nombre']);
+                        $('#fecha_inicio').val(data[0]['fecha_inicio']);
+                        $('#fecha_fin').val(data[0]['fecha_fin']);
+                        $('#peso').val(data[0]['peso']);
+                        $('#indicador').val(data[0]['indicador']);
+                        $('#responsable').val(data[0]['responsable']);
+                        $('#cargo').val(data[0]['cargo']);
+                        $('#meta').val(data[0]['meta']);
+                        $('#descripcion').val(data[0]['descripcion']);
+                        $('#recursos').val(data[0]['recursos']);
+                        $('#evidencias').val(data[0]['evidencias']);
+                    }
+                }
+            });
+        }
+    });
+
+});

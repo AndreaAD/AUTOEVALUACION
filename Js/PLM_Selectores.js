@@ -42,10 +42,11 @@ $(function(e){
 				data: $('#buscar_factor').serialize(),
 				success:  function (data) { 
 					$('.principal-panel-contenido').html(data);
+					$('.principal-panel-sub-contenido').html('');
 				}
 			});	
 		}
-		div_emergente.css('display','block');
+		//div_emergente.css('display','block');
 	});
 	
 	link_buscar.on('click', function(e){
@@ -61,14 +62,14 @@ $(function(e){
 				data: $('#buscar_factor').serialize(),
 				success:  function (data) { 
 					$('.principal-panel-contenido').html(data);
+					$('.principal-panel-sub-contenido').html('');
 				}
 			});
 		}		
-		div_emergente.css('display','block');
+		//div_emergente.css('display','block');
 	});
 	
 	link_factor.on('click', function(e){
-	
      $('#H_opcion').val("busca_factor");
 		div_emergente.find('.emergente > div[data-role="contenido"]').html("");
 		
@@ -88,7 +89,7 @@ $(function(e){
 			}
 		});
 		
-			div_emergente.css('display','block');
+		div_emergente.css('display','block');
 	});
 
 	link_caracteristica.on('click', function(e){

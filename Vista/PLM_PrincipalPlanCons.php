@@ -18,7 +18,7 @@
                 );
                 
         $objComponentes->input_hidden($datos);
-        
+        echo '3';
         $datos=array("tipo"=>"bloque una-columna",
                     "titulo"=>"".utf8_encode("Consultar Actividades de Mejoramiento"),
                     "alignTitulo"=>"titulo-bloque texto-izquierda",

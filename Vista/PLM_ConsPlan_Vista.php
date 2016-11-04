@@ -380,6 +380,7 @@ class ConsPlanView
     //se muestra una acividad de mejoramiento en especifico
     public function imprime($arrPlan, $atras)
     {
+        
     ?>
        
     <br />
