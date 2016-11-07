@@ -1826,6 +1826,7 @@ $(function(e){
                 $('#proceso_institucional').html('');
                 var tabla_r = $('#tabla_resultados tbody');
                 tabla_r.html('');
+
                 $('#texto_total').append('<span>'+data.instrumentos+'</span>');
                 $('#texto_porcentaje').append('<span>'+data.porcentaje_programa+'%</span>');
                 $('#proceso_institucional').append('<span>'+data.institucional+'</span>');
@@ -1892,103 +1893,59 @@ $(function(e){
 
                             
                         lista += '</tr>';
-
-                        
-
-
-                        
-                                    
-                            //         
-                            //         // lista += '<td>'+descripcion+'</td>';
-                            //         // lista += '<td>'+calificacion+'</td>';
                     });
-
-                   
-
-                    
-                   
-
-
                 });
 
 
-
-                //             descripcion = e2.descripcion;
-                //             calificacion = e2.ponderacion; 
-                            
-                //             lista_c = e2.fk_caracteristicas_codigo.split('|');
-                //             lista_f = e2.fk_factor_codigo.split('|');
-
-                //             //console.log(lista_c, lista_f);
-                //             for(var j = 0; j < lista_c.length ; j++){
-                //                 car = lista_c[j];
-                                
-                //                 for(var m = 0; m < lista_f.length; m++){
-                //                     descripcion = data.resultados[i]['descripcion'];
-                //                     calificacion = data.resultados[i]['ponderacion']; 
-                //                     fac = lista_f[m];
-
-                //                 }   
-                //                 lista += '<tr>';
-                //                         lista += '<td>'+fac+'</td>';
-                //                         lista += '<td>'+car+'</td>';
-                //                         lista += '<td>'+descripcion+'</td>';
-                //                         lista += '<td>'+calificacion+'</td>';
-                //                     lista += '</tr>';
-                //             }
-                    
-                    
-
-                    /*
-                    for(var i = 0; i < data.resultados.length; i++){
-                    
-                        for(var k = 0; k < data.resultados[i].length; k++){
-                    
-                            $c = data.resultados[i][k]['fk_caracteristicas_codigo'];
-                            console.log($c);
-
-                            lista_c = $c.split('|');
-                            // if(lista_c.length > 1){
-                            //     tamaño = (lista_c.length)-1;
-                            // }else{
-                            //     tamaño = (lista_c.length);
-                            // }
-
-                            $f = data.resultados[i]['fk_factor_codigo'];
-
-                            lista_f = $f.split('|');
-                            // if(lista_f.length > 1){
-                            //     tamaño_2 = (lista_f.length)-1;
-                            // }else{
-                            //     tamaño_2 = (lista_f.length);
-                            // }
-
-                            
-                            for(var j = 0; j < lista_c.length ; j++){
-                                car = lista_c[j];
-                                
-                                for(var m = 0; m < lista_f.length; m++){
-                                    descripcion = data.resultados[i]['descripcion'];
-                                    calificacion = data.resultados[i]['ponderacion']; 
-                                    fac = lista_f[m];
-
-                                }   
-                                lista += '<tr>';
-                                        lista += '<td>'+fac+'</td>';
-                                        lista += '<td>'+car+'</td>';
-                                        lista += '<td>'+descripcion+'</td>';
-                                        lista += '<td>'+calificacion+'</td>';
-                                    lista += '</tr>';
-                            }
-                        }
-                    }
-                    */
                     tabla_r.append(lista);
                     tabla_r.fadeIn(); 
 
                 }else{
                     tabla_r.html('');
                 }
+
+                if ( $.fn.dataTable.isDataTable('#tabla_resultados') ) {
+                        table = $('#tabla_resultados').DataTable();
+                }
+                else{
+
+
+                    $('#tabla_resultados').DataTable({
+                        "language": {
+                            "sProcessing": "Procesando...",
+                            "sLengthMenu": "Mostrar _MENU_ registros",
+                            "sZeroRecords": "No se encontraron resultados",
+                            "sEmptyTable": "Ningún dato disponible en esta tabla",
+                            "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                            "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                            "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                            "sInfoPostFix": "",
+                            "sSearch": "Buscar:",
+                            "sUrl": "",
+                            "sInfoThousands": ",",
+                            "sLoadingRecords": "Cargando...",
+                            "oPaginate": {
+                                "sFirst": "Primero",
+                                "sLast": "Ultimo",
+                                "sNext": "Siguiente",
+                                "sPrevious": "Anterior"
+                            },
+                            "oAria": {
+                                "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                            }
+                        },
+                        dom: 'Bfrtip',
+                        buttons: [
+                            'copyHtml5',
+                            'excelHtml5',
+                            'csvHtml5',
+                            'pdfHtml5'
+                        ]
+
+                    } );
+                }
+
             }
            
         });
@@ -2017,7 +1974,7 @@ $(function(e){
             success:  function (data) {
                 lista = '';
                 var tabla_r = $('#tabla_instrumentos tbody');
-                //tabla_r.html('');
+                tabla_r.html('');
                 
                 if(data.length != 0){
                     for(var i = 0; i < data.length; i++){ 
@@ -2030,6 +1987,46 @@ $(function(e){
 
                     tabla_r.append(lista);
                     tabla_r.fadeIn(); 
+
+                   if ( $.fn.dataTable.isDataTable('#tabla_instrumentos') ) {
+                        table = $('#tabla_instrumentos').DataTable();
+                    }
+                    else {
+                        table = $('#tabla_instrumentos').DataTable( {
+                            "language": {
+                                "sProcessing": "Procesando...",
+                                "sLengthMenu": "Mostrar _MENU_ registros",
+                                "sZeroRecords": "No se encontraron resultados",
+                                "sEmptyTable": "Ningún dato disponible en esta tabla",
+                                "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                                "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                                "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                                "sInfoPostFix": "",
+                                "sSearch": "Buscar:",
+                                "sUrl": "",
+                                "sInfoThousands": ",",
+                                "sLoadingRecords": "Cargando...",
+                                "oPaginate": {
+                                    "sFirst": "Primero",
+                                    "sLast": "Ultimo",
+                                    "sNext": "Siguiente",
+                                    "sPrevious": "Anterior"
+                                },
+                                "oAria": {
+                                    "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                                }
+                            },
+                            dom: 'Bfrtip',
+                            buttons: [
+                                'copyHtml5',
+                                'excelHtml5',
+                                'csvHtml5',
+                                'pdfHtml5'
+                            ]
+
+                        } );
+                    }
 
                 }
             }
@@ -2084,7 +2081,6 @@ $(function(e){
                 proceso: $(this).val()
             },
             success:  function (data) {
-                console.dir(data);
                 if(data){
                     var tabla_factor = $('#tabla_ponderacion_factor tbody');
                     var tabla_carac = $('#tabla_ponderacion_caracteristica tbody');
@@ -2124,6 +2120,89 @@ $(function(e){
                     });
 
                     tabla_carac.html(html_tabla_2);
+
+                    if ( $.fn.dataTable.isDataTable('#tabla_ponderacion_factor') ) {
+                        table = $('#tabla_ponderacion_factor').DataTable();
+                    }
+                    else {
+                        $('#tabla_ponderacion_factor').DataTable({
+                            "language": {
+                                "sProcessing": "Procesando...",
+                                "sLengthMenu": "Mostrar _MENU_ registros",
+                                "sZeroRecords": "No se encontraron resultados",
+                                "sEmptyTable": "Ningún dato disponible en esta tabla",
+                                "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                                "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                                "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                                "sInfoPostFix": "",
+                                "sSearch": "Buscar:",
+                                "sUrl": "",
+                                "sInfoThousands": ",",
+                                "sLoadingRecords": "Cargando...",
+                                "oPaginate": {
+                                    "sFirst": "Primero",
+                                    "sLast": "Ultimo",
+                                    "sNext": "Siguiente",
+                                    "sPrevious": "Anterior"
+                                },
+                                "oAria": {
+                                    "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                                }
+                            },
+                            dom: 'Bfrtip',
+                            buttons: [
+                                'copyHtml5',
+                                'excelHtml5',
+                                'csvHtml5',
+                                'pdfHtml5'
+                            ]
+
+        } );
+                    }
+
+                    
+                    if ( $.fn.dataTable.isDataTable('#tabla_ponderacion_caracteristica') ) {
+                        table = $('#tabla_ponderacion_caracteristica').DataTable();
+                    }
+                    else {
+                        $('#tabla_ponderacion_caracteristica').DataTable({
+                            "language": {
+                                "sProcessing": "Procesando...",
+                                "sLengthMenu": "Mostrar _MENU_ registros",
+                                "sZeroRecords": "No se encontraron resultados",
+                                "sEmptyTable": "Ningún dato disponible en esta tabla",
+                                "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                                "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                                "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                                "sInfoPostFix": "",
+                                "sSearch": "Buscar:",
+                                "sUrl": "",
+                                "sInfoThousands": ",",
+                                "sLoadingRecords": "Cargando...",
+                                "oPaginate": {
+                                    "sFirst": "Primero",
+                                    "sLast": "Ultimo",
+                                    "sNext": "Siguiente",
+                                    "sPrevious": "Anterior"
+                                },
+                                "oAria": {
+                                    "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                                }
+                            },
+                            dom: 'Bfrtip',
+                            buttons: [
+                                'copyHtml5',
+                                'excelHtml5',
+                                'csvHtml5',
+                                'pdfHtml5'
+                            ]
+
+                        } );
+                    }
+
+
                 }
             }
            
