@@ -1805,7 +1805,7 @@ $(function(e){
         e.preventDefault();       
     });
 
-        var cargarResultados = function(e){
+    var cargarResultados = function(e){
         $.ajax({
             url: '../Controlador/DOC_Autoevaluacion_Controlador.php',
             type:  'post',
@@ -1831,7 +1831,7 @@ $(function(e){
                 $('#texto_porcentaje').append('<span>'+data.porcentaje_programa+'%</span>');
                 $('#proceso_institucional').append('<span>'+data.institucional+'</span>');
                 
-               
+               console.log(data.resultados.length);
 
                 if(data.resultados.length != 0){
                 $.each(data.resultados, function(i, e)
@@ -1960,7 +1960,6 @@ $(function(e){
     });
 
     var cargarInstrumentos = function(e){
-
 
         $.ajax({
             url: '../Controlador/DOC_InstruEval_Controlador.php',

@@ -723,6 +723,137 @@ class ConsPlanView
         <?php
         
     }
+
+        //muestra los procesos almacenados y que el usuario puede ver
+    function mostrarProcesosCerrados($arrProcesos)
+    {
+        global $objComponentes;
+        
+        $this->elementos();
+        
+        $datos=array("id"=>"busca_acti_historicos");
+                    
+        $objComponentes->form($datos);
+        
+        $datos=array(
+                "id"=>"H_opcion",//define el nombre que tendra el campo
+                "name"=>"H_opcion",
+                "value"=>"ver_historico_plm",//El atributo value especifica el valor de un elemento
+                );
+                
+        $objComponentes->input_hidden($datos);
+        
+        
+        $datos=array("tipo"=>"bloque una-columna",
+                    "titulo"=>utf8_encode("Procesos Asignados"),
+                    "alignTitulo"=>"titulo-bloque texto-izquierda",
+                    "alignContenido"=>"texto-centro",
+                    "icono"=>"icon-quill");
+        $objComponentes->div_bloque_principal($datos);
+        
+        if(isset($arrProcesos[0][0]))
+        {
+        ?>
+        
+        <div class="contenedor-tabla80">
+       
+        <table> 
+        <th style="width: 50%;"><?php echo utf8_encode("Código");?> </th>
+        <th style="width: 80%;">Nombre      </th>
+        <th style="width: 50%;">Fecha Inicio</th>
+        <th style="width: 50%;">Fecha Fin   </th>
+        <th style="width: 100%;"><?php echo utf8_encode("Descripción");?> </th>
+        <th style="width: 50%;"><?php echo utf8_encode("Observación");?> </th>       
+        <th style="width: 50%;">Seleccionar </th>        
+        
+        <?php
+        
+        for($i=0; $i<count($arrProcesos); $i++)
+        {
+            ?>
+            <tr>
+            <?php
+            for($j=0; $j<6; $j++)
+            {
+                ?>
+                <td>
+                <?php
+                if(($arrProcesos[$i][$j]))
+                {
+                    echo $arrProcesos[$i][$j];
+                }
+                
+                ?>
+                </td>
+                <?php
+            }       
+            ?>
+            <td>
+            <?php
+            $strName="C_select".$i;
+            
+            $_datos_checkbox=array(
+                        $strName=>$arrProcesos[$i][0],//el nombre de identificacion y el valor que tendra
+                        );
+            
+            $datos = array(
+                        "label"=>"",//el nombre que se mostrara
+                        "class"=>"lista",//decir como queremos que se muestre los elementos
+                        "name"=>"radio"//nombre que tendra el grupo de elementos
+                        );
+                                
+            $objComponentes->input_radio ($_datos_checkbox,$datos);
+                
+            
+            ?>
+            
+            </td>
+            
+            </tr>
+            <?php
+        }        
+        ?>
+        </table>
+        </div>
+        <?php
+        
+        
+         $datos = array(
+                    "id"=>"B_buscar",//el nombre que tendra el grupo de elementos
+                    "class"=>"grande",//(necesario) tamaño del boton puede ser {grande,mediano,small}
+                    "icono"=>"none", //(necesario) icono que aparecera en el boton, si se desea sin icono poner {none}
+                    "value"=>"Buscar Historico",
+                    "onclick"=>"busca_acti_historicos();"
+                    );                     
+        $objComponentes->button_normal($datos); 
+              
+        
+        }
+        else
+        {
+            echo "<h3>No hay procesos para mostrar!!!</h3>";
+        }
+         
+        
+        $objComponentes->cerrar_div_bloque_principal();
+        
+        $objComponentes->cerrar_form();
+        
+        
+        ?>
+            <div class="errores"></div>
+            <div id="div_emergente" class="fondo_emergente">
+                <div class="emergente">
+                    <div data-role="contenido"></div>
+                    <div data-role="botones"></div>
+                    <span title="cerrar" data-rol="cerrar"> x </span>
+                </div>
+            </div>
+        </div>
+        
+        <?php
+        
+    }
     
     }
     

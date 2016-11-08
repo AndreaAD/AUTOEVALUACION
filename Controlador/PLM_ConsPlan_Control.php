@@ -98,6 +98,19 @@ if(isset($_REQUEST['H_opcion']))
                 $glo_objViewConsPlan->mostrarProcesos($arrProcesos);
                 
             }break;
+
+            case 'ver_procesos_historico':{
+                global $glo_objViewConsPlan, $objPlan;
+                mainGeneral();     
+                jsGeneral();
+                
+                $glo_objViewConsPlan->mostrarInfo($_SESSION["plm_facultad"], $_SESSION["plm_programa"],$_SESSION["plm_sede"],$_SESSION["plm_director"],$_SESSION["plm_periodo"]);
+                
+                $arrProcesos=$objPlan->buscarProcesosTermina($_SESSION["pk_usuario"]);
+                
+                $glo_objViewConsPlan->mostrarProcesosCerrados($arrProcesos);
+                
+            }break;
             
             //en este caso lo que se quiere buscar son las actividades de un proyecto
             case 'ver_activi_proceso':{
@@ -120,6 +133,32 @@ if(isset($_REQUEST['H_opcion']))
                     //busca los proyectos creados de un proceso
                     $arrPlan=$objPlan->buscarProyectos($_REQUEST['radio']);
                     $glo_objViewConsPlan->buscaPlan($arrPlan);
+                }
+                else
+                {
+                    $glo_objViewConsPlan->mensaje("Debe seleccionar un proceso !!");
+                }
+            }break;
+            case 'ver_historico_plm':{
+                global $glo_objViewConsPlan, $objPlan;
+                mainGeneral();    
+                include("../BaseDatos/PLM_AdoDB_Inicio.php");
+                $conexion = new PLM_Ado(); 
+                $cont=0;
+                //si selecciona un proceso
+                if(isset($_REQUEST['radio']))
+                {
+                    $cont=1;
+                } 
+                    
+                if($cont==1)
+                {
+                    //muestra la información de un proceso
+                    // $glo_objViewConsPlan->mostrarInfo($_SESSION["plm_facultad"], $_SESSION["plm_programa"],$_SESSION["plm_sede"],$_SESSION["plm_director"],$_SESSION["plm_periodo"]);
+                    
+                    // //busca los proyectos creados de un proceso
+                    // $arrPlan=$objPlan->buscarProyectos($_REQUEST['radio']);
+                    // $glo_objViewConsPlan->buscaPlan($arrPlan);
                 }
                 else
                 {

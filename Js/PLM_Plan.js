@@ -216,6 +216,26 @@ function busca_acti_proce() {
    }   
 }
 
+function busca_acti_historicos() {
+    if(_rad==0)
+    {
+        div_emergente.find('.emergente > div[data-role="contenido"]').html('<p><h1>Debe seleccionar un proceso!!! </h1></p>');
+        div_emergente.css('display','block');
+    }
+    else
+    {
+     $.ajax({
+            url:   '../Controlador/PLM_ConsPlan_Control.php',
+             type:  'post',
+            dataType:'html',
+            data: $('#busca_acti_historicos').serialize(),
+            success:  function (data) {
+                $('.principal-panel-contenido').html(data);
+            }   
+       });
+   }   
+}
+
 
 
     
