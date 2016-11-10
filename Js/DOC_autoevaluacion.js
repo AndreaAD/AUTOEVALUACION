@@ -121,7 +121,6 @@ $(function(e){
                 pagina: _pagina,
             },
             success:  function (data) {
-                //console.dir(data);
 
                 var div_procesos = $('#div_procesos');
                 var lista_ids_preguntas = [];
@@ -149,10 +148,8 @@ $(function(e){
                 });
 
                 //$repetidos = [];
-                console.log(proc);
                 if(proc.length > 0){
                     for( var m=0; m<lista_ids_preguntas.length; m++){
-                        console.log(lista_ids_preguntas);
                         html += '<div class="row" >';
                             html += '<div class="titulo">';
                                 html += '<h4>'+lista_nombres_preguntas[m]+'</h4>';

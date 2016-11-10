@@ -93,63 +93,59 @@ $(function(e){
 		    		if(operacion == "CargarVariosArchivos"){
 		    			if(value.estado == 1){
 		    				//var boton = $('.boton-icono'); 
-		    				//console.log(boton);
 		    				//boton.trigger('click');
 
 	             		}
 	             		if(value.estado == 0){
-	                 		console.log('no guardo');
 	                 		div_errores.html('El archivo '+value.nombre+' no se guardo correctamente');
 	                 	}
 
 	                 	if(value.estado == 2){
-	                 		console.log('no movio');
 	                 		div_errores.html('El archivo '+value.nombre+' no se guardo correctamente');
 	                 	}
 
 	                 	if(value.estado == 3){
-	                 		console.log('tamaño');
 	                 		div_errores.html('El archivo '+value.nombre+' debe tener un tamaño maximo de 30 MB');
 	                 	}
 
 	                 	if(value.estado == 4){
-	                 		console.log('extension');
 	                 		div_errores.html('El archivo '+value.nombre+' no tiene una extensión valida');
 	                 	}
 
 	                 	if(value.estado == 5){
-	                 		console.log('no subio');
 	                 		div_errores.html('El archivo '+value.nombre+' no se guardo correctamente');
+	                 	}
+
+	                 	if(value.estado == 6){
+	                 		div_errores.html('El archivo '+value.nombre+' en su nombre no puede contener espacios ejm: "documen to.doc"');
 	                 	}  
 		    		}else{
 		    			if(value.estado == 1){
 	             			var archivo = '<tr data-id="'+value.id+'"><td><a  href="'+value.url+'" target="_blank">'+value.nombre+'</a></td><td><a href="#" data-role="borrar">eliminar</a></td></tr>';
 							$('.file-uploader[data-rel="'+rel+'"] table.archivos').append(archivo);
-	             			console.log('subio');
 	             		}
 	             		if(value.estado == 0){
-	                 		console.log('no guardo');
 	                 		div_errores.html('El archivo '+value.nombre+' no se guardo correctamente');
 	                 	}
 
 	                 	if(value.estado == 2){
-	                 		console.log('no movio');
 	                 		div_errores.html('El archivo '+value.nombre+' no se guardo correctamente');
 	                 	}
 
 	                 	if(value.estado == 3){
-	                 		console.log('tamaño');
 	                 		div_errores.html('El archivo '+value.nombre+' debe tener un tamaño maximo de 30 MB');
 	                 	}
 
 	                 	if(value.estado == 4){
-	                 		console.log('extension');
 	                 		div_errores.html('El archivo '+value.nombre+' no tiene una extensión valida');
 	                 	}
 
 	                 	if(value.estado == 5){
-	                 		console.log('no subio');
 	                 		div_errores.html('El archivo '+value.nombre+' no se guardo correctamente');
+	                 	}  
+
+	                 	if(value.estado == 6){
+	                 		div_errores.html('El archivo '+value.nombre+' en su nombre no puede contener espacios ejm: "documen to.doc"');
 	                 	}  
 		    		}
 

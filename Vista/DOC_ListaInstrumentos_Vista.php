@@ -40,7 +40,7 @@
         <div class="row">
             <br><br>
         </div> 
-        <div class="row" style="width:96%;">
+        <div class="row tabla_ins" style="width:96%;display:none;">
             <div class="col-md-12">
                 <table id="tabla_instrumentos">
                     <thead>

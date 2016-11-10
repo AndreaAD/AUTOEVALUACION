@@ -127,6 +127,7 @@ class informacionAdicional_Controlador{
                         $sobreescribir = false; //Sobreescribir el archivo si existe, si se deja en false genera un nombre nuevo 
                         $nombre = $key['name'];//Obtenemos el nombre del archivo
                         $temporal = $key['tmp_name']; //Obtenemos el nombre del archivo temporal
+                        
                         $tamano= ($key['size'] / 1000)."Kb"; //Obtenemos el tamaño en KB
                         $tamano_dato= ($key['size'] / 1000); //Obtenemos el tamaño en KB
                         $tipoDocumento = $key['type']; // obtenemos el tipo de documento
@@ -146,63 +147,67 @@ class informacionAdicional_Controlador{
                         $extension = end($trozos); // obtenemos la extension del documento
                         // verificamos que la extension sea permitida
                         
-                        if (($extension == "pdf")||($extension == "docx")||($extension == "doc")||($extension == "xlsx")||($extension == "xls")){
-                             // Comprueba si el archivo existe en la ubicacion donde lo vamos a copiar 
-                            if (file_exists($ruta.$nombre)) {
-                                //si es falso se genera un nuevo nombre al documento
-                                if (!$sobreescribir) {
+                        if(! strpos($nombre, " ")){
+                            if (($extension == "pdf")||($extension == "docx")||($extension == "doc")||($extension == "xlsx")||($extension == "xls")){
+                                 // Comprueba si el archivo existe en la ubicacion donde lo vamos a copiar 
+                                if (file_exists($ruta.$nombre)) {
+                                    //si es falso se genera un nuevo nombre al documento
+                                    if (!$sobreescribir) {
 
-                                    //$nuevo_aleatorio = generateRandomString(10);
-                                    //$nombre_generado = $nuevo_aleatorio;
+                                        //$nuevo_aleatorio = generateRandomString(10);
+                                        //$nombre_generado = $nuevo_aleatorio;
 
 
-                                    $i = 1;
-                                    while ($i) {
-                                        if (!file_exists($ruta.$i."_".$nombre)) {
-                                            $nombre = $i."_".$nombre;
-                                            $i = 0;
-                                        } else {
-                                            $i++;
+                                        $i = 1;
+                                        while ($i) {
+                                            if (!file_exists($ruta.$i."_".$nombre)) {
+                                                $nombre = $i."_".$nombre;
+                                                $i = 0;
+                                            } else {
+                                                $i++;
+                                            }
                                         }
                                     }
-                                }
-                            }     
-                            //move_uploaded_file($temporal, $ruta.$nombre); //Movemos el archivo temporal a la ruta especificada
-                            if($tamano_dato < 30000 ){
+                                }     
+                                //move_uploaded_file($temporal, $ruta.$nombre); //Movemos el archivo temporal a la ruta especificada
+                                if($tamano_dato < 30000 ){
 
-                                if(move_uploaded_file($temporal, $ruta.$nombre))
-                                {
-                                    // enviamos las variables al modelo para guardar la informacion en la base de datos
-                                    $this->infoAdic = new InfoAdicional_Modelo;
-                                    $this->infoAdic->nombre = $nombre;
-                                    $this->infoAdic->url = $url;
-                                    $this->infoAdic->extension = $extension;
+                                    if(move_uploaded_file($temporal, $ruta.$nombre))
+                                    {
+                                        // enviamos las variables al modelo para guardar la informacion en la base de datos
+                                        $this->infoAdic = new InfoAdicional_Modelo;
+                                        $this->infoAdic->nombre = $nombre;
+                                        $this->infoAdic->url = $url;
+                                        $this->infoAdic->extension = $extension;
 
-                                    $lista_instrumentos = $_POST['pk_instru_evaluacion'];
-                                    $res = explode(',' , $lista_instrumentos);
+                                        $lista_instrumentos = $_POST['pk_instru_evaluacion'];
+                                        $res = explode(',' , $lista_instrumentos);
 
-                                    foreach ($res as &$value) {
-                                        $this->infoAdic->fk_instrueval = $value;
-                                        $this->infoAdic->estado = 1;
-                                        $this->infoAdic->fk_usuario = $_SESSION['pk_usuario'];
-                                        $this->infoAdic->tipo = 2;
+                                        foreach ($res as &$value) {
+                                            $this->infoAdic->fk_instrueval = $value;
+                                            $this->infoAdic->estado = 1;
+                                            $this->infoAdic->fk_usuario = $_SESSION['pk_usuario'];
+                                            $this->infoAdic->tipo = 2;
 
-                                        if ($this->infoAdic->guardarDocumento() == 1){
-                                            $resul = $this->infoAdic->obtenerIdDocumento($nombre)->GetRows();
-                                            array_push($resultados_consulta, array('estado' => 1,'nombre' => $nombre, 'url' => $url , 'id' => $resul[0]['pk_documento']) );
-                                        }else{
-                                            array_push($resultados_consulta, array('estado' => 0,'nombre' => $nombre) );
+                                            if ($this->infoAdic->guardarDocumento() == 1){
+                                                $resul = $this->infoAdic->obtenerIdDocumento($nombre)->GetRows();
+                                                array_push($resultados_consulta, array('estado' => 1,'nombre' => $nombre, 'url' => $url , 'id' => $resul[0]['pk_documento']) );
+                                            }else{
+                                                array_push($resultados_consulta, array('estado' => 0,'nombre' => $nombre) );
+                                            }
                                         }
-                                    }
-                                    
+                                        
+                                    }else{
+                                        array_push($resultados_consulta, array('estado' => 2,'nombre' => $nombre) );
+                                    } 
                                 }else{
-                                    array_push($resultados_consulta, array('estado' => 2,'nombre' => $nombre) );
-                                } 
+                                    array_push($resultados_consulta, array('estado' => 3,'nombre' => $nombre) );
+                                }
                             }else{
-                                array_push($resultados_consulta, array('estado' => 3,'nombre' => $nombre) );
+                               array_push($resultados_consulta, array('estado' => 4,'nombre' => $nombre) );
                             }
                         }else{
-                           array_push($resultados_consulta, array('estado' => 4,'nombre' => $nombre) );
+                            array_push($resultados_consulta, array('estado' => 6,'nombre' => $nombre) );
                         }
                     }else{
                         array_push($resultados_consulta, array('estado' => 5,'nombre' => $nombre) );

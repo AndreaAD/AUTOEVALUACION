@@ -1831,8 +1831,6 @@ $(function(e){
                 $('#texto_porcentaje').append('<span>'+data.porcentaje_programa+'%</span>');
                 $('#proceso_institucional').append('<span>'+data.institucional+'</span>');
                 
-               console.log(data.resultados.length);
-
                 if(data.resultados.length != 0){
                 $.each(data.resultados, function(i, e)
                 {   
@@ -1985,6 +1983,7 @@ $(function(e){
                     }
 
                     tabla_r.append(lista);
+                    $('.tabla_ins').css('display','block');
                     tabla_r.fadeIn(); 
 
                    if ( $.fn.dataTable.isDataTable('#tabla_instrumentos') ) {
@@ -2027,6 +2026,8 @@ $(function(e){
                         } );
                     }
 
+                }else{
+                    $('.tabla_ins').css('display','none');
                 }
             }
            
@@ -2222,7 +2223,6 @@ $(function(e){
                     proceso: $('#proceso_consolidacion').val()
                 },
                 success:  function (data) {
-                    console.dir(data);
                     
                 }
                
