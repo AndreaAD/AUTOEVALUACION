@@ -421,4 +421,90 @@ $(function(e){
         }
     });
 
+    $('#sede_plm').on('change', function(e){
+        $('#facultad_plm').val(0);
+        $('#programa_plm').val(0);
+    });
+
+    $('#facultad_plm').on('change', function(e){
+        var sede = $('#sede_plm').val();
+        var facultad = $('#facultad_plm').val();
+        $('#programa_plm').val(0);
+
+        if(sede != 0){
+            $.ajax({
+                url: '../Controlador/PLM_planes_Controlador_2.php',
+                type:  'post',
+                async: false,
+                dataType:'json',
+                data:{
+                    sede : sede,
+                    facultad : facultad,
+                    operacion : "lista_programas"
+                },
+                success: function (data){
+                    if(data.length > 0){
+                        $opciones = '';                        
+                        $.each( data, function( i, obj ) {
+                            $opciones += '<option value="'+obj.pk_programa+'">'+obj.nombre+'</option>'; 
+                        });
+
+                        $("#programa_plm").append($opciones);
+
+                    }else{
+                    }
+                }   
+            });
+        }else{
+            alert('Debe seleccionar una sede');
+        }
+    });
+
+    $('#buscar_plm_historico').on('click', function(e){
+        if( $('#sede_plm').val() != 0 || $('#facultad_plm').val() != 0  ||  $('#programa_plm').val() != 0 ){
+
+            var sede = $('#sede_plm').val();
+            var facultad = $('#facultad_plm').val();
+            var programa = $('#programa_plm').val();
+
+            $.ajax({
+                url: '../Controlador/PLM_planes_Controlador_2.php',
+                type:  'post',
+                async: false,
+                dataType:'json',
+                data:{
+                    sede : sede,
+                    facultad : facultad,
+                    programa : programa,
+                    operacion : "historico_plm"
+                },
+                success: function (data){
+
+                    if(typeof data[0] !== 'undefined'){
+                        $('.lista_plm').html('');
+                        var planes = '';
+                        planes += '<table>';
+                        planes += '<tr>';
+                        planes += '<th>Proceso</th><th>Fecha Inicio</th><th>Fecha Fin</th><th>Descargar</th>';
+                        planes += '</tr>';
+                        $.each(data, function( i, obj ){
+                            planes += '<tr>';
+                            planes += '<td>'+obj.nombre+'</td>';
+                            planes += '<td>'+obj.fecha_inicio+'</td>';
+                            planes += '<td>'+obj.fecha_fin+'</td>';
+                            planes += '<td><button><a style="color:#fff;" target="_blank" href="../Vista/PLM_PlanesPdf_Vista.php?proceso='+obj.pk_proceso+'">Descargar</a></button></td>';
+                            planes += '</tr>';
+                        });
+                        planes += '</table>';
+                        $('.lista_plm').append(planes);
+                    }else{
+                        $('.lista_plm').html('No existen historicos de plan de mejoramiento de este programa');
+                    }
+                }   
+            });
+        }else{
+            alert('Debe seleccionar todos los campos del formulario');
+        }
+    });
+
 });

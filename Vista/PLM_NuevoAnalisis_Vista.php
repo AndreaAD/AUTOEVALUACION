@@ -1,7 +1,6 @@
 <meta charset="UTF-8">
 <link rel="stylesheet" type="text/css" href="../Complementos/DataTables-1.10.12/media/css/jquery.dataTables.css">
 <script type="text/javascript" language="javascript" src="../Complementos/DataTables-1.10.12/media/js/jquery.dataTables.js"></script>
-<link rel="stylesheet" type="text/css" href="../Css/DOC_Estilos.css">
 <link rel="stylesheet" href="../Css/PLM_Estilos.css"/>
 <script src="../Js/PLM_Analisis.js" type="text/javascript"></script> 
 

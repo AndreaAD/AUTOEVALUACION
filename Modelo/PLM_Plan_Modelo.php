@@ -486,7 +486,8 @@ class Plan {
        
        
         return $recordSet; 
-    }   
+    } 
+
     //Buscar actividades de mejoramiento por caracteristica
     public function buscarProyecto($_proceso)
     {
@@ -499,8 +500,62 @@ class Plan {
         $recordSet = $conexion->Ejecutar($cadena);
         
         return $recordSet; 
-    }   
-    
+    } 
+
+    public function lista_sedes()
+    {
+        $conexion = $this->conectar();      
+        $conexion->conectarAdo();
+        
+        $cadena = "SELECT * FROM sad_sede WHERE estado = 1"; //Realizamos una consulta
+        $recordSet = $conexion->Ejecutar($cadena);
+        
+        return $recordSet; 
+    } 
+
+    public function lista_facultades($sede)
+    {
+        $conexion = $this->conectar();      
+        $conexion->conectarAdo();
+        
+        $cadena = "SELECT * FROM sad_facultad WHERE estado = 1"; //Realizamos una consulta
+        $recordSet = $conexion->Ejecutar($cadena);
+        
+        return $recordSet; 
+    } 
+
+    public function lista_programas($sede, $facultad)
+    {
+        $conexion = $this->conectar();      
+        $conexion->conectarAdo();
+        
+        $cadena = "SELECT * FROM sad_programa WHERE fk_sede = $sede and fk_facultad = $facultad  ";
+        $recordSet = $conexion->Ejecutar($cadena);
+        
+        return $recordSet;
+    }
+
+    public function historico_plm($sede, $facultad, $programa){
+
+        $conexion = $this->conectar();      
+        $conexion->conectarAdo();
+        $cadena_1 = "SELECT * FROM cna_proceso WHERE fk_sede = $sede and fk_programa = $programa and fk_fase = 1 ";
+
+        $consulta_1 = $conexion->Ejecutar($cadena_1);
+        $lista_procesos = $consulta_1->GetRows();
+        $proceso = array();
+        
+        foreach ($lista_procesos as &$value) {
+            //echo $value['pk_proceso'];
+            $cadena_2 = "SELECT * FROM plm_plan_factor WHERE fk_proceso = ".$value['pk_proceso'] ;
+            $consulta_2 = $conexion->Ejecutar($cadena_2);
+            $plm = $consulta_2->GetRows();
+            if(count($plm) > 0  ){
+                array_push($proceso, $value);
+            }
+        }
+        return $proceso;
+    }      
     
     
     

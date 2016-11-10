@@ -27,6 +27,16 @@ class Planes_Controlador {
         echo json_encode($resultados);
     }
 
+    public function lista_programas(){
+        $resultados = $this->planes->lista_programas($_POST['sede'],$_POST['facultad'])->GetRows();
+        echo json_encode($resultados);
+    }    
+
+    public function historico_plm(){
+        $resultados = $this->planes->historico_plm($_POST['sede'],$_POST['facultad'],$_POST['programa']);
+        echo json_encode($resultados);
+    }
+
 }
 
 $controlador = new Planes_Controlador;
@@ -41,6 +51,12 @@ switch ($_operacion) {
     break;    
     case 'cargar_tabla_plan':
         $controlador->cargar_tabla_plan();
+    break;
+    case 'lista_programas':
+        $controlador->lista_programas();
+    break;    
+    case 'historico_plm':
+        $controlador->historico_plm();
     break;
     default:
 
