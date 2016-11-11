@@ -46,9 +46,11 @@ if(isset($arrInfo[0][0]))
     $instancia  = new Analisis;
 
     foreach ($arrFactor as &$value) {
+
         $datos =  $instancia->obtenerDatosPonderacionFactor($value[0], $_SESSION["pk_proceso"]);
         $datos_ponderacion_factor =  $instancia->obtenerPonderacionFactor($value[0], $_SESSION["pk_proceso"]);
         $escala_cualitativa =  $instancia->obtenerEscalaCualitativa();
+
 
         $tamaño = count($datos);
         $promedio1 = 0;

@@ -1420,9 +1420,6 @@ public function guardarConsolidadoFactor($factor, $proceso)
 	$respuesta = $this->runSQL($consulta);
 	$datos = $respuesta->GetRows();
 
-	$respuesta = $this->runSQL($consulta);
-	$datos = $respuesta->GetRows();
-
 	if(count($datos) == 0){
 		$consulta2 = 'insert into cna_resultados_evidencia (fk_factor, calificacion, fk_proceso, fk_modulo) values("'.$factor['factor'].'", "'.$total.'" , "'.$proceso.'", 5  ) ';
 		$respuesta2 = $this->runSQL($consulta2);

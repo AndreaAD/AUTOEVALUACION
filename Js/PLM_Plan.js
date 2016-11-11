@@ -318,8 +318,7 @@ $(function(e){
     }
 
     $('#guardar_plm').on('click', function(e){
-
-        if( $('#nombre').val() != "" || $('#lista_factores option:selected').val() != 0   ||  $('#fecha_inicio').val() != "" || $('#fecha_fin').val() != ""  || $('#peso').val() != ""  || $('#indicador').val() != ""  || $('#responsable').val() != ""  || $('#cargo').val() != ""  || $('#descripcion').val() != "" ||   $('#recursos').val() != "" ||  $('#evidencias').val() != "" ){
+        if( $('#nombre').val() != ""  ||  $('#fecha_inicio').val() != "" || $('#fecha_fin').val() != ""  || $('#peso').val() != ""  || $('#indicador').val() != ""  || $('#responsable').val() != ""  || $('#cargo').val() != ""  || $('#descripcion').val() != "" ||   $('#recursos').val() != "" ||  $('#evidencias').val() != "" ){
             $.ajax({
                 url: '../Controlador/PLM_planes_Controlador_2.php',
                 type:  'post',

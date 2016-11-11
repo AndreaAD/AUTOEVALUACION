@@ -80,12 +80,9 @@ class Plan {
 
         if(count($resul) == 0){
              $cadena = "INSERT INTO plm_plan_factor(fk_proceso, nombre , fk_factor, fecha_inicio, fecha_fin, peso, indicador, responsable, cargo, meta, descripcion, recursos, evidencias ) VALUES ($proceso,'$nombre' , $factor, '$fecha_inicio', '$fecha_fin', '$peso', '$indicador','$responsable', '$cargo','$meta', '$descripcion' ,'$recursos', '$evidencias' ) ";
-
-                echo $cadena;
         
         }else{
              $cadena = "UPDATE plm_plan_factor SET nombre = '$nombre', fecha_inicio = '$fecha_inicio', fecha_fin = '$fecha_fin', peso = '$peso', indicador = '$indicador', responsable = '$responsable', cargo = '$cargo', meta = '$meta', descripcion = '$descripcion', recursos = '$recursos', evidencias = '$evidencias'  WHERE fk_proceso = $proceso and fk_factor = $factor ";
-             echo $cadena;
         }
 
         $consulta_final = $conexion->Ejecutar($cadena);

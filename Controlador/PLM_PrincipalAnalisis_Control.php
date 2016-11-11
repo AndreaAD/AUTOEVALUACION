@@ -233,11 +233,11 @@ if(isset($_REQUEST['H_opcion']))
         
         case 'verGraficaFac':{
             //mostramos la infortmación del proceso actual
-            $glo_objViewAnali->mostrarInfo($_SESSION["plm_facultad"],$_SESSION["plm_programa"],$_SESSION["plm_sede"],$_SESSION["plm_director"],$_SESSION["plm_periodo"]);
+            // $glo_objViewAnali->mostrarInfo($_SESSION["plm_facultad"],$_SESSION["plm_programa"],$_SESSION["plm_sede"],$_SESSION["plm_director"],$_SESSION["plm_periodo"]);
             
             //mostramos la gráfica de los factores
             $arrFacGrap = $glo_objModelAnali ->buscaCalFac($_SESSION["pk_proceso"]);
-            $glo_objViewAnali ->mostGrafCarac($arrFacGrap,"Gráfica De Factores", "AtrasCarac();");
+            $glo_objViewAnali ->mostGrafCarac($arrFacGrap, 0,"Gráfica De Factores", "AtrasCarac();");
             
            
             
