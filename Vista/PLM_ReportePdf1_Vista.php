@@ -382,6 +382,24 @@ $Test->Render("../imagenes/reporteAnalisisCarac".$_SESSION['pk_proceso'].".png")
     $pdf ->Ln();
     $pdf ->Ln();
     $pdf ->Ln();
+        $pdf ->Ln();
+    $pdf ->Ln();
+    $pdf ->Ln();
+    $pdf ->Ln();
+    $pdf ->Ln();
+    $pdf ->Ln();
+        $pdf ->Ln();
+    $pdf ->Ln();
+    $pdf ->Ln();
+    $pdf ->Ln();
+    $pdf ->Ln();
+    $pdf ->Ln();
+        $pdf ->Ln();
+    $pdf ->Ln();
+    $pdf ->Ln();
+    $pdf ->Ln();
+    $pdf ->Ln();
+    $pdf ->Ln(50);
     
     $pdf->Cell(50,50,'','C');
     //se inserta la imagen en el documento pdf

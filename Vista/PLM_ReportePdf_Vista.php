@@ -225,9 +225,10 @@ if(isset($arrInfo[0][0]))
     $resultados_tabla =array();
 
     foreach ($arrFactor as &$value) {
-        $datos =  $instancia->obtenerDatosPonderacionFactor($value[0], $_SESSION["pk_proceso"]);
+                $datos =  $instancia->obtenerDatosPonderacionFactor($value[0], $_SESSION["pk_proceso"]);
         $datos_ponderacion_factor =  $instancia->obtenerPonderacionFactor($value[0], $_SESSION["pk_proceso"]);
         $escala_cualitativa =  $instancia->obtenerEscalaCualitativa();
+
 
         $tamaño = count($datos);
         $promedio1 = 0;
@@ -306,7 +307,6 @@ if(isset($arrInfo[0][0]))
 
 
         array_push($resultados_tabla, $resultados_carc);
-
         //require('../Vista/PLM_ReportePdf_Vista.php');
     }
 
@@ -327,35 +327,36 @@ include("../pChart/pChart/pChart.class");
       
 $arregloDatos = array();
 $arregloTitulos = array();
-$DataSet = new pData;
-
-// $Datos->AddPoint(array(8,7,8,9,10,5),"Carlos");
-// $Datos->AddPoint(array(4,2,4,5,10,6),"Pedro");
-// $Datos->AddPoint(array(6,1,2,1,4,2),"Juan");
-// $Datos->AddPoint(array("Enero","Febrero","Marzo","Abril","Mayo","Junio"),"Meses");
-
-
-// Ahora, debemos indicarle qué tipo de datos son, pues los primeros tres son los datos para las estadísticas y el último es el eje x (horizontal).
-
-// $Datos->AddSerie("Carlos");
-// $Datos->AddSerie("Pedro");
-// $Datos->AddSerie("Juan");
-// $Datos->SetAbsciseLabelSerie("Meses"); 
-
-
-
 
 foreach ($datos_grafica as &$value) {
     array_push($arregloDatos, $value[1]);
     array_push($arregloTitulos, $value[0]);
 }
 
-//var_dump($arregloTitulos);
 
-$DataSet->AddPoint(array(1,2,100),"Factores");
-$DataSet->AddAllSeries();  
-$DataSet->SetAbsciseLabelSerie();  
+$Datos = new pData;
+$Datos->AddPoint(array($arregloDatos),"Datos");
+//$Datos->AddPoint(array($arregloTitulos),"Factores");
+$Datos->AddSerie("Datos");
+$Datos->SetAbsciseLabelSerie("Factores"); 
+// $Test = new pChart(620,230);
+// $Test->setFontProperties("Fonts/tahoma.ttf",8);
+// $Test->setGraphArea(50,30,600,200);
+// $Test->drawFilledRoundedRectangle(7,7,616,223,5,240,240,240);
+// $Test->drawRoundedRectangle(5,5,618,225,5,230,230,230);
+// $Test->drawGraphArea(255,255,255,TRUE);
 
+// $Test->drawScale($Datos->GetData(),$Datos->GetDataDescription(),SCALE_NORMAL,150,150,150,TRUE,0,2,TRUE);
+// $Test->drawGrid(4,TRUE,230,230,230,50);
+// $Test->setColorPalette(0,255,153,51);
+// $Test->setColorPalette(1,0,204,0);
+// $Test->setColorPalette(2,51,204,204);
+// $Test->drawBarGraph($Datos->GetData(),$Datos->GetDataDescription(),TRUE);
+// $Test->setFontProperties("Fonts/tahoma.ttf",8);
+// $Test->drawLegend(545,25,$Datos->GetDataDescription(),192,192,192);
+// $Test->setFontProperties("Fonts/tahoma.ttf",10);
+// $Test->drawTitle(50,22,"Notas de Matemática",50,50,50,585);
+// $Test->Stroke();
 
 
  //Initialise the graph
@@ -365,7 +366,7 @@ $DataSet->SetAbsciseLabelSerie();
  $Test->drawFilledRoundedRectangle(7,7,700,223,5,240,240,240);  
  $Test->drawRoundedRectangle(5,5,700,225,5,230,230,230);  
  $Test->drawGraphArea(255,255,255,TRUE);  
- $Test->drawScale($DataSet->GetData(),$DataSet->GetDataDescription(),SCALE_NORMAL,300,150,50,TRUE,0,2,TRUE);     
+ $Test->drawScale($Datos->GetData(),$Datos->GetDataDescription(),SCALE_NORMAL,300,150,50,TRUE,0,2,TRUE);     
  $Test->drawGrid(4,TRUE,230,230,230,50);  
   
  // Draw the 0 line  
@@ -373,11 +374,11 @@ $DataSet->SetAbsciseLabelSerie();
  $Test->drawTreshold(0,143,55,72,TRUE,TRUE);  
   
  // Draw the bar graph  
- $Test->drawBarGraph($DataSet->GetData(),$DataSet->GetDataDescription(),TRUE);  
+ $Test->drawBarGraph($Datos->GetData(),$Datos->GetDataDescription(),TRUE);  
   
  // Finish the graph  
  $Test->setFontProperties("../pChart/Fonts/Tahoma.ttf",8);  
- $Test->drawLegend(590,10,$DataSet->GetDataDescription(),255,255,255);  
+ $Test->drawLegend(590,10,$Datos->GetDataDescription(),255,255,255);  
  $Test->setFontProperties("../pChart/Fonts/Tahoma.ttf",10);  
  $Test->drawTitle(50,22,"Grafica de Calificación",50,50,50,585);           
 

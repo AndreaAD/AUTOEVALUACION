@@ -129,7 +129,6 @@ if(isset($arrInfo[0][0]))
 
 
         array_push($resultados_tabla, $resultados_carc);
-
     }
     require_once("../Vista/PLM_AnalisisResultadosFactor_Vista.php");
 }

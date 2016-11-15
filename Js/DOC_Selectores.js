@@ -2223,7 +2223,7 @@ $(function(e){
                     proceso: $('#proceso_consolidacion').val()
                 },
                 success:  function (data) {
-                    
+                    alert('Datos consolidados satisfactoriamente');
                 }
                
             }); 

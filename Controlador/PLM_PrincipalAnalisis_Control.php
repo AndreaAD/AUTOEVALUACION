@@ -418,7 +418,6 @@ if(isset($_REQUEST['H_opcion']))
                         }
 
                         array_push($resultados_tabla, $resultados_carc);
-
                     }
                 require_once("../Vista/PLM_AnalisisResultados_Vista.php");
             }

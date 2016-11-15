@@ -1400,12 +1400,10 @@ public function guardarConsolidadoCaracteristica($caracteristica, $proceso)
 	if(count($datos) == 0){
 		$consulta2 = 'insert into cna_resultados_evidencia (fk_caracteristica, calificacion, fk_proceso, fk_modulo) values("'.$caracteristica['caracteristica'].'", "'.$total.'" , "'.$proceso.'", 5  ) ';
 		$respuesta2 = $this->runSQL($consulta2);
-		return true;
 	}else{
 		$consulta3 = 'update cna_resultados_evidencia set fk_caracteristica = "'.$caracteristica['caracteristica'].'", calificacion = "'.$total.'", fk_proceso = "'.$proceso.'", fk_modulo = 5 where pk_cna_resultados_evidencia = '.$datos[0]['id'];
 
 		$respuesta3 = $this->runSQL($consulta3);
-		return true;
 	}
 
 }
@@ -1423,12 +1421,10 @@ public function guardarConsolidadoFactor($factor, $proceso)
 	if(count($datos) == 0){
 		$consulta2 = 'insert into cna_resultados_evidencia (fk_factor, calificacion, fk_proceso, fk_modulo) values("'.$factor['factor'].'", "'.$total.'" , "'.$proceso.'", 5  ) ';
 		$respuesta2 = $this->runSQL($consulta2);
-		return true;
 	}else{
 		$consulta3 = 'update cna_resultados_evidencia set fk_factor = "'.$factor['factor'].'", calificacion = "'.$total.'", fk_proceso = "'.$proceso.'", fk_modulo = 5 where pk_cna_resultados_evidencia = '.$datos[0]['id'];
 
 		$respuesta3 = $this->runSQL($consulta3);
-		return true;
 	}
 
 }

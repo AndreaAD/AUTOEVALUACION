@@ -367,11 +367,11 @@ class Autoevaluacion_Controlador {
         // //recorro las caracteristicas
 
         foreach ($datos[1] as &$caracteristica) {
-            $datos = $this->autoevaluacion->guardarConsolidadoCaracteristica($caracteristica, $proceso);
+            $datos_resultado = $this->autoevaluacion->guardarConsolidadoCaracteristica($caracteristica, $proceso);
         }
 
         foreach ($datos[0] as &$factor) {
-            $datos = $this->autoevaluacion->guardarConsolidadoFactor($factor, $proceso);
+            $datos_resultado_2 = $this->autoevaluacion->guardarConsolidadoFactor($factor, $proceso);
         }
 
         return true;
