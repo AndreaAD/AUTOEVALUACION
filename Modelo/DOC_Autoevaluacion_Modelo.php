@@ -1429,6 +1429,24 @@ public function guardarConsolidadoFactor($factor, $proceso)
 
 }
 
+public function CargarEditarInstrumentos($id)
+{
+
+	$consulta = 'select * from doc_instru_evaluacion where pk_instru_evaluacion = '.$id;
+	$respuesta = $this->runSQL($consulta);
+	$datos = $respuesta->GetRows();
+
+	$opc = $datos[0][0]['opc'];
+
+	if($opc == 1){
+    	include('../Vista/DOC_InstruEvalAgregar_Vista.php'); 
+	}else if($opc == 2){
+
+    	include('../Vista/DOC_InstruEvalAgregar_Vista.php'); 
+	}
+
+}
+
 	/**
 	 * [runSQL funcion encargada de enviar las consultas a la clase de base de datos]
 	 * @return [int] devuelve el estado de la operacion 1 -0

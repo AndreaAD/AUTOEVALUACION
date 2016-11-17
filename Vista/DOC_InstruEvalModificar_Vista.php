@@ -85,7 +85,7 @@
             <div class="row">
                 <br>
                 <input type="hidden" name="opc" value="1">
-                <input type="submit" id="B_guardarInstru" value="Crear nuevo">
+                <input type="submit" id="B_guardarInstru" value="Modificar">
                 <input type="submit" id="B_limpiar" value="Limpiar">
                 <br><br>
             </div>

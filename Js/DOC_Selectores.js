@@ -1777,14 +1777,20 @@ $(function(e){
                 $('#mensajes').html("");
                 if(data == 2)
                 {
-                   window.scroll(0,0);
-                   $('#mensajes').html("");
-                    $('#mensajes').html("<h4 style='color:red'>Por favor ingrese todos los campos del formulario.</h4>");
+                    window.scroll(0,0);
+                    div_emergente.find('.emergente > div[data-role="contenido"]').html('<p style="color:red;">Por favor ingrese todos los campos del formulario</p>');
+                    div_emergente.css('display','block');
+                    //window.scroll(0,0);
+                    //$('#mensajes').html("");
+                    //$('#mensajes').html("<h4 style='color:red'>Por favor ingrese todos los campos del formulario.</h4>");
                 }else if(data == 1){
-                    $('#mensajes').html("");
-                    $('#mensajes').html("<h4 style='color:green'>Datos guardados satisfactoriamente.</h4>");
-                    //div_emergente.find('.emergente > div[data-role="contenido"]').html('<p>El instrumento se guardo satisfactoriamente</p>');
+                    window.scroll(0,0);
+                    //$('#mensajes').html("");
+                    //$('#mensajes').html("<h4 style='color:green'>Datos guardados satisfactoriamente.</h4>");
+                    div_emergente.find('.emergente > div[data-role="contenido"]').html('<p>El instrumento se guardo satisfactoriamente</p>');
+                    div_emergente.css('display','block');
                     //ocultar_emergente();
+                    
                     $('input[name="grupoInteres[]"]').attr('checked', false);
                     $('input[name="procesos[]"]').attr('checked', false);
                     $('textarea[name="T_pregunta"]').val('');
@@ -1974,10 +1980,12 @@ $(function(e){
                 tabla_r.html('');
                 
                 if(data.length != 0){
+
                     for(var i = 0; i < data.length; i++){ 
                         lista += '<tr data-id="'+data[i]['pk_instru_evaluacion']+'">';
                             lista += '<td>'+data[i]['descripcion']+'</td>';
-                            //lista += '<td  width="30px"><a href="#" ><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>&nbsp;&nbsp;<a href="#" style="color:red"><i class="fa fa-trash" aria-hidden="true"></i></a></td>';
+                            lista += '<td  width="30px" ><a href="#" data-rel="editar"><i class="fa fa-pencil-square-o" aria-hidden="true" ></i></a></td>';
+                            lista += '<td  width="30px" ><a href="#" data-rel="eliminar"><i class="fa fa-trash-o" aria-hidden="true"></i></a></td>';
                         lista += '</tr>';
                         
                     }
@@ -2034,6 +2042,25 @@ $(function(e){
         });
     }
 
+    $('#tabla_instrumentos').delegate('a[data-rel="editar"]','click', function(e){
+        var id = $(this).closest('tr').data('id');
+        $.ajax({
+            url: '../Controlador/DOC_Autoevaluacion_Controlador.php',
+            type:  'post',
+            async: false,
+            dataType:'json',
+            data:{
+                id: id,
+                operacion: "CargarEditarInstrumentos"
+            },
+            success:  function (data) {
+                $('.principal-panel-sub-contenido').html(data);
+            }
+           
+        });
+
+    });
+
     $('#lista_grupos').on('change', function(e){
         if($('#lista_grupos').val != 0 ){
             cargarInstrumentos();
@@ -2061,7 +2088,9 @@ $(function(e){
             success:  function (data) {
                 if(data == 1)
                 {
-                    alert('Instrumentos generados satisfactoriamente');
+                    window.scroll(0,0);
+                    div_emergente.find('.emergente > div[data-role="contenido"]').html('<p>Los instrumentos se generaron satisfactoriamente</p>');
+                    div_emergente.css('display','block');
                 }
             }
            
@@ -2223,7 +2252,9 @@ $(function(e){
                     proceso: $('#proceso_consolidacion').val()
                 },
                 success:  function (data) {
-                    alert('Datos consolidados satisfactoriamente');
+                    window.scroll(0,0);
+                    div_emergente.find('.emergente > div[data-role="contenido"]').html('<p>Se realizo la consolidación satisfactoriamente</p>');
+                    div_emergente.css('display','block');
                 }
                
             }); 

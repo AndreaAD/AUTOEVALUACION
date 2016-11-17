@@ -374,7 +374,13 @@ class Autoevaluacion_Controlador {
             $datos_resultado_2 = $this->autoevaluacion->guardarConsolidadoFactor($factor, $proceso);
         }
 
-        return true;
+        echo json_encode(true);
+    }
+
+    public function CargarEditarInstrumentos(){
+        $id = $_POST['id'];
+        $instrumento = $this->autoevaluacion->CargarEditarInstrumentos($id);
+        echo json_encode($instrumento);
     }
 
 }
@@ -451,6 +457,9 @@ switch ($_operacion) {
     break;
     case 'ConsolidadoDb':
         $controlador->ConsolidadoDb();
+    break;    
+    case 'CargarEditarInstrumentos':
+        $controlador->CargarEditarInstrumentos();
     break;
     default:
 

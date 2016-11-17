@@ -45,6 +45,8 @@
                 <table id="tabla_instrumentos">
                     <thead>
                         <th>Descripción</th>
+                        <th>Modificar</th>
+                        <th>Eliminar</th>
                     </thead>
                     <tbody></tbody>
                 </table>

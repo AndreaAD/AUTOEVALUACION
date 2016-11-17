@@ -10,7 +10,7 @@
 <input type="hidden" name="_section" value="intru_evaluacion"> 
 <div class="bloque una-columna">
     <div class="titulo-bloque texto-izquierda">
-        <h2 class="icon-quill">Agregar instrumento de evaluación por caracteristica</h2>
+        <h2 class="icon-quill">Agregar instrumento de evaluación por característica</h2>
     </div>
         <div id="contenido_instruCaracteristica" class="div_formularios">
             <div class="container">
@@ -69,7 +69,7 @@
                         </div>
                     </div> -->
                     <div class="row">
-                        <br><br><h1>Caracteristicas</h1>
+                        <br><br><h1>Características</h1>
                     </div>
                     <div class="row" style="width:96%;">
                         <div class="col-md-12">
@@ -78,8 +78,8 @@
                                     <tr>
                                         <th><input name="select_all" id="todos" type="checkbox"></th>
                                         <th>Factor</th>
-                                        <th>Codigo caracteristica</th>
-                                        <th>Caracteristica</th>
+                                        <th>Código característica</th>
+                                        <th>Característica</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -146,7 +146,7 @@
 </div>
 <div id="div_emergente" class="fondo_emergente">
     <div class="emergente">
-        <div data-role="contenido"></div>
+        <div data-role="contenido" style="text-align: center;"></div>
         <div data-role="botones"></div>
         <span title="cerrar" data-rol="cerrar"> x </span>
     </div>

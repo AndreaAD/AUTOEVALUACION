@@ -24,3 +24,11 @@
 
 	}
 ?>
+
+<div id="div_emergente" class="fondo_emergente">
+    <div class="emergente">
+        <div data-role="contenido" style="text-align: center;"></div>
+        <div data-role="botones"></div>
+        <span title="cerrar" data-rol="cerrar"> x </span>
+    </div>
+</div>

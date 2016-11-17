@@ -141,15 +141,27 @@ $(function (e){
 	        		switch(data){
 				    case 1:
 				    	//cargartablaInstrumentos2(e);
-				    	$('#mensajes').html("");
-                    	$('#mensajes').html("<h4 style='color:green'>Datos guardados satisfactoriamente.</h4>");
-				    	// div_emergente.find('.emergente > div[data-role="contenido"]').html('<p>El instrumento se guardo satisfactoriamente</p>');
-				     //    ocultar_emergente();
+				    	//$('#mensajes').html("");
+                    	//$('#mensajes').html("<h4 style='color:green'>Datos guardados satisfactoriamente.</h4>");
+				    	div_emergente.find('.emergente > div[data-role="contenido"]').html('<p>El instrumento se guardo satisfactoriamente</p>');
+				     	div_emergente.css('display','block');
+				     	
+				     	$("#evidencia").val('');
+			        	$("#factor").val('');
+			        	$("#caracteristica").val('');
+			        	$("#aspecto").val('');
+			        	$("#text_pregunta").val('');
+			        	$('select[name="S_tipoRespuesta"]').val(0);
+			        	$('select[name="S_opcionesRespuesta"]').val(0);
+			        	$("#opc").val('');
+
 				    break;
 				    case 2:
 				    	window.scroll(0,0);
-                   		$('#mensajes').html("");
-                    	$('#mensajes').html("<h4 style='color:red'>Por favor ingrese todos los campos del formulario.</h4>");
+				    	div_emergente.find('.emergente > div[data-role="contenido"]').html('<p style="color:red;">Por favor ingrese todos los campos del formulario</p>');
+				     	div_emergente.css('display','block');
+                   		// $('#mensajes').html("");
+                    	// $('#mensajes').html("<h4 style='color:red'>Por favor ingrese todos los campos del formulario.</h4>");
 				    break;
 				    default:
 				    break;				       
