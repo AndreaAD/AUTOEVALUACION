@@ -86,31 +86,65 @@ class InstruEval_Controlador {
      * @return [int] [Estado que indica que resultado se obtuvo de la operacion]
      */
     public function modificarInstrumento(){
-        if($_POST['pregunta'] != "" && $_POST['evidencia'] != "" &&  $_POST['tipoRespuesta'] != ""  && count($_POST['grupoInteres']) > 0  && $_POST['opcionesRespuesta']  != "" ){
-            $arregloGrupo = $_POST['grupoInteres'];
-            $guardo = 1;
-            if ( count($arregloGrupo) == 1)
-                $grupoInteres = $arregloGrupo[0]['value'];
-            else
-                $grupoInteres = 3;  
+        $opcion = $_POST['opcion'];
+        if($opcion == 1){
+            if($_POST['pregunta'] != "" && $_POST['evidencia'] != "" &&  $_POST['tipoRespuesta'] != ""  && $_POST['opcionesRespuesta']  != "" ){
+                 $arregloGrupo = $_POST['grupoInteres'];
+                //  $guardo = 1;
+                // if ( count($arregloGrupo) == 1)
+                     $grupoInteres = $arregloGrupo[0]['value'];
+                // else
+                //     $grupoInteres = 3; 
 
-            $this->instrumento->grupo =  $grupoInteres;
-            $this->instrumento->id = $_POST['id_pregunta'];
-            $this->instrumento->pregunta = $_POST['pregunta'];
-            $this->instrumento->evidencia = $_POST['evidencia'];
-            $this->instrumento->tipoRespuesta = $_POST['tipoRespuesta'];
-             $this->instrumento->opcionRespuesta = $_POST['opcionesRespuesta'];
 
-            $arregloProceso = $_POST['proceso'];
-            for($i =0; $i<count($arregloProceso); $i++){
-                $guardo = $this->instrumento->modificar($arregloProceso[$i]['value'] );
+                $this->instrumento->id =  $_POST['id'];
+                $this->instrumento->grupo =  $grupoInteres;
+                $this->instrumento->pregunta = $_POST['pregunta'];
+                $this->instrumento->factor = $_POST['factor'];
+                $this->instrumento->factor_codigo = $_POST['factor_codigo'];
+                $this->instrumento->caracteristicas = $_POST['caracteristicas'];
+                $this->instrumento->caracteristicas_codigo = $_POST['caracteristicas_codigo'];
+                $this->instrumento->aspectos = $_POST['aspectos'];
+                $this->instrumento->aspectos_codigo = $_POST['aspectos_codigo'];
+                $this->instrumento->evidencia = $_POST['evidencia'];
+                $this->instrumento->evidencia_codigo = $_POST['evidencia_codigo'];
+                $this->instrumento->tipoRespuesta = $_POST['tipoRespuesta'];
+                $this->instrumento->opcionRespuesta = $_POST['opcionesRespuesta'];
 
-            }
+                $guardo = $this->instrumento->modificar($_POST['suboperacion']);
 
-            echo 1;
+                echo 1;   
+            }else{
+                echo 2;
+            }  
         }else{
-            echo 2; 
-        } 
+
+        }
+        // if($_POST['pregunta'] != "" && $_POST['evidencia'] != "" &&  $_POST['tipoRespuesta'] != ""  && count($_POST['grupoInteres']) > 0  && $_POST['opcionesRespuesta']  != "" ){
+        //     $arregloGrupo = $_POST['grupoInteres'];
+        //     $guardo = 1;
+        //     if ( count($arregloGrupo) == 1)
+        //         $grupoInteres = $arregloGrupo[0]['value'];
+        //     else
+        //         $grupoInteres = 3;  
+
+        //     $this->instrumento->grupo =  $grupoInteres;
+        //     $this->instrumento->id = $_POST['id_pregunta'];
+        //     $this->instrumento->pregunta = $_POST['pregunta'];
+        //     $this->instrumento->evidencia = $_POST['evidencia'];
+        //     $this->instrumento->tipoRespuesta = $_POST['tipoRespuesta'];
+        //      $this->instrumento->opcionRespuesta = $_POST['opcionesRespuesta'];
+
+        //     $arregloProceso = $_POST['proceso'];
+        //     for($i =0; $i<count($arregloProceso); $i++){
+        //         $guardo = $this->instrumento->modificar($arregloProceso[$i]['value'] );
+
+        //     }
+
+        //     echo 1;
+        // }else{
+        //     echo 2; 
+        // } 
     }
 
     /**

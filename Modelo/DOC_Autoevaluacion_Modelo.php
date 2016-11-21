@@ -1432,18 +1432,16 @@ public function guardarConsolidadoFactor($factor, $proceso)
 public function CargarEditarInstrumentos($id)
 {
 
-	$consulta = 'select * from doc_instru_evaluacion where pk_instru_evaluacion = '.$id;
+	$consulta = 'select doc_instru_evaluacion.* ,	 cna_factor.nombre as factor_nombre,	 cna_caracteristica.nombre as caracteristica_nombre,	 cna_aspecto.nombre as aspecto_nombre,
+	 cna_evidencia.nombre as evidencia_nombre 
+	 from doc_instru_evaluacion	 LEFT JOIN cna_factor ON doc_instru_evaluacion.fk_factor = cna_factor.pk_factor
+	 LEFT JOIN cna_caracteristica ON doc_instru_evaluacion.fk_caracteristicas = cna_caracteristica.pk_caracteristica 
+	 LEFT JOIN cna_aspecto ON doc_instru_evaluacion.fk_aspectos = cna_aspecto.pk_aspecto 
+	 LEFT JOIN cna_evidencia ON doc_instru_evaluacion.fk_evidencia = cna_evidencia.pk_evidencia
+	 where pk_instru_evaluacion = '.$id.' ' ;
 	$respuesta = $this->runSQL($consulta);
 	$datos = $respuesta->GetRows();
-
-	$opc = $datos[0][0]['opc'];
-
-	if($opc == 1){
-    	include('../Vista/DOC_InstruEvalAgregar_Vista.php'); 
-	}else if($opc == 2){
-
-    	include('../Vista/DOC_InstruEvalAgregar_Vista.php'); 
-	}
+	return $datos;
 
 }
 
