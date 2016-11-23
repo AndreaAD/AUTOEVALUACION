@@ -128,7 +128,7 @@ class Autoevaluacion_Modelo {
 		 		if(count($dat) > 0)
 		 		{
 
-			 			$sql3 = 'SELECT * FROM doc_instru_evaluacion where fk_grupo_interes = 7';
+			 			$sql3 = 'SELECT * FROM doc_instru_evaluacion where fk_grupo_interes = 7 and estado = 1';
 				 		$res3 = $this->runSQL($sql3);
 				 		$listaInstrumentos = $res3->GetRows();
 				 		
@@ -151,7 +151,7 @@ class Autoevaluacion_Modelo {
 
 
 				 		//programa
-				 		$sql33 = 'SELECT * FROM doc_instru_evaluacion where fk_grupo_interes = 10';
+				 		$sql33 = 'SELECT * FROM doc_instru_evaluacion where fk_grupo_interes = 10 and estado = 1';
 				 		$res3 = $this->runSQL($sql33);
 				 		$listaInstrumentos33 = $res3->GetRows();
 				 		
@@ -176,7 +176,7 @@ class Autoevaluacion_Modelo {
 
 
 		 			//facultad
-		 			$sql6 = 'SELECT * FROM doc_instru_evaluacion where fk_grupo_interes = 8';
+		 			$sql6 = 'SELECT * FROM doc_instru_evaluacion where fk_grupo_interes = 8 and estado = 1';
 			 		$res6 = $this->runSQL($sql6);
 			 		$listaInstrumentos_facultad = $res6->GetRows();
 
@@ -231,7 +231,7 @@ class Autoevaluacion_Modelo {
 			 		}
 
 			 		//sede
-		 			$sql13 = 'SELECT * FROM doc_instru_evaluacion where fk_grupo_interes = 9';
+		 			$sql13 = 'SELECT * FROM doc_instru_evaluacion where fk_grupo_interes = 9 and estado = 1';
 			 		$res13 = $this->runSQL($sql13);
 			 		$listaInstrumentos_sede = $res13->GetRows();
 

@@ -1982,10 +1982,10 @@ $(function(e){
                 if(data.length != 0){
 
                     for(var i = 0; i < data.length; i++){ 
-                        lista += '<tr data-id="'+data[i]['pk_instru_evaluacion']+'">';
-                            lista += '<td>'+data[i]['descripcion']+'</td>';
+                        lista += '<tr data-id="'+data[i]['pk_instru_evaluacion']+'" data-estado="'+data[0]['estado']+'">';
+                            lista += '<td data-td="descripcion">'+data[i]['descripcion']+'</td>';
                             lista += '<td  width="30px" ><a href="#" data-rel="editar"><i class="fa fa-pencil-square-o" aria-hidden="true" ></i></a></td>';
-                            lista += '<td  width="30px" ><a href="#" data-rel="eliminar"><i class="fa fa-trash-o" aria-hidden="true"></i></a></td>';
+                            lista += '<td  width="30px" ><a href="#" data-rel="eliminar">'+(data[0]["estado"] == 1 ? '<i class="fa fa-check" aria-hidden="true"></i>' : '<i class="fa fa-times" aria-hidden="true"></i>')+'</a></td>';
                         lista += '</tr>';
                         
                     }
@@ -2044,6 +2044,10 @@ $(function(e){
 
     $('#tabla_instrumentos').delegate('a[data-rel="editar"]','click', function(e){
         var id = $(this).closest('tr').data('id');
+
+        var lista = $('#lista_grupos').val();
+
+
         $.ajax({
             url: '../Controlador/DOC_Autoevaluacion_Controlador.php',
             type:  'post',
@@ -2057,206 +2061,104 @@ $(function(e){
                 $('#formulario_secundario').html('');
                 var $html = '';
                 if(data){
-                    if(data[0]['opc'] == 1){
-                        $html += '<input type="hidden" name="_section" value="intru_evaluacion"> ';
-                        $html += '<div class="bloque una-columna">';
-                                    $html += '<div class="titulo-bloque texto-izquierda">';
-                                    $html += '<h2 class="icon-quill">Modificar instrumento de evaluación</h2>';
-                                    $html += '</div>';
-                                    $html += '<input type="hidden" name="H_operacion" value="EditarInstrumento">';
-                                    $html += '<input type="hidden" name="factor" value="'+data[0]['fk_factor']+'">';
-                                    $html += '<input type="hidden" name="factor_codigo" value="'+data[0]['fk_factor_codigo']+'">';
-                                    $html += '<input type="hidden" name="grupoInt" value="'+data[0]['fk_grupo_interes']+'">';
-                                    $html += '<input type="hidden" name ="caracteristica" value="'+data[0]['fk_caracteristicas']+'">';
-                                    $html += '<input type="hidden" name ="caracteristica_codigo" value="'+data[0]['fk_caracteristicas_codigo']+'">';
-                                    $html += '<input type="hidden" name="aspecto" value="'+data[0]['fk_aspectos']+'">';
-                                    $html += '<input type="hidden" name="aspecto_codigo" value="'+data[0]['fk_aspectos_codigo']+'">';
-                                    $html += '<input type="hidden" name="evidencia" value="'+data[0]['fk_evidencia']+'">';
-                                    $html += '<input type="hidden" name="evidencia_codigo" value="'+data[0]['fk_evidencia_codigo']+'">';
-                                    $html += '<input type="hidden" name="id_pregunta" value="">';
-                                    $html += '<div id="contenido_instru" class="div_formularios">';
-                                        $html += '<div class="row" id="mensajes"></div>';
-                                            $html += '<label style="font-weight:bold;font-size:1.3em; display:inline-block; float:left;margin-bottom: 15px;" for="texto-factor" >Grupo interés</label>';
-                                            $html += '<div id="div_chechbox" style="display:inline-block; float: left; margin-left: 40px;}"></div>';
-                                        $html += '<div class="row">';
-                                            $html += '<label style="font-weight:bold;font-size:1.3em; padding-right:4em;" for="texto-factor">Factor</label>';
-                                            $html += '<button type="button" id="A_factor" class="boton-solo-icono"><i class="icon-redo2"></i></button>';
-                                            $html += '<textarea id="factor" style="width:90%; height:50px;" placeholder="Seleccione un factor" id="texto-factor" readonly="on">'+data[0]['fk_factor_codigo']+"."+data[0]['factor_nombre']+'</textarea>';
-                                        $html += '</div>';
-                                        $html += '<div class="row">';
-                                            $html += '<label style="font-weight:bold;font-size:1.3em; padding-right:4em;" for="texto-factor">Característica</label>';
-                                            $html += '<button type="button" id="A_caracteristica" class="boton-solo-icono"><i class="icon-redo2"></i></button>';
-                                            $html += '<textarea id="caracteristica" style="width:90%; height:50px;" placeholder="Seleccione una caracteristica" id="texto-factor" readonly="on">'+data[0]['fk_caracteristicas_codigo']+"."+data[0]['caracteristica_nombre']+'</textarea>';
-                                        $html += '</div>';
-                                        $html += '<div class="row">';
-                                            $html += '<label style="font-weight:bold;font-size:1.3em; padding-right:4em;" for="texto-factor">Aspecto</label>';
-                                            $html += '<button type="button" id="A_aspecto" class="boton-solo-icono"><i class="icon-redo2"></i></button>';
-                                            $html += '<textarea id="aspecto" style="width:90%; height:50px;" placeholder="Seleccione un aspecto" id="texto-factor" readonly="on">'+data[0]['fk_aspectos_codigo']+"."+data[0]['aspecto_nombre']+'</textarea>';
-                                        $html += '</div>';
-                                        $html += '<div class="row">';
-                                            $html += '<label style="font-weight:bold;font-size:1.3em; padding-right:4em;" for="texto-factor">Evidencia</label>';
-                                            $html += '<button type="button" id="A_evidencia" class="boton-solo-icono"><i class="icon-redo2"></i></button>';
-                                            $html += '<textarea id="evidencia" style="width:90%; height:50px;" placeholder="Seleccione una evidencia" id="texto-factor" readonly="on">'+data[0]['fk_evidencia_codigo']+"."+data[0]['evidencia_nombre']+'</textarea>';
-                                        $html += '</div>';
-                                        $html += '<div class="row">';
-                                            $html += '<div class="col">';
-                                                $html += '<label class="label_caja">Seleccione el tipo de respuesta </label>';
-                                            $html += '</div>';
-                                            $html += '<div class="col_2">';
-                                                $html += '<select name="S_tipoRespuesta" id="S_tipoRespuesta"></select>';
-                                            $html += '</div>';
-                                        $html += '</div>';
-                                        $html += '<div name="div_oculto" id="div_oculto" class="row">';
-                                            $html += '<div class="col">';
-                                                $html += '<label class="label_num">Ingrese el porcentaje </label>';
-                                               
-                                            $html += '</div>';
-                                            $html += '<div class="col_2">';
-                                                $html += '<input type="number" name="nuevo_tipo_respuesta" min="1" max="100">';
-                                            $html += '</div>';
-                                        $html += '</div>';
-                                        $html += '<div id="div_opcional" class="row">';
-                                            $html += '<div class="col">';
-                                                $html += '<label class="label_caja">Seleccione las opciones de respuesta </label>';
-                                            $html += '</div>';
-                                            $html += '<div class="col_2">';
-                                                $html += '<select name="S_opcionesRespuesta"></select>';
-                                            $html += '</div>';
-                                        $html += '</div>';
-                                        $html += '<div class="row">';
-                                            $html += '<div class="col">';
-                                                $html += '<label class="label_caja">Ingrese el instrumento de evaluación  </label>';
-                                            $html += '</div>';
-                                            $html += '<div class="col_2">';
-                                                $html += '<textarea class="text_pregunta" id="text_pregunta" name="T_pregunta">'+data[0]['descripcion']+'</textarea>';
-                                            $html += '</div>';
-                                        $html += '</div>';
-                                        $html += '<div class="row">';
-                                            $html += '<br>';
-                                            $html += '<input type="hidden" name="id" value="'+data[0]['pk_instru_evaluacion']+'">';
-                                            $html += '<input type="hidden" name="opcion" value="1">';
-                                            $html += '<input type="submit" id="B_ModificarInstru" value="Modificar">';
-                                            $html += '<input type="button" id="atras_editar_instrumentos" value="Atras">';
-                                            $html += '<input type="submit" id="B_limpiar" value="Limpiar">';
-                                            $html += '<script type="text/javascript" src="../Js/DOC_Selectores.js"></script>';
-                                            $html += '<script type="text/javascript" src="../Js/DOC_Instrueval.js"></script>';
-                                            $html += '<br><br>';
-                                        $html += '</div>';
-                                    $html += '</div>';
-                                $html += '</div>';
-                                $('#formulario_secundario').append($html);
-                                $('#div_formulario_principal').css('display','none');
-                                $('#formulario_secundario').css('display','block');
-                                $('#S_tipoRespuesta').val(data[0]['fk_tipo_respuesta']).change();
-                                $('select[name="S_opcionesRespuesta"]').val(data[0]['fk_grupo_respuesta']);
-                                $('input[name="grupoInteres[]"][value="'+data[0]['fk_grupo_interes']+'"]').prop('checked', true);
-                    }else if(data[0]['opc'] == 2){
-                        $html += '<input type="hidden" name="_section" value="intru_evaluacion"> ';
-                        $html += '<link rel="stylesheet" type="text/css" href="../Complementos/DataTables-1.10.12/media/css/jquery.dataTables.css">';
-                        $html += '<script type="text/javascript" language="javascript" src="../Complementos/DataTables-1.10.12/media/js/jquery.dataTables.js"></script>';
-                        $html += '<div class="bloque una-columna">';
-                            $html += '<div class="titulo-bloque texto-izquierda">';
-                                $html += '<h2 class="icon-quill">Modificar instrumento de evaluación por característica</h2>';
+                    $html += '<input type="hidden" name="_section" value="intru_evaluacion"> ';
+                    $html += '<div class="bloque una-columna">';
+                        $html += '<div class="titulo-bloque texto-izquierda">';
+                        $html += '<h2 class="icon-quill">Modificar instrumento de evaluación</h2>';
+                        $html += '</div>';
+                            $html += '<div class="row aletra-fase">';
+                                $html += '<p>El modificar instrumentos permite unicamente editar la descripcion del mismo, si desea modificar el factor, caracteristica, aspecto o evidencia que tiene asignado, debe deshabiliar el instumento y crear un nuevo instrumento</p>';
                             $html += '</div>';
-                                $html += '<div id="contenido_instruCaracteristica" class="div_formularios">';
-                                    $html += '<div class="container">';
-                                        $html += '<form action="#" id="formulario_caracteristicas" >';
-                                            $html += '<div class="row" id="mensajes">';
-                                                
-                                            $html += '</div>';
-                                            $html += '<div class="row">';
-                                                $html += '<div class="col-md-12">';
-                                                    $html += '<div class="col">';
-                                                        $html += '<label class="label_caja">Seleccione el grupo de interés </label>';
-                                                    $html += '</div>';
-                                                    $html += '<div class="col_2">';
-                                                        $html += '<div id="div_chechbox"></div>';
-                                                    $html += '</div>';
-                                                $html += '</div>';
-                                            $html += '</div>                    ';
-                                            $html += '<div class="row">';
-                                                $html += '<div class="col">';
-                                                    $html += '<label class="label_caja">Ingrese el instrumento de evaluación  </label>';
-                                                $html += '</div>';
-                                                $html += '<div class="col_2">';
-                                                    $html += '<textarea class="text_pregunta" id="text_pregunta" name="T_pregunta">'+data[0]['descripcion']+'</textarea>';
-                                                $html += '</div>';
-                                            $html += '</div>';
-                                            $html += '<div class="row">';
-                                                $html += '<div class="col">';
-                                                    $html += '<label class="label_caja">Seleccione el tipo de respuesta </label>';
-                                                $html += '</div>';
-                                                $html += '<div class="col_2">';
-                                                    $html += '<select name="S_tipoRespuesta"></select>';
-                                                $html += '</div>';
-                                            $html += '</div>';
-                                            $html += '<div name="div_oculto" id="div_oculto" class="row">';
-                                                $html += '<div class="col">';
-                                                    $html += '<label class="label_num">Ingrese el porcentaje </label>';
-                                                   
-                                                $html += '</div>';
-                                                $html += '<div class="col_2">';
-                                                    $html += '<input type="number" name="nuevo_tipo_respuesta" min="1" max="100">';
-                                                $html += '</div>';
-                                            $html += '</div>';
-                                            $html += '<div id="div_opcional" class="row">';
-                                                $html += '<div class="col">';
-                                                    $html += '<label class="label_caja">Seleccione las opciones de respuesta </label>';
-                                                $html += '</div>';
-                                                $html += '<div class="col_2">';
-                                                    $html += '<select name="S_opcionesRespuesta" id="S_opcionesRespuesta"></select>';
-                                                $html += '</div>';
-                                            $html += '</div>';
-                                            $html += '<div class="row">';
-                                                $html += '<br><br><h1>Características</h1>';
-                                            $html += '</div>';
-                                            $html += '<div class="row" style="width:96%;">';
-                                                $html += '<div class="col-md-12">';
-                                                    $html += '<table id="tabla_caracteristicas" class="display select" cellspacing="0" width="100%">';
-                                                        $html += '<thead>';
-                                                            $html += '<tr>';
-                                                                $html += '<th><input name="select_all" id="todos" type="checkbox"></th>';
-                                                                $html += '<th>Factor</th>';
-                                                                $html += '<th>Código característica</th>';
-                                                                $html += '<th>Característica</th>';
-                                                            $html += '</tr>';
-                                                        $html += '</thead>';
-                                                        $html += '<tbody>';
-                                                        $html += '</tbody>';
-                                                    $html += '</table>';
-                                                $html += '</div>';
-                                            $html += '</div>';
-                                            $html += '<div class="row">';
-                                                $html += '<div class="col-md-12">';
-                                                    $html += '<input type="button" id="B_ModificarInstruCaracteristica" value="Guardar">';
-                                                    $html += '<input type="hidden" id="id" value="'+data[0]['pk_instru_evaluacion']+'">';
-                                                    $html += '<br>';
-                                                    $html += '<input type="hidden" name="opc" value="2">';
-                                                    $html += '<input type="hidden" id="seccion_doc" value="Crear_instrumento_caracteristica">';
-                                                    $html += '<script type="text/javascript" src="../Js/DOC_Selectores.js"></script>';
-                                                    $html += '<script type="text/javascript" src="../Js/DOC_Instrueval.js"></script>';
-                                                $html += '</div>';
-                                            $html += '</div>';
-                                        $html += '</form>';
+                            $html += '<div class="row">';
+                                $html += '<div class="col">';
+                                    $html += '<label class="label_caja">Ingrese el instrumento de evaluación  </label>';
                                 $html += '</div>';
+                                $html += '<div class="col_2">';
+                                    $html += '<textarea class="text_pregunta" id="text_pregunta" name="T_pregunta">'+data[0]['descripcion']+'</textarea>';
+                                $html += '</div>';
+                            $html += '</div>';
+                            $html += '<div class="row">';
+                                $html += '<br>';
+                                $html += '<input type="hidden" id="id_instrumento" value="'+data[0]['pk_instru_evaluacion']+'">';
+                                $html += '<input type="hidden" name="opcion" value="1">';
+                                $html += '<input type="hidden" name="opcion_lista" value="'+lista+'">';
+                                $html += '<input type="submit" id="B_ModificarInstru" value="Modificar">';
+                                $html += '<input type="button" id="atras_editar_instrumentos" value="Atras">';
+                                $html += '<input type="submit" id="B_limpiar" value="Limpiar">';
+                                $html += '<script type="text/javascript" src="../Js/DOC_Selectores.js"></script>';
+                                $html += '<script type="text/javascript" src="../Js/DOC_Instrueval.js"></script>';
+                                $html += '<br><br>';
                             $html += '</div>';
                         $html += '</div>';
-                        $('#formulario_secundario').append($html);
-                        $('#div_formulario_principal').css('display','none');
-                        $('#formulario_secundario').css('display','block');
-                        console.log(data[0]['fk_tipo_respuesta']);
-                        $('#S_tipoRespuesta').val(data[0]['fk_tipo_respuesta']).change();
-                        $('select[name="S_opcionesRespuesta"]').val(data[0]['fk_grupo_respuesta']);
-                        $('input[name="grupoInteres[]"][value="'+data[0]['fk_grupo_interes']+'"]').prop('checked', true);
-                    }
-
+                    $html += '</div>';
+                    $('#formulario_secundario').append($html);
+                    $('#div_formulario_principal').css('display','none');
+                    $('#formulario_secundario').css('display','block');
+                    $('#S_tipoRespuesta').val(data[0]['fk_tipo_respuesta']).change();
+                    $('select[name="S_opcionesRespuesta"]').val(data[0]['fk_grupo_respuesta']);
+                    $('input[name="grupoInteres[]"][value="'+data[0]['fk_grupo_interes']+'"]').prop('checked', true);
                 }               
                 
             }
            
         });
+        e.preventDefault();
 
     });
+
+    $('#tabla_instrumentos').delegate('a[data-rel="eliminar"]','click', function(e){
+        var id = $(this).closest('tr').data('id');
+        var estado = $(this).closest('tr').data('estado');
+        var texto = '';
+        var desc = $(this).closest('tr').find('td[data-td="descripcion"]').text();
+        if(estado == 1 ){
+            texto = '<p>Esta seguro que desea deshabiliar el instrumento de evaluación: "'+desc+'"</p>';
+            texto += '<a data-estado="'+estado+'" data-eliminar-instrumento="si" data-id="'+id+'" href="#"> Si </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a data-eliminar-instrumento="no" href="#"> No </a>';
+        }else{
+            texto = '<p>Esta seguro que desea habilitar el instrumento de evaluación: "'+desc+'"</p>';
+            texto += '<a data-estado="'+estado+'" data-eliminar-instrumento="si" data-id="'+id+'" href="#"> Si </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a data-eliminar-instrumento="no" href="#"> No </a>';
+        }
+        
+        div_emergente.find('.emergente > div[data-role="contenido"]').html(texto);
+        div_emergente.css('display','block');
+        e.preventDefault();
+
+    });
+
+    $('#atras_editar_instrumentos').on('click', function(e){
+        var opcion_lista = $('input[name="opcion_lista"]').val();
+        $('#lista_grupos').val(opcion_lista).change();
+        $('#formulario_secundario').html('');
+        $('#div_formulario_principal').css('display','block');
+        $('#formulario_secundario').css('display','none');
+    });
+
+    div_emergente.delegate('a[data-eliminar-instrumento]','click', function(e){
+        if($(this).data('eliminar-instrumento') == "si"){
+            $.ajax({
+                url: '../Controlador/DOC_InstruEval_Controlador.php',
+                type:  'post',
+                dataType:'json',
+                data:{
+                    operacion: "deshabilitarInstrumento",
+                    id : $(this).data('id'),
+                    estado : $(this).data('estado')
+                },
+                success:  function (data) {
+                    if(data == 1){
+                        cargarInstrumentos();
+                        div_emergente.find('.emergente > div[data-role="contenido"]').html('<p>El instrumento de evaluación cambio su estado satisfactoriamente</p>');
+                        div_emergente.css('display','block');
+                    }else if(data == 0){
+                        div_emergente.find('.emergente > div[data-role="contenido"]').html('<p>No se elimino el instrumento de evaluación</p>');
+                    }
+                }
+            }); 
+        }
+        div_emergente.css('display','none');
+        e.preventDefault(); 
+    });
+
 
     $('#lista_grupos').on('change', function(e){
         if($('#lista_grupos').val != 0 ){
@@ -2462,7 +2364,9 @@ $(function(e){
     $('#B_ModificarInstru').on('click', function(e){
         var sub= "";
         var opcionesRes = "";
-        var id = $('#id').val();
+        var opcion_lista = $('input[name="opcion_lista"]').val();
+        console.log(opcion_lista);
+        var id = $('#id_instrumento').val();
         
         if ( $('select[name="S_tipoRespuesta"]').val() == 6  || $('select[name="S_tipoRespuesta"]').val() == 7 ){
             sub = "guardar_con_texto";
@@ -2478,43 +2382,22 @@ $(function(e){
             dataType:'json',
             data:{
                 operacion: "modificarInstrumento",
-                opcion: $('#opcion').val(),
-                id_nstru: id,
-                suboperacion : sub,
-                evidencia:$("input[name='evidencia']").val(),
-                evidencia_codigo:$("input[name='evidencia_codigo']").val(),
-                factor:$("input[name='factor']").val(),
-                factor_codigo:$("input[name='factor_codigo']").val(),
-                caracteristicas:$("input[name='caracteristica']").val(),
-                caracteristicas_codigo:$("input[name='caracteristica_codigo']").val(),
-                aspectos:$("input[name='aspecto']").val(),
-                aspectos_codigo:$("input[name='aspecto_codigo']").val(),
+                id: id,                
                 pregunta: $("#text_pregunta").val(),
-                tipoRespuesta: $('select[name="S_tipoRespuesta"]').val(),
-                opcionesRespuesta: opcionesRes,
-                opc: $("input[name='opc']").val(),
-                grupoInteres : $('input[name="grupoInteres[]"]').serializeArray()
-                //proceso : $('input[name="procesos[]"]').serializeArray()
             },
             success:  function (data) {
                 $('#mensajes').html("");
                     switch(data){
                     case 1:
-                        //cargartablaInstrumentos2(e);
-                        //$('#mensajes').html("");
-                        //$('#mensajes').html("<h4 style='color:green'>Datos guardados satisfactoriamente.</h4>");
                         div_emergente.find('.emergente > div[data-role="contenido"]').html('<p>El instrumento se modifico satisfactoriamente</p>');
                         div_emergente.css('display','block');
-                        
-                        $("#evidencia").val('');
-                        $("#factor").val('');
-                        $("#caracteristica").val('');
-                        $("#aspecto").val('');
                         $("#text_pregunta").val('');
-                        $('select[name="S_tipoRespuesta"]').val(0);
-                        $('select[name="S_opcionesRespuesta"]').val(0);
-                        $("#opc").val('');
                         $('#id').val('');
+                        $('#lista_grupos').val(opcion_lista).change();
+                        $('#formulario_secundario').html('');
+                        $('#div_formulario_principal').css('display','block');
+                        $('#formulario_secundario').css('display','none');
+
 
                     break;
                     case 2:

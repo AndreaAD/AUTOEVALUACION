@@ -116,76 +116,16 @@ class InstruEval_Modelo {
 		
 	}	
 
-	public function modificar($suboperacion){
+	public function modificar(){
+			
+		$sqlinsert = 'UPDATE doc_instru_evaluacion SET
+			`descripcion` = "'.$this->pregunta.'" WHERE `pk_instru_evaluacion` = "'.$this->id.'" ';
 
-		if($suboperacion == "guardar_con_texto"){
-			$sqlinsert = 'UPDATE doc_instru_evaluacion SET
-				`descripcion` = "'.$this->pregunta.'",
-				`fk_grupo_respuesta` = "'.$this->opcionRespuesta.'",
-				`fk_grupo_interes` = "'.$this->grupo.'",
-				`fk_tipo_respuesta` = "'.$this->tipoRespuesta.'",
-				`porcentaje` = "'.$this->porcentaje.'",
-				`fk_factor` = "'.$this->factor.'",
-				`fk_factor_codigo` = "'.$this->factor_codigo.'",
-				`fk_caracteristicas` = "'.$this->caracteristicas.'",
-				`fk_caracteristicas_codigo` = "'.$this->caracteristicas_codigo.'",
-				`fk_aspectos` = "'.$this->aspectos.'",
-				`fk_aspectos_codigo` = "'.$this->aspectos_codigo.'",
-				`fk_evidencia` = "'.$this->evidencia.'",
-				`fk_evidencia_codigo` = "'.$this->evidencia_codigo.'"
-				WHERE `pk_instru_evaluacion` = "'.$this->id.'" ';
-
-				if($this->runSQL($sqlinsert)){
-					return 1;
-					// $consultaUltimo = 'SELECT pk_instru_evaluacion from doc_instru_evaluacion order by pk_instru_evaluacion desc limit 0,1 ';
-					// $res = $this->runSQL($consultaUltimo);
-					// $ultimo = $res->GetRows();
-
-					// $insertPivote = 'INSERT INTO doc_instrumento_cna (  `fk_instrumento`,  `fk_factor`,  `fk_caracteristica`,  `fk_aspecto`,  `fk_evidencia`) values( '.$ultimo[0]['pk_instru_evaluacion'].', '.$this->factor.', '.$this->caracteristicas.', '.$this->aspectos.', '.$this->evidencia.' ) ';
-					// if($this->runSQL($insertPivote)){
-					// 	return 1;
-					// }else{
-					// 	return 0;
-					// }
-
-				}else{
-					return 0;
-				}
-
-		}else{
-			$sqlinsert = 'UPDATE doc_instru_evaluacion SET
-				`descripcion` = "'.$this->pregunta.'",
-				`fk_grupo_respuesta` = "'.$this->opcionRespuesta.'",
-				`fk_grupo_interes` = "'.$this->grupo.'",
-				`fk_tipo_respuesta` = "'.$this->tipoRespuesta.'",
-				`porcentaje` = 0,
-				`fk_factor` = "'.$this->factor.'",
-				`fk_factor_codigo` = "'.$this->factor_codigo.'",
-				`fk_caracteristicas` = "'.$this->caracteristicas.'",
-				`fk_caracteristicas_codigo` = "'.$this->caracteristicas_codigo.'",
-				`fk_aspectos` = "'.$this->aspectos.'",
-				`fk_aspectos_codigo` = "'.$this->aspectos_codigo.'",
-				`fk_evidencia` = "'.$this->evidencia.'",
-				`fk_evidencia_codigo` = "'.$this->evidencia_codigo.'"
-				WHERE `pk_instru_evaluacion` = "'.$this->id.'" ';
-					
-				if($this->runSQL($sqlinsert)){
-					return 1;
-					// $consultaUltimo = 'SELECT pk_instru_evaluacion from doc_instru_evaluacion order by pk_instru_evaluacion desc limit 0,1 ';
-					// $res = $this->runSQL($consultaUltimo);
-					// $ultimo = $res->GetRows();
-
-					// $insertPivote = 'INSERT INTO doc_instrumento_cna (  `fk_instrumento`,  `fk_factor`,  `fk_caracteristica`,  `fk_aspecto`,  `fk_evidencia`) values( '.$ultimo[0]['pk_instru_evaluacion'].', '.$this->factor.', '.$this->caracteristicas.', '.$this->aspectos.', '.$this->evidencia.' ) ';
-					// if($this->runSQL($insertPivote)){
-					// 	return 1;
-					// }else{
-					// 	return 0;
-					// }
-
-				}else{
-					return 0;
-				}
-		}
+			if($this->runSQL($sqlinsert)){
+				return 1;
+			}else{
+				return 0;
+			}
 
 
 		$observacion =  'Se modifico un instrumento de evaluacion para la evidencia numero : "'.$this->evidencia.'" '; 
@@ -228,6 +168,21 @@ class InstruEval_Modelo {
 			return 0;
 		}
 
+	}
+
+	public function deshabilitarInstrumento($id, $estado){
+		if($estado == 1){
+			$sql = 'UPDATE doc_instru_evaluacion SET estado = 0 WHERE pk_instru_evaluacion = '.$id.'';
+		}else{
+			$sql = 'UPDATE doc_instru_evaluacion SET estado = 1 WHERE pk_instru_evaluacion = '.$id.'';
+		}
+		
+
+		if($this->runSQL($sql)){
+			return 1;
+		}else{
+			return 0;
+		}
 	}
 
 

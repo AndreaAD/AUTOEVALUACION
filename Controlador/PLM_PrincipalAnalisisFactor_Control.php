@@ -155,11 +155,21 @@ function mainGeneral(){
 //la interface y las funciones de jquery
 function jsGeneral(){
     ?>
+    <link rel="stylesheet" type="text/css" href="../Complementos/DataTables-1.10.12/media/css/jquery.dataTables.css">
+    <link rel="stylesheet" href="../Css/PLM_Estilos.css"/> 
+    <link rel="stylesheet" type="text/css" href="../Complementos/DataTables-1.10.12/extensions/Buttons/css/buttons.dataTables.css">
+    <link rel="stylesheet" href="../Css/PLM_Estilos.css"/> 
     <script src="../Js/PLM_Analisis.js" type="text/javascript"></script>  
     <script src="../Js/PLM_paginador.js" type="text/javascript"></script> 
     <script src="../Js/chart.min.js" type="text/javascript"></script>
-    <script src="../Js/Chart.js" type="text/javascript"></script>   
-    <link rel="stylesheet" href="../Css/PLM_Estilos.css"/> 
+    <script src="../Js/Chart.js" type="text/javascript"></script>
+    <script type="text/javascript" language="javascript" src="../Js/jquery-1.9.1.js"></script>
+    <script type="text/javascript" language="javascript" src="../Complementos/DataTables-1.10.12/media/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" language="javascript" src="../Complementos/DataTables-1.10.12/extensions/Buttons/js/dataTables.buttons.js"></script>
+    <script type="text/javascript" language="javascript" src="../Complementos/DataTables-1.10.12/extensions/pdfmake.min.js"></script>
+    <script type="text/javascript" language="javascript" src="../Complementos/DataTables-1.10.12/extensions/vfs_fonts.js"></script>
+    <script type="text/javascript" language="javascript" src="../Complementos/DataTables-1.10.12/extensions/jszip.min.js"></script>
+    <script type="text/javascript" language="javascript" src="../Complementos/DataTables-1.10.12/extensions/Buttons/js/buttons.html5.js"></script>
     <?php
 }
 ?>

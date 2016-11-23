@@ -47,7 +47,7 @@
                         <thead>
                             <th>Descripción</th>
                             <th>Modificar</th>
-                            <th>Eliminar</th>
+                            <th>Cambiar Estado</th>
                         </thead>
                         <tbody></tbody>
                     </table>

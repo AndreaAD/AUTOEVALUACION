@@ -86,66 +86,34 @@ class InstruEval_Controlador {
      * @return [int] [Estado que indica que resultado se obtuvo de la operacion]
      */
     public function modificarInstrumento(){
-        $opcion = $_POST['opcion'];
-        if($opcion == 1){
-            if($_POST['pregunta'] != "" && $_POST['evidencia'] != "" &&  $_POST['tipoRespuesta'] != ""  && $_POST['opcionesRespuesta']  != "" ){
-                 $arregloGrupo = $_POST['grupoInteres'];
-                //  $guardo = 1;
-                // if ( count($arregloGrupo) == 1)
-                     $grupoInteres = $arregloGrupo[0]['value'];
-                // else
-                //     $grupoInteres = 3; 
-
+        if($_POST['id']){
+            if($_POST['pregunta']){
 
                 $this->instrumento->id =  $_POST['id'];
-                $this->instrumento->grupo =  $grupoInteres;
                 $this->instrumento->pregunta = $_POST['pregunta'];
-                $this->instrumento->factor = $_POST['factor'];
-                $this->instrumento->factor_codigo = $_POST['factor_codigo'];
-                $this->instrumento->caracteristicas = $_POST['caracteristicas'];
-                $this->instrumento->caracteristicas_codigo = $_POST['caracteristicas_codigo'];
-                $this->instrumento->aspectos = $_POST['aspectos'];
-                $this->instrumento->aspectos_codigo = $_POST['aspectos_codigo'];
-                $this->instrumento->evidencia = $_POST['evidencia'];
-                $this->instrumento->evidencia_codigo = $_POST['evidencia_codigo'];
-                $this->instrumento->tipoRespuesta = $_POST['tipoRespuesta'];
-                $this->instrumento->opcionRespuesta = $_POST['opcionesRespuesta'];
 
-                $guardo = $this->instrumento->modificar($_POST['suboperacion']);
+                $guardo = $this->instrumento->modificar();
 
                 echo 1;   
             }else{
                 echo 2;
-            }  
-        }else{
-
+            }
         }
-        // if($_POST['pregunta'] != "" && $_POST['evidencia'] != "" &&  $_POST['tipoRespuesta'] != ""  && count($_POST['grupoInteres']) > 0  && $_POST['opcionesRespuesta']  != "" ){
-        //     $arregloGrupo = $_POST['grupoInteres'];
-        //     $guardo = 1;
-        //     if ( count($arregloGrupo) == 1)
-        //         $grupoInteres = $arregloGrupo[0]['value'];
-        //     else
-        //         $grupoInteres = 3;  
-
-        //     $this->instrumento->grupo =  $grupoInteres;
-        //     $this->instrumento->id = $_POST['id_pregunta'];
-        //     $this->instrumento->pregunta = $_POST['pregunta'];
-        //     $this->instrumento->evidencia = $_POST['evidencia'];
-        //     $this->instrumento->tipoRespuesta = $_POST['tipoRespuesta'];
-        //      $this->instrumento->opcionRespuesta = $_POST['opcionesRespuesta'];
-
-        //     $arregloProceso = $_POST['proceso'];
-        //     for($i =0; $i<count($arregloProceso); $i++){
-        //         $guardo = $this->instrumento->modificar($arregloProceso[$i]['value'] );
-
-        //     }
-
-        //     echo 1;
-        // }else{
-        //     echo 2; 
-        // } 
     }
+
+    public function deshabilitarInstrumento(){
+        if($_POST['id']){
+
+            $id =  $_POST['id'];
+            $estado =  $_POST['estado'];
+            $guardo = $this->instrumento->deshabilitarInstrumento($id, $estado);
+            if($guardo)
+                echo 1;   
+            
+        }
+    }
+
+
 
     /**
      * [cargarInstrumento CArga los instrumentos de evaluacion dependiendo de una evidencia que le enviamos como parametro]
@@ -307,6 +275,9 @@ switch ($_operacion) {
     break;    
     case 'CargarInstrumentos':
         $controlador->CargarInstrumentos();
+    break;    
+    case 'deshabilitarInstrumento':
+        $controlador->deshabilitarInstrumento();
     break;
     default:
 
