@@ -1,6 +1,4 @@
 <meta charset="UTF-8">
-<link rel="stylesheet" type="text/css" href="../Complementos/DataTables-1.10.12/media/css/jquery.dataTables.css">
-<script type="text/javascript" language="javascript" src="../Complementos/DataTables-1.10.12/media/js/jquery.dataTables.js"></script>
 <link rel="stylesheet" type="text/css" href="../Css/DOC_Estilos.css">
 <link rel="stylesheet" href="../Complementos/font-awesome/css/font-awesome.min.css">
 <!-- <link rel="stylesheet" href="../Complementos/jQuery-File-Upload/css/jquery.fileupload.css"> -->

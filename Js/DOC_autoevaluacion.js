@@ -105,9 +105,6 @@ $(function(e){
         });     
     }
 
-
-
-
     var cargarControlador = function(_pagina){
         $.ajax({
             url: '../Controlador/DOC_Autoevaluacion_Controlador.php',

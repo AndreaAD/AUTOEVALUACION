@@ -19,6 +19,15 @@
         <script src="../Js/Encuestas.js" type="text/javascript"></script>
         <script src="../Js/Chart.js" type="text/javascript"></script>
 
+        <link rel="stylesheet" type="text/css" href="../Complementos/DataTables-1.10.12/media/css/jquery.dataTables.css">
+        <link rel="stylesheet" type="text/css" href="../Complementos/DataTables-1.10.12/extensions/Buttons/css/buttons.dataTables.css">
+        <script type="text/javascript" language="javascript" src="../Complementos/DataTables-1.10.12/media/js/jquery.dataTables.js"></script>
+        <script type="text/javascript" language="javascript" src="../Complementos/DataTables-1.10.12/extensions/Buttons/js/dataTables.buttons.js"></script>
+        <script type="text/javascript" language="javascript" src="../Complementos/DataTables-1.10.12/extensions/pdfmake.min.js"></script>
+        <script type="text/javascript" language="javascript" src="../Complementos/DataTables-1.10.12/extensions/vfs_fonts.js"></script>
+        <script type="text/javascript" language="javascript" src="../Complementos/DataTables-1.10.12/extensions/jszip.min.js"></script>
+        <script type="text/javascript" language="javascript" src="../Complementos/DataTables-1.10.12/extensions/Buttons/js/buttons.html5.js"></script>
+
 
         <link type="text/css" rel="stylesheet" href="../Css//dhtmlgoodies_calendar.css?random=20051112" media="screen"/>
         <script type="text/javascript" src="../Js/dhtmlgoodies_calendar.js?random=20060118"></script>
