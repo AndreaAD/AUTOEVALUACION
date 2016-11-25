@@ -103,6 +103,19 @@ class Autoevaluacion_Modelo {
 	 	return $d[0]['nombre'];
 	}
 
+	public function VerificarFaseProcesos($lista_procesos){
+		$procesos = array();
+		foreach ($lista_procesos as &$proceso){
+			$sql = 'SELECT fk_fase FROM cna_proceso where pk_proceso = '.$proceso['pk_proceso'];
+	 		$res = $this->runSQL($sql);
+	 		$fase = $res->GetRows();
+	 		if($fase[0]['fk_fase'] == '4'){
+	 			array_push($procesos, $proceso);
+	 		}
+		}
+		return $procesos;
+	}
+
 	public function generarInstru($procesos){
 		//var_dump($procesos);
 

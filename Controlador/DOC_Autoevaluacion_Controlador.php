@@ -134,36 +134,39 @@ class Autoevaluacion_Controlador {
         $items  = $_POST['items'];
         $grupo = $_POST['grupo'];
 
-        $procesos = $_SESSION['array_proceso'];
+        $lista_procesos = $_SESSION['array_proceso'];
+        $procesos = $this->autoevaluacion->VerificarFaseProcesos($lista_procesos);
         //$datos_completos = [];
+        if(count($procesos) > 0 ){
+            $datos_completos = array();
+            for($u=0; $u<count($procesos); $u++){
+                $instrumentos =  $this->autoevaluacion->cargarInformacionPreguntas_2($procesos[$u]['pk_proceso'], $pagina, $items);
+                for($j=0; $j<count($instrumentos); $j++){
+                    $instrumentos[$j]['respuestas'] = array();
+                    $instrumentos[$j]['informacion'] = array();
+                    $instrumentos[$j]['documentos'] = array();
+                    $instrumentos[$j]['informacionadicional'] = array();
+                    $respuestas = $this->autoevaluacion->cargarInformacionRespuestas($instrumentos[$j]['pk_respuesta_instrumento'])->GetRows();
 
+                    $documento = $this->autoevaluacion->cargarDocumentos($instrumentos[$j]['pk_respuesta_instrumento'], $_SESSION['pk_usuario'])->GetRows();
+                     for($k=0; $k<count($respuestas); $k++){
+                         array_push($instrumentos[$j]['respuestas'], $respuestas[$k]);
+                    }
 
-        $datos_completos = array();
-        for($u=0; $u<count($procesos); $u++){
-            $instrumentos =  $this->autoevaluacion->cargarInformacionPreguntas_2($procesos[$u]['pk_proceso'], $pagina, $items);
-            for($j=0; $j<count($instrumentos); $j++){
-                $instrumentos[$j]['respuestas'] = array();
-                $instrumentos[$j]['informacion'] = array();
-                $instrumentos[$j]['documentos'] = array();
-                $instrumentos[$j]['informacionadicional'] = array();
-                $respuestas = $this->autoevaluacion->cargarInformacionRespuestas($instrumentos[$j]['pk_respuesta_instrumento'])->GetRows();
-
-                $documento = $this->autoevaluacion->cargarDocumentos($instrumentos[$j]['pk_respuesta_instrumento'], $_SESSION['pk_usuario'])->GetRows();
-                 for($k=0; $k<count($respuestas); $k++){
-                     array_push($instrumentos[$j]['respuestas'], $respuestas[$k]);
+                    for($m=0; $m<count($documento); $m++){
+                         array_push($instrumentos[$j]['documentos'], $documento[$m]);
+                    }
+                    
                 }
 
-                for($m=0; $m<count($documento); $m++){
-                     array_push($instrumentos[$j]['documentos'], $documento[$m]);
-                }
-                
+                $datos_completos[$procesos[$u]['pk_proceso']] = $instrumentos;
+
             }
-
-            $datos_completos[$procesos[$u]['pk_proceso']] = $instrumentos;
-
+            echo json_encode($datos_completos);
+        }else{
+            echo json_encode(array());
         }
-
-        echo json_encode($datos_completos);
+        
     }
 
     /**

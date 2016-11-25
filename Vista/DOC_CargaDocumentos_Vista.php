@@ -4,7 +4,8 @@
 <!-- <link rel="stylesheet" href="../Complementos/jQuery-File-Upload/css/jquery.fileupload.css"> -->
 <!-- <script type="text/javascript" src="../Js/DOC_Selectores.js"></script> -->
 <script type="text/javascript" src="../Js/DOC_autoevaluacion.js"></script>
-<script type="text/javascript" src="../Js/DOC_FileUploader.js"></script>
+<script type="text/javascript" src="../Js/DOC_autoevaluacion.js"></script>
+<script type="text/javascript" src="../Js/jquery-1.9.1.js"></script>
 <input type="hidden" name="alcance" value="1">
 
 <div id="div_procesos_verificados">
@@ -29,7 +30,7 @@
 <script>
     $(function () { 
 
-        $('body').delegate('.accordion', 'click', function(e)
+        $('#div_contenido_completo').delegate('.accordion', 'click', function(e)
         {
             $(this).toggleClass("active");
             $(this).next('.panel').toggleClass("show");

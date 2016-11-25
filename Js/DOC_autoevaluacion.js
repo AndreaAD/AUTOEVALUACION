@@ -118,7 +118,6 @@ $(function(e){
                 pagina: _pagina,
             },
             success:  function (data) {
-
                 var div_procesos = $('#div_procesos');
                 var lista_ids_preguntas = [];
                 var lista_nombres_preguntas = [];
@@ -143,9 +142,8 @@ $(function(e){
                         });
                     });
                 });
-
-                //$repetidos = [];
                 if(proc.length > 0){
+                    $('#paginador').css('display','block');
                     for( var m=0; m<lista_ids_preguntas.length; m++){
                         html += '<div class="row" >';
                             html += '<div class="titulo">';
@@ -285,7 +283,8 @@ $(function(e){
                     }
 
                 }else{
-                    html += 'En el momento no cuenta con instrumentos de evaluación generados, para diligenciar información';
+                    html += '<div class="aletra-fase"><p>En el momento no cuenta con instrumentos de evaluación generados o este proceso se encuentra fuera de la fase de "Captura de datos".</p></div>';
+                    $('#paginador').css('display','none');
                 }
 
 
