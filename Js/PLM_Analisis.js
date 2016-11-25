@@ -523,6 +523,8 @@ $(function(e){
 
     $('#atras_carac').on('click', function(e){
         AtrasCarac();
+        // var boton = '<a class="boton-icono" href="../Controlador/PLM_PrincipalAnalisisFactor_Control.php"></a>';
+        // $('#button-1').trigger('click');
     });
 
     $('#agregar_analisis').on('click', function(e){
