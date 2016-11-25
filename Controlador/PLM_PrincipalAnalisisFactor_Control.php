@@ -8,6 +8,16 @@
 mainGeneral();
 jsGeneral();
 
+$vista = '';
+
+$opcion = $_REQUEST['opcion'];
+
+if($opcion == 'principal'){
+    $vista = "../Vista/PLM_AnalisisResultadosFactorPrincipal_Vista.php";
+}else{
+    $vista = "../Vista/PLM_AnalisisResultadosFactor_Vista.php";
+}
+
 
 global $glo_objViewAnali, $glo_objModelAnali, $arrFactor, $temp;
 
@@ -130,7 +140,7 @@ if(isset($arrInfo[0][0]))
 
         array_push($resultados_tabla, $resultados_carc);
     }
-    require_once("../Vista/PLM_AnalisisResultadosFactor_Vista.php");
+    require_once($vista);
 }
 else
 {

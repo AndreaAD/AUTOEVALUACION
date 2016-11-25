@@ -2132,7 +2132,7 @@ class AnalisisFactor
     }
     
     //muestra un gráfica que puede ser de los factores, características y de los aspectos
-    function mostGrafCarac($arrCarac,$factor, $strTitulo, $strAtras)
+    function mostGrafCarac($arrCarac,$factor, $strTitulo, $strAtras, $opc)
     {
         global $objComponentes;
         $this->elementos();
@@ -2227,17 +2227,18 @@ class AnalisisFactor
                 <input type="hidden" id="valor_factor" value="<?php echo $factor ?>">
                 
         <?php
+        if($opc != 2){
         
-        
-        $datos = array(
-                    "id"=>"B_atras",//el nombre que tendra el grupo de elementos
-                    "class"=>"grande",//(necesario) tamaño del boton puede ser {grande,mediano,small}
-                    "icono"=>"none", //(necesario) icono que aparecera en el boton, si se desea sin icono poner {none}
-                    "value"=>utf8_encode("Atrás"),
-                    "onclick"=>$strAtras
-                    );
-                     
-		$objComponentes->button_normal($datos); 
+            $datos = array(
+                        "id"=>"B_atras",//el nombre que tendra el grupo de elementos
+                        "class"=>"grande",//(necesario) tamaño del boton puede ser {grande,mediano,small}
+                        "icono"=>"none", //(necesario) icono que aparecera en el boton, si se desea sin icono poner {none}
+                        "value"=>utf8_encode("Atrás"),
+                        "onclick"=>$strAtras
+                        );
+                         
+    		$objComponentes->button_normal($datos); 
+        }
         
         $objComponentes->cerrar_div_bloque_principal();
         $objComponentes->cerrar_form();

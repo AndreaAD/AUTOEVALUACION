@@ -28,7 +28,6 @@
         <script type="text/javascript" language="javascript" src="../Complementos/DataTables-1.10.12/extensions/jszip.min.js"></script>
         <script type="text/javascript" language="javascript" src="../Complementos/DataTables-1.10.12/extensions/Buttons/js/buttons.html5.js"></script>
 
-
         <link type="text/css" rel="stylesheet" href="../Css//dhtmlgoodies_calendar.css?random=20051112" media="screen"/>
         <script type="text/javascript" src="../Js/dhtmlgoodies_calendar.js?random=20060118"></script>
 
