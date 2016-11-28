@@ -144,14 +144,7 @@ function guardarAnalisis()
 
 function AtrasCarac()
 {
-    $.ajax({
-        url:   '../Controlador/PLM_PrincipalAnalisisFactor_Control.php',
-         type:  'post',
-        dataType:'html',
-		success:  function (data) {
-			$('.principal-panel-sub-contenido').html(data);
-		}       
-   });
+   Abrir('/autoevaluacion/Controlador/SAD_Grupo_Modulos_Controlador.php?pk_modulo=4&pk_grupo=8&pk_sub_grupo=1', '../Controlador/PLM_PrincipalAnalisisFactor_Control.php');
 }
 
 function AtrasAspec()

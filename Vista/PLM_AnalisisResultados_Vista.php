@@ -1,4 +1,6 @@
 <meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="../Complementos/DataTables-1.10.12/media/css/jquery.dataTables.css" />
+<link rel="stylesheet" type="text/css" href="../Complementos/DataTables-1.10.12/extensions/Buttons/css/buttons.dataTables.css" />
 <link rel="stylesheet" href="../Css/PLM_Estilos.css"/> 
 <div class="bloque una-columna">
 	<div class="titulo-bloque texto-izquierda">
@@ -43,7 +45,6 @@
         <!-- <input type="button" id="guardar_caracteristica_analisis" value="Guardar"> -->
     </div>
 </div>
-<script src="../Js/PLM_Analisis.js" type="text/javascript"></script>
 <script>
     $(function(e){
 
