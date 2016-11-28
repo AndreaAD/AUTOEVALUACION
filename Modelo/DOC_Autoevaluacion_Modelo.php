@@ -70,6 +70,13 @@ class Autoevaluacion_Modelo {
 		return $datos;
 	}
 
+	// public function procesosGenerados(){
+	// 	$sql = 'select * from doc_respuesta_instrumentos where fk_proceso ';
+	//  	$res = $this->runSQL($sql);
+	//  	$d = $res->GetRows();
+	//  	return $d[0]['nombre'];
+	// }
+
 	public function listaProcesosFase5($procesos){
 
 		$datos = array();
