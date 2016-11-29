@@ -5,6 +5,7 @@ require_once('../Modelo/DOC_Autoevaluacion_Modelo.php');
 $instancia  = new Autoevaluacion_Modelo;
 
 $listaProcesosG =  $instancia->listaProcesosFase5($_SESSION['array_proceso']);
+$listaConsolidados =  $instancia->listaConsolidados();
 //var_dump($listaProcesosG);
 //exit();
 

@@ -70,12 +70,20 @@ class Autoevaluacion_Modelo {
 		return $datos;
 	}
 
-	// public function procesosGenerados(){
-	// 	$sql = 'select * from doc_respuesta_instrumentos where fk_proceso ';
-	//  	$res = $this->runSQL($sql);
-	//  	$d = $res->GetRows();
-	//  	return $d[0]['nombre'];
-	// }
+	public function procesosGenerados(){
+		$sql = "select di.fk_proceso, ca.nombre,p.nombre as programa, ca.fecha_inicio, ca.fecha_fin, se.nombre as sede, sf.nombre as facultad from doc_respuesta_instrumentos as di, cna_proceso ca, sad_programa p , sad_facultad sf, sad_sede se where di.fk_proceso <> '' and ca.pk_proceso = di.fk_proceso and ca.fk_programa = p.pk_programa and p.fk_sede = se.pk_sede and p.fk_facultad = sf.pk_facultad ";
+	 	$res = $this->runSQL($sql);
+	 	$datos = $res->GetRows();
+	 	return $datos;
+	}
+
+	public function listaConsolidados(){
+		$sql = "select distinct(di.fk_proceso), ca.nombre,p.nombre as programa, ca.fecha_inicio, ca.fecha_fin, se.nombre as sede, sf.nombre as facultad from cna_resultados_evidencia as di, cna_proceso ca, sad_programa p , sad_facultad sf, sad_sede se 
+where  ca.pk_proceso = di.fk_proceso and ca.fk_programa = p.pk_programa and p.fk_sede = se.pk_sede and p.fk_facultad = sf.pk_facultad and di.fk_modulo = 5 ";
+	 	$res = $this->runSQL($sql);
+	 	$datos = $res->GetRows();
+	 	return $datos;
+	}
 
 	public function listaProcesosFase5($procesos){
 

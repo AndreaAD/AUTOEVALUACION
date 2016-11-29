@@ -23,6 +23,33 @@
 		echo '<h4>En este momento no cuenta con ningun proceso en captura de datos para generar los instrumentos.</h4>';
 
 	}
+
+	if(count($procesosGenerados) > 0 ){
+		echo '<h1>Procesos generados</h1>';
+		echo '<table>';
+			echo '<thead>';
+				echo '<th>Proceso</th>';
+				echo '<th>Programa</th>';
+				echo '<th>Sede</th>';
+				echo '<th>Facultad</th>';
+				echo '<th>Fecha Inicio</th>';
+				echo '<th>Fecha Fin</th>';
+			echo '</thead>';
+			echo '<tbody>';
+			foreach ($procesosGenerados as $proceso) {
+				echo '<tr>';
+					echo '<td>'.$proceso['nombre'].'</td>';
+					echo '<td>'.$proceso['programa'].'</td>';
+					echo '<td>'.$proceso['sede'].'</td>';
+					echo '<td>'.$proceso['facultad'].'</td>';
+					echo '<td>'.$proceso['fecha_inicio'].'</td>';
+					echo '<td>'.$proceso['fecha_fin'].'</td>';
+				echo '</tr>';
+			}
+			echo '</tbody>';
+		echo '</table>';
+		
+	}
 ?>
 
 <div id="div_emergente" class="fondo_emergente">
