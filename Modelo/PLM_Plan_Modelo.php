@@ -521,6 +521,17 @@ class Plan {
         return $recordSet; 
     } 
 
+    public function informe_analisis($proceso)
+    {
+        $conexion = $this->conectar();      
+        $conexion->conectarAdo();
+        
+        $cadena = "SELECT * FROM plm_caracteristica_proceso WHERE pk_proceso = ".$proceso; //Realizamos una consulta
+        $recordSet = $conexion->Ejecutar($cadena);
+        
+        return $recordSet; 
+    } 
+
     public function lista_programas($sede, $facultad)
     {
         $conexion = $this->conectar();      
@@ -826,9 +837,8 @@ class Plan {
         
         $conexion->conectarAdo();
 
-        $cadena_1 = "select pk_grupo_interes from cna_grupo_interes where nombre = 'Directivos Academicos' ";
+        $cadena_1 = "select pk_tipo_usuario from sad_tipo_usuario where nombre = 'Director' ";
         $recordSet1 = $conexion->Ejecutar($cadena_1);
-
         $dato[] = array();
         $i=0;
         
@@ -837,11 +847,19 @@ class Plan {
             $dato[0]=$recordSet1->fields[0];
             $recordSet1->MoveNext();
             $i++;
-        }      
-	 
-        $cadena = " SELECT G.nombre, C.nombre, B.nombre, A.fecha_inicio, CONCAT( E.nombre,' ', E.apellido) AS nombre
+        }   
+
+        $cadena_2 = "select fk_tipo_usuario from sad_usuario_tipo_usuario where fk_usuario = ".$intIdUsuario;
+        $tipo_usuario = $conexion->Ejecutar($cadena_2);
+        $resul_usuario = $tipo_usuario->GetRows();
+
+        if(count($resul_usuario) > 0){
+            foreach ($resul_usuario as &$valor)
+            {
+                if($valor['fk_tipo_usuario'] == $dato[0]['pk_tipo_usuario'] || $valor['fk_tipo_usuario'] == 1 ){
+                    $cadena = " SELECT G.nombre, C.nombre, B.nombre, A.fecha_inicio, CONCAT( E.nombre,' ', E.apellido) AS nombre
                     FROM cna_proceso A, sad_sede B, sad_programa C, cna_fase D,
-                         sad_usuario E, sad_proceso_usuario F, sad_facultad G
+                         sad_usuario E,  sad_proceso_usuario F, sad_facultad G
                     WHERE A.pk_proceso = ".$intIdProceso." AND
                           A.fk_programa = C.pk_programa  AND
                           A.fk_sede = B.pk_sede AND
@@ -850,28 +868,32 @@ class Plan {
                           E.pk_usuario = ".$intIdUsuario."  AND
                           A.pk_proceso = F.fk_proceso AND
                           (E.fk_programa = C.pk_programa OR E.fk_programa = '1' ) AND
-                          G.pk_facultad = C.fk_facultad AND
-                          E.fk_grupo_interes = ".$dato[0]." limit 0,1 ;";
+                          G.pk_facultad = C.fk_facultad  limit 0,1 ;"; 
+                          
         
-        $recordSet = $conexion->Ejecutar($cadena);
-        
-        $conexion->Close();
-        
-        $proce[] = array();
-        $i=0;
-        
-        while(!$recordSet->EOF)
-        {        
-            $proce[0]=$recordSet->fields[0];
-            $proce[1]=$recordSet->fields[1];
-            $proce[2]=$recordSet->fields[2]; 
-            $proce[3]=$recordSet->fields[3];
-            $proce[4]=$recordSet->fields[4];
-            $recordSet->MoveNext();
-            $i++;
-        }       
-        
-        return $proce;    
+                    $recordSet = $conexion->Ejecutar($cadena);
+                    
+                    $conexion->Close();
+                    
+                    $proce[] = array();
+                    $i=0;
+                    
+                    while(!$recordSet->EOF)
+                    {
+                        $proce[0]=$recordSet->fields[0];
+                        $proce[1]=$recordSet->fields[1];
+                        $proce[2]=$recordSet->fields[2]; 
+                        $proce[3]=$recordSet->fields[3];
+                        $proce[4]=$recordSet->fields[4];
+                        $recordSet->MoveNext();
+                        $i++;
+                    }       
+                    return $proce;   
+                }
+            }
+        }
+        return array();
+	 
     }
     //busca los procesos que han terminado
     function buscarProcesosTermina($intIdUsuario)
