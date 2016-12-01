@@ -526,7 +526,7 @@ class Plan {
         $conexion = $this->conectar();      
         $conexion->conectarAdo();
         
-        $cadena = "SELECT * FROM plm_caracteristica_proceso WHERE pk_proceso = ".$proceso; //Realizamos una consulta
+        $cadena = "SELECT cf.nombre as factor, cc.nombre as caracteristica,plmc.ponderacion as ponderacion, plmc.calificacion as calificacion, plmc.analisis, plmc.fortaleza ,plmc.debilidad  FROM plm_caracteristica_proceso plmc, cna_factor cf, cna_caracteristica cc WHERE plmc.fk_proceso = ".$proceso." and plmc.analisis <> '' and plmc.fk_factor = cf.pk_factor and plmc.fk_caracteristica = cc.pk_caracteristica"; //Realizamos una consulta
         $recordSet = $conexion->Ejecutar($cadena);
         
         return $recordSet; 

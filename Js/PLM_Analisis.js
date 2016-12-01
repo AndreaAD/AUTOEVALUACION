@@ -520,22 +520,22 @@ $(function(e){
         // $('#button-1').trigger('click');
     });
 
-    $('#agregar_analisis').on('click', function(e){
-        if($('#id_carac').val() != 0){
-            $.ajax({
-                url: '../Controlador/PLM_PrincipalAnalisis_Control.php',
-                dataType:'html',
-                data:{
-                    H_opcion : 'AddAnalisis',
-                    id_carac : $('#id_carac').val(),
-                },
-                success:  function (data) {
-                    $('.principal-panel-sub-contenido').html(data);
+    // $('#agregar_analisis').on('click', function(e){
+    //     if($('#id_carac').val() != 0){
+    //         $.ajax({
+    //             url: '../Controlador/PLM_PrincipalAnalisis_Control.php',
+    //             dataType:'html',
+    //             data:{
+    //                 H_opcion : 'AddAnalisis',
+    //                 id_carac : $('#id_carac').val(),
+    //             },
+    //             success:  function (data) {
+    //                 $('.principal-panel-sub-contenido').html(data);
                     
-                }
-            });
-        }
-    });
+    //             }
+    //         });
+    //     }
+    // });
 
     $('#guardar_analisis').on('click', function(e){
         var pk_caracteristica = $('#pk_caracteristica_proceso').val();

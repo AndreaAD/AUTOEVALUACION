@@ -14,7 +14,7 @@
                 &nbsp;<label class="label_caja">Fortalezas</label>
             </div>
             <div class="col_2">
-                <textarea class="text_pregunta" id="fortalezas"></textarea>
+                <textarea class="text_pregunta" id="fortalezas"><?php if($valor[0]['fortaleza'] != ""){ echo $valor[0]['fortaleza']; }else{ echo  ''; } ?></textarea>
             </div>
         </div>
         <div class="row">
@@ -22,7 +22,7 @@
                 &nbsp;<label class="label_caja">Debilidades</label>
             </div>
             <div class="col_2">
-                <textarea class="text_pregunta" id="debilidades"></textarea>
+                <textarea class="text_pregunta" id="debilidades"><?php if($valor[0]['debilidad'] != ""){ echo $valor[0]['debilidad']; }else{ echo  ''; } ?></textarea>
             </div>
         </div>
         <div class="row">
@@ -30,7 +30,7 @@
                 &nbsp;<label class="label_caja">Analisis causal</label>
             </div>
             <div class="col_2">
-                <textarea class="text_pregunta" id="analisis_causal"></textarea>
+                <textarea class="text_pregunta" id="analisis_causal"><?php if($valor[0]['analisis'] != ""){ echo $valor[0]['analisis']; }else{ echo  ''; } ?></textarea>
             </div>
         </div>
         <input type="hidden" id="pk_caracteristica_proceso" value="<?php echo $valor_pk;  ?>">
