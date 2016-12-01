@@ -408,15 +408,15 @@ if(isset($_REQUEST['H_opcion']))
                         );
 
 
-                        $pond_porcentual_db = $datos_ponderacion_caracteristica[0]['ponderacion_porcentual'] * 100;
-                        $prom_db = $promedio * 100;
+                        // $pond_porcentual_db = $datos_ponderacion_caracteristica[0]['ponderacion_porcentual'] * 100;
+                        // $prom_db = $promedio * 100;
 
-                        $consulta = $instancia->BuscarPonderacionCaracteristicaPlm($factor_[0][0],$caracteristica['pk_caracteristica'], $_SESSION["pk_proceso"]);
-                        if($consulta[0] > 0){
-                            $consulta = $instancia->GuardarPonderacionCaracteristicaPlm($factor_[0][0],$_SESSION["pk_proceso"], $caracteristica['pk_caracteristica'], $pond_porcentual_db, $prom_db, 2);
-                        }else{
-                            $consulta = $instancia->GuardarPonderacionCaracteristicaPlm($factor_[0][0],$_SESSION["pk_proceso"], $caracteristica['pk_caracteristica'],$pond_porcentual_db , $prom_db, 1);
-                        }
+                        // $consulta = $instancia->BuscarPonderacionCaracteristicaPlm($factor_[0][0],$caracteristica['pk_caracteristica'], $_SESSION["pk_proceso"]);
+                        // if($consulta[0] > 0){
+                        //     $consulta = $instancia->GuardarPonderacionCaracteristicaPlm($factor_[0][0],$_SESSION["pk_proceso"], $caracteristica['pk_caracteristica'], $pond_porcentual_db, $prom_db, 2);
+                        // }else{
+                        //     $consulta = $instancia->GuardarPonderacionCaracteristicaPlm($factor_[0][0],$_SESSION["pk_proceso"], $caracteristica['pk_caracteristica'],$pond_porcentual_db , $prom_db, 1);
+                        // }
 
                         array_push($resultados_tabla, $resultados_carc);
                     }

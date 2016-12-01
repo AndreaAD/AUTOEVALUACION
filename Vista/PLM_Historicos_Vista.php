@@ -1,3 +1,16 @@
+<link rel="stylesheet" type="text/css" href="../Complementos/DataTables-1.10.12/media/css/jquery.dataTables.css">
+<script type="text/javascript" language="javascript" src="../Js/jquery-1.9.1.js"></script>
+<script type="text/javascript" language="javascript" src="../Complementos/DataTables-1.10.12/media/js/jquery.dataTables.js"></script>
+<script type="text/javascript" language="javascript" src="../Complementos/DataTables-1.10.12/extensions/Buttons/js/dataTables.buttons.js"></script>
+<link rel="stylesheet" type="text/css" href="../Complementos/DataTables-1.10.12/extensions/Buttons/css/buttons.dataTables.css">
+<script type="text/javascript" language="javascript" src="../Complementos/DataTables-1.10.12/extensions/pdfmake.min.js"></script>
+<script type="text/javascript" language="javascript" src="../Complementos/DataTables-1.10.12/extensions/vfs_fonts.js"></script>
+<script type="text/javascript" language="javascript" src="../Complementos/DataTables-1.10.12/extensions/jszip.min.js"></script>
+<script type="text/javascript" language="javascript" src="../Complementos/DataTables-1.10.12/extensions/Buttons/js/buttons.html5.js"></script>
+
+
+
+
 <?php
 class HistoricosFactorVista
 {
@@ -74,27 +87,31 @@ class HistoricosFactorVista
             
     
         ?>
-        <label>Paginador Por :</label>
+<!--         <label>Paginador Por :</label>
         <select name="s_paginador" id="s_paginador" onchange="paginador(1);" >
             <option value="5"> 5 </option>
             <option value="10"> 10 </option>
             <option value="20"> 20 </option>
-        </select> 
+        </select>  -->
         
         <?php
         ?>
         
         <script type='text/javascript' >
-            paginador(1);
+            //paginador(1);
          </script>
         <div class="contenedor-tabla80">
-        <table id="T_tabla" >
-        <th style="width: 100%;">Factores</th>
-        <th style="width: 50%;"><?php echo utf8_encode("Año");?></th>
-        <th style="width: 50%;"><?php echo utf8_encode("Calificación");?></th>
-        <th style="width: 50%;">Cod Proceso</th>
-        <th style="width: 50%;">Proceso</th>
-        <th style="width: 50%;">Sede</th>
+        <table id="T_tabla"  >
+        <thead>
+            <th style="width: 100%;"><?php echo utf8_encode("Código factor");?></th>
+            <th style="width: 100%;">Factores</th>
+            <th style="width: 50%;"><?php echo utf8_encode("Año");?></th>
+            <th style="width: 50%;"><?php echo utf8_encode("Calificación");?></th>
+            <th style="width: 50%;">Cod Proceso</th>
+            <th style="width: 50%;">Proceso</th>
+            <th style="width: 50%;">Sede</th>
+        </thead>
+        <tbody>
         <?php 
         $arrCal[][]=array();
         $cont=0;
@@ -121,10 +138,10 @@ class HistoricosFactorVista
                         $temp=$temp+6;
                         
                         $cont++;
-                        
                         ?>
                         
                         <tr>
+                            <td ><?php echo $arrFator[$j][2];?></td>
                             <td ><?php echo $arrFator[$j][1];?></td>
                             <td ><?php echo $arrProceCal[$i][$k][2];?></td>
                             <td ><?php echo  sprintf('%.2f',$arrProceCal[$i][$k][1]);?></td>
@@ -206,11 +223,11 @@ class HistoricosFactorVista
         $aux=0; 
         $col=0;
         ?>
-        
+        </tbody>
         </table>
         
-            <div id="num_pag">        
-            </div>
+            <!-- <div id="num_pag">        
+            </div> -->
         </div>    
         <br />
         <br />
@@ -500,3 +517,42 @@ class HistoricosFactorVista
 }
 
 ?>
+
+<script>
+$('#T_tabla').DataTable(
+            {
+            "language": {
+                "sProcessing": "Procesando...",
+                "sLengthMenu": "Mostrar _MENU_ registros",
+                "sZeroRecords": "No se encontraron resultados",
+                "sEmptyTable": "Ningún dato disponible en esta tabla",
+                "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                "sInfoPostFix": "",
+                "sSearch": "Buscar:",
+                "sUrl": "",
+                "sInfoThousands": ",",
+                "sLoadingRecords": "Cargando...",
+                "oPaginate": {
+                    "sFirst": "Primero",
+                    "sLast": "Ultimo",
+                    "sNext": "Siguiente",
+                    "sPrevious": "Anterior"
+                },
+                "oAria": {
+                    "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                }
+            },
+            dom: 'Bfrtip',
+            buttons: [
+                'copyHtml5',
+                'excelHtml5',
+                'csvHtml5',
+                'pdfHtml5'
+            ]
+
+        }
+        );
+</script>

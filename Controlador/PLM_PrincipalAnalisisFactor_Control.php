@@ -137,9 +137,104 @@ if(isset($arrInfo[0][0]))
             $consulta = $instancia->GuardarPonderacionFactorPlm($value[0], $_SESSION["pk_proceso"], $prom_db, 1);
         }
 
-
         array_push($resultados_tabla, $resultados_carc);
     }
+
+    foreach ($arrFactor as &$value_2) {
+        $arrCarac =  $instancia->listaCaracteristicasProceso($value_2[0]);
+            foreach ($arrCarac as &$caracteristica){
+                $datos_2 =  $instancia->obtenerDatosPonderacion($caracteristica[0], $_SESSION["pk_proceso"]);
+                $factor_2 = $instancia->buscarFactor_($value_2[0]);
+
+                $datos_ponderacion_caracteristica =  $instancia->obtenerPonderacionCaracteristica($caracteristica[0], $_SESSION["pk_proceso"]);
+
+
+                $escala_cualitativa_2 =  $instancia->obtenerEscalaCualitativa();
+
+                $tamaño_2 = count($datos_2);
+                $promedio12 = 0;
+                $promedio22 = 0;
+                $promedio_modulo52 = 0;
+                $promedio_modulo62 = 0;
+                $promedio2 = 0;
+
+                if($tamaño_2 == 0){
+                    //$glo_objViewAnali->mensaje("EL PROCESO ACTUAL NO SE HA CONSOLIDADO!");
+
+                }else if($tamaño_2 == 1){
+
+                    $promedio2 = $datos_2[0]['calificacion'];
+                    if($datos_2[0]['fk_modulo'] == 5){
+                        $promedio_modulo52 = $promedio2;
+                    }else{
+                        $promedio_modulo62 = $promedio2;
+                    }
+
+
+                    $porcentaje_cumplimiento_2 = ( $promedio2 * 100 ) / ( $datos_ponderacion_caracteristica[0]['ponderacion_porcentual'] * 100 );
+
+                }else if($tamaño_2 == 2){
+
+                    $promedio12 = $datos_2[0]['calificacion'] != NULL ? $datos_2[0]['calificacion']  : 0 ;
+                    $promedio22 = $datos_2[1]['calificacion'] != NULL ? $datos_2[1]['calificacion']  : 0 ;
+
+                    if($datos_2[0]['fk_modulo'] == 5){
+                        $promedio_modulo52 = $promedio12;
+                    }else{
+                        $promedio_modulo62 = $promedio12;
+                    }
+
+
+                    if($datos_2[1]['fk_modulo'] == 5){
+                        $promedio_modulo52 = $promedio22;
+                    }else{
+                        $promedio_modulo62 = $promedio22;
+                    }
+
+                    $resultados_promedio_2 = $promedio12 + $promedio22;
+                    $promedio2 = $resultados_promedio_2 / 2;
+
+
+                    $porcentaje_cumplimiento_2 = ( $promedio2 * 100 ) / ( $datos_ponderacion_caracteristica[0]['ponderacion_porcentual'] * 100 );
+
+                }   
+
+
+            //$p_2 = $promedio2 * 10 ;
+            //$p_22 = $p_2 / 2;
+
+            //$consulta_escala_2 = $instancia->ConsultarEscala($p_22);
+            //$promedio = number_format ($promedio ,2);
+
+            // $resultados_carc = array(
+            //     'caracteristica_id' => $caracteristica['pk_caracteristica'],
+            //     'factor' => $factor_2[0][5],
+            //     'pk_factor' => $factor_2[0][0],
+            //     'nombre' => $factor_2[0][1],
+            //     'caracteristica' => $caracteristica['codigo'],
+            //     'ponderacion_porcentual' => $datos_ponderacion_caracteristica[0]['ponderacion_porcentual'] * 100,
+            //     'valor_modulo_5' => $promedio_modulo52,
+            //     'valor_modulo_6' => $promedio_modulo62,
+            //     'promedio' => $promedio2  * 100,
+            //     'porcentaje_cumplimiento' => number_format($porcentaje_cumplimiento *100, 2),
+            //     'escala' => $consulta_escala_2[0][0],
+            // );
+
+
+            $pond_porcentual_db_2 = $datos_ponderacion_caracteristica[0]['ponderacion_porcentual'] * 100;
+            $prom_db_2 = $promedio2 * 100;
+
+            $consulta_2 = $instancia->BuscarPonderacionCaracteristicaPlm($factor_2[0][0],$caracteristica['pk_caracteristica'], $_SESSION["pk_proceso"]);
+            if($consulta_2[0] > 0){
+                $consulta_2 = $instancia->GuardarPonderacionCaracteristicaPlm($factor_2[0][0],$_SESSION["pk_proceso"], $caracteristica['pk_caracteristica'], $pond_porcentual_db_2, $prom_db_2, 2);
+            }else{
+                $consulta_2 = $instancia->GuardarPonderacionCaracteristicaPlm($factor_2[0][0],$_SESSION["pk_proceso"], $caracteristica['pk_caracteristica'],$pond_porcentual_db_2 , $prom_db_2, 1);
+            }
+
+            //array_push($resultados_tabla, $resultados_carc);
+        }
+    }
+
     require_once($vista);
 }
 else

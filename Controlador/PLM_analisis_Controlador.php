@@ -7,7 +7,7 @@
 	$informe = $instancia->informe_analisis($_SESSION['pk_proceso'])->GetRows();
 
 	if(count($informe) > 0){
-		if ($_SESSION['pk_fase'] == '6'){
+		if ($_SESSION['pk_fase'] == '6' || $_SESSION['pk_fase'] == '5'){
 			require_once("../Vista/PLM_informe_analisis_Vista.php");
 		}else{
 			echo "
