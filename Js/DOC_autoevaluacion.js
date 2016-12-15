@@ -166,7 +166,6 @@ $(function(e){
 
                             for( var i=0; i<proc.length; i++){
 
-                                
 
                                 // if( proc_x_pregunta.indexOf(proc[i].fk_proceso) == -1 ){
                                 //     proc_x_pregunta.push(proc[i].fk_proceso);
@@ -210,8 +209,8 @@ $(function(e){
                                             }
                                             html += '<div class="validador">';
                                                 html += '<br><label data-role="doc">Seleccione el(los) documento(s) que sustentan su respuesta</label>';
-                                                html += '<div class="file-uploader" data-rel="'+proc[i].pk_respuesta_instrumento+'" data-proceso="'+proc[i].fk_proceso+'">';
-                                                    html += '<input type="file" name="upload[]" multiple="multiple" class="fileupload"><a href="#" data-op="cargar_doc" data-rel="'+proc[i].pk_respuesta_instrumento+'"  data-proceso="'+proc[i].fk_proceso+'" class="subir">Cargar</a><br>';
+                                                html += '<div class="file-uploader" data-rel="'+proc[i].pk_respuesta_instrumento+'" data-proceso="'+proc[i].pk_proceso+'">';
+                                                    html += '<input type="file" name="upload[]" multiple="multiple" class="fileupload"><a href="#" data-op="cargar_doc" data-rel="'+proc[i].pk_respuesta_instrumento+'"  data-proceso="'+proc[i].pk_proceso+'" class="subir">Cargar</a><br>';
                                                     html += '<div class="errores_archivos" style="color:red;font-size: 11px; margin-top:5px;"></div>';
                                                     html += '<div class="table">';
                                                         if(proc[i].documentos.length > 0){

@@ -131,31 +131,31 @@ $(function(e){
 		div_emergente.css('display','block');	
     }
 	else if(_temp==0 )   
-    {
-		if(valor1.val().length < 1 )   
-		{
-			div_emergente.find('.emergente > div[data-role="contenido"]').html('<p><h2>Inversión 1 del proyecto vacía!!!</h2></p>');
-			div_emergente.css('display','block');
-		}
-		else if(valor2.val().length < 1 )   
-		{
-			div_emergente.find('.emergente > div[data-role="contenido"]').html('<p><h2>Inversión 2 del proyecto vacía!!!</h2></p>');
-			div_emergente.css('display','block');
-		}
-		else if(valor3.val().length < 1 )   
-		{
-			div_emergente.find('.emergente > div[data-role="contenido"]').html('<p><h2>Inversión 3 del proyecto vacía!!!</h2></p>');
-			div_emergente.css('display','block');
-		}	
-		else
-		{  
-			if(rubro=="")
-			{
-				div_emergente.find('.emergente > div[data-role="contenido"]').html('<p><h2>El rubro esta vacío</h2></p>');
-				div_emergente.css('display','block');	
-			}
-			else
-			{
+  	{
+		// if(valor1.val().length < 1 )   
+		// {
+		// 	div_emergente.find('.emergente > div[data-role="contenido"]').html('<p><h2>Inversión 1 del proyecto vacía!!!</h2></p>');
+		// 	div_emergente.css('display','block');
+		// }
+		// else if(valor2.val().length < 1 )   
+		// {
+		// 	div_emergente.find('.emergente > div[data-role="contenido"]').html('<p><h2>Inversión 2 del proyecto vacía!!!</h2></p>');
+		// 	div_emergente.css('display','block');
+		// }
+		// else if(valor3.val().length < 1 )   
+		// {
+		// 	div_emergente.find('.emergente > div[data-role="contenido"]').html('<p><h2>Inversión 3 del proyecto vacía!!!</h2></p>');
+		// 	div_emergente.css('display','block');
+		// }	
+		// else
+		// {  
+			// if(rubro=="")
+			// {
+			// 	div_emergente.find('.emergente > div[data-role="contenido"]').html('<p><h2>El rubro esta vacío</h2></p>');
+			// 	div_emergente.css('display','block');	
+			// }
+			// else
+			// {
 			 	
 				$.ajax({
 					url:   '../Controlador/PLM_LlenarPlan_Control.php',
@@ -168,18 +168,18 @@ $(function(e){
 							
 					}   
 			   });
-			}		   
-		}
+			//}		   
+		//}
     }
     else if(_temp==1 )   
     {
-			if(rubro=="")
-			{
-				div_emergente.find('.emergente > div[data-role="contenido"]').html('<p><h2>El rubro esta vacío</h2></p>');
-				div_emergente.css('display','block');	
-			}
-			else
-			{		
+			// if(rubro=="")
+			// {
+			// 	div_emergente.find('.emergente > div[data-role="contenido"]').html('<p><h2>El rubro esta vacío</h2></p>');
+			// 	div_emergente.css('display','block');	
+			// }
+			// else
+			// {		
 				$.ajax({
 					url:   '../Controlador/PLM_LlenarPlan_Control.php',
 					 type:  'post',
@@ -191,7 +191,7 @@ $(function(e){
 							
 					}   
 			   });
-			}	
+			//}	
 	}	   
     });   
    

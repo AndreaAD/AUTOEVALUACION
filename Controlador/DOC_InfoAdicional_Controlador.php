@@ -114,11 +114,21 @@ class informacionAdicional_Controlador{
      * @return [json] [se retorna un json con la informacion del archivo o un valor numerico como codigo de estado en caso de error]
      */
     public function cargarArchivo(){
+
+        // $carpeta = '/ruta/a/mi/carpeta';
+        // if (!file_exists($carpeta)) {
+        //     mkdir($carpeta, 0777, true);
+        // }
+
+
         $ruta="../Documentos/info_autoevaluacion/";
             $nombre = "";
             $url = "";
 
             $resultados_consulta = array();
+
+            $proceso = $_POST['proceso'];
+            
 
             if ($_FILES != null && $_POST['pk_instru_evaluacion'] != ""){ 
 

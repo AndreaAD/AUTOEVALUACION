@@ -1,9 +1,9 @@
 <meta charset="UTF-8">
 <link rel="stylesheet" type="text/css" href="../Css/DOC_Estilos.css">
 <link rel="stylesheet" href="../Complementos/font-awesome/css/font-awesome.min.css">
-<!-- <link rel="stylesheet" href="../Complementos/jQuery-File-Upload/css/jquery.fileupload.css"> -->
+<link rel="stylesheet" href="../Complementos/jQuery-File-Upload/css/jquery.fileupload.css">
 <!-- <script type="text/javascript" src="../Js/DOC_Selectores.js"></script> -->
-<script type="text/javascript" src="../Js/DOC_autoevaluacion.js"></script>
+<script type="text/javascript" src="../Js/DOC_FileUploader.js"></script>
 <script type="text/javascript" src="../Js/DOC_autoevaluacion.js"></script>
 <script type="text/javascript" src="../Js/jquery-1.9.1.js"></script>
 <input type="hidden" name="alcance" value="1">

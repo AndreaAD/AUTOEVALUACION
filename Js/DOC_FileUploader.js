@@ -41,7 +41,6 @@ $(function(e){
 	 */
 	$('#div_contenido_completo').delegate('a.subir', 'click', function(e){
 
-		//alert('ss');
 		var contenedor = $(this).closest('.file-uploader');
 		var div_errores = contenedor.find('.errores_archivos');
 		//var div_errores = $('.errores_archivos');
@@ -70,6 +69,7 @@ $(function(e){
 		formData.append('seccion', seccion);
 		formData.append('operacion',operacion);
 		formData.append('pk_instru_evaluacion', $(this).data('rel'));
+		formData.append('proceso', $(this).data('proceso'));
 		$.ajax({
 		    url: '../Controlador/DOC_InfoAdicional_Controlador.php',
 		    type: 'POST',

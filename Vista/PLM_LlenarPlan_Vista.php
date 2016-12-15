@@ -491,77 +491,7 @@ class LlenarPlanView {
 				
                 </td>
              </tr>
-             <tr>         
-                <td style="text-align: center;">
-                    <label>Recursos adicionales</label>   
-                </td>
-                <td style="text-align: center;">
-                    <select id="S_recurso" name="S_recurso" style= "width: 200px;"  onchange="fecha_Inv();">
-                        <option value="SI">SI</option>
-                        <option value="NO">NO</option>
-                    </select>
-                </td>
-             </tr>
-             <tr>
-             <?php
              
-            $hoy = getdate();
-            
-             ?>
-                <td style="text-align: center;">
-                    <label><?php echo utf8_encode("Inversión ").($hoy["year"]+1);?></label> 
-                </td>
-                <td style="text-align: center;">
-                    <input type="text" id="T_valor1" name="T_valor1" size="30" />
-                </td>
-             </tr>
-             <tr>
-                <td style="text-align: center;">
-                    <label><?php echo utf8_encode("Inversión ").($hoy["year"]+2);?></label> 
-                </td>
-                <td style="text-align: center;">
-                    <input type="text" id="T_valor2" name="T_valor2" size="30" />
-                </td>
-             </tr>
-             <tr>
-                <td style="text-align: center;">
-                    <label><?php echo utf8_encode("Inversión ").($hoy["year"]+3);?></label> 
-                </td>
-                <td style="text-align: center;">
-                    <input type="text" id="T_valor3" name="T_valor3" size="30" />
-                </td>
-             </tr>
-             <tr>         
-                <td style="text-align: center; background-color: green;" >
-                    <label> Rubro del P.O.A.I </label>   
-                </td>
-                <td style="text-align: center; background-color: green;">
-                <?php
-                if($rubros)
-                {
-                    ?>
-                    <select name="S_rubro" style= "width: 200px;">
-                        <?php
-                        for($i=0; $i<count($rubros); $i++)
-                        {
-                            ?>
-                            <option value="<?php echo $rubros[$i][0];?>"> <?php echo ($rubros[$i][1]);?> </option>
-                            <?php
-                        }
-                        ?>
-                    </select>
-                    <?php   
-                }
-                else
-                {
-					$temp=4;
-                    ?>
-                        <label><?php echo utf8_encode("Debe crear mínimo un rubro!!!"); ?></label>
-                    <?php
-                }
-                ?>
-                </td>
-             </tr>
              <tr>
                 <td>
 				<?php
@@ -576,8 +506,6 @@ class LlenarPlanView {
 					echo utf8_encode("<h2>Se han encontrado varios errores en el proceso !!!</h2>");
 					echo "</ br>";
 					echo utf8_encode("<h2>Se debe validar si la consolidación ya se hizo!!!</h2>");
-					echo "</ br>";
-					echo utf8_encode("<h2>Se debe validar si se ha creado mínimo un rubro, área y proyecto!!!</h2>");
 				}
 				
 				?>

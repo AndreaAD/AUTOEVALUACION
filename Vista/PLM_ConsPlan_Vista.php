@@ -316,41 +316,25 @@ class ConsPlanView
         <th style="width: 10%;"><?php echo utf8_encode("Indicadores");?> </th>
         <th style="width: 10%;"><?php echo utf8_encode("Fecha Inicial");?> </th>
         <th style="width: 10%;"><?php echo utf8_encode("Fecha Final");?> </th>
-        <th style="width: 10%;"><?php echo utf8_encode("Rubro del P.O.A.I ");?> </th>
          
         
         <?php
-        
         for($i=0; $i<count($arrPlan); $i++)
         {
+
             ?>
-            <tr>
-            <?php
-            for($j=0; $j<21; $j++)
-            {
-                if($j==2 | $j==3 | $j==4| $j==5| $j==6| $j==7| $j==19 | $j==18 | $j==17 | $j==16)
-                {
-                    
-                }
-                else if(isset($arrPlan[$i][$j]) )
-                {
-                    if($arrPlan[$i][$j])
-                    {
-                        ?>
-                        <td>
-                        <?php
-                            echo $arrPlan[$i][$j];
-                        ?>
-                        </td>
-                        <?php
-                    }
-                }
-                
-            }       
-            ?>
-            
-            
-            
+            <tr>        
+                <td><?php echo  $arrPlan[$i][0]; ?></td>
+                <td><?php echo  $arrPlan[$i][1]; ?></td>
+                <td><?php echo  $arrPlan[$i][2]; ?></td>
+                <td><?php echo  $arrPlan[$i][3]; ?></td>
+                <td><?php echo  $arrPlan[$i][4]; ?></td>
+                <td><?php echo  $arrPlan[$i][5]; ?></td>
+                <td><?php echo  $arrPlan[$i][6]; ?></td>
+                <td><?php echo  $arrPlan[$i][7]; ?></td>
+                <td><?php echo  $arrPlan[$i][8]; ?></td>
+                <td><?php echo  $arrPlan[$i][9]; ?></td>
+                <td><?php echo  $arrPlan[$i][10]; ?></td>
             </tr>
             <?php
         }        

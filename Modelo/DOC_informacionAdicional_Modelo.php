@@ -92,7 +92,7 @@ class InfoAdicional_Modelo {
 		$sql = 'SELECT pk_documento FROM doc_documento WHERE nombre = "'.$nombre.'"';
 		return $this->runSQL($sql);
 	}
-
+	
 	public function eliminarDoc($id_documento){
 		$sql = 'UPDATE doc_documento SET estado = 0 WHERE pk_documento = "'.$id_documento.'" ';
 		$observacion =  'Se elimino el documento con id : "'.$id_documento.'" '; 

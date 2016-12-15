@@ -31,23 +31,25 @@ class Plan {
         $_indicador = $Datos['T_indicador'];
         $_inicial = $Datos['T_fechainicio'];
         $_final = $Datos['T_fechafin'];
-        $_recursos = $Datos['S_recurso'];
+
+        // $_recursos = $Datos['S_recurso'];
         
-        if($_recursos=="SI")
-        {
-            $_valor1 = $Datos['T_valor1'];
-            $_valor2 = $Datos['T_valor2'];
-            $_valor3 = $Datos['T_valor3'];
+        // if($_recursos=="SI")
+        // {
+        //     $_valor1 = $Datos['T_valor1'];
+        //     $_valor2 = $Datos['T_valor2'];
+        //     $_valor3 = $Datos['T_valor3'];
             
-        }
-        else
-        {
-            $_valor1 = 0;
-            $_valor2 = 0;
-            $_valor3 = 0;
+        // }
+        // else
+        // {
+        //     $_valor1 = 0;
+        //     $_valor2 = 0;
+        //     $_valor3 = 0;
             
-        }
-        $_rubro = $Datos['S_rubro'];
+        // }
+        // $_rubro = $Datos['S_rubro'];
+
 		$_proceso=$_SESSION["pk_proceso"];
         
         include("../BaseDatos/PLM_AdoDB_Inicio.php");
@@ -57,11 +59,9 @@ class Plan {
         $conexion->conectarAdo();
         
         $cadena = "INSERT INTO plm_actividades(fk_caracteristica, calificacion, fk_ambito, fortalezas, debilidades, 
-                causas, fk_proyecto, objetivo, acciones, fk_area, fk_area2, metas, indicador, f_inicial, f_final,
-                recursos, valor1, valor2, valor3, fk_rubro, fk_proceso) VALUES ($_caracteristica, $_calificacion, $_ambito,
+                causas, fk_proyecto, objetivo, acciones, fk_area, fk_area2, metas, indicador, f_inicial, f_final, fk_proceso) VALUES ($_caracteristica, $_calificacion, $_ambito,
                 '$_fortalezas', '$_debilidades', '$_causas', '$_proyecto', '$_objetivo', '$_acciones', $_area, $_area2, 
-                '$_metas', '$_indicador', '$_inicial', '$_final', '$_recursos', $_valor1, $_valor2, $_valor3, $_rubro,$_proceso);";
-        
+                '$_metas', '$_indicador', '$_inicial', '$_final', $_proceso);";
         
         $conexion->Ejecutar($cadena);
         
@@ -149,9 +149,9 @@ class Plan {
         $conexion->conectarAdo();
         
         $cadena = "
-					SELECT c.nombre, a.acciones, a.objetivo, b.rubro, a.valor1, a.valor2, a.valor3 
-					FROM plm_actividades a, plm_rubro_del_poai b, plm_proyecto c
-					WHERE a.fk_rubro = b.pk_rubro AND a.fk_proceso = $_proceso AND a.fk_proyecto = c.pk_proyecto;"; //Realizamos una consulta
+					SELECT c.nombre, a.acciones, a.objetivo 
+					FROM plm_actividades a,  plm_proyecto c
+					WHERE  a.fk_proceso = $_proceso AND a.fk_proyecto = c.pk_proyecto;"; //Realizamos una consulta
         
         $recordSet = $conexion->Ejecutar($cadena);
         
@@ -620,30 +620,19 @@ class Plan {
         $conexion->conectarAdo();
         
         $cadena = "SELECT A.pk_actividad,
-						C.nombre,
-						A.calificacion,
-						B.nombre,
-						A.fortalezas,
-						A.debilidades,
-						A.causas,
-						F.nombre,
-						A.objetivo,
-						A.acciones,
-						D.area,
-						E.area,
-						A.metas,
-						A.indicador,
-						A.f_inicial,
-						A.f_final,
-						A.recursos,
-						A.valor1,
-						A.valor2,
-						A.valor3,
-						R.rubro 
-					FROM plm_actividades A, cna_caracteristica C, plm_ambito B, plm_area D, plm_area E, plm_rubro_del_poai R, plm_proyecto F
-                    WHERE A.fk_caracteristica = C.pk_caracteristica AND A.fk_ambito = B.pk_ambito 
-					AND A.fk_area = D.pk_area AND A.fk_area2 = E.pk_area AND A.fk_rubro = R.pk_rubro AND A.fk_proyecto = F.pk_proyecto
-					AND A.fk_proceso = $_proceso AND F.pk_proyecto=$dato"; //Realizamos una consulta
+                C.nombre,
+                A.objetivo,
+                A.acciones,
+                D.area,
+                E.area,
+                A.metas,
+                A.indicador,
+                A.f_inicial,
+                A.f_final
+                FROM plm_actividades A, cna_caracteristica C,  plm_area D, plm_area E, plm_proyecto F
+                WHERE A.fk_caracteristica = C.pk_caracteristica 
+                AND A.fk_area = D.pk_area AND A.fk_area2 = E.pk_area  AND A.fk_proyecto = F.pk_proyecto
+                AND A.fk_proceso = $_proceso AND F.pk_proyecto= $dato";
         
         $recordSet = $conexion->Ejecutar($cadena);
         
@@ -665,16 +654,6 @@ class Plan {
             $plan[$i][8]=$recordSet->fields[8];
             $plan[$i][9]=$recordSet->fields[9];
             $plan[$i][10]=$recordSet->fields[10];
-            $plan[$i][11]=$recordSet->fields[11];
-            $plan[$i][12]=$recordSet->fields[12];
-            $plan[$i][13]=$recordSet->fields[13];
-            $plan[$i][14]=$recordSet->fields[14];
-            $plan[$i][15]=$recordSet->fields[15];
-            $plan[$i][16]=$recordSet->fields[16];
-            $plan[$i][17]=$recordSet->fields[17];
-            $plan[$i][18]=$recordSet->fields[18];
-            $plan[$i][19]=$recordSet->fields[19];
-            $plan[$i][20]=$recordSet->fields[20];
             $recordSet->MoveNext();
             $i++;
         }       

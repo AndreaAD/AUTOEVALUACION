@@ -330,89 +330,89 @@ foreach($resultados_tabla as &$resultado){
 }
 
 
-$datos_grafica = $instancia->buscaCalCarac($factor, $_SESSION['pk_proceso']);
+// $datos_grafica = $instancia->buscaCalCarac($factor, $_SESSION['pk_proceso']);
  
-include("../pChart/pChart/pData.class");  
-include("../pChart/pChart/pChart.class");  
+// include("../pChart/pChart/pData.class");  
+// include("../pChart/pChart/pChart.class");  
       
-$arregloDatos = array();
-$arregloTitulos = array();
-$DataSet = new pData;
+// $arregloDatos = array();
+// $arregloTitulos = array();
+// $DataSet = new pData;
 
-foreach ($datos_grafica as &$value) {
-    array_push($arregloDatos, $value[1]);
-    array_push($arregloTitulos, $value[0]);
-}
+// foreach ($datos_grafica as &$value) {
+//     array_push($arregloDatos, $value[1]);
+//     array_push($arregloTitulos, $value[0]);
+// }
 
-$DataSet->AddPoint(array($arregloDatos),"Factores");
-$DataSet->AddAllSeries();  
-$DataSet->SetAbsciseLabelSerie();  
+// $DataSet->AddPoint(array($arregloDatos),"Factores");
+// $DataSet->AddAllSeries();  
+// $DataSet->SetAbsciseLabelSerie();  
 
 
 
- //Initialise the graph
- $Test = new pChart(740,230);
- $Test->setFontProperties("../pChart/Fonts/Tahoma.ttf",8);  
- $Test->setGraphArea(50,30,580,200);  
- $Test->drawFilledRoundedRectangle(7,7,700,223,5,240,240,240);  
- $Test->drawRoundedRectangle(5,5,700,225,5,230,230,230);  
- $Test->drawGraphArea(255,255,255,TRUE);  
- $Test->drawScale($DataSet->GetData(),$DataSet->GetDataDescription(),SCALE_NORMAL,300,150,50,TRUE,0,2,TRUE);     
- $Test->drawGrid(4,TRUE,230,230,230,50);  
+//  //Initialise the graph
+//  $Test = new pChart(740,230);
+//  $Test->setFontProperties("../pChart/Fonts/Tahoma.ttf",8);  
+//  $Test->setGraphArea(50,30,580,200);  
+//  $Test->drawFilledRoundedRectangle(7,7,700,223,5,240,240,240);  
+//  $Test->drawRoundedRectangle(5,5,700,225,5,230,230,230);  
+//  $Test->drawGraphArea(255,255,255,TRUE);  
+//  $Test->drawScale($DataSet->GetData(),$DataSet->GetDataDescription(),SCALE_NORMAL,300,150,50,TRUE,0,2,TRUE);     
+//  $Test->drawGrid(4,TRUE,230,230,230,50);  
   
- // Draw the 0 line  
- $Test->setFontProperties("../pChart/Fonts/Tahoma.ttf",6);  
- $Test->drawTreshold(0,143,55,72,TRUE,TRUE);  
+//  // Draw the 0 line  
+//  $Test->setFontProperties("../pChart/Fonts/Tahoma.ttf",6);  
+//  $Test->drawTreshold(0,143,55,72,TRUE,TRUE);  
   
- // Draw the bar graph  
- $Test->drawBarGraph($DataSet->GetData(),$DataSet->GetDataDescription(),TRUE);  
+//  // Draw the bar graph  
+//  $Test->drawBarGraph($DataSet->GetData(),$DataSet->GetDataDescription(),TRUE);  
   
- // Finish the graph  
- $Test->setFontProperties("../pChart/Fonts/Tahoma.ttf",8);  
- $Test->drawLegend(590,10,$DataSet->GetDataDescription(),255,255,255);  
- $Test->setFontProperties("../pChart/Fonts/Tahoma.ttf",10);  
- $Test->drawTitle(50,22,"Grafica de Calificación",50,50,50,585);           
+//  // Finish the graph  
+//  $Test->setFontProperties("../pChart/Fonts/Tahoma.ttf",8);  
+//  $Test->drawLegend(590,10,$DataSet->GetDataDescription(),255,255,255);  
+//  $Test->setFontProperties("../pChart/Fonts/Tahoma.ttf",10);  
+//  $Test->drawTitle(50,22,"Grafica de Calificación",50,50,50,585);           
 
-// se genera un imagen 
-$Test->Render("../imagenes/reporteAnalisisCarac".$_SESSION['pk_proceso'].".png"); 
+// // se genera un imagen 
+// $Test->Render("../imagenes/reporteAnalisisCarac".$_SESSION['pk_proceso'].".png"); 
             
-    $pdf ->Ln();
-    $pdf ->Ln();
-    $pdf ->Ln();
-    $pdf ->Ln();
-    $pdf ->Ln();
-    $pdf ->Ln();
-        $pdf ->Ln();
-    $pdf ->Ln();
-    $pdf ->Ln();
-    $pdf ->Ln();
-    $pdf ->Ln();
-    $pdf ->Ln();
-        $pdf ->Ln();
-    $pdf ->Ln();
-    $pdf ->Ln();
-    $pdf ->Ln();
-    $pdf ->Ln();
-    $pdf ->Ln();
-        $pdf ->Ln();
-    $pdf ->Ln();
-    $pdf ->Ln();
-    $pdf ->Ln();
-    $pdf ->Ln();
-    $pdf ->Ln(50);
+//     $pdf ->Ln();
+//     $pdf ->Ln();
+//     $pdf ->Ln();
+//     $pdf ->Ln();
+//     $pdf ->Ln();
+//     $pdf ->Ln();
+//         $pdf ->Ln();
+//     $pdf ->Ln();
+//     $pdf ->Ln();
+//     $pdf ->Ln();
+//     $pdf ->Ln();
+//     $pdf ->Ln();
+//         $pdf ->Ln();
+//     $pdf ->Ln();
+//     $pdf ->Ln();
+//     $pdf ->Ln();
+//     $pdf ->Ln();
+//     $pdf ->Ln();
+//         $pdf ->Ln();
+//     $pdf ->Ln();
+//     $pdf ->Ln();
+//     $pdf ->Ln();
+//     $pdf ->Ln();
+//     $pdf ->Ln(50);
     
-    $pdf->Cell(50,50,'','C');
-    //se inserta la imagen en el documento pdf
-    $pdf->Image("../imagenes/reporteAnalisisCarac".$_SESSION['pk_proceso'].".png", 65 ,70, 0 , 0,'png');
-    $pdf ->Ln();
-    $pdf->Cell(56,7,'','C');
-    $pdf->Cell(56,7,'','C');
-    $pdf->Cell(56,7,'','C');
-    $pdf->Cell(56,7,'','C');    
-    $pdf ->Ln();
-    $pdf->Cell(60,7,'','C');
-    $pdf ->Ln();
-    $pdf->Cell(60,7,'','C');
+//     $pdf->Cell(50,50,'','C');
+//     //se inserta la imagen en el documento pdf
+//     $pdf->Image("../imagenes/reporteAnalisisCarac".$_SESSION['pk_proceso'].".png", 65 ,70, 0 , 0,'png');
+//     $pdf ->Ln();
+//     $pdf->Cell(56,7,'','C');
+//     $pdf->Cell(56,7,'','C');
+//     $pdf->Cell(56,7,'','C');
+//     $pdf->Cell(56,7,'','C');    
+//     $pdf ->Ln();
+//     $pdf->Cell(60,7,'','C');
+//     $pdf ->Ln();
+//     $pdf->Cell(60,7,'','C');
 $pdf->Output();
             
 ?>

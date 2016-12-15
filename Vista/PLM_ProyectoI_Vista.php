@@ -96,18 +96,6 @@ class ProyectoIView {
                         <td>
                             <b> Objetivo General </b>
                         </td>
-                        <td>
-                            <b> Rubro del P.O.A.I </b>
-                        </td>
-                        <td>
-                            <b> Inversion 2015 </b>
-                        </td>
-                        <td>
-                            <b> Inversion 2016 </b>
-                        </td>
-                        <td>
-                            <b> Inversion 2017 </b>
-                        </td>
                     </tr>
                             <?php
                             $cont1 = 0;
@@ -120,10 +108,6 @@ class ProyectoIView {
                                 <td> <?php echo $proyectoi[$i][0];?> </td>
                                 <td> <?php echo $proyectoi[$i][1];?> </td>
                                 <td> <?php echo $proyectoi[$i][2];?> </td>
-                                <td> <?php echo $proyectoi[$i][3];?> </td>
-                                <td> $ <?php echo number_format($proyectoi[$i][4]);?> </td>
-                                <td> $ <?php echo number_format($proyectoi[$i][5]);?> </td>
-                                <td> $ <?php echo number_format($proyectoi[$i][6]);?> </td>
                                 <?php $cont1 = $cont1 + $proyectoi[$i][4];?>
                                 <?php $cont2 = $cont2 + $proyectoi[$i][5];?>
                                 <?php $cont3 = $cont3 + $proyectoi[$i][6];?>
@@ -131,29 +115,7 @@ class ProyectoIView {
                                 <?php
                             }
                             ?>
-                    <tr>
-                        <td>
-                            <b> </b>
-                        </td>
-                        <td>
-                            <b> </b>
-                        </td>
-                        <td>
-                            <b> </b>
-                        </td>
-                        <td>
-                            <b> TOTALES </b>
-                        </td>
-                        <td>
-                            <b> <?php echo number_format($cont1);?> </b>
-                        </td>
-                        <td>
-                            <b> <?php echo number_format($cont2);?> </b>
-                        </td>
-                        <td>
-                            <b> <?php echo number_format($cont3);?> </b>
-                        </td>
-                    </tr>
+                    
                      </table>
               <?php
               }

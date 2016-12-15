@@ -175,7 +175,7 @@ for($i=0;$i<1;$i++)
     $pdf->SetFont('Arial','',12);
     $pdf->SetFillColor(192,217,192);
     $pdf->SetTextColor(0);
-    $pdf ->Row(array(''.$_SESSION["plm_programa"],''.$_SESSION["plm_sede"],''.$_SESSION["plm_director"],''.$_SESSION["plm_periodo"]));
+    $pdf ->Row(array(''.utf8_decode($_SESSION["plm_programa"]),''.$_SESSION["plm_sede"],''.$_SESSION["plm_director"],''.$_SESSION["plm_periodo"]));
 }
     
 $i=0;
@@ -316,94 +316,94 @@ if(isset($arrInfo[0][0]))
 $pdf->SetFillColor(255,255,255);
 foreach($resultados_tabla as &$resultado){
 
-    $pdf ->Row(array($resultado['factor'],utf8_decode($resultado['nombre']),$resultado['ponderacion_porcentual'],$resultado['promedio'],$resultado['porcentaje_cumplimiento'],$resultado['escala']));
+    $pdf ->Row(array($resultado['factor'],utf8_decode($resultado['nombre']),$resultado['ponderacion_porcentual'].'%',$resultado['promedio'].'%',$resultado['porcentaje_cumplimiento'].'%',$resultado['escala']));
 }
 
 
-$datos_grafica = $instancia->buscaCalFac($_SESSION['pk_proceso']);
+// $datos_grafica = $instancia->buscaCalFac($_SESSION['pk_proceso']);
  
-include("../pChart/pChart/pData.class");  
-include("../pChart/pChart/pChart.class");  
+// include("../pChart/pChart/pData.class");  
+// include("../pChart/pChart/pChart.class");  
       
-$arregloDatos = array();
-$arregloTitulos = array();
+// $arregloDatos = array();
+// $arregloTitulos = array();
 
-foreach ($datos_grafica as &$value) {
-    array_push($arregloDatos, $value[1]);
-    array_push($arregloTitulos, $value[0]);
-}
-
-
-$Datos = new pData;
-$Datos->AddPoint(array($arregloDatos),"Datos");
-//$Datos->AddPoint(array($arregloTitulos),"Factores");
-$Datos->AddSerie("Datos");
-$Datos->SetAbsciseLabelSerie("Factores"); 
-// $Test = new pChart(620,230);
-// $Test->setFontProperties("Fonts/tahoma.ttf",8);
-// $Test->setGraphArea(50,30,600,200);
-// $Test->drawFilledRoundedRectangle(7,7,616,223,5,240,240,240);
-// $Test->drawRoundedRectangle(5,5,618,225,5,230,230,230);
-// $Test->drawGraphArea(255,255,255,TRUE);
-
-// $Test->drawScale($Datos->GetData(),$Datos->GetDataDescription(),SCALE_NORMAL,150,150,150,TRUE,0,2,TRUE);
-// $Test->drawGrid(4,TRUE,230,230,230,50);
-// $Test->setColorPalette(0,255,153,51);
-// $Test->setColorPalette(1,0,204,0);
-// $Test->setColorPalette(2,51,204,204);
-// $Test->drawBarGraph($Datos->GetData(),$Datos->GetDataDescription(),TRUE);
-// $Test->setFontProperties("Fonts/tahoma.ttf",8);
-// $Test->drawLegend(545,25,$Datos->GetDataDescription(),192,192,192);
-// $Test->setFontProperties("Fonts/tahoma.ttf",10);
-// $Test->drawTitle(50,22,"Notas de Matemática",50,50,50,585);
-// $Test->Stroke();
+// foreach ($datos_grafica as &$value) {
+//     array_push($arregloDatos, $value[1]);
+//     array_push($arregloTitulos, $value[0]);
+// }
 
 
- //Initialise the graph
- $Test = new pChart(740,230);
- $Test->setFontProperties("../pChart/Fonts/Tahoma.ttf",8);  
- $Test->setGraphArea(50,30,580,200);  
- $Test->drawFilledRoundedRectangle(7,7,700,223,5,240,240,240);  
- $Test->drawRoundedRectangle(5,5,700,225,5,230,230,230);  
- $Test->drawGraphArea(255,255,255,TRUE);  
- $Test->drawScale($Datos->GetData(),$Datos->GetDataDescription(),SCALE_NORMAL,300,150,50,TRUE,0,2,TRUE);     
- $Test->drawGrid(4,TRUE,230,230,230,50);  
+// $Datos = new pData;
+// $Datos->AddPoint(array($arregloDatos),"Datos");
+// //$Datos->AddPoint(array($arregloTitulos),"Factores");
+// $Datos->AddSerie("Datos");
+// $Datos->SetAbsciseLabelSerie("Factores"); 
+// // $Test = new pChart(620,230);
+// // $Test->setFontProperties("Fonts/tahoma.ttf",8);
+// // $Test->setGraphArea(50,30,600,200);
+// // $Test->drawFilledRoundedRectangle(7,7,616,223,5,240,240,240);
+// // $Test->drawRoundedRectangle(5,5,618,225,5,230,230,230);
+// // $Test->drawGraphArea(255,255,255,TRUE);
+
+// // $Test->drawScale($Datos->GetData(),$Datos->GetDataDescription(),SCALE_NORMAL,150,150,150,TRUE,0,2,TRUE);
+// // $Test->drawGrid(4,TRUE,230,230,230,50);
+// // $Test->setColorPalette(0,255,153,51);
+// // $Test->setColorPalette(1,0,204,0);
+// // $Test->setColorPalette(2,51,204,204);
+// // $Test->drawBarGraph($Datos->GetData(),$Datos->GetDataDescription(),TRUE);
+// // $Test->setFontProperties("Fonts/tahoma.ttf",8);
+// // $Test->drawLegend(545,25,$Datos->GetDataDescription(),192,192,192);
+// // $Test->setFontProperties("Fonts/tahoma.ttf",10);
+// // $Test->drawTitle(50,22,"Notas de Matemática",50,50,50,585);
+// // $Test->Stroke();
+
+
+//  //Initialise the graph
+//  $Test = new pChart(740,230);
+//  $Test->setFontProperties("../pChart/Fonts/Tahoma.ttf",8);  
+//  $Test->setGraphArea(50,30,580,200);  
+//  $Test->drawFilledRoundedRectangle(7,7,700,223,5,240,240,240);  
+//  $Test->drawRoundedRectangle(5,5,700,225,5,230,230,230);  
+//  $Test->drawGraphArea(255,255,255,TRUE);  
+//  $Test->drawScale($Datos->GetData(),$Datos->GetDataDescription(),SCALE_NORMAL,300,150,50,TRUE,0,2,TRUE);     
+//  $Test->drawGrid(4,TRUE,230,230,230,50);  
   
- // Draw the 0 line  
- $Test->setFontProperties("../pChart/Fonts/Tahoma.ttf",6);  
- $Test->drawTreshold(0,143,55,72,TRUE,TRUE);  
+//  // Draw the 0 line  
+//  $Test->setFontProperties("../pChart/Fonts/Tahoma.ttf",6);  
+//  $Test->drawTreshold(0,143,55,72,TRUE,TRUE);  
   
- // Draw the bar graph  
- $Test->drawBarGraph($Datos->GetData(),$Datos->GetDataDescription(),TRUE);  
+//  // Draw the bar graph  
+//  $Test->drawBarGraph($Datos->GetData(),$Datos->GetDataDescription(),TRUE);  
   
- // Finish the graph  
- $Test->setFontProperties("../pChart/Fonts/Tahoma.ttf",8);  
- $Test->drawLegend(590,10,$Datos->GetDataDescription(),255,255,255);  
- $Test->setFontProperties("../pChart/Fonts/Tahoma.ttf",10);  
- $Test->drawTitle(50,22,"Grafica de Calificación",50,50,50,585);           
+//  // Finish the graph  
+//  $Test->setFontProperties("../pChart/Fonts/Tahoma.ttf",8);  
+//  $Test->drawLegend(590,10,$Datos->GetDataDescription(),255,255,255);  
+//  $Test->setFontProperties("../pChart/Fonts/Tahoma.ttf",10);  
+//  $Test->drawTitle(50,22,"Grafica de Calificación",50,50,50,585);           
 
-// se genera un imagen 
-$Test->Render("../imagenes/reporteAnalisis".$_SESSION['pk_proceso'].".png"); 
+// // se genera un imagen 
+// $Test->Render("../imagenes/reporteAnalisis".$_SESSION['pk_proceso'].".png"); 
             
-    $pdf ->Ln();
-    $pdf ->Ln();
-    $pdf ->Ln();
-    $pdf ->Ln();
-    $pdf ->Ln();
-    $pdf ->Ln();
+//     $pdf ->Ln();
+//     $pdf ->Ln();
+//     $pdf ->Ln();
+//     $pdf ->Ln();
+//     $pdf ->Ln();
+//     $pdf ->Ln();
     
-    $pdf->Cell(50,50,'','C');
-    //se inserta la imagen en el documento pdf
-    $pdf->Image("../imagenes/reporteAnalisis".$_SESSION['pk_proceso'].".png", 65 ,70, 0 , 0,'png');
-    $pdf ->Ln();
-    $pdf->Cell(56,7,'','C');
-    $pdf->Cell(56,7,'','C');
-    $pdf->Cell(56,7,'','C');
-    $pdf->Cell(56,7,'','C');    
-    $pdf ->Ln();
-    $pdf->Cell(60,7,'','C');
-    $pdf ->Ln();
-    $pdf->Cell(60,7,'','C');
+//     $pdf->Cell(50,50,'','C');
+//     //se inserta la imagen en el documento pdf
+//     $pdf->Image("../imagenes/reporteAnalisis".$_SESSION['pk_proceso'].".png", 65 ,70, 0 , 0,'png');
+    // $pdf ->Ln();
+    // $pdf->Cell(56,7,'','C');
+    // $pdf->Cell(56,7,'','C');
+    // $pdf->Cell(56,7,'','C');
+    // $pdf->Cell(56,7,'','C');    
+    // $pdf ->Ln();
+    // $pdf->Cell(60,7,'','C');
+    // $pdf ->Ln();
+    // $pdf->Cell(60,7,'','C');
 $pdf->Output();
             
 ?>
